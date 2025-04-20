@@ -141,8 +141,8 @@ const Dashboard = () => {
         </div>
       </div>
       {showDropdown && (
-        <div className="dashboard-leftDropdown">
-          
+        <div className="dashboard-leftDropdown" onClick={()=>setShowDropdown(!showDropdown)}>
+          <div className="dashboard-leftDropdownHolder" onClick={(e)=>e.stopPropagation()}>
           <div className="dashboard-leftDropdown-navbarHolder">
           <div className="dashboard-leftDropdown-leftImg">
             <img src={dashboardIcon} alt="" />
@@ -275,6 +275,7 @@ const Dashboard = () => {
             <AiOutlineLogout fontSize={35} color="red" />
             Logout
           </div>
+          </div>  
         </div>
       )}
       <div className="dashboard-right">

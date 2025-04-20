@@ -55,7 +55,6 @@ const LeavingNow = () => {
   return (
     <div className='leavingNow'>
       <div className="leavingNowHolder">
-        <img src={img1} alt="" />
         <main>
             <h3>Leaving Now?  You Might Be Hurting Your Score</h3>
             <p>Quitting this mock exam early means missing important questions — and your final score could be much lower.</p>

@@ -418,20 +418,21 @@
 }
 
 @media screen and (max-width:480px) {
+  gap: 0;
     .home-secondLayerLeft{
         width: 95%;
         margin-left: 10px;
         height: 500px;
 
         .home-secondLayerLeftCircle{
-          height: 410px;
-          top: 60px;
-          left: 10px;
-            width: 95%;
+          height: 350px;
+          top: 130px;
+          left: 18px;
+            width: 90%;
         }
 
         img{
-          height: 380px;
+          height: 300px;
         }
 
         

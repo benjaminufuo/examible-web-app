@@ -40,6 +40,7 @@ const initialState = {
   notEnrolledSubjects: [],
   reference: '',
   FinishedExam: false,
+  timeOut: false
 };
 
 const slice = createSlice({
@@ -226,6 +227,7 @@ const slice = createSlice({
       state.exam = []
       state.FinishedExam = false
       state.leavingNow = false
+      state.timeOut = false
     },
     theExamTimer: (state, { payload }) => {
       if (state.examTimerSecs === 0) {
@@ -307,6 +309,9 @@ const slice = createSlice({
     },
     setFinishedExam: (state,{payload})=>{
       state.FinishedExam = !state.FinishedExam
+    },
+    setExamTimeout: (state, {payload})=>{
+      state.timeOut = !state.timeOut
     }
   },
 });
@@ -335,6 +340,7 @@ export const {
   setNotEnrolledSubjects,
   setReference,
   setFinishedExam,
+  setExamTimeout,
 } = slice.actions;
 
 export default slice.reducer;

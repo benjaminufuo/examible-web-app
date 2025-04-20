@@ -273,7 +273,7 @@ const Home = () => {
               </article>
             </nav>
           </div>
-          <div className="home-nineLayerHolder">
+          {/* <div className="home-nineLayerHolder">
             <h3>“</h3>
             <p>
               "I thought getting 250+ in JAMB was impossible for me. But Legacy
@@ -284,7 +284,7 @@ const Home = () => {
               <div>
                 <img src={home11} alt="" />
               </div>
-              <h6>Emeka (University of Lagos) </h6>
+              <h6>John (university of Lagos) </h6>
               <article>
                 <section></section>
                 <section></section>
@@ -293,7 +293,7 @@ const Home = () => {
                 <section></section>
               </article>
             </nav>
-          </div>
+          </div> */}
           <div className="home-nineLayerHolder">
             <h3>“</h3>
             <p>
@@ -305,7 +305,7 @@ const Home = () => {
               <div>
                 <img src={home10} alt="" />
               </div>
-              <h6>Emeka (University of Lagos) </h6>
+              <h6>Miracle (university of Lagos) </h6>
               <article>
                 <section></section>
                 <section></section>
@@ -326,7 +326,7 @@ const Home = () => {
               <div>
                 <img src={home9} alt="" />
               </div>
-              <h6>Emeka (University of Lagos) </h6>
+              <h6>Esther (university of Lagos) </h6>
               <article>
                 <section></section>
                 <section></section>

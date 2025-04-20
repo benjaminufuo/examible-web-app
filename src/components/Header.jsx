@@ -58,7 +58,8 @@ const Header = () => {
         </div>
       </div>
       {showDropdown && (
-        <div className="header-dropDown">
+        <div className="header-dropDown" onClick={()=>setShowDropdown(!showDropdown)}>
+          <div className="header-dropDownHolder" onClick={(e)=>e.stopPropagation()}>
           <div className="headerDropdown-holderImg">
             <img
               src={HeaderLogo}
@@ -100,6 +101,7 @@ const Header = () => {
             >
               LOGIN
             </button>
+          </div>
           </div>
         </div>
       )}
