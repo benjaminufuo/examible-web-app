@@ -2,10 +2,12 @@ import { useSelector } from 'react-redux'
 import LeavingNow from './LeavingNow'
 import TheExam from './TheExam'
 import FinishedExam from '../../components/FinishedExam'
+import ExamTimeout from '../../components/examTimeout'
 
 const ExamBody = () => {
   const leavingNow = useSelector((state)=>state.leavingNow)
   const finish = useSelector((state)=>state.FinishedExam)
+  const timeOut = useSelector((state)=>state.timeOut)
   return (
     <>
       {
@@ -16,6 +18,9 @@ const ExamBody = () => {
 
       {
         finish && <FinishedExam/>
+      }
+      {
+        timeOut && <ExamTimeout/>
       }
     </>
   )
