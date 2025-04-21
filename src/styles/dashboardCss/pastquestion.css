@@ -509,7 +509,7 @@
     }
 
     & div {
-      width: 100%;
+      width: 90%;
       height: 40px;
       display: flex;
       border-radius: 5px;
@@ -592,6 +592,8 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     text-align: left;
+    display: flex;
+    flex-direction: column;
   }
 
   .dropdownitem::before {

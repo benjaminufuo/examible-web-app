@@ -73,7 +73,6 @@ const routes = createBrowserRouter([
     ],
   },
   { path: "/data-deletion", element: <Facebookredirect /> },
- ]}
 ]);
 
 const App = () => {
