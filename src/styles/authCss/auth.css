@@ -139,6 +139,11 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
+
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    display: none;
+  }
 }
 
 .signinput {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useEffect, useState } from "react";
 import "../../styles/dashboardCss/viewpastquestion.css";
 import {
   IoIosArrowRoundBack,
@@ -11,6 +11,8 @@ import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
 } from "../../global/slice";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
@@ -72,12 +74,14 @@ const ViewPastQuestion = () => {
   const handleNextPage = () => {
     if (currentPage < Math.ceil(questions.length / questionsPerPage)) {
       setCurrentPage((prev) => prev + 1);
+      window.scrollTo(0, 0);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
+      window.scrollTo(0, 0);
     }
   };
 
@@ -86,6 +90,12 @@ const ViewPastQuestion = () => {
       dispatch(clearPastQuestionsOption());
     }
   }, [dispatch]);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <main className="viewpastquestionmain">

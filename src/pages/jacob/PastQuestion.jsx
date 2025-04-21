@@ -74,7 +74,6 @@ const PastQuestion = () => {
         isLoading: false,
         autoClose: 2000,
       });
-      console.log("fetched", response);
       dispatch(setPastQuestions(response.data.data));
       navigate("/dashboard/view-pastquestion");
       setLoading(false);
@@ -88,7 +87,6 @@ const PastQuestion = () => {
       });
       setDisabled(false);
       setLoading(false);
-      console.log(error);
     }
   };
 

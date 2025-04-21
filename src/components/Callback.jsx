@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
 
 const Callback = () => {
-  const [callback, setCallback] = useState(false);
   const { token, userId } = useParams();
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -24,10 +23,11 @@ const Callback = () => {
           nav("/dashboard/overview");
         }, 3000);
       }
-      console.log(res);
     } catch (error) {
       toast.error(error?.response?.data?.message);
-      console.log(error);
+      setTimeout(() => {
+        nav('/login')
+      }, 3000);
     }
   };
 

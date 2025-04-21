@@ -46,7 +46,6 @@ const ForgetPassword = () => {
           `${import.meta.env.VITE_BASE_URL}api/v1/forgot_password/student`,
           data
         );
-        console.log(res);
         if (res?.status === 200) {
           toast.info("Password reset link sent to your email!");
         }

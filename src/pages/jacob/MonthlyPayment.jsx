@@ -10,10 +10,6 @@ const MonthlyPayment = () => {
   const user = useSelector((state) => state.user);
   const currentPlan = user?.plan;
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   const handleChoosePlan = (amount, plan) => {
     navigate("/dashboard/make-payment", { state: { amount, plan } });
   };

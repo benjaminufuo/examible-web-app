@@ -25,6 +25,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <div className="dashboard-left">
+        <div className="dashboard-leftNavbarHolder">
         <div className="dashboard-leftImg">
           <img src={dashboardIcon} alt="" />
         </div>
@@ -124,14 +125,12 @@ const Dashboard = () => {
                 backgroundColor: navState.subscription ? "#804BF233" : "white",
               }}
             >
-              <nav>
-                <img src="" alt="" />
-              </nav>
+              <SiMoneygram color="#804BF266" fontSize={35} />
               Subscription
             </div>
           )}
         </>
-
+        </div>
         <div
           className="dashboard-navBar"
           style={{ backgroundColor: "white" }}
@@ -142,7 +141,9 @@ const Dashboard = () => {
         </div>
       </div>
       {showDropdown && (
-        <div className="dashboard-leftDropdown">
+        <div className="dashboard-leftDropdown" onClick={()=>setShowDropdown(!showDropdown)}>
+          <div className="dashboard-leftDropdownHolder" onClick={(e)=>e.stopPropagation()}>
+          <div className="dashboard-leftDropdown-navbarHolder">
           <div className="dashboard-leftDropdown-leftImg">
             <img src={dashboardIcon} alt="" />
           </div>
@@ -224,9 +225,7 @@ const Dashboard = () => {
                         : "white",
                     }}
                   >
-                    <nav>
                       <SiMoneygram color="#804BF266" fontSize={35} />
-                    </nav>
                     Subscription
                   </div>
                 ) : (
@@ -262,14 +261,12 @@ const Dashboard = () => {
                     : "white",
                 }}
               >
-                <nav>
-                  <img src="" alt="" />
-                </nav>
+                <SiMoneygram color="#804BF266" fontSize={35} />
                 Subscription
               </div>
             )}
           </>
-
+          </div>
           <div
             className="dashboard-leftDropdown-navBar"
             style={{ backgroundColor: "white" }}
@@ -278,6 +275,7 @@ const Dashboard = () => {
             <AiOutlineLogout fontSize={35} color="red" />
             Logout
           </div>
+          </div>  
         </div>
       )}
       <div className="dashboard-right">

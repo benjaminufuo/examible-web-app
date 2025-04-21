@@ -18,40 +18,45 @@ const FinishedExam = () => {
     
       const quitExam = async()=>{
         const timeLeft = (examTimerMins*60) + examTimerSecs
-     let duration = 0
-     const completed = 'yes'
-     if (user?.plan === 'Freemium') {
-      duration = 600 - timeLeft
-    }else{
-      duration = 1800 - timeLeft
-    }
-    const performance = exam.reduce((acc,item,index)=>{
-      acc = acc + item.score
-      return acc
-    },0) 
-    try {
-      const res = await axios.put(`${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user._id}`,{duration,completed,subject,performance})
-      console.log(res)
-      if(res?.status === 200){
-        setTimeout(() => {
-          dispatch(setUser(res?.data?.data))
-        dispatch(setFinishedExam())
-        nav('/dashboard/mock-exam/result')
-        }, 500);
-      }
-    } catch (error) {
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message)
-      }, 500);
-      console.log(error)
-    }
+        let duration = 0
+        let completed = ''
+        for (let element of exam) {
+          if(element.option === 'none'){
+            completed = 'no'
+          }else{
+            completed = 'yes'
+          }
+        }
+        if (user?.plan === 'Freemium') {
+          duration = 600 - timeLeft
+        }else{
+          duration = 1800 - timeLeft
+        }
+        const performance = exam.reduce((acc,item,index)=>{
+          acc = acc + item.score
+          return acc
+        },0) 
+        try {
+          const res = await axios.put(`${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user._id}`,{duration,completed,subject,performance})
+          if(res?.status === 200){
+            setTimeout(() => {
+              dispatch(setUser(res?.data?.data))
+              dispatch(setFinishedExam())
+              nav('/dashboard/mock-exam/result')
+            }, 500);
+          }
+        } catch (error) {
+            setTimeout(() => {
+            toast.error(error?.response?.data?.message)
+          }, 500);
+        }
       }
 
       useEffect(()=>{
         quitExam()
       },[])
 
-      return (
+  return (
     <div style={{position:'fixed',zIndex:10,top:0,background:'aqua',height:'100vh',width:'100%'}}>
         <Loading/>
     </div>

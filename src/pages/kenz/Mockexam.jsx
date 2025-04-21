@@ -30,7 +30,6 @@ const Mockexam = () => {
         }
         toast.dismiss(id)
         setLoading(false)
-        console.log(res)
     } catch (error) {
       setLoading(false);
       toast.dismiss(id);

@@ -5,10 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../global/slice'
+import PaymentSuccessfull from '../../components/PaymentSuccessfull'
 
 const VerifyPayment = () => {
     const [isVerifying,setIsVerifying] = useState(true)
     const reference = useSelector((state)=>state.reference)
+    const [plan,setPlan] = useState('')
     const dispatch = useDispatch()
     const nav = useNavigate()
 
@@ -18,6 +20,7 @@ const VerifyPayment = () => {
         console.log(res?.data?.data?.student)
         if(res?.status === 200){
           dispatch(setUser(res?.data?.data?.student))
+          setPlan(res?.data?.data?.student?.plan)
           setIsVerifying(false)
         }
         console.log(res)
@@ -26,7 +29,6 @@ const VerifyPayment = () => {
         setTimeout(() => {
           nav('/dashboard/overview')
         }, 3000);
-        console.log(error)
       }
     }
 
@@ -36,7 +38,7 @@ const VerifyPayment = () => {
   return (
     <>
       {
-        isVerifying ? <Loading/> : <div>Payment verified successfully</div>
+        isVerifying ? <Loading/> : <PaymentSuccessfull plan={plan}/>
       }
     </>
   )

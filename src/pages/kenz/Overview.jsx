@@ -10,19 +10,22 @@ import { setIsOverview, setNotEnrolledSubjects, setUser } from '../../global/sli
 import { TbTrashX } from 'react-icons/tb'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useLocation } from 'react-router-dom'
 
 const Overview = () => {
   const isOverview = useSelector((state)=>state.isOverview)
   const user = useSelector((state)=>state.user)
   const userToken = useSelector((state)=>state.userToken)
   const [showBin,setShowBin] = useState('')
+  const [loading,setLoading] = useState(false)
   const dispatch = useDispatch()
-console.log(user)
 
   const removeSubject = async(subject)=>{
     const id = toast.loading('Removing Subject ...')
+    setLoading(true)
     try {
       const res = await axios.put(`${import.meta.env.VITE_BASE_URL}api/v1/removeSubject/${user?._id}`,{subject})
+      setLoading(false)
       if(res?.status === 200){
         toast.dismiss(id)
         setTimeout(() => {
@@ -31,6 +34,7 @@ console.log(user)
         }, 500);
       }
     } catch (error) {
+      setLoading(false)
       toast.dismiss(id)
       setTimeout(() => {
         toast.error(error?.response?.data?.message)
@@ -123,18 +127,20 @@ console.log(user)
     if (user?.plan === 'Freemium' && user?.enrolledSubjects?.length === 4) {
       toast.error('Upgrade Plan to add more subject')
     } else {
+      setLoading(true)
       const id = toast.loading('Please wait ...')
       try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${user?._id}`)
+        setLoading(false)
         if (res?.status) {
           dispatch(setNotEnrolledSubjects(res?.data?.data))
           toast.dismiss(id)
           dispatch(setIsOverview())
         }
       } catch (error) {
+        setLoading(false)
         toast.error(error?.response?.data?.message)
         toast.dismiss(id)
-        console.log(error)
       }
     }
   }
@@ -202,11 +208,11 @@ console.log(user)
                       <section style={{background:allSubjectsData.find((items)=>items.subject === item)?.divColor}}><FaBook fontSize={35} color={allSubjectsData.find((items)=>items.subject === item)?.iconColor}/></section>
                       <p style={{color:allSubjectsData.find((items)=>items.subject === item)?.textColor}}>{item}</p>
                     </aside>
-                    <TbTrashX style={{display:showBin === index? 'flex' : 'none'}} className='overview-trashIcon' onClick={(e)=>{e.stopPropagation(),removeSubject(item)}}/>
+                    <TbTrashX style={{pointerEvents:loading?'none':'auto',display:showBin === index? 'flex' : 'none'}} className='overview-trashIcon' onClick={(e)=>{e.stopPropagation(),removeSubject(item)}}/>
                   </nav>
                 ))
               }
-              <nav style={{backgroundColor:'white',cursor:'pointer'}} onClick={()=>addMoreSubject()}>
+              <nav style={{pointerEvents:loading?'none':'auto',backgroundColor:'white',cursor:'pointer'}} onClick={()=>addMoreSubject()}>
                 <aside>
                   <div>+</div>
                 <h6>Add Subject</h6>

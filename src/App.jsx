@@ -26,6 +26,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import VerifyPayment from "./pages/kenz/VerifyPayment";
 import MockResult from "./pages/kenz/MockResult";
 import Facebookredirect from "./auth/Facebookredirect";
+import AppWrapper from "./components/AppWrapper";
 import ErrorPgae from "./pages/jacob/ErrorPgae";
 
 const routes = createBrowserRouter([
@@ -72,6 +73,7 @@ const routes = createBrowserRouter([
     ],
   },
   { path: "/data-deletion", element: <Facebookredirect /> },
+ ]}
 ]);
 
 const App = () => {

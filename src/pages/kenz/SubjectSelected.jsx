@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 const SubjectSelected = () => {
   const dispatch = useDispatch()
   const user = useSelector((state)=>state.user)
+  const [loading,setLoading] = useState(false)
   const notEnrolledSubjects = useSelector((state)=>state.notEnrolledSubjects)
 
   const allSubjectsData = [
@@ -87,9 +88,11 @@ const SubjectSelected = () => {
   ]
 
   const addSubject = async(subject)=>{
+    setLoading(true)
     const id = toast.loading('Adding Subject ...')
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}api/v1/addSubject/${user?._id}`,{subject})
+      setLoading(false)
       if(res?.status === 200){
         toast.dismiss(id)
         setTimeout(() => {
@@ -100,6 +103,7 @@ const SubjectSelected = () => {
       }
     } catch (error) {
       toast.dismiss(id)
+      setLoading(false)
       setTimeout(() => {
         toast.error(error?.response?.data?.message)
       }, 500);
@@ -111,8 +115,8 @@ const SubjectSelected = () => {
     <div className='subjectSelected'>
       <div className="subjectSelected-firstLayer">
         <aside><FaArrowLeftLong onClick={()=>dispatch(setIsOverview())}/></aside>
-        <img src={image1} alt="" />
         <div className="subjectSelected-firstLayerHolder">
+        <img src={image1} alt="" />
         <main>
               <nav>
                 <h5><span style={{color:'#F2AE30'}}>Hello,</span> {user?.fullName}</h5>
@@ -137,10 +141,11 @@ const SubjectSelected = () => {
                 ))
               }
             </main>
+            <div className='not-selected'>Not Selected yet.</div>
             <article>
            {
               notEnrolledSubjects.map((item,index)=>(
-                <nav key={index} onClick={()=>addSubject(item)} style={{background:allSubjectsData.find((items)=>items.subject === item)?.cardColor}}>
+                <nav key={index} onClick={()=>addSubject(item)} style={{pointerEvents:loading?'none':'auto',background:allSubjectsData.find((items)=>items.subject === item)?.cardColor}}>
                     <aside>
                       <section style={{background:allSubjectsData.find((items)=>items.subject === item)?.divColor}}><FaBook fontSize={35} color={allSubjectsData.find((items)=>items.subject === item)?.iconColor}/></section>
                       <p style={{color:allSubjectsData.find((items)=>items.subject === item)?.textColor}}>{item}</p>

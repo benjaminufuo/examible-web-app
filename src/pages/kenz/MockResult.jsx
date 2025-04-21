@@ -4,6 +4,8 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 import { cancelExam } from '../../global/slice'
 import { useNavigate } from 'react-router-dom'
+import { GrStatusGood } from 'react-icons/gr'
+import { GiCancel } from 'react-icons/gi'
 
 const MockResult = () => {
   const mockExamQuestions = useSelector((state)=>state.mockExamQuestions)
@@ -16,11 +18,13 @@ const MockResult = () => {
   const nextSeries = ()=>{
     setIntialCount(intialCount + 5)
     setFinalCount(finalCount + 5)
+    window.scrollTo(0,0)
   }
-
+  
   const previousSeries = ()=>{
     setIntialCount(intialCount - 5)
     setFinalCount(finalCount - 5)
+    window.scrollTo(0,0)
   }
 
   const performance = exam.reduce((acc,item,index)=>{
@@ -43,10 +47,18 @@ const MockResult = () => {
             <main key={index}>
             <header>{item?.question}</header> 
             <ul>
-                <li>A. {item?.options[0]}</li>
-                <li>B. {item?.options[1]}</li>
-                <li>C. {item?.options[2]}</li>
-                <li>D. {item?.options[3]}</li>
+                <li>A. {item?.options[0]} 
+                  <nav style={{display:exam.slice(intialCount,finalCount)?.[index]?.option === 'A'? 'flex' : 'none'}}>{exam.slice(intialCount,finalCount)?.[index]?.score === 0 ? <GiCancel fontSize={25} color='red'/> : <GrStatusGood fontSize={25} color='green' />}</nav>
+                </li>
+                <li>B. {item?.options[1]}
+                <nav style={{display:exam.slice(intialCount,finalCount)?.[index]?.option === 'B'? 'flex' : 'none'}}>{exam.slice(intialCount,finalCount)?.[index]?.score === 0 ? <GiCancel fontSize={25} color='red'/> : <GrStatusGood fontSize={25} color='green' />}</nav>
+                </li>
+                <li>C. {item?.options[2]}
+                <nav style={{display:exam.slice(intialCount,finalCount)?.[index]?.option === 'C'? 'flex' : 'none'}}>{exam.slice(intialCount,finalCount)?.[index]?.score === 0 ? <GiCancel fontSize={25} color='red'/> : <GrStatusGood fontSize={25} color='green' />}</nav>
+                </li>
+                <li>D. {item?.options[3]}
+                <nav style={{display:exam.slice(intialCount,finalCount)?.[index]?.option === 'D'? 'flex' : 'none'}}>{exam.slice(intialCount,finalCount)?.[index]?.score === 0 ? <GiCancel fontSize={25} color='red'/> : <GrStatusGood fontSize={25} color='green' />}</nav>
+                </li>
             </ul>
             <>
               {

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../styles/dashboardCss/examBody.css'
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6'
 import { LuClock2 } from 'react-icons/lu'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { cancelExam, nextQuestion, previousQuestion, setFinishedExam, setLeavingNow, setMockExamOption, theExamTimer } from '../../global/slice'
+import { cancelExam, nextQuestion, previousQuestion, setExamTimeout, setFinishedExam, setLeavingNow, setMockExamOption, theExamTimer } from '../../global/slice'
 
 const TheExam = () => {
     const mockExamQuestions = useSelector((state)=>state.mockExamQuestions)
@@ -13,6 +13,7 @@ const TheExam = () => {
     const examTimerMins = useSelector((state)=>state.examTimerMins)
     const examTimerSecs = useSelector((state)=>state.examTimerSecs)
     const exam = useSelector((state)=>state.exam)
+    const [isNext,setIsNext] = useState(false)
     // console.log(mockExamOptions,exam)
     
     
@@ -27,6 +28,10 @@ const TheExam = () => {
       const interval = setInterval(() => {
         dispatch(theExamTimer())
       }, 1000);
+
+      if (examTimerMins === 0 && examTimerSecs === 0) {
+        dispatch(setExamTimeout())
+      }
       return ()=> clearInterval(interval)
     },[examTimerSecs])
 
@@ -46,8 +51,27 @@ const TheExam = () => {
       }
     }
 
+    useEffect(()=>{
+      if(mockExamOptions.optionA || mockExamOptions.optionB || mockExamOptions.optionC || mockExamOptions.optionD){
+        setIsNext(true)
+      }else{
+        setIsNext(false)
+      }
+    },[mockExamOptions])
+
   return (
     <div className='examBody'>
+      <div className="examBody-mobile">
+      <button onClick={()=>dispatch(setLeavingNow())}>x</button>
+        <h5>Jamb Mock Exam</h5>
+        <article>
+        <aside>
+        <meter min={0} max={100} value={examMeter}></meter>
+        <p>{examMeter}%</p>
+        </aside>
+        <section><LuClock2 fontSize={30}/>{examTimerMins}:{examTimerSecs}</section>
+        </article>
+      </div>
       <div className="examBody-firstLayer">
         <h3>Jamb Mock Exam</h3>
         <aside>
@@ -57,7 +81,7 @@ const TheExam = () => {
         <section><LuClock2 fontSize={30}/>{examTimerMins}:{examTimerSecs}</section>
         <button onClick={()=>dispatch(setLeavingNow())}>x</button>
       </div>
-      <h1>QUESTIONS</h1>
+      <h1>{subject} QUESTIONS</h1>
       <div className="examBody-secondLayer">
         <div className="examBody-secondLayerHolder">
           <main>
@@ -91,7 +115,7 @@ const TheExam = () => {
             <h2>Previous</h2>
           </button>
           <button style={{display:mockExamQuestions.length === parseInt(subjectId) ? 'none' : 'flex'}} onClick={()=>nextExam()}>
-          <h2>Next</h2>
+          <h2>{isNext? 'Next' : 'Skip'}</h2>
           <article><FaArrowRightLong /></article>
           </button>
           <button style={{display:mockExamQuestions.length === parseInt(subjectId) ? 'flex' : 'none',background:'#804BF2',color:'white',borderColor:'#804BF2'}} onClick={()=>dispatch(setFinishedExam())}>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { setUser } from "../../global/slice";
+import { useLocation } from "react-router-dom";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -122,6 +123,12 @@ const Profile = () => {
       setNotPassword(true);
     }
   };
+
+    const {pathname} = useLocation()
+  
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    },[pathname])
 
   return (
     <div className="profile">

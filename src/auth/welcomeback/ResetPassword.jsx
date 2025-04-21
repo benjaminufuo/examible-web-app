@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
-  const token = useParams();
+  const {token} = useParams();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -43,6 +43,8 @@ const ResetPassword = () => {
       } else if (!validatePassword(value)) {
         error =
           "Your password must contain an upper case, a lowercase, a special character and a number";
+      } else if(value === inputValue.confirmPassword){
+        setErrorMessage({...errorMessage,confirmPassword:''})
       }
     }
 
@@ -59,7 +61,6 @@ const ResetPassword = () => {
     setInputValue((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
   };
-  console.log(inputValue);
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();

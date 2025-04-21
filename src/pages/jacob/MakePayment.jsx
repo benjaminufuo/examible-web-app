@@ -16,11 +16,9 @@ const MakePayment = () => {
 
   const location = useLocation();
   const { amount, plan } = location.state || {};
-  console.log(plan);
 
   const koraPayPaymentIntegration = async (e, amount, email, name, plan) => {
     e.preventDefault();
-    console.log(amount, email, name, plan);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/initializeKoraPay`,
@@ -32,9 +30,7 @@ const MakePayment = () => {
           window.location.href = response?.data?.data?.checkout_url;
         }, 500);
       }
-      console.log(response);
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   };
