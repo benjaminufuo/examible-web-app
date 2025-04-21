@@ -12,7 +12,7 @@ import { setLogout, setNavState } from "../../global/slice";
 import img1 from "../../assets/public/profile.svg";
 import img2 from "../../assets/public/pastquestion.svg";
 import Logout from "./Logout";
-import hambuger from "../../assets/public/hamburgericon.svg";
+import hambuger from "../../assets/public/hambuger.svg";
 
 const Dashboard = () => {
   const navState = useSelector((state) => state.navState);

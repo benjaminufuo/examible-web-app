@@ -1,0 +1,79 @@
+.errorpagemain {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.erorrnumber {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errortext {
+  width: 55%;
+  min-height: 30vh;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .backtohome {
+    display: flex;
+    width: 270px;
+    height: 50px;
+    padding: 3.623px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    border-radius: 10px;
+    background: #804bf2;
+    letter-spacing: -0.359px;
+    cursor: pointer;
+  }
+}
+
+.errorem {
+  color: #1e1e1e;
+  text-align: center;
+  font-family: Sora;
+  font-size: 42.031px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: -0.462px;
+}
+
+.errormaintext {
+  color: #1e1e1e;
+  font-family: Sora;
+  font-size: 42.031px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 100%;
+  letter-spacing: -0.462px;
+}
+
+.errorparagraph {
+  color: #1e1e1e;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 28.233px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 54.35px */
+  letter-spacing: -0.399px;
+}

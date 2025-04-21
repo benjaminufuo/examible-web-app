@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/dashboardCss/viewpastquestion.css";
 import {
   IoIosArrowRoundBack,
   IoIosArrowBack,
   IoIosArrowForward,
 } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import {
+  setPastQuestionsOption,
+  clearPastQuestionsOption,
+} from "../../global/slice";
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const year = useSelector((state) => state.year);
   const subject = useSelector((state) => state.exam);
   const questions = useSelector((state) => state.pastQuestions) || [];
+  const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
 
-  console.log("Questions from Redux:", questions);
-
-  const [selectedOptions, setSelectedOptions] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 5;
 
@@ -28,14 +31,42 @@ const ViewPastQuestion = () => {
     indexOfLastQuestion
   );
 
-  const handleOptionClick = (questionIndex, selectedOption, correctAnswer) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [questionIndex]: {
-        selected: selectedOption,
-        isCorrect: selectedOption === correctAnswer,
-      },
-    }));
+  const getAnswerText = (answerLetter, options) => {
+    if (
+      !options ||
+      !Array.isArray(options) ||
+      typeof answerLetter !== "string" ||
+      answerLetter.length === 0
+    ) {
+      return "";
+    }
+
+    const cleanedLetter = answerLetter.trim().toUpperCase().charAt(0); // <- sanitize input
+    const index = cleanedLetter.charCodeAt(0) - 65;
+
+    // Additional guard: prevent out-of-bounds error
+    if (index < 0 || index >= options.length) return "";
+
+    const mappedAnswer = options[index];
+    return mappedAnswer;
+  };
+
+  const handleOptionClick = (
+    questionIndex,
+    selectedOption,
+    correctAnswerLetter,
+    options
+  ) => {
+    const correctAnswer = getAnswerText(correctAnswerLetter, options);
+
+    dispatch(
+      setPastQuestionsOption({
+        questionIndex,
+        selectedOption,
+        isCorrect: String(selectedOption) === String(correctAnswer),
+        correctAnswerText: correctAnswer,
+      })
+    );
   };
 
   const handleNextPage = () => {
@@ -49,6 +80,12 @@ const ViewPastQuestion = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
+
+  useEffect(() => {
+    if (questions.length > 0) {
+      dispatch(clearPastQuestionsOption());
+    }
+  }, [dispatch]);
 
   return (
     <main className="viewpastquestionmain">
@@ -70,9 +107,10 @@ const ViewPastQuestion = () => {
                 <li
                   key={optionindex}
                   className={
-                    selectedOptions[indexOfFirstQuestion + index]?.selected ===
-                    option
-                      ? selectedOptions[indexOfFirstQuestion + index]?.isCorrect
+                    pastQuestionsOption[indexOfFirstQuestion + index]
+                      ?.selectedOption === option
+                      ? pastQuestionsOption[indexOfFirstQuestion + index]
+                          ?.isCorrect
                         ? "correct-option"
                         : "wrong-option"
                       : ""
@@ -81,13 +119,19 @@ const ViewPastQuestion = () => {
                     handleOptionClick(
                       indexOfFirstQuestion + index,
                       option,
-                      item.answer
+                      item.answer,
+                      item.options
                     )
                   }
                   style={{
-                    pointerEvents: selectedOptions[indexOfFirstQuestion + index]
+                    pointerEvents: pastQuestionsOption[
+                      indexOfFirstQuestion + index
+                    ]
                       ? "none"
                       : "auto",
+                    cursor: pastQuestionsOption[indexOfFirstQuestion + index]
+                      ? "not-allowed"
+                      : "pointer",
                   }}
                 >
                   <span className="letterdoption">
@@ -96,13 +140,27 @@ const ViewPastQuestion = () => {
                   {option}
                 </li>
               ))}
-              {selectedOptions[indexOfFirstQuestion + index] && (
-                <p className="pastanswer">
-                  {selectedOptions[indexOfFirstQuestion + index]?.isCorrect
-                    ? `correct! the answer is: ${item.answer} `
-                    : `wrong! The correct answer is: ${item.answer}`}
-                </p>
-              )}
+              <p
+                className="pastanswer"
+                style={{
+                  color: pastQuestionsOption[indexOfFirstQuestion + index]
+                    ?.isCorrect
+                    ? "green"
+                    : "red",
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                {pastQuestionsOption[indexOfFirstQuestion + index]
+                  ? pastQuestionsOption[indexOfFirstQuestion + index].isCorrect
+                    ? "✅ Correct!"
+                    : "❌ Wrong! The correct answer is: " +
+                      pastQuestionsOption[indexOfFirstQuestion + index]
+                        .correctAnswerText
+                  : ""}
+              </p>
             </ul>
           </div>
         ))
