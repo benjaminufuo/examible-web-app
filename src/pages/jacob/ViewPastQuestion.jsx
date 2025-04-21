@@ -1,4 +1,4 @@
-import React, { useEffect, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/dashboardCss/viewpastquestion.css";
 import {
   IoIosArrowRoundBack,
@@ -6,12 +6,10 @@ import {
   IoIosArrowForward,
 } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
 } from "../../global/slice";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 
 const ViewPastQuestion = () => {
