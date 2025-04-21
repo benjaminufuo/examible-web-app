@@ -2,117 +2,349 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
   padding-left: 20px;
   padding-top: 20px;
   background-color: #fff;
 }
 
+.makepaymenttop {
+  display: flex;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .makeleftdiv {
   width: 50%;
-  min-height: 100vh;
+  min-height: 30vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+}
 
-  .backtosubscription {
+.makepaymentheader {
+  color: #1e1e1e;
+  font-family: Sora;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%; /* 62.4px */
+  letter-spacing: -0.912px;
+}
+.odername {
+  width: 100%;
+  height: 8vh;
+  padding-inline: 20px;
+  background: rgba(128, 75, 242, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .odername1 {
+    color: #1e1e1e;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.266px;
+  }
+}
+
+.odercode {
+  width: 100%;
+  height: 8vh;
+  padding-inline: 20px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .code {
+    color: #1e1e1e;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.266px;
+  }
+}
+
+.oderemail {
+  width: 100%;
+  height: 8vh;
+  padding-inline: 20px;
+  background: rgba(128, 75, 242, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .oderemail1 {
+    color: #1e1e1e;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.266px;
+  }
+}
+
+.oderamout {
+  width: 100%;
+  height: 8vh;
+  padding-inline: 20px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .oderamout1 {
+    color: #1e1e1e;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.266px;
+  }
+}
+
+.backtosubscription {
+  width: 100%;
+  height: 10vh;
+}
+
+.makepaymenttext {
+  width: 100%;
+  height: 10vh;
+  padding-inline: 20px;
+}
+
+.instantactivation {
+  width: 100%;
+  height: 10vh;
+  padding-inline: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .instanttext {
+    color: #1e1e1e;
+    font-family: Sora;
+    font-size: 26.951px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 35.037px */
+    letter-spacing: -0.512px;
+  }
+}
+
+.onlinepaymentdiv {
+  width: 100%;
+  height: 8vh;
+  padding-left: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.onlinepayment {
+  color: #1e1e1e;
+  font-family: Montserrat;
+  font-size: 15.722px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%; /* 20.438px */
+  letter-spacing: -0.299px;
+}
+
+.makepaymentbtn {
+  width: 100%;
+  height: 10vh;
+  padding-left: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .korapayment {
+    display: flex;
+    width: 224.595px;
+    height: 50.534px;
+    padding: 11.23px;
+    justify-content: center;
+    align-items: center;
+    gap: 11.23px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1.123px solid #fff;
+    background: #804bf2;
+    color: #fff;
+    font-family: Montserrat;
+    font-size: 15.722px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 20.438px */
+    letter-spacing: -0.299px;
+  }
+}
+.makerightdiv {
+  width: 50%;
+  min-height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 1024px) {
+  .makepaymentmain {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    background-color: #fff;
+  }
+
+  backtosubscription {
     width: 100%;
     height: 10vh;
   }
-
-  .makepamenttext {
-    width: 100%;
-    height: auto;
-    padding-inline: 20px;
-  }
-  .makepaymentheader {
-    color: #1e1e1e;
-    font-family: Sora;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 130%; /* 62.4px */
-    letter-spacing: -0.912px;
-  }
-  .odername {
-    width: 100%;
-    height: 8vh;
-    padding-inline: 20px;
-    background: rgba(128, 75, 242, 0.4);
+  .makepaymenttop {
     display: flex;
-    justify-content: space-between;
+    width: 100%;
+    min-height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .makeleftdiv {
+    width: 100%;
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 
-    .odername1 {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 130%;
-      letter-spacing: -0.266px;
+    .backtosubscription {
+      width: 100%;
+      height: 8vh;
     }
-  }
 
-  .odercode {
-    width: 100%;
-    height: 8vh;
-    padding-inline: 20px;
-    background: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .code {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 130%;
-      letter-spacing: -0.266px;
+    .makepamenttext {
+      width: 100%;
+      height: 8vh;
+      padding-inline: 20px;
     }
-  }
-
-  .oderemail {
-    width: 100%;
-    height: 8vh;
-    padding-inline: 20px;
-    background: rgba(128, 75, 242, 0.4);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .oderemail1 {
+    .makepaymentheader {
+      height: 10vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: #1e1e1e;
+      text-align: center;
       font-family: Montserrat;
-      font-size: 14px;
+      font-size: 36px;
       font-style: normal;
-      font-weight: 400;
-      line-height: 130%;
-      letter-spacing: -0.266px;
+      font-weight: 600;
+      line-height: 103%;
+      letter-spacing: -0.684px;
     }
-  }
+    .odername {
+      width: 100%;
+      height: 8vh;
+      padding-inline: 20px;
+      background: rgba(128, 75, 242, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-  .oderamout {
-    width: 100%;
-    height: 8vh;
-    padding-inline: 20px;
-    background: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+      .odername1 {
+        color: #1e1e1e;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 130%;
+        letter-spacing: -0.266px;
+      }
+    }
 
-    .oderamout1 {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 130%;
-      letter-spacing: -0.266px;
+    .odercode {
+      width: 100%;
+      height: 8vh;
+      padding-inline: 20px;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .code {
+        color: #1e1e1e;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 130%;
+        letter-spacing: -0.266px;
+      }
+    }
+
+    .oderemail {
+      width: 100%;
+      height: 8vh;
+      padding-inline: 20px;
+      background: rgba(128, 75, 242, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .oderemail1 {
+        color: #1e1e1e;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 130%;
+        letter-spacing: -0.266px;
+      }
+    }
+
+    .oderamout {
+      width: 100%;
+      height: 8vh;
+      padding-inline: 20px;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .oderamout1 {
+        color: #1e1e1e;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 130%;
+        letter-spacing: -0.266px;
+      }
     }
   }
 
@@ -140,11 +372,12 @@
     height: 8vh;
     padding-left: 10px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
   }
 
   .onlinepayment {
+    text-align: center;
     color: #1e1e1e;
     font-family: Montserrat;
     font-size: 15.722px;
@@ -156,44 +389,38 @@
 
   .makepaymentbtn {
     width: 100%;
-    height: 10vh;
+    height: 15vh;
     padding-left: 10px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-
-    .korapayment {
-      display: flex;
-      width: 224.595px;
-      height: 50.534px;
-      padding: 11.23px;
-      justify-content: center;
-      align-items: center;
-      gap: 11.23px;
-      flex-shrink: 0;
-      border-radius: 8px;
-      border: 1.123px solid #fff;
-      background: #804bf2;
-      color: #fff;
-      font-family: Montserrat;
-      font-size: 15.722px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 130%; /* 20.438px */
-      letter-spacing: -0.299px;
-    }
   }
-}
 
-.makerightdiv {
-  width: 50%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  .korapayment {
+    display: flex;
+    width: 224.595px;
+    height: 50.534px;
+    padding: 11.23px;
+    justify-content: center;
+    align-items: center;
+    gap: 11.23px;
+    border-radius: 8px;
+    border: 1.123px solid #fff;
+    background: #804bf2;
+    color: #fff;
+    font-family: Montserrat;
+    font-size: 15.722px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+    letter-spacing: -0.299px;
+  }
 
-  & img {
-    width: 100%;
-    height: 100%;
+  .makerightdiv {
+    width: 50%;
+    min-height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

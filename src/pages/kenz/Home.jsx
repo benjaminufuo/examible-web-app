@@ -1,6 +1,5 @@
 import React from "react";
 import "../../styles/home.css";
-import ProvenProcess from "../../components/ProvenProcess";
 import home1 from "../../assets/public/home-firstlayer.png";
 import home2 from "../../assets/public/home-secondLeft.png";
 import home3 from "../../assets/public/home-jamb-syllabus.png";

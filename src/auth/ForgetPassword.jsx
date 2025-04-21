@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/authCss/auth.css";
 import { IoMdArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -7,9 +7,9 @@ import axios from "axios";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const [disabled, setDisabled] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState({
+  const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({
     email: "",
   });
   const [inputValue, setInputValue] = React.useState({
@@ -56,14 +56,22 @@ const ForgetPassword = () => {
       }
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     const { email } = inputValue;
-    if (email.trim() !== "" && validateEmail(email)) {
-      setDisabled(false);
-    } else {
+    if (email.trim() === "" && validateEmail(email)) {
       setDisabled(true);
+    } else {
+      setDisabled(false);
     }
   }, [inputValue]);
+
+  useEffect(() => {
+    if (loading) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [loading, setDisabled]);
 
   return (
     <div className="signupMain">

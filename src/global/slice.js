@@ -8,12 +8,7 @@ const initialState = {
   exam: "",
   year: "",
   pastQuestions: [],
-  pastQuestionsOption: {
-    optionA: false,
-    optionB: false,
-    optionC: false,
-    optionD: false,
-  },
+  pastQuestionsOption: {},
   toggle: false,
   mockSubject: "",
   isOverview: false,
@@ -38,9 +33,9 @@ const initialState = {
   leavingNow: false,
   exam: [],
   notEnrolledSubjects: [],
-  reference: '',
+  reference: "",
   FinishedExam: false,
-  timeOut: false
+  timeOut: false,
 };
 
 const slice = createSlice({
@@ -70,41 +65,21 @@ const slice = createSlice({
       state.pastQuestions = payload;
     },
     setPastQuestionsOption: (state, { payload }) => {
-      switch (payload) {
-        case "A":
-          state.pastQuestionsOption.optionA = true;
-          state.pastQuestionsOption.optionB = false;
-          state.pastQuestionsOption.optionC = false;
-          state.pastQuestionsOption.optionD = false;
-          break;
-        case "B":
-          state.pastQuestionsOption.optionA = false;
-          state.pastQuestionsOption.optionB = true;
-          state.pastQuestionsOption.optionC = false;
-          state.pastQuestionsOption.optionD = false;
-
-          break;
-        case "C":
-          state.pastQuestionsOption.optionA = false;
-          state.pastQuestionsOption.optionB = false;
-          state.pastQuestionsOption.optionC = true;
-          state.pastQuestionsOption.optionD = false;
-
-          break;
-        case "D":
-          state.pastQuestionsOption.optionA = false;
-          state.pastQuestionsOption.optionB = false;
-          state.pastQuestionsOption.optionC = false;
-          state.pastQuestionsOption.optionD = true;
-          break;
-
-        default:
-          state.pastQuestionsOption.optionA = false;
-          state.pastQuestionsOption.optionB = false;
-          state.pastQuestionsOption.optionC = false;
-          state.pastQuestionsOption.optionD = false;
-          break;
+      if (payload.reset) {
+        state.pastQuestionsOption = {};
+        return;
       }
+      const { questionIndex, selectedOption, isCorrect, correctAnswerText } =
+        payload;
+      state.pastQuestionsOption[questionIndex] = {
+        selectedOption,
+        isCorrect,
+        correctAnswerText,
+      };
+    },
+    clearPastQuestionsOption: (state) => {
+      console.log("clearPastQuestionsOption");
+      state.pastQuestionsOption = {};
     },
 
     setMockSubject: (state, { payload }) => {
@@ -197,7 +172,7 @@ const slice = createSlice({
         console.log(obj);
       } else if (state.mockExamOptions.optionD) {
         const obj = {
-          option: 'D',
+          option: "D",
           answer: state.mockExamOptions.optionD,
           score: state.mockExamOptions.optionD === payload.answer ? 2 : 0,
         };
@@ -224,10 +199,10 @@ const slice = createSlice({
         state.examTimerMins = 29;
         state.examTimerSecs = 59;
       }
-      state.exam = []
-      state.FinishedExam = false
-      state.leavingNow = false
-      state.timeOut = false
+      state.exam = [];
+      state.FinishedExam = false;
+      state.leavingNow = false;
+      state.timeOut = false;
     },
     theExamTimer: (state, { payload }) => {
       if (state.examTimerSecs === 0) {
@@ -301,18 +276,18 @@ const slice = createSlice({
     setLeavingNow: (state, { payload }) => {
       state.leavingNow = !state.leavingNow;
     },
-    setNotEnrolledSubjects: (state,{payload})=> {
-      state.notEnrolledSubjects = payload
+    setNotEnrolledSubjects: (state, { payload }) => {
+      state.notEnrolledSubjects = payload;
     },
-    setReference: (state,{payload})=>{
-      state.reference = payload
+    setReference: (state, { payload }) => {
+      state.reference = payload;
     },
-    setFinishedExam: (state,{payload})=>{
-      state.FinishedExam = !state.FinishedExam
+    setFinishedExam: (state, { payload }) => {
+      state.FinishedExam = !state.FinishedExam;
     },
-    setExamTimeout: (state, {payload})=>{
-      state.timeOut = !state.timeOut
-    }
+    setExamTimeout: (state, { payload }) => {
+      state.timeOut = !state.timeOut;
+    },
   },
 });
 
@@ -320,6 +295,7 @@ export const {
   setUserToken,
   setPastQuestions,
   setPastQuestionsOption,
+  clearPastQuestionsOption,
   setExam,
   logoutTheUser,
   setYear,
