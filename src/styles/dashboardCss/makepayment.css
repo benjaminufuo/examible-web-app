@@ -389,33 +389,33 @@
 
   .makepaymentbtn {
     width: 100%;
-    height: 10vh;
+    height: 15vh;
     padding-left: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    .korapayment {
-      display: flex;
-      width: 224.595px;
-      height: 50.534px;
-      padding: 11.23px;
-      justify-content: center;
-      align-items: center;
-      gap: 11.23px;
-      flex-shrink: 0;
-      border-radius: 8px;
-      border: 1.123px solid #fff;
-      background: #804bf2;
-      color: #fff;
-      font-family: Montserrat;
-      font-size: 15.722px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 130%; /* 20.438px */
-      letter-spacing: -0.299px;
-    }
   }
+
+  .korapayment {
+    display: flex;
+    width: 224.595px;
+    height: 50.534px;
+    padding: 11.23px;
+    justify-content: center;
+    align-items: center;
+    gap: 11.23px;
+    border-radius: 8px;
+    border: 1.123px solid #fff;
+    background: #804bf2;
+    color: #fff;
+    font-family: Montserrat;
+    font-size: 15.722px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+    letter-spacing: -0.299px;
+  }
+
   .makerightdiv {
     width: 50%;
     min-height: 30vh;

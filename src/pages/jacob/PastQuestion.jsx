@@ -108,13 +108,6 @@ const PastQuestion = () => {
     }
   }, [loading, selectedYear, selectedSubject]);
 
-  // useEffect(() => {
-  //   if (loading) {
-  //     setDisabled(true);
-  //   } else {
-  //     setDisabled(false);
-  //   }
-  // }, [loading, setDisabled]);
   return (
     <div className="pastquestionmain">
       <div className="pastcontainer">

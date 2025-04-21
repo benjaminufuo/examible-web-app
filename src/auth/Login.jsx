@@ -17,10 +17,6 @@ const Login = () => {
   const handleShow = () => setShow(!show);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState({
-    email: "",
-    password: "",
-  });
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
@@ -30,7 +26,7 @@ const Login = () => {
     let error = "";
     if (name === "email") {
       if (!value.trim()) {
-        errorr = "Email is required";
+        error = "Email is required";
       }
     }
 
@@ -141,9 +137,6 @@ const Login = () => {
               required
               className="signinputmain"
             />
-            {errorMessage.email && (
-              <p className="error">{errorMessage.email}</p>
-            )}
           </div>
           <div className="signinput">
             <label className="signuplabel">Password</label>
@@ -162,9 +155,6 @@ const Login = () => {
                 {show ? <FaRegEye /> : <FaRegEyeSlash />}
               </div>
             </div>
-            {errorMessage.password && (
-              <p className="error">{errorMessage.password}</p>
-            )}
           </div>
           <div className="rememberme">
             <div className="checkbox">

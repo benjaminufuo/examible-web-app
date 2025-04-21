@@ -92,8 +92,7 @@
   }
 
   .closeIcon {
-    font-size: 50px;
-    position: absolute;
+    font-size: 40px;
     cursor: pointer;
   }
 }
@@ -306,8 +305,8 @@
   }
 }
 .forgetbtn {
-  width: 60%;
-  padding: 15px;
+  width: 80%;
+  padding: 10px;
   background-color: #804bf2;
   border: none;
   color: white;
@@ -354,14 +353,14 @@
   transform: scale(1);
 }
 .facebookIcon:hover {
-  transform: scale(1.5);
+  transform: scale(1.3);
   transition: 350ms ease-in-out;
 }
 .googleIcon {
   font-size: 30px;
 }
 .googleIcon:hover {
-  transform: scale(1.5);
+  transform: scale(1.3);
   transition: 350ms ease-in-out;
 }
 
@@ -407,6 +406,69 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
+  .circle {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: #dbd2f0d2;
+    bottom: 200px;
+    right: -220px;
+
+    .innercircle {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: white;
+      top: 90px;
+      left: 60px;
+    }
+  }
+
+  .circle1 {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: #dbd2f0d2;
+    top: 150px;
+    left: -220px;
+    overflow: hidden;
+
+    .innercircle1 {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: white;
+      top: 90px;
+      left: 120px;
+      overflow: hidden;
+    }
+  }
+
+  .goldsmallcircle {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(231, 179, 9);
+    left: 180px;
+    top: 120px;
+  }
+
+  .goldsmallcircle1 {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(231, 179, 9);
+
+    bottom: 120px;
+    right: 60px;
+  }
+
   .signupForm {
     width: 80%;
     min-height: 100vh;
@@ -423,8 +485,88 @@
   }
 
   .forgetbtn {
-    width: 60%;
-    padding: 15px;
+    width: 100%;
+    padding: 10px;
+    background-color: #804bf2;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-family: "Sora", sans-serif;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .closeicondiv {
+    position: absolute;
+    width: 30%;
+    height: 25vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    top: 0;
+    left: 0;
+    & img {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      cursor: pointer;
+    }
+  }
+
+  .signheader {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1;
+
+    & h1 {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      font-family: "Sora", sans-serif;
+      color: #804bf2;
+    }
+
+    & p {
+      font-size: 16px;
+      font-weight: 400;
+      text-align: center;
+      font-family: "Montserrat", sans-serif;
+      color: black;
+    }
+  }
+
+  .alreadyhaveaccount {
+    height: 10%;
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+
+    & h1 {
+      color: #1e1e1e;
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+
+      & em {
+        color: var(--purple-primary-color, #804bf2);
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+  }
+  .signupbtn {
+    width: 100%;
+    padding: 10px;
     background-color: #804bf2;
     border: none;
     color: white;
@@ -432,5 +574,57 @@
     font-family: "Sora", sans-serif;
     cursor: pointer;
     z-index: 1;
+  }
+
+  .forgotpassworddiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+
+    .forgotpassword {
+      color: var(--purple-primary-color, #804bf2);
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 32.555px;
+    }
+
+    .signuptext {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 32.555px;
+      text-align: left;
+    }
+
+    .signupLink {
+      color: var(--purple-primary-color, #804bf2);
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 32.555px;
+    }
+  }
+
+  .or {
+    color: #1e1e1e;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32.555px;
   }
 }
