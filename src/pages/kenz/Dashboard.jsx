@@ -15,6 +15,7 @@ import img2 from "../../assets/public/pastquestion.svg";
 import Logout from "./Logout";
 import hambuger from "../../assets/public/hambuger.svg";
 import LegacyBot from "../../components/LegacyBot";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const navState = useSelector((state) => state.navState);
@@ -25,12 +26,20 @@ const Dashboard = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBot, setShowBot] = useState(false);
 
+  const showMyBot = ()=>{
+    if(user?.plan === 'Freemium'){
+      toast.error('Please Subscribe before you can access this feature')
+    }else{
+      setShowBot(true)
+    }
+  }
+
   return (
     <div className="dashboard">
       {showBot ? (
         <LegacyBot closeBot={() => setShowBot(false)} />
       ) : (
-        <RiRobot2Line onClick={() => setShowBot(true)} className="legacyBot" />
+        <RiRobot2Line onClick={() => showMyBot()} className="legacyBot" />
       )}
 
       <div className="dashboard-left">
