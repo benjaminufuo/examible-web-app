@@ -28,8 +28,15 @@ const MonthlyPayment = () => {
                 <div className="suboffertext">
                   <FiCheckCircle className="subiconfirst" />
                   <span>
-                    Limited access to past JAMB Questions and mock exam (e.g:
-                    2024 - 2023 past question)
+                    Limited access to JAMB past Questions(e.g: 2000 - 2001 past
+                    question)
+                  </span>
+                </div>
+                <div className="suboffertext">
+                  <FiCheckCircle className="subiconfirst" />
+                  <span>
+                    Limited access to Jamb mock exam questions (e.g: Twice
+                    daily)
                   </span>
                 </div>
                 <div className="suboffertext">

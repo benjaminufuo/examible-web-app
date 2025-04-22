@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/dashboardCss/makepayment.css";
 import payment from "../../assets/public/payment.png";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -9,6 +9,8 @@ import axios from "axios";
 import { setReference } from "../../global/slice";
 
 const MakePayment = () => {
+  const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   console.log(user);
@@ -19,6 +21,7 @@ const MakePayment = () => {
 
   const koraPayPaymentIntegration = async (e, amount, email, name, plan) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/initializeKoraPay`,
@@ -32,8 +35,13 @@ const MakePayment = () => {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setDisabled(loading);
+  }, [loading]);
 
   return (
     <main className="makepaymentmain">
@@ -43,6 +51,7 @@ const MakePayment = () => {
             <IoIosArrowRoundBack
               size={40}
               onClick={() => navigate("/dashboard/subscription")}
+              style={{ cursor: "pointer" }}
             />
           </div>
           <div className="makepaymenttext">
@@ -89,8 +98,13 @@ const MakePayment = () => {
               plan
             )
           }
+          disabled={disabled}
+          style={{
+            backgroundColor: disabled ? "#e1daf2" : "#804bf2",
+            cursor: disabled ? "not-allowed" : "",
+          }}
         >
-          Subscribe
+          {loading ? "Loading..." : "Subscribe"}
         </button>
       </div>
     </main>

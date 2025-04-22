@@ -153,12 +153,6 @@ const SignUp = () => {
     window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
   };
 
-  // function validatePassword(password) {
-  //   const regex =
-  //     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-+.]).{6,20}$/;
-  //   return regex.test(password);
-  // }
-
   const facebookIcon = async () => {
     window.location.href = `${
       import.meta.env.VITE_BASE_URL

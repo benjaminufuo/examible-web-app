@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/authCss/welcome.css";
-import Group from "../../assets/Group.svg";
+import Group from "../../assets/public/Group.svg";
 
 const Welcome = () => {
   return (
