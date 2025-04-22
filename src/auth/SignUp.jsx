@@ -29,8 +29,30 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
+  function validatePassword(inputValue) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-]{8,}$/;
+    return passwordRegex.test(inputValue);
+  }
+
   const validateField = (name, value) => {
     let error = "";
+
+    if (name === "password") {
+      if (!value.trim()) {
+        error = "Password is required";
+      } else if (value.length < 8 || value.length > 60) {
+        error = "Password should be between 8 and 60 characters";
+      } else if (!validatePassword(value)) {
+        error =
+          "Your password must contain an upper case, a lowercase, a special character and a number";
+      } else if (value === inputValue.confirmPassword) {
+        setErrorMessage({ ...errorMessage, confirmPassword: "" });
+      } else {
+        error = "";
+      }
+    }
+
     if (name === "fullName") {
       if (!value.trim()) {
         error = "Full name is required";
@@ -49,19 +71,6 @@ const SignUp = () => {
       }
     }
 
-    if (name === "password") {
-      if (!value.trim()) {
-        error = "Password is required";
-      } else if (value.length < 6 || value.length > 60) {
-        error = "Password should be between 6 and 60 characters";
-      } else if (!validatePassword(value)) {
-        error =
-          "Your password must contain an upper case, a lowercase, a special character and a number";
-      } else if(value === inputValue.confirmPassword){
-        setErrorMessage({...errorMessage,confirmPassword:''})
-      }
-    }
-
     if (name === "confirmPassword") {
       if (value !== inputValue.password) {
         error = "Passwords do not match";
@@ -75,6 +84,7 @@ const SignUp = () => {
     const { name, value } = e.target;
     setInputValue((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
+    setErrorMessage({ ...errorMessage, password: "" });
   };
 
   const handleShowConfirmPassword = () =>
@@ -85,19 +95,13 @@ const SignUp = () => {
     return emailRegex.test(inputValue);
   };
 
-  function validatePassword(inputValue) {
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-+.]).{6,20}$/;
-    return passwordRegex.test(inputValue);
-  }
   useEffect(() => {
     const { fullName, email, password, confirmPassword } = inputValue;
     if (
       fullName.trim() !== "" &&
       validateEmail(email) &&
-      validatePassword(password) &&
       password.trim() !== "" &&
-      password.length >= 6 &&
+      password.length >= 8 &&
       password.length <= 60 &&
       confirmPassword.trim() !== "" &&
       password === confirmPassword
@@ -107,6 +111,14 @@ const SignUp = () => {
       setDisabled(true);
     }
   }, [inputValue]);
+
+  useEffect(() => {
+    if (loading) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [loading, setDisabled]);
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
@@ -125,6 +137,12 @@ const SignUp = () => {
           }, 3000);
         }
       } catch (error) {
+        if (
+          error?.response?.data?.message ===
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+        ) {
+          setErrorMessage({ ...errorMessage, password: "" });
+        }
         setLoading(false);
         toast.error(error?.response?.data?.message);
       }
@@ -134,12 +152,6 @@ const SignUp = () => {
   const googleIcon = async () => {
     window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
   };
-
-  function validatePassword(password) {
-    const regex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-+.]).{6,20}$/;
-    return regex.test(password);
-  }
 
   const facebookIcon = async () => {
     window.location.href = `${

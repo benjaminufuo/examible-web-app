@@ -13,24 +13,19 @@ const PastQuestion = () => {
   const user = useSelector((state) => state.user);
 
   const [dropDownSubject, setDropDownSubject] = useState(false);
-  const [selectedSubjext, setSelectedSubject] = useState("All");
-  const [dropDownYear, setDropDownYear] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const toggleDropdown = (dropdown) => {
+    if (activeDropdown === dropdown) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(dropdown);
+    }
+  };
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
-
-  const subjects = [
-    "Accounting",
-    "Biology",
-    "Chemistry",
-    "Commerce",
-    "Economics",
-    "English Language",
-    "Government",
-    "Literature in English",
-    "Mathematics",
-    "Physics",
-  ];
 
   const years = [
     // "2023",
@@ -97,30 +92,28 @@ const PastQuestion = () => {
 
   const handleSubjectClick = (subject) => {
     setSelectedSubject(subject);
-    setDropDownSubject(false);
     dispatch(setExam(subject));
   };
 
   const handleYearClick = (year) => {
     setSelectedYear(year);
-    setDropDownSubject(false);
     dispatch(setYear(year));
   };
 
   useEffect(() => {
-    if (selectedYear === "All" || selectedSubjext === "All") {
-      setDisabled(true);
-      return;
-    } else {
+    if (!loading && selectedYear !== "All" && selectedSubject !== "All") {
       setDisabled(false);
+    } else {
+      setDisabled(true);
     }
-  }, [selectedYear, selectedSubjext]);
+  }, [loading, selectedYear, selectedSubject]);
+
   return (
     <div className="pastquestionmain">
       <div className="pastcontainer">
         <span>Jamb UTME Question</span>
 
-        <h1 className="pastquestionheader">Select any subject & Anaswer</h1>
+        <h1 className="pastquestionheader">Select any subject & Answer</h1>
 
         <div className="selectpastquestion">
           <div className="pastleftdiv">
@@ -130,14 +123,23 @@ const PastQuestion = () => {
           <div className="pastrightdiv">
             <span>Select Subject</span>
 
-            <div onClick={() => setDropDownSubject(!dropDownSubject)}>
-              {selectedSubjext}
-              {dropDownSubject ? (
-                <FaChevronUp className="pastdropdown" />
+            <div
+              onClick={() => toggleDropdown("subject")}
+              style={{ cursor: "pointer" }}
+            >
+              {selectedSubject}
+              {activeDropdown === "subject" ? (
+                <FaChevronUp
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               ) : (
-                <FaChevronDown className="pastdropdown" />
+                <FaChevronDown
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               )}
-              {dropDownSubject && (
+              {activeDropdown === "subject" && (
                 <ul className="dropdownmenu">
                   {user?.enrolledSubjects.map((subject, index) => (
                     <li
@@ -155,14 +157,23 @@ const PastQuestion = () => {
 
           <div className="pastrightdiv">
             <span>Select Year</span>
-            <div onClick={() => setDropDownYear(!dropDownYear)}>
+            <div
+              onClick={() => toggleDropdown("year")}
+              style={{ cursor: "pointer" }}
+            >
               {selectedYear}
-              {dropDownYear ? (
-                <FaChevronUp className="pastdropdown" />
+              {activeDropdown === "year" ? (
+                <FaChevronUp
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               ) : (
-                <FaChevronDown className="pastdropdown" />
+                <FaChevronDown
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               )}
-              {dropDownYear && (
+              {activeDropdown === "year" && (
                 <ul className="dropdownmenu">
                   {years.map((year, index) => (
                     <li
@@ -182,12 +193,12 @@ const PastQuestion = () => {
           <button
             className="viewpastbutton"
             onClick={() =>
-              getPastQuestionForYearSubject(selectedYear, selectedSubjext)
+              getPastQuestionForYearSubject(selectedYear, selectedSubject)
             }
-            disabled={disabled}
+            disabled={disabled || loading}
             style={{
-              backgroundColor: disabled ? "#dbd2f0d2" : "#804bf2",
-              cursor: disabled ? "not-allowed" : "pointer",
+              backgroundColor: disabled || loading ? "#dbd2f0d2" : "#804bf2",
+              cursor: disabled || loading ? "not-allowed" : "pointer",
             }}
           >
             {loading ? "Loading" : "View Past question"}

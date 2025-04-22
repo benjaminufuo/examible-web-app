@@ -4,7 +4,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6'
 import { LuClock2 } from 'react-icons/lu'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { cancelExam, nextQuestion, previousQuestion, setFinishedExam, setLeavingNow, setMockExamOption, theExamTimer } from '../../global/slice'
+import { cancelExam, nextQuestion, previousQuestion, setExamTimeout, setFinishedExam, setLeavingNow, setMockExamOption, theExamTimer } from '../../global/slice'
 
 const TheExam = () => {
     const mockExamQuestions = useSelector((state)=>state.mockExamQuestions)
@@ -28,6 +28,10 @@ const TheExam = () => {
       const interval = setInterval(() => {
         dispatch(theExamTimer())
       }, 1000);
+
+      if (examTimerMins === 0 && examTimerSecs === 0) {
+        dispatch(setExamTimeout())
+      }
       return ()=> clearInterval(interval)
     },[examTimerSecs])
 
@@ -77,7 +81,7 @@ const TheExam = () => {
         <section><LuClock2 fontSize={30}/>{examTimerMins}:{examTimerSecs}</section>
         <button onClick={()=>dispatch(setLeavingNow())}>x</button>
       </div>
-      <h1>QUESTIONS</h1>
+      <h1>{subject} QUESTIONS</h1>
       <div className="examBody-secondLayer">
         <div className="examBody-secondLayerHolder">
           <main>

@@ -20,7 +20,7 @@ const Mockexam = () => {
       setLoading(true)
       const id = toast.loading('Please wait ...')
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/mock-questions/${subject}`)
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/mock-questions/${subject}/${user?._id}`)
         if(res?.status === 200){
           dispatch(setMockExamQuestion(res?.data?.data))
           dispatch(setExamTimer(user?.plan))
@@ -30,7 +30,6 @@ const Mockexam = () => {
         }
         toast.dismiss(id)
         setLoading(false)
-        console.log(res)
     } catch (error) {
       setLoading(false);
       toast.dismiss(id);

@@ -17,44 +17,22 @@ const Login = () => {
   const handleShow = () => setShow(!show);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState({
-    email: "",
-    password: "",
-  });
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
-  function validatePassword(inputValue) {
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-+.]).{6,20}$/;
-    return passwordRegex.test(inputValue);
-  }
   const validateField = (name, value) => {
     let error = "";
     if (name === "email") {
       if (!value.trim()) {
         error = "Email is required";
-      } else if (value.length < 6 || value.length > 60) {
-        error = "Email should be between 6 and 60 characters";
-      } else if (!validateEmail(value)) {
-        error = "Please enter a valid email address";
       }
     }
 
     if (name === "password") {
       if (!value.trim()) {
         error = "Password is required";
-      } else if (value.length < 6 || value.length > 60) {
-        error = "Password should be between 6 and 60 characters";
-      } else if (!validatePassword(value)) {
-        error =
-          "Your password must contain an upper case, a lowercase, a special character and a number";
       }
     }
     setErrorMessage((prev) => ({ ...prev, [name]: error }));
@@ -64,6 +42,7 @@ const Login = () => {
     const { name, value } = e.target;
     setInputValue((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
+    setErrorMessage({ ...errorMessage, password: "" });
   };
 
   const dispatch = useDispatch();
@@ -86,6 +65,16 @@ const Login = () => {
           }, 3000);
         }
       } catch (error) {
+        if (
+          error?.response?.data?.message ===
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+        ) {
+          setErrorMessage({
+            ...errorMessage,
+            password:
+              "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+          });
+        }
         setLoading(false);
         toast.error(error?.response?.data?.message);
       }
@@ -93,18 +82,20 @@ const Login = () => {
   };
   useEffect(() => {
     const { email, password } = inputValue;
-    if (
-      validateEmail(email) &&
-      validatePassword(password) &&
-      password.trim() !== "" &&
-      password.length >= 6 &&
-      password.length <= 60
-    ) {
+    if (email && password.trim() !== "") {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
   }, [inputValue]);
+
+  useEffect(() => {
+    if (loading) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [loading, setDisabled]);
 
   const loginGoogleIcon = async () => {
     window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
@@ -146,9 +137,6 @@ const Login = () => {
               required
               className="signinputmain"
             />
-            {errorMessage.email && (
-              <p className="error">{errorMessage.email}</p>
-            )}
           </div>
           <div className="signinput">
             <label className="signuplabel">Password</label>
@@ -167,9 +155,6 @@ const Login = () => {
                 {show ? <FaRegEye /> : <FaRegEyeSlash />}
               </div>
             </div>
-            {errorMessage.password && (
-              <p className="error">{errorMessage.password}</p>
-            )}
           </div>
           <div className="rememberme">
             <div className="checkbox">

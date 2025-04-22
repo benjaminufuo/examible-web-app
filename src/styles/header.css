@@ -28,8 +28,8 @@
     @media screen and (max-width:768px) {
         .header-menuIcon{
             display: flex;
-            height: 70px;
-            width: 70px;
+            height: 50px;
+            width: 50px;
             cursor: pointer;
             
             img{
@@ -140,19 +140,27 @@
 
     @media screen and (max-width:768px) {
         position: fixed;
-        width: 253px;
+        width: 100%;
         display: flex;
         z-index: 1000;
-        height: 110vh;
-        background-color: white;
-        flex-direction: column;
+        height: 100dvh;
+        background-color: #a09f9fc0;
         top: 0;
         left: 0;
         bottom: 0;
-        padding: 10px;
-        gap: 20px;
         overflow: hidden;
         font-family: "Montserrat", sans-serif;
+
+        .header-dropDownHolder{
+            padding: 10px;
+            background-color: white;
+            display: flex;
+            width: 190px;
+            height: 100dvh;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+        }
 
         .headerDropdown-holderImg{
             margin-top: 25px;

@@ -145,104 +145,103 @@
       }
     }
 
-    @media screen and (max-width:1024px) {
+    @media screen and (max-width: 1024px) {
       width: 97%;
-      main{
-          section{
-              min-height: 200px;
-              h5{
-                  font-size: 38px;
-              }
-
-              p{
-                  font-size: 18.5px;
-              }
+      main {
+        section {
+          min-height: 200px;
+          h5 {
+            font-size: 38px;
           }
-      }
-  } 
 
-  @media screen and (max-width:768px) {
+          p {
+            font-size: 18.5px;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 768px) {
       flex-direction: column;
 
-      main{
-          width: 95%;
+      main {
+        width: 95%;
+        align-items: center;
+        gap: 10px;
+
+        section {
+          text-align: center;
           align-items: center;
-          gap: 10px;
-          
-          section{
-              text-align: center;
-              align-items: center;
 
-              p{
-                  width: 90%;
-              }
-
+          p {
+            width: 90%;
           }
+        }
       }
 
-      nav{
-          width: 85%;
+      nav {
+        width: 85%;
       }
-  }
+    }
 
-  @media screen and (max-width:480px) {
+    @media screen and (max-width: 480px) {
       width: 99%;
-      main{
-          section{
-              min-height: 200px;
-              h5{
-                  font-size: 30px;
-              }
-
-              p{
-                  font-size: 16px;
-              }
+      main {
+        section {
+          min-height: 200px;
+          h5 {
+            font-size: 30px;
           }
+
+          p {
+            font-size: 16px;
+          }
+        }
       }
 
-      nav{
+      nav {
         height: 500px;
-          width: 93%;
-          margin-right: 15px;
+        width: 93%;
+        margin-right: 15px;
 
-          article{
-            height: 400px;
+        article {
+          height: 400px;
+        }
+
+        aside {
+          height: 130px;
+          width: 130px;
+          top: 320px;
+
+          div {
+            height: 100px;
+            width: 100px;
           }
-
-          aside{
-              height: 130px;
-              width: 130px;
-              top: 320px;
-
-              div{
-                  height: 100px;
-                  width: 100px;
-              }
-          }
+        }
       }
+    }
   }
+
+  @media screen and (max-width: 1024px) {
+    .home-firstLayerSmallCircle {
+      top: 550px;
+      left: 30px;
+    }
   }
 
-  @media screen and (max-width:1024px) {
-    .home-firstLayerSmallCircle{
-        top: 550px;
-        left: 30px;
+  @media screen and (max-width: 768px) {
+    .home-firstLayerSmallCircle {
+      top: 330px;
+      left: 130px;
     }
-}
+  }
 
-@media screen and (max-width:768px) {
-    .home-firstLayerSmallCircle{
-        top: 330px;
-        left: 130px;
+  @media screen and (max-width: 480px) {
+    .home-firstLayerSmallCircle {
+      top: 310px;
+      left: 30px;
     }
-}
-
-@media screen and (max-width:480px) {
-    .home-firstLayerSmallCircle{
-        top: 310px;
-        left: 30px;
-    }
-}
+  }
 }
 
 .home-secondLayer {
@@ -390,79 +389,80 @@
     }
   }
 
-  @media screen and (max-width:1024px) {
+  @media screen and (max-width: 1024px) {
     width: 100%;
 
-    .home-secondLayerLeft{
-        width: 40%;
+    .home-secondLayerLeft {
+      width: 40%;
     }
 
-    .home-secondLayerRight{
-        width: 60%;
+    .home-secondLayerRight {
+      width: 60%;
     }
-}
+  }
 
-@media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
     align-items: center;
     margin-bottom: 0px;
     gap: 60px;
 
-    .home-secondLayerLeft{
-        width: 80%;
+    .home-secondLayerLeft {
+      width: 80%;
     }
 
-    .home-secondLayerRight{
-        width: 80%;
+    .home-secondLayerRight {
+      width: 80%;
     }
-}
+  }
 
-@media screen and (max-width:480px) {
-    .home-secondLayerLeft{
-        width: 95%;
-        margin-left: 10px;
-        height: 500px;
+  @media screen and (max-width: 480px) {
+    gap: 0;
+    .home-secondLayerLeft {
+      width: 95%;
+      margin-left: 10px;
+      height: 500px;
 
-        .home-secondLayerLeftCircle{
-          height: 410px;
-          top: 60px;
-          left: 10px;
-            width: 95%;
-        }
+      .home-secondLayerLeftCircle {
+        height: 350px;
+        top: 130px;
+        left: 18px;
+        width: 90%;
+      }
 
-        img{
-          height: 380px;
-        }
-
-        
+      img {
+        height: 300px;
+      }
     }
 
-    .home-secondLayerRight{
-        h3{
-            font-size: 43px;
-            padding-inline: 10px;
-        }
-        width: 100%;
+    .home-secondLayerRight {
+      h3 {
+        font-size: 43px;
+        padding-inline: 10px;
+      }
+      width: 100%;
 
-        article{
-            width: 18%;
-        }
+      article {
+        width: 18%;
+      }
 
-        section{
-            width: 82%;
-            div,aside,nav{
-                width: 100%;
-                h6{
-                    font-size: 16px;
-                }
-    
-                p{
-                    font-size: 12px;
-                }
-            }
+      section {
+        width: 82%;
+        div,
+        aside,
+        nav {
+          width: 100%;
+          h6 {
+            font-size: 16px;
+          }
+
+          p {
+            font-size: 12px;
+          }
         }
+      }
     }
-}
+  }
 }
 
 .home-thirdLayer {
@@ -571,123 +571,122 @@
     color: black;
   }
 
-  @media screen and (max-width:1024px) {
-
+  @media screen and (max-width: 1024px) {
     justify-content: space-between;
-    aside{
+    aside {
       width: 20%;
       left: 180px;
 
-      article{
+      article {
         width: 80%;
-        h6{
+        h6 {
           font-size: 40px;
         }
-        p{
+        p {
           font-size: 23px;
         }
       }
     }
 
-    .home-thirdLayerHolder{
-      h3{
+    .home-thirdLayerHolder {
+      h3 {
         margin-left: 30px;
         font-size: 45px;
       }
-      
-      div{
+
+      div {
         margin-right: 30px;
         width: 20%;
         justify-content: center;
 
-        h6{
+        h6 {
           font-weight: 600;
           font-size: 40px;
         }
 
-        p{
+        p {
           font-size: 20px;
         }
       }
     }
   }
 
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     margin-bottom: 60px;
     justify-content: space-between;
-    aside{
+    aside {
       width: 20%;
       height: 230px;
       left: 135px;
       top: 25px;
-      
-      article{
+
+      article {
         width: 80%;
-        h6{
+        h6 {
           font-size: 30px;
         }
-        p{
+        p {
           font-size: 19px;
         }
       }
     }
-    
-    .home-thirdLayerHolder{
+
+    .home-thirdLayerHolder {
       height: 170px;
-      h3{
+      h3 {
         width: 20%;
         margin-left: 20px;
         font-size: 40px;
       }
 
-      nav{
+      nav {
         width: 20%;
       }
-      
-      div{
+
+      div {
         margin-right: 20px;
         width: 20%;
         justify-content: center;
 
-        h6{
+        h6 {
           font-weight: 600;
           font-size: 30px;
         }
 
-        p{
+        p {
           font-size: 15px;
         }
       }
     }
   }
 
-  @media screen and (max-width:480px) {
+  @media screen and (max-width: 480px) {
     width: 100%;
     justify-content: space-between;
-    aside{
+    aside {
       width: 20%;
       height: 160px;
       left: 95px;
       top: 60px;
-      
-      article{
+
+      article {
         width: 80%;
         justify-content: center;
-        h6{
+        h6 {
           font-size: 18px;
           font-weight: 500;
           line-height: 30px;
         }
-        p{
+        p {
           font-size: 10px;
           line-height: 30px;
         }
       }
     }
-    
-    .home-thirdLayerHolder{
+
+    .home-thirdLayerHolder {
       height: 120px;
-      h3{
+      h3 {
         width: 20%;
         margin-left: 15px;
         font-size: 25px;
@@ -695,22 +694,22 @@
         margin-top: 20px;
       }
 
-      nav{
+      nav {
         width: 20%;
       }
-      
-      div{
+
+      div {
         margin-right: 13px;
         width: 20%;
         justify-content: center;
 
-        h6{
+        h6 {
           font-weight: 500;
           font-size: 20px;
           line-height: 30px;
         }
 
-        p{
+        p {
           font-size: 8px;
           line-height: 20px;
         }
@@ -742,16 +741,16 @@
     text-align: center;
   }
 
-  @media screen and (max-width:480px) {
+  @media screen and (max-width: 480px) {
     width: 90%;
     margin-bottom: 40px;
 
-    h6{
+    h6 {
       font-size: 35px;
       line-height: 30px;
     }
 
-    p{
+    p {
       font-size: 18.5px;
     }
   }
@@ -795,13 +794,13 @@
     }
   }
 
-  @media screen and (max-width:1024px) {
+  @media screen and (max-width: 1024px) {
     width: 70%;
   }
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     width: 80%;
   }
-  @media screen and (max-width:480px) {
+  @media screen and (max-width: 480px) {
     width: 80%;
     flex-direction: column;
     gap: 30px;
@@ -950,24 +949,24 @@
     }
   }
 
-  @media screen and (max-width:768px) {
-    .home-sixthLayerHolder{
+  @media screen and (max-width: 768px) {
+    .home-sixthLayerHolder {
       justify-content: space-between;
       gap: 0;
-      nav{
+      nav {
         width: 450px;
 
-        h4{
+        h4 {
           font-size: 35px;
           line-height: 30px;
         }
 
-        h6{
+        h6 {
           font-size: 15px;
         }
 
-        ul{
-          li{
+        ul {
+          li {
             font-size: 16px;
           }
         }
@@ -975,38 +974,36 @@
     }
   }
 
-  @media screen and (max-width:480px) {
-
-    h3{
+  @media screen and (max-width: 480px) {
+    h3 {
       font-size: 35px;
     }
-    .home-sixthLayerHolder{
+    .home-sixthLayerHolder {
       align-items: center;
       flex-direction: column;
       gap: 30px;
 
-      
-      main{
+      main {
         width: 100%;
       }
-      nav{
+      nav {
         width: 90%;
         gap: 20px;
 
-        h4{
+        h4 {
           font-size: 25px;
           line-height: 20px;
           text-align: center;
         }
 
-        h6{
+        h6 {
           font-size: 14px;
           text-align: center;
         }
 
-        ul{
+        ul {
           width: 100%;
-          li{
+          li {
             font-size: 14px;
           }
         }
@@ -1021,7 +1018,7 @@
   font-family: "Sora", sans-serif;
   display: block;
 
-  @media screen and (max-width:480px) {
+  @media screen and (max-width: 480px) {
     font-size: 32px;
     margin-top: 20px;
     display: none;
@@ -1055,8 +1052,8 @@
     font-family: "Sora", sans-serif;
   }
 
-  @media screen and (max-width:480px) {
-    h6{
+  @media screen and (max-width: 480px) {
+    h6 {
       width: 100%;
       font-size: 35px;
     }
@@ -1140,19 +1137,18 @@
     }
   }
 
-  @media screen and (max-width:480px) {
-    p{
+  @media screen and (max-width: 480px) {
+    p {
       font-size: 10px;
     }
 
-    nav{
-      h6{
+    nav {
+      h6 {
         font-size: 7px;
         width: fit-content;
-        
       }
 
-      article{
+      article {
         width: 130px;
         gap: 4px;
       }
@@ -1195,33 +1191,33 @@
       }
     }
   }
-  @media screen and (max-width:1024px) {
-    h5{
+  @media screen and (max-width: 1024px) {
+    h5 {
       width: 100%;
     }
   }
 
-  @media screen and (max-width:768px) {
-    h5{
+  @media screen and (max-width: 768px) {
+    h5 {
       width: 90%;
       font-size: 30px;
     }
 
-    nav{
+    nav {
       width: 90%;
       flex-direction: column;
       align-items: center;
       gap: 30px;
 
-      div{
+      div {
         height: 170px;
         width: 200px;
       }
     }
   }
 
-  @media screen and (max-width:480px) {
-    h5{
+  @media screen and (max-width: 480px) {
+    h5 {
       font-size: 15px;
       width: 95%;
     }

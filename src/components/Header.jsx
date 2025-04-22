@@ -3,7 +3,7 @@ import "../styles/header.css";
 import menuBar from "../assets/navBar.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import HeaderLogo from "../assets/public/legacy_builder_logo.png";
-import hamburger from "../assets/public/hamburgericon.svg";
+import hambuger from "../assets/public/hambuger.svg";
 
 const Header = () => {
   const location = useLocation();
@@ -53,12 +53,13 @@ const Header = () => {
             className="header-menuIcon"
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            <img src={hamburger} />
+            <img src={hambuger} />
           </div>
         </div>
       </div>
       {showDropdown && (
-        <div className="header-dropDown">
+        <div className="header-dropDown" onClick={()=>setShowDropdown(!showDropdown)}>
+          <div className="header-dropDownHolder" onClick={(e)=>e.stopPropagation()}>
           <div className="headerDropdown-holderImg">
             <img
               src={HeaderLogo}
@@ -100,6 +101,7 @@ const Header = () => {
             >
               LOGIN
             </button>
+          </div>
           </div>
         </div>
       )}

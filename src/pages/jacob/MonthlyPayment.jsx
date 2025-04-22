@@ -28,13 +28,20 @@ const MonthlyPayment = () => {
                 <div className="suboffertext">
                   <FiCheckCircle className="subiconfirst" />
                   <span>
-                    Limited access to past JAMB Questions (e.g: 2024 - 2023 past
+                    Limited access to JAMB past Questions(e.g: 2000 - 2001 past
                     question)
                   </span>
                 </div>
                 <div className="suboffertext">
+                  <FiCheckCircle className="subiconfirst" />
+                  <span>
+                    Limited access to Jamb mock exam questions (e.g: Twice
+                    daily)
+                  </span>
+                </div>
+                <div className="suboffertext">
                   <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
-                  <span>25 Minutes Free Mock Exam.</span>
+                  <span>10 Minutes Free Mock Exam.</span>
                 </div>
                 <div className="suboffertext">
                   <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
@@ -60,20 +67,20 @@ const MonthlyPayment = () => {
             <div className="premiumbofferdiv">
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={30} />
-                <span>Full access to Ten years Jamb Past Questions.</span>
+                <span>Full access to all Jamb Past Questions.</span>
               </div>
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={20} />
-                <span>2 Hours free mock Exam</span>
+                <span>Full access to mock Exam</span>
               </div>
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={25} />
                 <span>Access to chose and remove subject.</span>
               </div>
-              <div className="premiumsuboffer">
+              {/* <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={23} />
                 <span>Study recommendations.</span>
-              </div>
+              </div> */}
               <div className="subamountddiv">
                 <h1 className="subamount">#500</h1>
               </div>
@@ -108,7 +115,7 @@ const MonthlyPayment = () => {
               <span>Get access to all JAMB prep resources forever.</span>
             </div>
             <div className="lifesubamountdiv">
-              <h1>#8,000</h1>
+              <h1>#20,000</h1>
             </div>
             <div className="lifesubtext">
               <span>Lifetime Subscription</span>
@@ -117,7 +124,7 @@ const MonthlyPayment = () => {
               <button
                 className="planbutton"
                 disabled={currentPlan === "Lifetime Access"}
-                onClick={() => handleChoosePlan(8000, "Lifetime Access")}
+                onClick={() => handleChoosePlan(20000, "Lifetime Access")}
               >
                 {currentPlan === "Lifetime Access"
                   ? "Subscribed"

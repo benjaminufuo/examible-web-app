@@ -12,7 +12,7 @@ import { setLogout, setNavState } from "../../global/slice";
 import img1 from "../../assets/public/profile.svg";
 import img2 from "../../assets/public/pastquestion.svg";
 import Logout from "./Logout";
-import hambuger from "../../assets/public/hamburgericon.svg";
+import hambuger from "../../assets/public/hambuger.svg";
 
 const Dashboard = () => {
   const navState = useSelector((state) => state.navState);
@@ -116,17 +116,14 @@ const Dashboard = () => {
             </>
           ) : (
             <div
-              onClick={() => {
-                nav("/dashboard/subscription"),
-                  dispatch(setNavState("SUBSCRIPTION"));
-              }}
               className="dashboard-navBar"
               style={{
-                backgroundColor: navState.subscription ? "#804BF233" : "white",
+                backgroundColor: "white",
+                cursor: 'default'
               }}
             >
               <SiMoneygram color="#804BF266" fontSize={35} />
-              Subscription
+              Subscribed
             </div>
           )}
         </>
@@ -141,8 +138,8 @@ const Dashboard = () => {
         </div>
       </div>
       {showDropdown && (
-        <div className="dashboard-leftDropdown">
-          
+        <div className="dashboard-leftDropdown" onClick={()=>setShowDropdown(!showDropdown)}>
+          <div className="dashboard-leftDropdownHolder" onClick={(e)=>e.stopPropagation()}>
           <div className="dashboard-leftDropdown-navbarHolder">
           <div className="dashboard-leftDropdown-leftImg">
             <img src={dashboardIcon} alt="" />
@@ -249,20 +246,14 @@ const Dashboard = () => {
               </>
             ) : (
               <div
-                onClick={() => {
-                  nav("/dashboard/subscription"),
-                    dispatch(setNavState("SUBSCRIPTION")),
-                    setShowDropdown(!showDropdown);
-                }}
                 className="dashboard-leftDropdown-navBar"
                 style={{
-                  backgroundColor: navState.subscription
-                    ? "#804BF233"
-                    : "white",
+                  backgroundColor: "white",
+                  cursor: 'default'
                 }}
               >
                 <SiMoneygram color="#804BF266" fontSize={35} />
-                Subscription
+                Subscribed
               </div>
             )}
           </>
@@ -275,6 +266,7 @@ const Dashboard = () => {
             <AiOutlineLogout fontSize={35} color="red" />
             Logout
           </div>
+          </div>  
         </div>
       )}
       <div className="dashboard-right">
