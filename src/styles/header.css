@@ -28,8 +28,8 @@
     @media screen and (max-width:768px) {
         .header-menuIcon{
             display: flex;
-            height: 70px;
-            width: 70px;
+            height: 50px;
+            width: 50px;
             cursor: pointer;
             
             img{
