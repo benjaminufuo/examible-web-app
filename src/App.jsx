@@ -30,7 +30,8 @@ import AppWrapper from "./components/AppWrapper";
 import ErrorPgae from "./pages/jacob/ErrorPgae";
 
 const routes = createBrowserRouter([
-  { path: "*", element: <ErrorPgae /> },
+ {element:<AppWrapper/>,children:[
+  { path: "*", element: <ErrorPgae/> },
   {
     path: "",
     element: <MainHolder />,
@@ -49,30 +50,28 @@ const routes = createBrowserRouter([
   { path: "/resetpassword/:token", element: <ResetPassword /> },
   { path: "/verify/:token", element: <Verify /> },
   { path: "/callback/:token/:userId", element: <Callback /> },
-  {
-    element: <PrivateRoute />,
-    children: [
-      { path: "verifyingPayment", element: <VerifyPayment /> },
-      {
-        element: <Dashboard />,
-        children: [
-          { path: "/dashboard/overview", element: <Overview />, index: true },
-          { path: "/dashboard/mock-exam", element: <Mockexam /> },
-          { path: "/dashboard/past-questions", element: <PastQuestion /> },
-          { path: "/dashboard/profile", element: <Profile /> },
-          { path: "/dashboard/subscription", element: <Subscription /> },
-          { path: "/dashboard/make-payment", element: <MakePayment /> },
-          { path: "/dashboard/mock-exam/result", element: <MockResult /> },
-          {
-            path: "/dashboard/view-pastquestion",
-            element: <ViewPastQuestion />,
-          },
-        ],
-      },
-      { path: "mock-exam/:subject/:subjectId", element: <ExamBody /> },
-    ],
-  },
+  {element:<PrivateRoute/>, children: [
+    {path:'verifyingPayment', element: <VerifyPayment/>},
+    {
+      element: <Dashboard />,
+      children: [
+        { path: "/dashboard/overview", element: <Overview />, index: true },
+        { path: "/dashboard/mock-exam", element: <Mockexam /> },
+        { path: "/dashboard/past-questions", element: <PastQuestion /> },
+        { path: "/dashboard/profile", element: <Profile /> },
+        { path: "/dashboard/subscription", element: <Subscription /> },
+        { path: "/dashboard/make-payment", element: <MakePayment /> },
+        {path:'/dashboard/mock-exam/result', element:<MockResult/>},
+        {
+          path: "/dashboard/view-pastquestion",
+          element: <ViewPastQuestion />,
+        },
+      ],
+    },
+    { path: "mock-exam/:subject/:subjectId", element: <ExamBody /> },
+  ]},
   { path: "/data-deletion", element: <Facebookredirect /> },
+ ]}           
 ]);
 
 const App = () => {
