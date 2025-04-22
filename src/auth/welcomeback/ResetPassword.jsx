@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/authCss/resetpassword.css";
-import lock from "../../assets/uim_padlock.svg";
+import lock from "../../assets/public/uim_padlock.svg";
 import logo from "../../assets/public/legacy_builder_logo.png";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
-  const {token} = useParams();
+  const { token } = useParams();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -30,7 +30,7 @@ const ResetPassword = () => {
 
   function validatePassword(inputValue) {
     const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-+.]).{6,20}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-]{8,}$/;
     return passwordRegex.test(inputValue);
   }
   const validateField = (name, value) => {
@@ -43,8 +43,8 @@ const ResetPassword = () => {
       } else if (!validatePassword(value)) {
         error =
           "Your password must contain an upper case, a lowercase, a special character and a number";
-      } else if(value === inputValue.confirmPassword){
-        setErrorMessage({...errorMessage,confirmPassword:''})
+      } else if (value === inputValue.confirmPassword) {
+        setErrorMessage({ ...errorMessage, confirmPassword: "" });
       }
     }
 

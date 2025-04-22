@@ -1,5 +1,6 @@
 import React from "react";
 import "../../styles/home.css";
+import ProvenProcess from "../../components/ProvenProcess";
 import home1 from "../../assets/public/home-firstlayer.png";
 import home2 from "../../assets/public/home-secondLeft.png";
 import home3 from "../../assets/public/home-jamb-syllabus.png";
@@ -200,7 +201,7 @@ const Home = () => {
             </ul>
           </nav>
         </div>
-      </div>  
+      </div>
       {/* <div className="home-seventhLayerText">our proven <span style={{color:'#804BF2'}}>process</span></div> */}
       {/* <ProvenProcess/> */}
       <div className="home-eightLayer">
