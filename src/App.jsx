@@ -31,7 +31,8 @@ import ErrorPgae from "./pages/jacob/ErrorPgae";
 import ResultPage from "./pages/jacob/ResultPage";
 
 const routes = createBrowserRouter([
-  { path: "*", element: <ErrorPgae /> },
+ {element:<AppWrapper/>,children:[
+  { path: "*", element: <ErrorPgae/> },
   {
     path: "",
     element: <MainHolder />,
@@ -75,6 +76,7 @@ const routes = createBrowserRouter([
     ],
   },
   { path: "/data-deletion", element: <Facebookredirect /> },
+ ]}           
 ]);
 
 const App = () => {
