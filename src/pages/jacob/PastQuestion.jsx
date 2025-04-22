@@ -123,12 +123,21 @@ const PastQuestion = () => {
           <div className="pastrightdiv">
             <span>Select Subject</span>
 
-            <div onClick={() => toggleDropdown("subject")}>
+            <div
+              onClick={() => toggleDropdown("subject")}
+              style={{ cursor: "pointer" }}
+            >
               {selectedSubject}
               {activeDropdown === "subject" ? (
-                <FaChevronUp className="pastdropdown" />
+                <FaChevronUp
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               ) : (
-                <FaChevronDown className="pastdropdown" />
+                <FaChevronDown
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               )}
               {activeDropdown === "subject" && (
                 <ul className="dropdownmenu">
@@ -148,12 +157,21 @@ const PastQuestion = () => {
 
           <div className="pastrightdiv">
             <span>Select Year</span>
-            <div onClick={() => toggleDropdown("year")}>
+            <div
+              onClick={() => toggleDropdown("year")}
+              style={{ cursor: "pointer" }}
+            >
               {selectedYear}
               {activeDropdown === "year" ? (
-                <FaChevronUp className="pastdropdown" />
+                <FaChevronUp
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               ) : (
-                <FaChevronDown className="pastdropdown" />
+                <FaChevronDown
+                  className="pastdropdown"
+                  style={{ cursor: "pointer" }}
+                />
               )}
               {activeDropdown === "year" && (
                 <ul className="dropdownmenu">

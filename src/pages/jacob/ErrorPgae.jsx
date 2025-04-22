@@ -51,7 +51,7 @@ const ErrorPgae = () => {
       </section>
       <div className="errortext">
         <span className="errormaintext">
-          <em className="errorem">Error 404:</em> Question Not Found
+          <em className="errorem">Error 404:</em> Page Not Found
         </span>
         <p className="errorparagraph">
           This page doesn’t exist, or it has been moved. Let’s get you back on

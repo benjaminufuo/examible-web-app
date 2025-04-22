@@ -1,0 +1,744 @@
+.provenmainprocess {
+  width: 90%;
+  min-height: 50vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.createaccount {
+  width: 20%;
+  height: 50vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+
+  .provenheader {
+    color: #1e1e1e;
+    text-align: center;
+    font-family: Sora;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 103%; /* 24.72px */
+    letter-spacing: -0.456px;
+    text-transform: capitalize;
+  }
+
+  .span {
+    color: #1e1e1e;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+    letter-spacing: -0.266px;
+  }
+}
+
+.learnicon {
+  position: relative;
+  font-size: 25px;
+  padding: 25px;
+  color: #fff;
+  background-color: #804bf2;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.learnicon:hover {
+  opacity: 0.5;
+  transition: all 0.3s ease-in-out;
+}
+
+.circlezero1container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 14.6%;
+  bottom: 8.7%;
+
+  .innerzero1container {
+    width: 40px;
+    height: 40px;
+    background-color: #f2ae30;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+  }
+
+  .provennumber {
+    font-size: 25px;
+  }
+}
+.linecontainer {
+  width: 10%;
+  height: 36vh;
+
+  .line1 {
+    flex: 1;
+    height: 1px;
+    background-color: black;
+    margin: 0 0px;
+  }
+}
+
+.circlezero2container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 39.5%;
+  bottom: 8.7%;
+
+  .innerzero2container {
+    width: 40px;
+    height: 40px;
+    background-color: #f2ae30;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+  }
+
+  .provennumber {
+    font-size: 25px;
+  }
+}
+.circlezero3container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 64.5%;
+  bottom: 8.7%;
+
+  .innerzero3container {
+    width: 40px;
+    height: 40px;
+    background-color: #f2ae30;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+  }
+
+  .provennumber {
+    font-size: 25px;
+  }
+}
+
+.circlezero4container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 89.5%;
+  bottom: 8.7%;
+
+  .innerzero4container {
+    width: 40px;
+    height: 40px;
+    background-color: #f2ae30;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+  }
+  .provennumber {
+    font-size: 25px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .provenmainprocess {
+    width: 90%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .createaccount {
+    width: 60%;
+    height: 40vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-direction: column;
+    gap: 10px;
+
+    .provenheader {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Sora;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 103%; /* 24.72px */
+      letter-spacing: -0.456px;
+      text-transform: capitalize;
+    }
+
+    .span {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 21px */
+      letter-spacing: -0.266px;
+    }
+  }
+
+  .learnicon {
+    position: relative;
+    font-size: 25px;
+    padding: 25px;
+    color: #fff;
+    background-color: #804bf2;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .learnicon:hover {
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .circlezero1container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 57%;
+    bottom: 19.6%;
+    .innerzero1container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+  .linecontainer {
+    width: 10%;
+    height: 36vh;
+
+    .line1 {
+      flex: 1;
+      height: 1px;
+      background-color: black;
+      margin: 0 0px;
+    }
+  }
+
+  .circlezero2container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 57%;
+    bottom: 14.3%;
+
+    .innerzero2container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+  .circlezero3container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 57%;
+    bottom: 9.05%;
+
+    .innerzero3container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+
+  .circlezero4container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 57%;
+    bottom: 3.78%;
+    .innerzero4container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+
+  .linecontainer {
+    display: none;
+
+    .line1 {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .provenmainprocess {
+    width: 90%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .createaccount {
+    width: 60%;
+    height: 40vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-direction: column;
+    gap: 10px;
+
+    .provenheader {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Sora;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 103%; /* 24.72px */
+      letter-spacing: -0.456px;
+      text-transform: capitalize;
+    }
+
+    .span {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 21px */
+      letter-spacing: -0.266px;
+    }
+  }
+
+  .learnicon {
+    position: relative;
+    font-size: 25px;
+    padding: 25px;
+    color: #fff;
+    background-color: #804bf2;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .learnicon:hover {
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .circlezero1container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 19.2%;
+    .innerzero1container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+  .linecontainer {
+    width: 10%;
+    height: 36vh;
+
+    .line1 {
+      flex: 1;
+      height: 1px;
+      background-color: black;
+      margin: 0 0px;
+    }
+  }
+
+  .circlezero2container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 14.1%;
+
+    .innerzero2container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+  .circlezero3container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 9.05%;
+
+    .innerzero3container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+
+  .circlezero4container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 4%;
+    .innerzero4container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+
+  .linecontainer {
+    display: none;
+
+    .line1 {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024) {
+  .provenmainprocess {
+    width: 90%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .createaccount {
+    width: 60%;
+    height: 40vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-direction: column;
+    gap: 10px;
+
+    .provenheader {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Sora;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 103%; /* 24.72px */
+      letter-spacing: -0.456px;
+      text-transform: capitalize;
+    }
+
+    .span {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 21px */
+      letter-spacing: -0.266px;
+    }
+  }
+
+  .learnicon {
+    position: relative;
+    font-size: 25px;
+    padding: 25px;
+    color: #fff;
+    background-color: #804bf2;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .learnicon:hover {
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .circlezero1container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 19.8%;
+    .innerzero1container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+  .linecontainer {
+    width: 10%;
+    height: 36vh;
+
+    .line1 {
+      flex: 1;
+      height: 1px;
+      background-color: black;
+      margin: 0 0px;
+    }
+  }
+
+  .circlezero2container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 14.6%;
+
+    .innerzero2container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+  .circlezero3container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 9.4%;
+
+    .innerzero3container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+
+  .circlezero4container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 53%;
+    bottom: 4.2%;
+    .innerzero4container {
+      width: 40px;
+      height: 40px;
+      background-color: #f2ae30;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+
+    .provennumber {
+      font-size: 25px;
+    }
+  }
+
+  .linecontainer {
+    display: none;
+
+    .line1 {
+      display: none;
+    }
+  }
+}

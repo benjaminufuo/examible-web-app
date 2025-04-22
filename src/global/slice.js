@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import PastQuestion from "../pages/jacob/PastQuestion";
-import FinishedExam from "../components/FinishedExam";
 
 const initialState = {
   userToken: "",

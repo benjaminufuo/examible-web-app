@@ -30,13 +30,16 @@ const YearlyPayment = () => {
                 <div className="suboffertext">
                   <FiCheckCircle className="subiconfirst" />
                   <span>
-                    Limited access to past JAMB Questions and mock exam (e.g:
-                    2024 - 2023 past question)
+                    Limited access to JAMB past Questions(e.g: 2000 - 2001 past
+                    question)
                   </span>
                 </div>
                 <div className="suboffertext">
-                  <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
-                  <span>10 Minutes Free Mock Exam.</span>
+                  <FiCheckCircle className="subiconfirst" />
+                  <span>
+                    Limited access to Jamb mock exam questions (e.g: Twice
+                    daily)
+                  </span>
                 </div>
                 <div className="suboffertext">
                   <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
@@ -62,7 +65,7 @@ const YearlyPayment = () => {
             <div className="premiumbofferdiv">
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={30} />
-                <span>Full access to Jamb Past Questions and mock exam.</span>
+                <span>Full access to Jamb Past Questions .</span>
               </div>
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={20} />

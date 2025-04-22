@@ -15,6 +15,18 @@ import { useLocation, useNavigate } from "react-router";
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [finishPastQuestion, setFinishPastQuestion] = useState(false);
+
+  const calculateScore = () => {
+    const correctCount = Object.values(pastQuestionsOption).filter(
+      (entry) => entry?.isCorrect
+    ).length;
+
+    const total = questions.length;
+    const percentage = Math.round((correctCount / total) * 100);
+    const passed = percentage >= 50;
+    return { correctCount, total, percentage, passed };
+  };
 
   const year = useSelector((state) => state.year);
   const subject = useSelector((state) => state.exam);
@@ -98,7 +110,11 @@ const ViewPastQuestion = () => {
   return (
     <main className="viewpastquestionmain">
       <div className="viewpastquestionheader">
-        <IoIosArrowRoundBack size={40} onClick={() => navigate(-1)} />
+        <IoIosArrowRoundBack
+          size={40}
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+        />
         <span>Jamb UTME Question</span>
       </div>
       <div className="viewpastquestionmainheader">
@@ -190,16 +206,22 @@ const ViewPastQuestion = () => {
         <span className="pagination-info">
           page {currentPage} of {Math.ceil(questions.length / questionsPerPage)}
         </span>
-        <button
-          onClick={handleNextPage}
-          disabled={
-            currentPage === Math.ceil(questions.length / questionsPerPage)
-          }
-          className="pagination-button1"
-        >
-          Next
-          <IoIosArrowForward size={25} />
-        </button>
+        {currentPage === Math.ceil(questions.length / questionsPerPage) ? (
+          <button
+            onClick={() => {
+              const result = calculateScore();
+              navigate("/dashboard/resultpage", { state: result });
+            }}
+            className="pagination-button1"
+          >
+            Finish
+          </button>
+        ) : (
+          <button onClick={handleNextPage} className="pagination-button1">
+            Next
+            <IoIosArrowForward size={25} />
+          </button>
+        )}
       </div>
     </main>
   );

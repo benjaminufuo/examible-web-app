@@ -28,6 +28,7 @@ import MockResult from "./pages/kenz/MockResult";
 import Facebookredirect from "./auth/Facebookredirect";
 import AppWrapper from "./components/AppWrapper";
 import ErrorPgae from "./pages/jacob/ErrorPgae";
+import ResultPage from "./pages/jacob/ResultPage";
 
 const routes = createBrowserRouter([
   { path: "*", element: <ErrorPgae /> },
@@ -67,6 +68,7 @@ const routes = createBrowserRouter([
             path: "/dashboard/view-pastquestion",
             element: <ViewPastQuestion />,
           },
+          { path: "/dashboard/resultpage", element: <ResultPage /> },
         ],
       },
       { path: "mock-exam/:subject/:subjectId", element: <ExamBody /> },
