@@ -66,6 +66,7 @@
   bottom: 15px;
   cursor: pointer;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -74,5 +75,11 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .chatbot-container {
+    width: 90%;
   }
 }

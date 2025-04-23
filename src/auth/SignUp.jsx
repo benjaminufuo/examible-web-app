@@ -153,11 +153,6 @@ const SignUp = () => {
     window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
   };
 
-  const facebookIcon = async () => {
-    window.location.href = `${
-      import.meta.env.VITE_BASE_URL
-    }facebookAuthenticate`;
-  };
   return (
     <div className="signupMain">
       <div className="circle">
@@ -277,7 +272,6 @@ const SignUp = () => {
           <div className="line"></div>
         </span>
         <article className="socials">
-          <FaFacebook className="facebookIcon" onClick={facebookIcon} />
           <FcGoogle className="googleIcon" onClick={googleIcon} />
         </article>
       </div>

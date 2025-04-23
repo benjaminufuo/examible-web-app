@@ -49,11 +49,10 @@ const MonthlyPayment = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="subbuttondiv">
-              <button className="planbutton" disabled={true}>
-                Choose plan
-              </button>
-            </div> */}
+            <div className="premiumsuboffer">
+              <FiCheckCircle className="subiconfirst1" size={25} />
+              <span>Access to legacy bot.</span>
+            </div>
           </div>
         </div>
         <div className="monthlypremium">
@@ -77,10 +76,6 @@ const MonthlyPayment = () => {
                 <FiCheckCircle className="subiconfirst1" size={25} />
                 <span>Access to chose and remove subject.</span>
               </div>
-              {/* <div className="premiumsuboffer">
-                <FiCheckCircle className="subiconfirst1" size={23} />
-                <span>Study recommendations.</span>
-              </div> */}
               <div className="subamountddiv">
                 <h1 className="subamount">#500</h1>
               </div>
