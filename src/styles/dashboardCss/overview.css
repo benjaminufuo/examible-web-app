@@ -436,7 +436,7 @@
         max-height: 259px;
         overflow-y: auto;
         border-radius: 7.58px;
-        background-color: #804BF233;
+        background-color: white;
         display: flex;
         padding: 15px;
         padding-top: 30px;
@@ -465,6 +465,12 @@
                     width: 25%;
                     display: flex;
                     justify-content: center;
+                }
+
+                @media screen and (max-width:1024px) {
+                    li{
+                        font-size: 16px;
+                    }
                 }
 
                 

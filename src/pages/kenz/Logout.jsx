@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/dashboardCss/logout.css'
 import img1 from '../../assets/public/Log out.svg'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,8 +11,10 @@ const Logout = () => {
   const dispatch = useDispatch()
   const nav = useNavigate()
   const userToken = useSelector((state)=>state.userToken)
+  const [loading,setLoading] = useState(false)
   const logoutUser = async()=>{
     const id = toast.loading('logging out ...')
+    setLoading(true)
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}api/v1/logout`,{},{
         headers : {
@@ -25,6 +27,7 @@ const Logout = () => {
           toast.success(res?.data?.message)
           nav('/')
         }, 500);
+        setLoading(false)
         setTimeout(() => {
           dispatch(logoutTheUser())
         }, 1000);
@@ -32,6 +35,7 @@ const Logout = () => {
       return;
     } catch (error) {
       toast.dismiss(id)
+      setLoading(false)
       if (error?.response?.data?.message === 'Session timed-out: Please login to continue') {
         setTimeout(() => {
           nav('/')
@@ -55,8 +59,8 @@ const Logout = () => {
             <h3>Ready to log out? </h3>
             <p>Keep the momentum going — we’ll be here when you’re back!</p>
             <nav>
-              <button className='logout-btn' onClick={logoutUser}>Log out</button>
-              <button className='continue-btn' onClick={()=>dispatch(setLogout())}>Continuing learning </button>
+              <button className='logout-btn' onClick={logoutUser} disabled={loading} style={{backgroundColor:loading ? '#804bf233': '#804BF2',cursor:loading?'not-allowed':'pointer'}}>Log out</button>
+              <button className='continue-btn' style={{cursor:loading?'not-allowed':'pointer'}} disabled={loading} onClick={()=>dispatch(setLogout())}>Continuing learning </button>
             </nav>
         </main>
       </div>

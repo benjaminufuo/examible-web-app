@@ -264,7 +264,7 @@ const Overview = () => {
         <div className="overview-secondLayerRight">
           <div className="overview-secondLayerRightHolder">
             <ul>
-              <li>Subject</li>
+              <li style={{justifyContent:'left'}}>Subject</li>
               <li>Performance</li>
               <li>Duration</li>
               <li>Completed?</li>
@@ -276,9 +276,9 @@ const Overview = () => {
                   user?.myRating.map((item,index)=>(
                     <ol key={index}>
               
-              <li>{item?.subject}</li>
+              <li  style={{justifyContent:'left'}}>{item?.subject}</li>
               <li>{item?.performance}{' '}%</li>
-              <li>{item?.duration}{' '}secs</li>
+              <li>{`${Math.floor(item?.duration/60)} `}{' '}<em style={{marginInline: "5px"}}> mins </em>{` ${item?.duration % 60} `}{' '}<em style={{marginLeft: "5px"}}> secs</em></li>
               <li>{item?.completed}</li>
             </ol>
                   ))
