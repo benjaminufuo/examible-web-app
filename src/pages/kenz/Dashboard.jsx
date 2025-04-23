@@ -142,12 +142,18 @@ const Dashboard = () => {
               <div
                 className="dashboard-navBar"
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: navState.subscription
+                        ? "#804BF233"
+                        : "white",
                   cursor: "default",
+                }}
+                onClick={() => {
+                  nav("/dashboard/subscription"),
+                    dispatch(setNavState("SUBSCRIPTION"));
                 }}
               >
                 <SiMoneygram color="#804BF266" fontSize={35} />
-                Subscribed
+                Subscription
               </div>
             )}
           </>
@@ -280,12 +286,19 @@ const Dashboard = () => {
                   <div
                     className="dashboard-leftDropdown-navBar"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: navState.subscription
+                        ? "#804BF233"
+                        : "white",
                       cursor: "default",
+                    }}
+                    onClick={() => {
+                      nav("/dashboard/subscription"),
+                        dispatch(setNavState("SUBSCRIPTION")),
+                        setShowDropdown(!showDropdown);
                     }}
                   >
                     <SiMoneygram color="#804BF266" fontSize={35} />
-                    Subscribed
+                    Subscription
                   </div>
                 )}
               </>

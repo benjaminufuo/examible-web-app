@@ -66,7 +66,7 @@ const PastQuestion = () => {
       const response = await axios.get(
         `${
           import.meta.env.VITE_BASE_URL
-        }api/v1/fetch-questions/${year}/${subject}`
+        }api/v1/fetch-questions/${year}/${subject}/${user?._id}`
       );
       toast.update(toastId, {
         render: "Question fetched succesfully!",
