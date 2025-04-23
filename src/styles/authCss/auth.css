@@ -266,6 +266,7 @@
   color: black;
   gap: 10px;
   cursor: pointer;
+  z-index: 1;
 }
 .signupbtn {
   width: 80%;
@@ -470,7 +471,7 @@
   }
 
   .signupForm {
-    width: 80%;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -626,5 +627,16 @@
     font-style: normal;
     font-weight: 500;
     line-height: 32.555px;
+  }
+  .rememberme {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    color: black;
+    gap: 10px;
+    cursor: pointer;
+    z-index: 1;
   }
 }

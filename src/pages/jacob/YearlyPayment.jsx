@@ -75,10 +75,10 @@ const YearlyPayment = () => {
                 <FiCheckCircle className="subiconfirst1" size={25} />
                 <span>Access to chose and remove subject.</span>
               </div>
-              {/* <div className="premiumsuboffer">
-                <FiCheckCircle className="subiconfirst1" size={23} />
-                <span>Study recommendations.</span>
-              </div> */}
+              <div className="premiumsuboffer">
+                <FiCheckCircle className="subiconfirst1" size={25} />
+                <span>Access to legacy bot.</span>
+              </div>
               <div className="subamountddiv">
                 <h1 className="subamount">#5,000</h1>
               </div>

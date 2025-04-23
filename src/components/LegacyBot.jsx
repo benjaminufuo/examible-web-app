@@ -1,7 +1,6 @@
 import React from "react";
 import { RiCloseLine } from "react-icons/ri";
 import "../styles/dashboardCss/legacybot.css";
-import { IoMdSend } from "react-icons/io";
 import LegacyChatbot from "./LegacyChatbot";
 
 const ChatBot = ({ closeBot }) => {
@@ -16,16 +15,8 @@ const ChatBot = ({ closeBot }) => {
         />
       </div>
       <div className="chatbot-body">
-        <LegacyChatbot/>
+        <LegacyChatbot />
       </div>
-      {/* <div className="messagecontainer">
-        <textarea
-          className="textarea"
-          name="input"
-          placeholder="Ask me questions related to your Academics"
-        ></textarea>
-        <IoMdSend className="legacysendicon" />
-      </div> */}
     </div>
   );
 };
