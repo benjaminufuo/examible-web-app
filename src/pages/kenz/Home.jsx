@@ -8,7 +8,7 @@ import home4 from "../../assets/public/home-question.png";
 import home5 from "../../assets/public/home-badges.png";
 import home6 from "../../assets/public/home-mock-exam.jpg";
 import home7 from "../../assets/public/home-past-question.png";
-import home8 from "../../assets/public/home-leaderboard.jpg";
+import home8 from "../../assets/public/chat-bot.jpg";
 import home9 from "../../assets/public/home-victoria.jpg";
 import home10 from "../../assets/public/home-kenneth.jpg";
 import home11 from "../../assets/public/home-jacob.jpg";
@@ -169,6 +169,12 @@ const Home = () => {
             <img src={home7} alt="Past Question" />
           </div>
           <p>Past Question</p>
+        </nav>
+        <nav>
+          <div>
+            <img src={home8} alt="Legacy Bot" />
+          </div>
+          <p>Legacy Bot</p>
         </nav>
       </div>
       <div className="home-sixthLayer">

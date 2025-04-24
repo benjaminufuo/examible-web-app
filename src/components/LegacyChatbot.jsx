@@ -80,7 +80,7 @@ const LegacyChatbot = () => {
             })
           }
         </MessageList>
-        <MessageInput placeholder="Type message here" onSend={handleSend}/>
+        <MessageInput attachButton={false} placeholder="Type message here" onSend={handleSend}/>
       </ChatContainer>
     </MainContainer>
     )

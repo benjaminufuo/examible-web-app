@@ -66,7 +66,7 @@ const PastQuestion = () => {
       const response = await axios.get(
         `${
           import.meta.env.VITE_BASE_URL
-        }api/v1/fetch-questions/${year}/${subject}`
+        }api/v1/fetch-questions/${year}/${subject}/${user?._id}`
       );
       toast.update(toastId, {
         render: "Question fetched succesfully!",
@@ -79,13 +79,10 @@ const PastQuestion = () => {
       setLoading(false);
       setDisabled(true);
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message);
-      toast.update(toastId, {
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.dismiss(toastId);
+      setTimeout(() => {
+        toast.error(error?.response?.data?.message);
+      }, 500);
       setDisabled(false);
       setLoading(false);
     }
