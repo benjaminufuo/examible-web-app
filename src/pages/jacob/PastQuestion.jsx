@@ -79,12 +79,10 @@ const PastQuestion = () => {
       setLoading(false);
       setDisabled(true);
     } catch (error) {
-      toast.update(toastId, {
-        render: "Failed to fetch questions.",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.dismiss(toastId);
+      setTimeout(() => {
+        toast.error(error?.response?.data?.message);
+      }, 500);
       setDisabled(false);
       setLoading(false);
     }

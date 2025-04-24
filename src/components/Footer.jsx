@@ -71,7 +71,7 @@ const Footer = () => {
                   (window.location.href = "mailto:legacybuilders710@gmail.com")
                 }
               />
-              legacybuilders@gmail.com
+              legacybuilders710@gmail.com
             </article>
             <main>
               <h6>Social Media</h6>

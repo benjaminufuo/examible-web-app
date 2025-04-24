@@ -43,7 +43,7 @@ const YearlyPayment = () => {
                 </div>
                 <div className="suboffertext">
                   <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
-                  <span>Can’t remove choose subject</span>
+                  <span>Can’t remove choosen subject</span>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@ const YearlyPayment = () => {
               </div>
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={25} />
-                <span>Access to chose and remove subject.</span>
+                <span>Access to choose and remove subject.</span>
               </div>
               <div className="premiumsuboffer">
                 <FiCheckCircle className="subiconfirst1" size={25} />
