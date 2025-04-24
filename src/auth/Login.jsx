@@ -35,14 +35,12 @@ const Login = () => {
         error = "Password is required";
       }
     }
-    setErrorMessage((prev) => ({ ...prev, [name]: error }));
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputValue((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
-    setErrorMessage({ ...errorMessage, password: "" });
   };
 
   const dispatch = useDispatch();
@@ -69,11 +67,6 @@ const Login = () => {
           error?.response?.data?.message ===
           "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
         ) {
-          setErrorMessage({
-            ...errorMessage,
-            password:
-              "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-          });
         }
         setLoading(false);
         toast.error(error?.response?.data?.message);
