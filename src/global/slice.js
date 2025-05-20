@@ -179,7 +179,7 @@ const slice = createSlice({
         console.log(obj);
       } else {
         const obj = {
-          option: "none",
+          option: "",
           answer: "none",
           score: state.mockExamOptions.optionD === payload.answer ? 2 : 0,
         };

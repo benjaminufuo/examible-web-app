@@ -20,16 +20,15 @@
     font-family: "Montserrat", sans-serif;
   }
 
-  @media screen and (max-width:480px) {
-    h2{
+  @media screen and (max-width: 480px) {
+    h2 {
       font-size: 16px;
       line-height: 35px;
     }
 
-    h5{
+    h5 {
       font-size: 18px;
     }
-
   }
 }
 
@@ -37,6 +36,7 @@
   margin-top: 30px;
   min-height: 60vh;
   width: 90%;
+  max-width: 1600px;
   /* background-color: aqua; */
   display: flex;
   flex-direction: column;
@@ -102,13 +102,10 @@
     }
   }
 
-  @media screen and (max-width:480px) {
+  @media screen and (max-width: 480px) {
     width: 100%;
-    .mockExam-holderSubject{
+    .mockExam-holderSubject {
       width: 100%;
     }
-
-    
   }
-
 }

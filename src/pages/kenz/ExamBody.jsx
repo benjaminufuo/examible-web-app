@@ -10,18 +10,18 @@ const ExamBody = () => {
   const timeOut = useSelector((state)=>state.timeOut)
   return (
     <>
-      {
+      {/* {
         leavingNow && <LeavingNow/>  
-      }
+      } */}
 
       <TheExam/>
-
+{/* 
       {
         finish && <FinishedExam/>
       }
       {
         timeOut && <ExamTimeout/>
-      }
+      } */}
     </>
   )
 }

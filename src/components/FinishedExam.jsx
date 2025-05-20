@@ -21,7 +21,7 @@ const FinishedExam = () => {
         let duration = 0
         let completed = ''
         for (let element of exam) {
-          if(element.option === 'none'){
+          if(element.option === ''){
             completed = 'no'
           }else{
             completed = 'yes'

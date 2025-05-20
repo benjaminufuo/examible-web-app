@@ -331,4 +331,34 @@
     @media screen and (max-width:1024px) {
         width: 100%;
     }
+
+    .examBody-panel{
+        width: 100%;
+        min-height: 55px;
+        border-radius: 5px;
+        border: 2px solid #804BF2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+
+        .examBody-panelHolder{
+            width: 93.6%;
+            min-height: 38px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            
+            main{
+                height: 38px;
+                min-width: 33px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #804BF2;
+                background-color: white;
+                color: #804BF2;
+            }
+        }
+    }
 }
