@@ -14,6 +14,7 @@ const TheExam = () => {
     const examTimerSecs = useSelector((state)=>state.examTimerSecs)
     const exam = useSelector((state)=>state.exam)
     const [isNext,setIsNext] = useState(false)
+    const arrayOfNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
     // console.log(mockExamOptions,exam)
     
     
@@ -58,6 +59,7 @@ const TheExam = () => {
         setIsNext(false)
       }
     },[mockExamOptions])
+
 
   return (
     <div className='examBody'>
@@ -121,6 +123,15 @@ const TheExam = () => {
           <button style={{display:mockExamQuestions.length === parseInt(subjectId) ? 'flex' : 'none',background:'#804BF2',color:'white',borderColor:'#804BF2'}} onClick={()=>dispatch(setFinishedExam())}>
           <h2>Finish</h2>
           </button>
+        </div>
+        <div className='examBody-panel'>
+          <div className="examBody-panelHolder">
+            {
+              arrayOfNumbers.map((item,index)=>(
+                    <main style={{backgroundColor: item === Number(subjectId) || exam[index]?.option  ? '#804BF2' : 'white',color:item === Number(subjectId) || exam[index]?.option ? 'white' : '#804BF2'}} onClick={()=>nav(`/mock-exam/${subject}/${index + 1}`)} key={index}>{item}</main>
+              ))
+            }
+          </div>
         </div>
       </div>
     </div>
