@@ -352,11 +352,16 @@ const Overview = () => {
                   <li style={{ justifyContent: "left" }}>Subject</li>
                   <li>Performance</li>
                   <li>Duration</li>
-                  <li>Completed?</li>
+                  <li>Completed</li>
                 </ul>
                 {user?.myRating.length <= 0 ? (
-                  <p style={{ fontWeight: 700, fontSize: 30 }}>
-                    No Performance yet !!!
+                  <p
+                    style={{
+                      fontWeight: 700,
+                      fontSize: 30,
+                      fontFamily: '"Montserrat", sans-serif',
+                    }}>
+                    No Performance yet
                   </p>
                 ) : (
                   <>
