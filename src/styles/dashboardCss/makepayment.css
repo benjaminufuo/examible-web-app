@@ -195,6 +195,10 @@
     cursor: pointer;
   }
 }
+.korapayment:hover {
+  background: #b796ff;
+  color: #fff;
+}
 .makerightdiv {
   width: 50%;
   min-height: 20vh;

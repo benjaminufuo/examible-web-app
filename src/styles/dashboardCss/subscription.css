@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 .subscriptionmain {
   width: 100%;
   min-height: 100vh;
@@ -56,6 +57,15 @@
   }
 }
 
+.offercontainer {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
 .togglebutton {
   display: flex;
   width: 233.333px;
@@ -157,8 +167,9 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      height: 23vh;
+      height: max-content;
       justify-content: space-between;
+      align-items: flex-start;
 
       .suboffer {
         display: flex;
@@ -166,20 +177,6 @@
         width: 100%;
         height: 30vh;
         justify-content: space-between;
-
-        .suboffertext {
-          color: #1e1e1e;
-          font-family: Montserrat;
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 22px;
-          text-align: left;
-          width: 100%;
-          display: flex;
-          justify-content: space-evenly;
-          align-items: center;
-        }
       }
     }
 
@@ -189,14 +186,27 @@
       color: #804bf2;
     }
   }
-
-  .subbuttondiv {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+}
+.subbuttondiv {
+  width: 100%;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.subbuttondiv1 {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.yearlytext {
+  color: #1e1e1e;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
 }
 .planbutton {
   display: flex;
@@ -339,7 +349,37 @@
     align-items: center;
   }
 }
+.yearlysubtextdiv {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
 
+  .yearlysubtext {
+    color: #1e1e1e;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}
+.subamountddiv1 {
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.subamount1 {
+  color: #804bf2;
+  font-family: Sora;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  text-transform: uppercase;
+}
 .planbutton1 {
   display: flex;
   width: 100%;
@@ -371,45 +411,43 @@
   background-color: #d6d4da;
   cursor: not-allowed;
 }
+.premiumsuboffer1 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  & span {
+    color: #1e1e1e;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.subiconfirst {
+  width: auto;
+  color: #804bf2;
+}
+
+.premiumsuboffer2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .lifesub {
   width: 31%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-
-  .lifesubcontainer {
-    width: 100%;
-    height: 90%;
-    border-radius: 20px;
-    border: 5px solid rgba(128, 75, 242, 0.4);
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-
-    .accessmodel {
-      color: #804bf2;
-      text-align: center;
-      font-family: Sora;
-      font-size: 25px;
-      font-style: normal;
-      font-weight: 800;
-
-      text-transform: uppercase;
-    }
-    .onetimepayment {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 20px;
-    }
-  }
 
   .lifesuboffertext {
     width: 100%;
@@ -464,12 +502,48 @@
   }
 }
 
+.lifesubcontainer {
+  width: 100%;
+  height: 90%;
+  border-radius: 20px;
+  border: 5px solid rgba(242, 174, 48, 0.3);
+  background: rgba(242, 174, 48, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  gap: 5px;
+}
+
+.accessmodel {
+  color: #804bf2;
+  text-align: center;
+  font-family: Sora;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+.lifevalue {
+  color: #1e1e1e;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 25px;
+}
+
 .lifesuboffer {
   width: 100%;
-  height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
 }
 
 .subiconfirst2 {
@@ -549,7 +623,7 @@
         text-align: center;
         color: #1e1e1e;
         font-family: Montserrat;
-        font-size: 36px;
+        font-size: 30px;
         font-style: normal;
         font-weight: 400;
         line-height: 55px;
@@ -557,7 +631,7 @@
         & em {
           color: #804bf2;
           font-family: Montserrat;
-          font-size: 36px;
+          font-size: 30px;
           font-style: normal;
           font-weight: 400;
           line-height: 55px;
@@ -616,6 +690,7 @@
           justify-content: center;
         }
       }
+
       .subofferdiv {
         width: 100%;
         display: flex;
@@ -633,7 +708,7 @@
           .suboffertext {
             color: #1e1e1e;
             font-family: Montserrat;
-            font-size: 14px;
+            font-size: 12px;
             font-style: normal;
             font-weight: 500;
             line-height: 22px;
@@ -688,10 +763,17 @@
     }
   }
 
+  .subfootercontainer {
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .subfooter {
     display: flex;
     width: 100%;
-    height: 80%;
+    height: 100%;
     justify-content: center;
     align-items: center;
     padding: 10px;

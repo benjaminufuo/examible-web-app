@@ -15,7 +15,6 @@ import { useLocation, useNavigate } from "react-router";
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [finishPastQuestion, setFinishPastQuestion] = useState(false);
 
   const calculateScore = () => {
     const correctCount = Object.values(pastQuestionsOption).filter(
@@ -56,7 +55,6 @@ const ViewPastQuestion = () => {
     const cleanedLetter = answerLetter.trim().toUpperCase().charAt(0); // <- sanitize input
     const index = cleanedLetter.charCodeAt(0) - 65;
 
-    // Additional guard: prevent out-of-bounds error
     if (index < 0 || index >= options.length) return "";
 
     const mappedAnswer = options[index];
