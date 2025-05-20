@@ -87,7 +87,7 @@ ResetPasswordcircle1 {
 .Loadingcontainer {
   width: 35%;
   min-height: 70vh;
-  background-color: white;
+  /* background-color: white; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -227,7 +227,7 @@ ResetPasswordcircle1 {
   .Loadingcontainer {
     width: 80%;
     min-height: 50vh;
-    background-color: white;
+    /* background-color: white; */
     display: flex;
     flex-direction: column;
     justify-content: center;
