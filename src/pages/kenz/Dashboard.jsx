@@ -26,13 +26,13 @@ const Dashboard = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBot, setShowBot] = useState(false);
 
-  const showMyBot = ()=>{
-    if(user?.plan === 'Freemium'){
-      toast.error('Please Subscribe before you can access this feature')
-    }else{
-      setShowBot(true)
+  const showMyBot = () => {
+    if (user?.plan === "Freemium") {
+      toast.error("Please Subscribe before you can access this feature");
+    } else {
+      setShowBot(true);
     }
-  }
+  };
 
   return (
     <div className="dashboard">
@@ -143,8 +143,8 @@ const Dashboard = () => {
                 className="dashboard-navBar"
                 style={{
                   backgroundColor: navState.subscription
-                        ? "#804BF233"
-                        : "white",
+                    ? "#804BF233"
+                    : "white",
                   cursor: "default",
                 }}
                 onClick={() => {
@@ -316,12 +316,20 @@ const Dashboard = () => {
       )}
       <div className="dashboard-right">
         <div className="dashboard-header">
-          {showDropdown ? "1" : <h3>Welcome, {user?.fullName}</h3>}
+          {showDropdown ? (
+            "1"
+          ) : (
+            <h3 style={{ fontFamily: "Montserrat" }}>
+              Welcome, {user?.fullName}
+            </h3>
+          )}
           <nav>
             {user?.image ? (
               <img src={user?.image?.imageUrl} alt="" />
             ) : (
-              <h1>{user?.fullName?.charAt(0)}</h1>
+              <h1 style={{ fontFamily: "Montserrat" }}>
+                {user?.fullName?.charAt(0)}
+              </h1>
             )}
           </nav>
           <div
