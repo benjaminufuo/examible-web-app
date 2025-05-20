@@ -26,24 +26,26 @@ const YearlyPayment = () => {
             <h1>Freemium</h1>
             <span className="started">Freemium plan for started </span>
             <div className="subofferdiv">
-              <div className="suboffer">
-                <div className="suboffertext">
-                  <FiCheckCircle className="subiconfirst" />
-                  <span>
+              <div className="offercontainer">
+                <div className="lifesuboffer">
+                  <FiCheckCircle className="subiconfirst2" size={42} />
+                  <span className="yearlytext">
                     Limited access to JAMB past Questions(e.g: 2000 - 2001 past
                     question)
                   </span>
                 </div>
-                <div className="suboffertext">
-                  <FiCheckCircle className="subiconfirst" />
-                  <span>
+                <div className="lifesuboffer">
+                  <FiCheckCircle className="subiconfirst2" size={40} />
+                  <span className="yearlytext">
                     Limited access to Jamb mock exam questions (e.g: Twice
                     daily)
                   </span>
                 </div>
-                <div className="suboffertext">
-                  <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
-                  <span>Can’t remove choosen subject</span>
+                <div className="lifesuboffer">
+                  <FiCheckCircle className="subiconfirst2" size={22} />
+                  <span className="yearlytext">
+                    Can’t remove choosen subject
+                  </span>
                 </div>
               </div>
             </div>
@@ -64,7 +66,7 @@ const YearlyPayment = () => {
 
             <div className="premiumbofferdiv">
               <div className="premiumsuboffer">
-                <FiCheckCircle className="subiconfirst1" size={30} />
+                <FiCheckCircle className="subiconfirst1" size={25} />
                 <span>Full access to Jamb Past Questions .</span>
               </div>
               <div className="premiumsuboffer">
@@ -76,22 +78,22 @@ const YearlyPayment = () => {
                 <span>Access to choose and remove subject.</span>
               </div>
               <div className="premiumsuboffer">
-                <FiCheckCircle className="subiconfirst1" size={25} />
+                <FiCheckCircle className="subiconfirst1" size={22} />
                 <span>Access to legacy bot.</span>
               </div>
               <div className="subamountddiv">
-                <h1 className="subamount">#5,000</h1>
+                <h1 className="subamount">#500</h1>
               </div>
               <div className="monthlysubtextdiv">
-                <span className="monthlysubtext">Yearly Subscription</span>
+                <span className="monthlysubtext">Monthly Subscription</span>
               </div>
               <div className="subbuttondiv">
                 <button
                   className="planbutton1"
-                  onClick={() => handleChoosePlan(5000, "Premium")}
-                  disabled={currentPlan === "Premium"}
+                  onClick={() => handleChoosePlan(500, "Monthly")}
+                  disabled={currentPlan === "Monthly"}
                 >
-                  {currentPlan === "Premium" ? "Subcribed" : "Choose plan"}
+                  {currentPlan === "Monthly" ? "Subcribed" : "Choose plan"}
                 </button>
               </div>
             </div>
@@ -102,30 +104,44 @@ const YearlyPayment = () => {
             <div className="paymentsymboldiv">
               <img src={payment} />
             </div>
-            <h1 className="accessmodel">Lifetime Access Model</h1>
-            <span className="onetimepayment">
-              One-time payment for unlimited lifetime access to all materials.
-            </span>
-            <div className="lifesuboffer">
-              <FiCheckCircle className="subiconfirst2" size={23} />
+            <h1 className="accessmodel">Premium</h1>
+            <span className="lifevalue">Get the best value for your money</span>
+
+            <div className="offercontainer">
+              <div className="lifesuboffer">
+                <FiCheckCircle className="subiconfirst2" size={25} />
+                <span className="yearlytext">
+                  Full access to all Jamb Past Questions.
+                </span>
+              </div>
+              <div className="lifesuboffer">
+                <FiCheckCircle className="subiconfirst2" size={20} />
+                <span className="yearlytext">Full access to mock Exam</span>
+              </div>
+              <div className="lifesuboffer">
+                <FiCheckCircle className="subiconfirst2" size={25} />
+                <span className="yearlytext">
+                  Access to choose and remove subject.
+                </span>
+              </div>
+              <div className="lifesuboffer">
+                <FiCheckCircle className="subiconfirst2" size={22} />
+                <span className="yearlytext">Access to legacy bot.</span>
+              </div>
             </div>
-            <div className="lifesuboffertext">
-              <span>Get access to all JAMB prep resources forever.</span>
+            <div className="subamountddiv1">
+              <h1 className="subamount1">#5,000</h1>
             </div>
-            <div className="lifesubamountdiv">
-              <h1>#20,000</h1>
+            <div className="yearlysubtextdiv">
+              <span className="yearlysubtext">Yearly Subscription</span>
             </div>
-            <div className="lifesubtext">
-              <span>Lifetime Subscription</span>
-            </div>
-            <div className="subbuttondiv">
+            <div className="subbuttondiv1">
               <button
-                className="planbutton"
-                onClick={() => handleChoosePlan(20000, "Lifetime Access")}
+                className="planbutton1"
+                onClick={() => handleChoosePlan(5000, "Yearly")}
+                disabled={currentPlan === "Yearly"}
               >
-                {currentPlan === "Lifetime Access"
-                  ? "Subscribed"
-                  : "Choose plan"}
+                {currentPlan === "Yearly" ? "Subcribed" : "Choose plan"}
               </button>
             </div>
           </div>

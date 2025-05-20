@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import "../../styles/dashboardCss/subscription.css";
 import MonthlyPayment from "../jacob/MonthlyPayment";
 import YearlyPayment from "../jacob/YearlyPayment";
-import { useDispatch, useSelector } from "react-redux";
-import { setToggle } from "../../global/slice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setToggle } from "../../global/slice";
 const Subscription = () => {
-  const toggle = useSelector((state) => state.toggle);
+  // const toggle = useSelector((state) => state.toggle);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handleToggle = (isYearly) => {
-    if (toggle !== isYearly) {
-      dispatch(setToggle(isYearly));
-    }
-  };
+  // const handleToggle = (isYearly) => {
+  //   if (toggle !== isYearly) {
+  //     dispatch(setToggle(isYearly));
+  //   }
+  // };
   return (
     <main className="subscriptionmain">
       <div className="sebcontainer">
@@ -23,7 +23,7 @@ const Subscription = () => {
             Your Path to <em>300+</em> Starts Here: <br /> Select a Plan
           </span>
         </div>
-        <div className="togglebutton">
+        {/* <div className="togglebutton">
           <button
             className={`toggle-btn ${toggle ? "inactive" : "active"}`}
             onClick={() => handleToggle(false)}
@@ -38,8 +38,9 @@ const Subscription = () => {
           >
             Yearly
           </button>
-        </div>
-        {toggle ? <YearlyPayment /> : <MonthlyPayment />}
+        </div> */}
+        <YearlyPayment />
+        {/* <MonthlyPayment /> */}
 
         <div className="subfootercontainer">
           <div className="subfooter">

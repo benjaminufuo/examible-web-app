@@ -68,8 +68,10 @@ const PastQuestion = () => {
           import.meta.env.VITE_BASE_URL
         }api/v1/fetch-questions/${year}/${subject}/${user?._id}`
       );
+      console.log(response);
       toast.update(toastId, {
-        render: "Question fetched succesfully!",
+        // render: "Question fetched succesfully!",
+        render: response?.data?.data?.message,
         type: "success",
         isLoading: false,
         autoClose: 2000,
