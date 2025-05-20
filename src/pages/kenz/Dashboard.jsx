@@ -3,6 +3,7 @@ import { MdDashboard } from "react-icons/md";
 import dashboardIcon from "../../assets/public/legacy_builder_logo.png";
 import "../../styles/dashboardCss/dashboard.css";
 import { GrStatusGood } from "react-icons/gr";
+import { RiRobot2Line } from "react-icons/ri";
 import { AiOutlineLogout } from "react-icons/ai";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { PiExamFill } from "react-icons/pi";
@@ -13,6 +14,8 @@ import img1 from "../../assets/public/profile.svg";
 import img2 from "../../assets/public/pastquestion.svg";
 import Logout from "./Logout";
 import hambuger from "../../assets/public/hambuger.svg";
+import LegacyBot from "../../components/LegacyBot";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const navState = useSelector((state) => state.navState);
@@ -21,136 +24,34 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showBot, setShowBot] = useState(false);
+
+  const showMyBot = ()=>{
+    if(user?.plan === 'Freemium'){
+      toast.error('Please Subscribe before you can access this feature')
+    }else{
+      setShowBot(true)
+    }
+  }
 
   return (
     <div className="dashboard">
+      {showBot ? (
+        <LegacyBot closeBot={() => setShowBot(false)} />
+      ) : (
+        <RiRobot2Line onClick={() => showMyBot()} className="legacyBot" />
+      )}
+
       <div className="dashboard-left">
         <div className="dashboard-leftNavbarHolder">
-        <div className="dashboard-leftImg">
-          <img src={dashboardIcon} alt="" />
-        </div>
-        <div
-          onClick={() => {
-            nav("/dashboard/overview"), dispatch(setNavState("OVERVIEW"));
-          }}
-          className="dashboard-navBar"
-          style={{ backgroundColor: navState.overview ? "#804BF233" : "white" }}
-        >
-          <MdDashboard color="#804BF266" fontSize={35} />
-          Overview
-        </div>
-        <div
-          onClick={() => {
-            nav("/dashboard/mock-exam"), dispatch(setNavState("MOCKEXAM"));
-          }}
-          className="dashboard-navBar"
-          style={{ backgroundColor: navState.mockExam ? "#804BF233" : "white" }}
-        >
-          <PiExamFill color="#804BF266" fontSize={35} />
-          Mock Exam
-        </div>
-        <div
-          onClick={() => {
-            nav("/dashboard/past-questions"),
-              dispatch(setNavState("PASTQUESTION"));
-          }}
-          className="dashboard-navBar"
-          style={{
-            backgroundColor: navState.pastQuestion ? "#804BF233" : "white",
-          }}
-        >
-          {" "}
-          <nav>
-            <img src={img2} alt="" />
-          </nav>{" "}
-          Past Question
-        </div>
-        <div
-          onClick={() => {
-            nav("/dashboard/profile"), dispatch(setNavState("PROFILE"));
-          }}
-          className="dashboard-navBar"
-          style={{ backgroundColor: navState.profile ? "#804BF233" : "white" }}
-        >
-          <nav>
-            <img src={img1} alt="" />
-          </nav>
-          Profile
-        </div>
-        <>
-          {user?.plan === "Freemium" ? (
-            <>
-              {navState.subscription ? (
-                <div
-                  onClick={() => {
-                    nav("/dashboard/subscription"),
-                      dispatch(setNavState("SUBSCRIPTION"));
-                  }}
-                  className="dashboard-navBar"
-                  style={{
-                    backgroundColor: navState.subscription
-                      ? "#804BF233"
-                      : "white",
-                  }}
-                >
-                  <SiMoneygram color="#804BF266" fontSize={35} />
-                  Subscription
-                </div>
-              ) : (
-                <div className="dashboard-subscription">
-                  <div className="dashboard-markIcon">
-                    <GrStatusGood />
-                  </div>
-                  <h5>Unlimited Access</h5>
-                  <p>Explore more with a lifetime members</p>
-                  <button
-                    onClick={() => {
-                      nav("/dashboard/subscription"),
-                        dispatch(setNavState("SUBSCRIPTION"));
-                    }}
-                  >
-                    Subscribe Now
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div
-              className="dashboard-navBar"
-              style={{
-                backgroundColor: "white",
-                cursor: 'default'
-              }}
-            >
-              <SiMoneygram color="#804BF266" fontSize={35} />
-              Subscribed
-            </div>
-          )}
-        </>
-        </div>
-        <div
-          className="dashboard-navBar"
-          style={{ backgroundColor: "white" }}
-          onClick={() => dispatch(setLogout())}
-        >
-          <AiOutlineLogout fontSize={35} color="red" />
-          Logout
-        </div>
-      </div>
-      {showDropdown && (
-        <div className="dashboard-leftDropdown" onClick={()=>setShowDropdown(!showDropdown)}>
-          <div className="dashboard-leftDropdownHolder" onClick={(e)=>e.stopPropagation()}>
-          <div className="dashboard-leftDropdown-navbarHolder">
-          <div className="dashboard-leftDropdown-leftImg">
+          <div className="dashboard-leftImg">
             <img src={dashboardIcon} alt="" />
           </div>
           <div
             onClick={() => {
-              nav("/dashboard/overview"),
-                dispatch(setNavState("OVERVIEW")),
-                setShowDropdown(!showDropdown);
+              nav("/dashboard/overview"), dispatch(setNavState("OVERVIEW"));
             }}
-            className="dashboard-leftDropdown-navBar"
+            className="dashboard-navBar"
             style={{
               backgroundColor: navState.overview ? "#804BF233" : "white",
             }}
@@ -160,11 +61,9 @@ const Dashboard = () => {
           </div>
           <div
             onClick={() => {
-              nav("/dashboard/mock-exam"),
-                dispatch(setNavState("MOCKEXAM")),
-                setShowDropdown(!showDropdown);
+              nav("/dashboard/mock-exam"), dispatch(setNavState("MOCKEXAM"));
             }}
-            className="dashboard-leftDropdown-navBar"
+            className="dashboard-navBar"
             style={{
               backgroundColor: navState.mockExam ? "#804BF233" : "white",
             }}
@@ -175,10 +74,9 @@ const Dashboard = () => {
           <div
             onClick={() => {
               nav("/dashboard/past-questions"),
-                dispatch(setNavState("PASTQUESTION")),
-                setShowDropdown(!showDropdown);
+                dispatch(setNavState("PASTQUESTION"));
             }}
-            className="dashboard-leftDropdown-navBar"
+            className="dashboard-navBar"
             style={{
               backgroundColor: navState.pastQuestion ? "#804BF233" : "white",
             }}
@@ -191,11 +89,9 @@ const Dashboard = () => {
           </div>
           <div
             onClick={() => {
-              nav("/dashboard/profile"),
-                dispatch(setNavState("PROFILE")),
-                setShowDropdown(!showDropdown);
+              nav("/dashboard/profile"), dispatch(setNavState("PROFILE"));
             }}
-            className="dashboard-leftDropdown-navBar"
+            className="dashboard-navBar"
             style={{
               backgroundColor: navState.profile ? "#804BF233" : "white",
             }}
@@ -212,22 +108,21 @@ const Dashboard = () => {
                   <div
                     onClick={() => {
                       nav("/dashboard/subscription"),
-                        dispatch(setNavState("SUBSCRIPTION")),
-                        setShowDropdown(!showDropdown);
+                        dispatch(setNavState("SUBSCRIPTION"));
                     }}
-                    className="dashboard-leftDropdown-navBar"
+                    className="dashboard-navBar"
                     style={{
                       backgroundColor: navState.subscription
                         ? "#804BF233"
                         : "white",
                     }}
                   >
-                      <SiMoneygram color="#804BF266" fontSize={35} />
+                    <SiMoneygram color="#804BF266" fontSize={35} />
                     Subscription
                   </div>
                 ) : (
-                  <div className="dashboard-leftDropdown-subscription">
-                    <div className="dashboard-leftDropdown-markIcon">
+                  <div className="dashboard-subscription">
+                    <div className="dashboard-markIcon">
                       <GrStatusGood />
                     </div>
                     <h5>Unlimited Access</h5>
@@ -235,8 +130,7 @@ const Dashboard = () => {
                     <button
                       onClick={() => {
                         nav("/dashboard/subscription"),
-                          dispatch(setNavState("SUBSCRIPTION")),
-                          setShowDropdown(!showDropdown);
+                          dispatch(setNavState("SUBSCRIPTION"));
                       }}
                     >
                       Subscribe Now
@@ -246,27 +140,178 @@ const Dashboard = () => {
               </>
             ) : (
               <div
-                className="dashboard-leftDropdown-navBar"
+                className="dashboard-navBar"
                 style={{
-                  backgroundColor: "white",
-                  cursor: 'default'
+                  backgroundColor: navState.subscription
+                        ? "#804BF233"
+                        : "white",
+                  cursor: "default",
+                }}
+                onClick={() => {
+                  nav("/dashboard/subscription"),
+                    dispatch(setNavState("SUBSCRIPTION"));
                 }}
               >
                 <SiMoneygram color="#804BF266" fontSize={35} />
-                Subscribed
+                Subscription
               </div>
             )}
           </>
-          </div>
+        </div>
+        <div
+          className="dashboard-navBar"
+          style={{ backgroundColor: "white" }}
+          onClick={() => dispatch(setLogout())}
+        >
+          <AiOutlineLogout fontSize={35} color="red" />
+          Logout
+        </div>
+      </div>
+      {showDropdown && (
+        <div
+          className="dashboard-leftDropdown"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           <div
-            className="dashboard-leftDropdown-navBar"
-            style={{ backgroundColor: "white" }}
-            onClick={() => dispatch(setLogout())}
+            className="dashboard-leftDropdownHolder"
+            onClick={(e) => e.stopPropagation()}
           >
-            <AiOutlineLogout fontSize={35} color="red" />
-            Logout
+            <div className="dashboard-leftDropdown-navbarHolder">
+              <div className="dashboard-leftDropdown-leftImg">
+                <img src={dashboardIcon} alt="" />
+              </div>
+              <div
+                onClick={() => {
+                  nav("/dashboard/overview"),
+                    dispatch(setNavState("OVERVIEW")),
+                    setShowDropdown(!showDropdown);
+                }}
+                className="dashboard-leftDropdown-navBar"
+                style={{
+                  backgroundColor: navState.overview ? "#804BF233" : "white",
+                }}
+              >
+                <MdDashboard color="#804BF266" fontSize={35} />
+                Overview
+              </div>
+              <div
+                onClick={() => {
+                  nav("/dashboard/mock-exam"),
+                    dispatch(setNavState("MOCKEXAM")),
+                    setShowDropdown(!showDropdown);
+                }}
+                className="dashboard-leftDropdown-navBar"
+                style={{
+                  backgroundColor: navState.mockExam ? "#804BF233" : "white",
+                }}
+              >
+                <PiExamFill color="#804BF266" fontSize={35} />
+                Mock Exam
+              </div>
+              <div
+                onClick={() => {
+                  nav("/dashboard/past-questions"),
+                    dispatch(setNavState("PASTQUESTION")),
+                    setShowDropdown(!showDropdown);
+                }}
+                className="dashboard-leftDropdown-navBar"
+                style={{
+                  backgroundColor: navState.pastQuestion
+                    ? "#804BF233"
+                    : "white",
+                }}
+              >
+                {" "}
+                <nav>
+                  <img src={img2} alt="" />
+                </nav>{" "}
+                Past Question
+              </div>
+              <div
+                onClick={() => {
+                  nav("/dashboard/profile"),
+                    dispatch(setNavState("PROFILE")),
+                    setShowDropdown(!showDropdown);
+                }}
+                className="dashboard-leftDropdown-navBar"
+                style={{
+                  backgroundColor: navState.profile ? "#804BF233" : "white",
+                }}
+              >
+                <nav>
+                  <img src={img1} alt="" />
+                </nav>
+                Profile
+              </div>
+              <>
+                {user?.plan === "Freemium" ? (
+                  <>
+                    {navState.subscription ? (
+                      <div
+                        onClick={() => {
+                          nav("/dashboard/subscription"),
+                            dispatch(setNavState("SUBSCRIPTION")),
+                            setShowDropdown(!showDropdown);
+                        }}
+                        className="dashboard-leftDropdown-navBar"
+                        style={{
+                          backgroundColor: navState.subscription
+                            ? "#804BF233"
+                            : "white",
+                        }}
+                      >
+                        <SiMoneygram color="#804BF266" fontSize={35} />
+                        Subscription
+                      </div>
+                    ) : (
+                      <div className="dashboard-leftDropdown-subscription">
+                        <div className="dashboard-leftDropdown-markIcon">
+                          <GrStatusGood />
+                        </div>
+                        <h5>Unlimited Access</h5>
+                        <p>Explore more with a lifetime members</p>
+                        <button
+                          onClick={() => {
+                            nav("/dashboard/subscription"),
+                              dispatch(setNavState("SUBSCRIPTION")),
+                              setShowDropdown(!showDropdown);
+                          }}
+                        >
+                          Subscribe Now
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div
+                    className="dashboard-leftDropdown-navBar"
+                    style={{
+                      backgroundColor: navState.subscription
+                        ? "#804BF233"
+                        : "white",
+                      cursor: "default",
+                    }}
+                    onClick={() => {
+                      nav("/dashboard/subscription"),
+                        dispatch(setNavState("SUBSCRIPTION")),
+                        setShowDropdown(!showDropdown);
+                    }}
+                  >
+                    <SiMoneygram color="#804BF266" fontSize={35} />
+                    Subscription
+                  </div>
+                )}
+              </>
+            </div>
+            <div
+              className="dashboard-leftDropdown-navBar"
+              style={{ backgroundColor: "white" }}
+              onClick={() => dispatch(setLogout())}
+            >
+              <AiOutlineLogout fontSize={35} color="red" />
+              Logout
+            </div>
           </div>
-          </div>  
         </div>
       )}
       <div className="dashboard-right">

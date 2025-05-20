@@ -1,4 +1,5 @@
 .dashboard {
+  position: relative;
   height: max-content;
   width: 100%;
   display: flex;
@@ -7,17 +8,42 @@
   align-items: flex-start;
   justify-content: flex-end;
 
-
-  .dashboard-leftDropdown{
+  .dashboard-leftDropdown {
     display: none;
   }
 
-  @media screen and (max-width:768px) {
-    .dashboard-leftDropdown{
+  @media screen and (max-width: 768px) {
+    .dashboard-leftDropdown {
       display: flex;
     }
   }
+}
 
+.legacyBot {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 60px;
+  color: #804bf2;
+  border: 1px solid #804bf2;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 10px;
+  animation: pulse 1.5s infinite;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .dashboard-left {
   width: 20%;
@@ -33,7 +59,7 @@
   align-items: center;
   justify-content: space-between;
 
-  .dashboard-leftNavbarHolder{
+  .dashboard-leftNavbarHolder {
     height: fit-content;
     width: 100%;
     display: flex;
@@ -142,18 +168,17 @@
     }
   }
 
-  @media screen and (max-width:1024px) {
+  @media screen and (max-width: 1024px) {
     position: sticky;
     top: 0;
-    .dashboard-navBar{
+    .dashboard-navBar {
       font-size: 16px;
     }
   }
 
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
-
 }
 
 .dashboard-right {
@@ -165,7 +190,7 @@
   justify-content: space-between;
   overflow: hidden;
 
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 
@@ -212,30 +237,30 @@
       }
     }
 
-    .header-menuIcon{
+    .header-menuIcon {
       display: none;
-  }
+    }
 
-  @media screen and (max-width:768px) {
-    position: sticky;
-    top: 0;
-    h3{
-      font-size: 20px;
-    }
-    nav{
-      display: none;
-    }
-      .header-menuIcon{
-          display: flex;
-          height: 50px;
-          width: 50px;
-          cursor: pointer;
-          
-          img{
-              height: 100%;
-              width: 100%;
-              object-fit: cover;
-          }
+    @media screen and (max-width: 768px) {
+      position: sticky;
+      top: 0;
+      h3 {
+        font-size: 20px;
+      }
+      nav {
+        display: none;
+      }
+      .header-menuIcon {
+        display: flex;
+        height: 50px;
+        width: 50px;
+        cursor: pointer;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
@@ -248,7 +273,7 @@
   }
 }
 
-.dashboard-leftDropdown{
+.dashboard-leftDropdown {
   position: fixed;
   background-color: #a09f9fc0;
   top: 0;
@@ -257,8 +282,8 @@
   left: 0;
   height: 100dvh;
   overflow: hidden;
-  
-  .dashboard-leftDropdownHolder{
+
+  .dashboard-leftDropdownHolder {
     padding-top: 10px;
     width: 253px;
     padding-bottom: 10px;
@@ -270,13 +295,12 @@
     background-color: white;
   }
 
-  .dashboard-leftDropdown-navbarHolder{
+  .dashboard-leftDropdown-navbarHolder {
     height: fit-content;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-
   }
 
   .dashboard-leftDropdown-leftImg {

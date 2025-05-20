@@ -45,15 +45,10 @@ const MonthlyPayment = () => {
                 </div>
                 <div className="suboffertext">
                   <FiCheckCircle size={20} style={{ color: " #804bf2" }} />
-                  <span>Can’t remove choose subject</span>
+                  <span>Can’t remove choosen subject</span>
                 </div>
               </div>
             </div>
-            {/* <div className="subbuttondiv">
-              <button className="planbutton" disabled={true}>
-                Choose plan
-              </button>
-            </div> */}
           </div>
         </div>
         <div className="monthlypremium">
@@ -77,10 +72,10 @@ const MonthlyPayment = () => {
                 <FiCheckCircle className="subiconfirst1" size={25} />
                 <span>Access to chose and remove subject.</span>
               </div>
-              {/* <div className="premiumsuboffer">
-                <FiCheckCircle className="subiconfirst1" size={23} />
-                <span>Study recommendations.</span>
-              </div> */}
+              <div className="premiumsuboffer">
+                <FiCheckCircle className="subiconfirst1" size={25} />
+                <span>Access to legacy bot.</span>
+              </div>
               <div className="subamountddiv">
                 <h1 className="subamount">#500</h1>
               </div>
@@ -90,10 +85,10 @@ const MonthlyPayment = () => {
               <div className="subbuttondiv">
                 <button
                   className="planbutton1"
-                  disabled={currentPlan === "Premium"}
-                  onClick={() => handleChoosePlan(500, "Premium")}
+                  disabled={currentPlan === "Monthly"}
+                  onClick={() => handleChoosePlan(500, "Montly")}
                 >
-                  {currentPlan === "Premium" ? "Subscribed" : "Choose plan"}
+                  {currentPlan === "Monthly" ? "Subscribed" : "Choose plan"}
                 </button>
               </div>
             </div>
@@ -123,12 +118,10 @@ const MonthlyPayment = () => {
             <div className="subbuttondiv">
               <button
                 className="planbutton"
-                disabled={currentPlan === "Lifetime Access"}
-                onClick={() => handleChoosePlan(20000, "Lifetime Access")}
+                disabled={currentPlan === "Yearly"}
+                onClick={() => handleChoosePlan(20000, "Yearly")}
               >
-                {currentPlan === "Lifetime Access"
-                  ? "Subscribed"
-                  : "Choose plan"}
+                {currentPlan === "Yearly" ? "Subscribed" : "Choose plan"}
               </button>
             </div>
           </div>
