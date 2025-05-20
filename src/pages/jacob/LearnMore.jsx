@@ -1,4 +1,3 @@
-import React from "react";
 import "../../styles/learnmore.css";
 import learnimg1 from "../../assets/public/learnimg1.png";
 import learnimg2 from "../../assets/public/learnimg2.png";
