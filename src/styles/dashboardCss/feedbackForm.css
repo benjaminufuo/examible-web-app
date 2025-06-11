@@ -1,0 +1,112 @@
+.feedbackForm {
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 11;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.feedbackForm-modal {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  gap: 15px;
+  border-radius: 20px;
+
+  header {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+      width: 30px;
+      height: 30px;
+      border-radius: 100%;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: auto;
+      font-size: 22px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      cursor: pointer;
+    }
+  }
+
+  nav {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    h2 {
+      color: #7f8182;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+    }
+  }
+  footer {
+    width: 100%;
+    button {
+      height: 40px;
+      width: 100%;
+      background-color: #804bf2;
+      color: white;
+      outline: none;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 450ms ease-in-out;
+
+      &:hover {
+        background-color: #6a34e0;
+        transform: scale(1.03);
+      }
+
+      &:disabled {
+        background-color: #c4b1ed;
+        pointer-events: none;
+      }
+    }
+  }
+
+  main {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    h3 {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+    }
+
+    textarea {
+      height: 100px;
+      width: 100%;
+      border-radius: 5px;
+      padding: 15px;
+      resize: none;
+
+      &:focus {
+        outline: 1px solid #804bf2;
+      }
+    }
+  }
+}
