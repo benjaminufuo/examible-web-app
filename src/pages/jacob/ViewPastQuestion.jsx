@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
+  setFeedbackModal,
 } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router";
 
@@ -83,6 +84,11 @@ const ViewPastQuestion = () => {
     if (currentPage < Math.ceil(questions.length / questionsPerPage)) {
       setCurrentPage((prev) => prev + 1);
       window.scrollTo(0, 0);
+      if (currentPage === 2) {
+        setTimeout(() => {
+          dispatch(setFeedbackModal());
+        }, 20000);
+      }
     }
   };
 
@@ -123,7 +129,9 @@ const ViewPastQuestion = () => {
       {currentQuestions?.length > 0 ? (
         currentQuestions?.map((item, index) => (
           <div className="answerquestiondiv" key={index}>
-            <h1>{item.question}</h1>
+            <h1>
+              {indexOfFirstQuestion + index + 1}. {item.question}
+            </h1>
             <ul className="answeroption">
               {item.options.map((option, optionindex) => (
                 <li
@@ -154,8 +162,7 @@ const ViewPastQuestion = () => {
                     cursor: pastQuestionsOption[indexOfFirstQuestion + index]
                       ? "not-allowed"
                       : "pointer",
-                  }}
-                >
+                  }}>
                   <span className="letterdoption">
                     {String.fromCharCode(65 + optionindex)}.
                   </span>
@@ -173,8 +180,7 @@ const ViewPastQuestion = () => {
                   display: "flex",
                   alignItems: "center",
                   gap: "0.5rem",
-                }}
-              >
+                }}>
                 {pastQuestionsOption[indexOfFirstQuestion + index]
                   ? pastQuestionsOption[indexOfFirstQuestion + index].isCorrect
                     ? "✅ Correct!"
@@ -196,8 +202,7 @@ const ViewPastQuestion = () => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="pagination-button"
-        >
+          className="pagination-button">
           <IoIosArrowBack size={25} />
           Previous
         </button>
@@ -210,8 +215,7 @@ const ViewPastQuestion = () => {
               const result = calculateScore();
               navigate("/dashboard/resultpage", { state: result });
             }}
-            className="pagination-button1"
-          >
+            className="pagination-button1">
             Finish
           </button>
         ) : (

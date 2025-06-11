@@ -34,6 +34,7 @@ const initialState = {
   reference: "",
   FinishedExam: false,
   timeOut: false,
+  feedbackModal: false,
 };
 
 const slice = createSlice({
@@ -286,6 +287,9 @@ const slice = createSlice({
     setExamTimeout: (state, { payload }) => {
       state.timeOut = !state.timeOut;
     },
+    setFeedbackModal: (state, { payload }) => {
+      state.feedbackModal = !state.feedbackModal;
+    },
   },
 });
 
@@ -315,6 +319,7 @@ export const {
   setReference,
   setFinishedExam,
   setExamTimeout,
+  setFeedbackModal,
 } = slice.actions;
 
 export default slice.reducer;

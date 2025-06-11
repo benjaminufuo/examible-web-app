@@ -16,11 +16,13 @@ import Logout from "./Logout";
 import hambuger from "../../assets/public/hambuger.svg";
 import LegacyBot from "../../components/LegacyBot";
 import { toast } from "react-toastify";
+import FeedbackForm from "../../components/FeedbackForm";
 
 const Dashboard = () => {
   const navState = useSelector((state) => state.navState);
   const user = useSelector((state) => state.user);
   const logout = useSelector((state) => state.logout);
+  const feedbackModal = useSelector((state) => state.feedbackModal);
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -54,33 +56,31 @@ const Dashboard = () => {
             className="dashboard-navBar"
             style={{
               backgroundColor: navState.overview ? "#804BF233" : "white",
-            }}
-          >
+            }}>
             <MdDashboard color="#804BF266" fontSize={35} />
             Overview
           </div>
           <div
             onClick={() => {
-              nav("/dashboard/mock-exam"), dispatch(setNavState("MOCKEXAM"));
+              nav("/dashboard/mock-exam");
+              dispatch(setNavState("MOCKEXAM"));
             }}
             className="dashboard-navBar"
             style={{
               backgroundColor: navState.mockExam ? "#804BF233" : "white",
-            }}
-          >
+            }}>
             <PiExamFill color="#804BF266" fontSize={35} />
             Mock Exam
           </div>
           <div
             onClick={() => {
-              nav("/dashboard/past-questions"),
-                dispatch(setNavState("PASTQUESTION"));
+              nav("/dashboard/past-questions");
+              dispatch(setNavState("PASTQUESTION"));
             }}
             className="dashboard-navBar"
             style={{
               backgroundColor: navState.pastQuestion ? "#804BF233" : "white",
-            }}
-          >
+            }}>
             {" "}
             <nav>
               <img src={img2} alt="" />
@@ -89,13 +89,13 @@ const Dashboard = () => {
           </div>
           <div
             onClick={() => {
-              nav("/dashboard/profile"), dispatch(setNavState("PROFILE"));
+              nav("/dashboard/profile");
+              dispatch(setNavState("PROFILE"));
             }}
             className="dashboard-navBar"
             style={{
               backgroundColor: navState.profile ? "#804BF233" : "white",
-            }}
-          >
+            }}>
             <nav>
               <img src={img1} alt="" />
             </nav>
@@ -107,16 +107,15 @@ const Dashboard = () => {
                 {navState.subscription ? (
                   <div
                     onClick={() => {
-                      nav("/dashboard/subscription"),
-                        dispatch(setNavState("SUBSCRIPTION"));
+                      nav("/dashboard/subscription");
+                      dispatch(setNavState("SUBSCRIPTION"));
                     }}
                     className="dashboard-navBar"
                     style={{
                       backgroundColor: navState.subscription
                         ? "#804BF233"
                         : "white",
-                    }}
-                  >
+                    }}>
                     <SiMoneygram color="#804BF266" fontSize={35} />
                     Subscription
                   </div>
@@ -129,10 +128,9 @@ const Dashboard = () => {
                     <p>Explore more with a lifetime members</p>
                     <button
                       onClick={() => {
-                        nav("/dashboard/subscription"),
-                          dispatch(setNavState("SUBSCRIPTION"));
-                      }}
-                    >
+                        nav("/dashboard/subscription");
+                        dispatch(setNavState("SUBSCRIPTION"));
+                      }}>
                       Subscribe Now
                     </button>
                   </div>
@@ -148,10 +146,9 @@ const Dashboard = () => {
                   cursor: "default",
                 }}
                 onClick={() => {
-                  nav("/dashboard/subscription"),
-                    dispatch(setNavState("SUBSCRIPTION"));
-                }}
-              >
+                  nav("/dashboard/subscription");
+                  dispatch(setNavState("SUBSCRIPTION"));
+                }}>
                 <SiMoneygram color="#804BF266" fontSize={35} />
                 Subscription
               </div>
@@ -161,8 +158,7 @@ const Dashboard = () => {
         <div
           className="dashboard-navBar"
           style={{ backgroundColor: "white" }}
-          onClick={() => dispatch(setLogout())}
-        >
+          onClick={() => dispatch(setLogout())}>
           <AiOutlineLogout fontSize={35} color="red" />
           Logout
         </div>
@@ -170,57 +166,51 @@ const Dashboard = () => {
       {showDropdown && (
         <div
           className="dashboard-leftDropdown"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
+          onClick={() => setShowDropdown(!showDropdown)}>
           <div
             className="dashboard-leftDropdownHolder"
-            onClick={(e) => e.stopPropagation()}
-          >
+            onClick={(e) => e.stopPropagation()}>
             <div className="dashboard-leftDropdown-navbarHolder">
               <div className="dashboard-leftDropdown-leftImg">
                 <img src={dashboardIcon} alt="" />
               </div>
               <div
                 onClick={() => {
-                  nav("/dashboard/overview"),
-                    dispatch(setNavState("OVERVIEW")),
-                    setShowDropdown(!showDropdown);
+                  nav("/dashboard/overview"), dispatch(setNavState("OVERVIEW"));
+                  setShowDropdown(!showDropdown);
                 }}
                 className="dashboard-leftDropdown-navBar"
                 style={{
                   backgroundColor: navState.overview ? "#804BF233" : "white",
-                }}
-              >
+                }}>
                 <MdDashboard color="#804BF266" fontSize={35} />
                 Overview
               </div>
               <div
                 onClick={() => {
                   nav("/dashboard/mock-exam"),
-                    dispatch(setNavState("MOCKEXAM")),
-                    setShowDropdown(!showDropdown);
+                    dispatch(setNavState("MOCKEXAM"));
+                  setShowDropdown(!showDropdown);
                 }}
                 className="dashboard-leftDropdown-navBar"
                 style={{
                   backgroundColor: navState.mockExam ? "#804BF233" : "white",
-                }}
-              >
+                }}>
                 <PiExamFill color="#804BF266" fontSize={35} />
                 Mock Exam
               </div>
               <div
                 onClick={() => {
-                  nav("/dashboard/past-questions"),
-                    dispatch(setNavState("PASTQUESTION")),
-                    setShowDropdown(!showDropdown);
+                  nav("/dashboard/past-questions");
+                  dispatch(setNavState("PASTQUESTION"));
+                  setShowDropdown(!showDropdown);
                 }}
                 className="dashboard-leftDropdown-navBar"
                 style={{
                   backgroundColor: navState.pastQuestion
                     ? "#804BF233"
                     : "white",
-                }}
-              >
+                }}>
                 {" "}
                 <nav>
                   <img src={img2} alt="" />
@@ -229,15 +219,14 @@ const Dashboard = () => {
               </div>
               <div
                 onClick={() => {
-                  nav("/dashboard/profile"),
-                    dispatch(setNavState("PROFILE")),
-                    setShowDropdown(!showDropdown);
+                  nav("/dashboard/profile");
+                  dispatch(setNavState("PROFILE"));
+                  setShowDropdown(!showDropdown);
                 }}
                 className="dashboard-leftDropdown-navBar"
                 style={{
                   backgroundColor: navState.profile ? "#804BF233" : "white",
-                }}
-              >
+                }}>
                 <nav>
                   <img src={img1} alt="" />
                 </nav>
@@ -249,17 +238,16 @@ const Dashboard = () => {
                     {navState.subscription ? (
                       <div
                         onClick={() => {
-                          nav("/dashboard/subscription"),
-                            dispatch(setNavState("SUBSCRIPTION")),
-                            setShowDropdown(!showDropdown);
+                          nav("/dashboard/subscription");
+                          dispatch(setNavState("SUBSCRIPTION"));
+                          setShowDropdown(!showDropdown);
                         }}
                         className="dashboard-leftDropdown-navBar"
                         style={{
                           backgroundColor: navState.subscription
                             ? "#804BF233"
                             : "white",
-                        }}
-                      >
+                        }}>
                         <SiMoneygram color="#804BF266" fontSize={35} />
                         Subscription
                       </div>
@@ -272,11 +260,10 @@ const Dashboard = () => {
                         <p>Explore more with a lifetime members</p>
                         <button
                           onClick={() => {
-                            nav("/dashboard/subscription"),
-                              dispatch(setNavState("SUBSCRIPTION")),
-                              setShowDropdown(!showDropdown);
-                          }}
-                        >
+                            nav("/dashboard/subscription");
+                            dispatch(setNavState("SUBSCRIPTION"));
+                            setShowDropdown(!showDropdown);
+                          }}>
                           Subscribe Now
                         </button>
                       </div>
@@ -295,8 +282,7 @@ const Dashboard = () => {
                       nav("/dashboard/subscription"),
                         dispatch(setNavState("SUBSCRIPTION")),
                         setShowDropdown(!showDropdown);
-                    }}
-                  >
+                    }}>
                     <SiMoneygram color="#804BF266" fontSize={35} />
                     Subscription
                   </div>
@@ -306,8 +292,7 @@ const Dashboard = () => {
             <div
               className="dashboard-leftDropdown-navBar"
               style={{ backgroundColor: "white" }}
-              onClick={() => dispatch(setLogout())}
-            >
+              onClick={() => dispatch(setLogout())}>
               <AiOutlineLogout fontSize={35} color="red" />
               Logout
             </div>
@@ -334,14 +319,14 @@ const Dashboard = () => {
           </nav>
           <div
             className="header-menuIcon"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
+            onClick={() => setShowDropdown(!showDropdown)}>
             <img src={hambuger} />
           </div>
         </div>
         <div className="dashboard-rightHolder">
           <Outlet />
           {logout && <Logout />}
+          {feedbackModal && <FeedbackForm />}
         </div>
       </div>
     </div>
