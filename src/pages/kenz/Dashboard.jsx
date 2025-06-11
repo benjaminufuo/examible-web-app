@@ -301,12 +301,20 @@ const Dashboard = () => {
       )}
       <div className="dashboard-right">
         <div className="dashboard-header">
-          {showDropdown ? "1" : <h3>Welcome, {user?.fullName}</h3>}
+          {showDropdown ? (
+            "1"
+          ) : (
+            <h3 style={{ fontFamily: "Montserrat" }}>
+              Welcome, {user?.fullName}
+            </h3>
+          )}
           <nav>
             {user?.image ? (
               <img src={user?.image?.imageUrl} alt="" />
             ) : (
-              <h1>{user?.fullName?.charAt(0)}</h1>
+              <h1 style={{ fontFamily: "Montserrat" }}>
+                {user?.fullName?.charAt(0)}
+              </h1>
             )}
           </nav>
           <div
