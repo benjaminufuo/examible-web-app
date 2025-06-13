@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setFeedbackModal } from "../global/slice";
+import emailjs from "@emailjs/browser";
 
 const FeedbackForm = () => {
   const [showRatings, setShowRatings] = useState(true);
@@ -20,17 +21,30 @@ const FeedbackForm = () => {
 
   const handleSend = () => {
     const formFilled = {
-      name: user?.fullName,
+      fullName: user?.fullName,
       email: user?.email,
       ratings,
       message,
     };
-    toast.success("Thanks for the feedback", {
-      autoClose: 2000,
-    });
-    setTimeout(() => {
-      dispatch(setFeedbackModal());
-    }, 500);
+    emailjs
+      .send("service_5ou2b5r", "template_q90lk1j", formFilled, {
+        publicKey: "wnutFCM-U192Bh14E",
+      })
+      .then(
+        () => {
+          toast.success("Thanks for the feedback", {
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            dispatch(setFeedbackModal());
+          }, 1000);
+        },
+        (error) => {
+          toast.error(error.text, {
+            autoClose: 2000,
+          });
+        }
+      );
   };
 
   return (
