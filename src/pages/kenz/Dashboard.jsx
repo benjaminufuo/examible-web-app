@@ -24,7 +24,7 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user);
   const logout = useSelector((state) => state.logout);
   const feedbackModal = useSelector((state) => state.feedbackModal);
-  const aiRresponseModal = useSelector((state) => state.aiRresponseModal);
+  const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -348,7 +348,7 @@ const Dashboard = () => {
           <Outlet />
           {logout && <Logout />}
           {feedbackModal && <FeedbackForm />}
-          {aiRresponseModal && <AiResponse />}
+          {aiResponseModal && <AiResponse />}
         </div>
       </div>
     </div>

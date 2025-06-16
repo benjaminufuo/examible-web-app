@@ -321,6 +321,7 @@ export const {
   setFinishedExam,
   setExamTimeout,
   setFeedbackModal,
+  setAiResponseModal,
 } = slice.actions;
 
 export default slice.reducer;
