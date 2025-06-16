@@ -275,7 +275,7 @@
 
 .dashboard-leftDropdown {
   position: fixed;
-  background-color: #a09f9fc0;
+  background-color: rgba(0, 0, 0, 0.5);
   top: 0;
   z-index: 10;
   width: 100%;
@@ -293,6 +293,8 @@
     align-items: center;
     justify-content: space-between;
     background-color: white;
+    animation-name: slideInLeft;
+    animation-duration: 2s;
   }
 
   .dashboard-leftDropdown-navbarHolder {
@@ -402,5 +404,14 @@
       color: white;
       cursor: pointer;
     }
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
   }
 }

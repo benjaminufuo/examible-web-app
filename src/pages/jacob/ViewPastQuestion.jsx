@@ -32,6 +32,7 @@ const ViewPastQuestion = () => {
   const subject = useSelector((state) => state.exam);
   const questions = useSelector((state) => state.pastQuestions) || [];
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
+  const [count, setCount] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 5;
@@ -84,11 +85,7 @@ const ViewPastQuestion = () => {
     if (currentPage < Math.ceil(questions.length / questionsPerPage)) {
       setCurrentPage((prev) => prev + 1);
       window.scrollTo(0, 0);
-      if (currentPage === 2) {
-        setTimeout(() => {
-          dispatch(setFeedbackModal());
-        }, 20000);
-      }
+      setCount((prev) => prev + 1);
     }
   };
 
@@ -105,11 +102,13 @@ const ViewPastQuestion = () => {
     }
   }, [dispatch]);
 
-  const { pathname } = useLocation();
-
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (count === 1) {
+      setTimeout(() => {
+        dispatch(setFeedbackModal());
+      }, 20000);
+    }
+  }, [count]);
 
   return (
     <main className="viewpastquestionmain">
