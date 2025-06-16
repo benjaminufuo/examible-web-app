@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUser, setUserToken } from "../global/slice";
+import { setNavState, setUser, setUserToken } from "../global/slice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -58,6 +58,7 @@ const Login = () => {
         if (res?.status === 200) {
           toast.success("Login successful!");
           setLoading(false);
+          dispatch(setNavState("OVERVIEW"));
           setTimeout(() => {
             navigate("/dashboard/overview");
           }, 3000);
@@ -156,8 +157,7 @@ const Login = () => {
             style={{
               backgroundColor: disabled ? "#dbd2f0d2" : "#804bf2",
               cursor: disabled ? "not-allowed" : "pointer",
-            }}
-          >
+            }}>
             {loading ? "loading..." : "Login"}
           </button>
         </form>
@@ -172,8 +172,7 @@ const Login = () => {
         <article className="forgotpassworddiv">
           <p
             className="forgotpassword"
-            onClick={() => navigate("/forgetpassword")}
-          >
+            onClick={() => navigate("/forgetpassword")}>
             Forgot Password?
           </p>
           <p className="signuptext">

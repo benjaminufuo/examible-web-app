@@ -151,7 +151,6 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
-        console.log(obj);
       } else if (state.mockExamOptions.optionB) {
         const obj = {
           option: "B",
@@ -160,7 +159,6 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
-        console.log(obj);
       } else if (state.mockExamOptions.optionC) {
         const obj = {
           option: "C",
@@ -169,7 +167,6 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
-        console.log(obj);
       } else if (state.mockExamOptions.optionD) {
         const obj = {
           option: "D",
@@ -178,7 +175,6 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
-        console.log(obj);
       } else {
         const obj = {
           option: "",
@@ -187,7 +183,6 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
-        console.log(obj);
       }
     },
     setExamTimer: (state, { payload }) => {
@@ -289,7 +284,9 @@ const slice = createSlice({
       state.timeOut = !state.timeOut;
     },
     setFeedbackModal: (state, { payload }) => {
-      state.feedbackModal = !state.feedbackModal;
+      if (!state?.user.feedback) {
+        state.feedbackModal = !state.feedbackModal;
+      }
     },
     setAiResponseModal: (state) => {
       state.aiResponseModal = !state.aiResponseModal;

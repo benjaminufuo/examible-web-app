@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import "../../styles/dashboardCss/subscription.css";
 import payment from "../../assets/public/paymentsymbol.svg";
 import { FiCheckCircle } from "react-icons/fi";
@@ -9,9 +8,6 @@ const YearlyPayment = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const currentPlan = user?.plan;
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
   const handleChoosePlan = (amount, plan) => {
     navigate("/dashboard/make-payment", { state: { amount, plan } });
   };
@@ -91,8 +87,7 @@ const YearlyPayment = () => {
                 <button
                   className="planbutton1"
                   onClick={() => handleChoosePlan(500, "Monthly")}
-                  disabled={currentPlan === "Monthly"}
-                >
+                  disabled={currentPlan === "Monthly"}>
                   {currentPlan === "Monthly" ? "Subcribed" : "Choose plan"}
                 </button>
               </div>
@@ -139,8 +134,7 @@ const YearlyPayment = () => {
               <button
                 className="planbutton1"
                 onClick={() => handleChoosePlan(5000, "Yearly")}
-                disabled={currentPlan === "Yearly"}
-              >
+                disabled={currentPlan === "Yearly"}>
                 {currentPlan === "Yearly" ? "Subcribed" : "Choose plan"}
               </button>
             </div>

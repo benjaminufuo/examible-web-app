@@ -21,7 +21,7 @@ const FinishedExam = () => {
     let duration = 0;
     let completed = "";
     for (let element of exam) {
-      if (element.option === "") {
+      if (element?.option === "") {
         completed = "no";
       } else {
         completed = "yes";
@@ -33,8 +33,12 @@ const FinishedExam = () => {
       duration = 1800 - timeLeft;
     }
     const performance = exam.reduce((acc, item, index) => {
-      acc = acc + item.score;
-      return acc;
+      if (item?.score) {
+        acc = acc + item.score;
+        return acc;
+      } else {
+        return acc;
+      }
     }, 0);
     try {
       const res = await axios.put(

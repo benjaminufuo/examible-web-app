@@ -88,7 +88,6 @@ const TheExam = () => {
       setIsNext(false);
     }
   }, [mockExamOptions]);
-  console.log(exam);
   return (
     <div className="examBody">
       <div className="examBody-mobile">
