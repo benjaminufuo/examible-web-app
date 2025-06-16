@@ -10,6 +10,7 @@ import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
   setFeedbackModal,
+  setAiResponseModal,
 } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router";
 
@@ -32,6 +33,7 @@ const ViewPastQuestion = () => {
   const subject = useSelector((state) => state.exam);
   const questions = useSelector((state) => state.pastQuestions) || [];
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
+  const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const [count, setCount] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -161,33 +163,46 @@ const ViewPastQuestion = () => {
                     cursor: pastQuestionsOption[indexOfFirstQuestion + index]
                       ? "not-allowed"
                       : "pointer",
-                  }}>
+                  }}
+                >
                   <span className="letterdoption">
                     {String.fromCharCode(65 + optionindex)}.
                   </span>
                   {option}
                 </li>
               ))}
-              <p
-                className="pastanswer"
-                style={{
-                  color: pastQuestionsOption[indexOfFirstQuestion + index]
-                    ?.isCorrect
-                    ? "green"
-                    : "red",
-                  fontWeight: "bold",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}>
-                {pastQuestionsOption[indexOfFirstQuestion + index]
-                  ? pastQuestionsOption[indexOfFirstQuestion + index].isCorrect
-                    ? "✅ Correct!"
-                    : "❌ Wrong! The correct answer is: " +
-                      pastQuestionsOption[indexOfFirstQuestion + index]
-                        .correctAnswerText
-                  : ""}
-              </p>
+              <div className="aswer-airesponse">
+                <p
+                  className="pastanswer"
+                  style={{
+                    color: pastQuestionsOption[indexOfFirstQuestion + index]
+                      ?.isCorrect
+                      ? "green"
+                      : "red",
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                  }}
+                >
+                  {pastQuestionsOption[indexOfFirstQuestion + index]
+                    ? pastQuestionsOption[indexOfFirstQuestion + index]
+                        .isCorrect
+                      ? "✅ Correct!"
+                      : "❌ Wrong! The correct answer is: " +
+                        pastQuestionsOption[indexOfFirstQuestion + index]
+                          .correctAnswerText
+                    : ""}
+                </p>
+                {pastQuestionsOption[indexOfFirstQuestion + index] && (
+                  <button
+                    className="viewmore-btn"
+                    onClick={() => dispatch(setAiResponseModal(true))}
+                  >
+                    view more
+                  </button>
+                )}
+              </div>
             </ul>
           </div>
         ))
@@ -201,7 +216,8 @@ const ViewPastQuestion = () => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="pagination-button">
+          className="pagination-button"
+        >
           <IoIosArrowBack size={25} />
           Previous
         </button>
@@ -214,7 +230,8 @@ const ViewPastQuestion = () => {
               const result = calculateScore();
               navigate("/dashboard/resultpage", { state: result });
             }}
-            className="pagination-button1">
+            className="pagination-button1"
+          >
             Finish
           </button>
         ) : (

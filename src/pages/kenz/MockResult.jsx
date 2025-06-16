@@ -61,7 +61,8 @@ const MockResult = () => {
                         "A"
                           ? "flex"
                           : "none",
-                    }}>
+                    }}
+                  >
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -81,7 +82,8 @@ const MockResult = () => {
                         "B"
                           ? "flex"
                           : "none",
-                    }}>
+                    }}
+                  >
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -101,7 +103,8 @@ const MockResult = () => {
                         "C"
                           ? "flex"
                           : "none",
-                    }}>
+                    }}
+                  >
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -121,7 +124,8 @@ const MockResult = () => {
                         "D"
                           ? "flex"
                           : "none",
-                    }}>
+                    }}
+                  >
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -149,7 +153,8 @@ const MockResult = () => {
         <button
           style={{ display: intialCount > 0 ? "flex" : "none" }}
           className="mockResult-more"
-          onClick={() => previousSeries()}>
+          onClick={() => previousSeries()}
+        >
           <IoIosArrowBack color="#88DDFF" fontSize={25} /> Previous
         </button>
         <button
@@ -157,13 +162,15 @@ const MockResult = () => {
           style={{
             display: intialCount === 0 || finalCount === 50 ? "flex" : "none",
           }}
-          onClick={() => retryExam()}>
+          onClick={() => retryExam()}
+        >
           Retry Quiz
         </button>
         <button
           className="mockResult-more"
           style={{ display: finalCount < 50 ? "flex" : "none" }}
-          onClick={() => nextSeries()}>
+          onClick={() => nextSeries()}
+        >
           See More
           <IoIosArrowForward color="#88DDFF" fontSize={25} />
         </button>
