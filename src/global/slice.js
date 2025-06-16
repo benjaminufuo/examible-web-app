@@ -35,6 +35,7 @@ const initialState = {
   FinishedExam: false,
   timeOut: false,
   feedbackModal: false,
+  aiResponseModal: false,
 };
 
 const slice = createSlice({
@@ -286,6 +287,9 @@ const slice = createSlice({
       if (!state?.user.feedback) {
         state.feedbackModal = !state.feedbackModal;
       }
+    },
+    setAiResponseModal: (state) => {
+      state.aiResponseModal = !state.aiResponseModal;
     },
   },
 });

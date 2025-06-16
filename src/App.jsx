@@ -31,52 +31,59 @@ import ErrorPgae from "./pages/jacob/ErrorPgae";
 import ResultPage from "./pages/jacob/ResultPage";
 
 const routes = createBrowserRouter([
- {element:<AppWrapper/>,children:[
-  { path: "*", element: <ErrorPgae/> },
   {
-    path: "",
-    element: <MainHolder />,
+    element: <AppWrapper />,
     children: [
-      { path: "", element: <Home /> },
-      { path: "/learn-more", element: <LearnMore /> },
-      { path: "about-us", element: <AboutUs /> },
-    ],
-  },
-  { path: "/signup", element: <SignUp /> },
-  { path: "/login", element: <Login /> },
-  { path: "/welcome", element: <Welcome /> },
-  { path: "/congratulation", element: <Congratulation /> },
-  { path: "/forgetpassword", element: <ForgetPassword /> },
-  { path: "/resetlink", element: <ResetLink /> },
-  { path: "/resetpassword/:token", element: <ResetPassword /> },
-  { path: "/verify/:token", element: <Verify /> },
-  { path: "/callback/:token/:userId", element: <Callback /> },
-  {
-    element: <PrivateRoute />,
-    children: [
-      { path: "verifyingPayment", element: <VerifyPayment /> },
+      { path: "*", element: <ErrorPgae /> },
       {
-        element: <Dashboard />,
+        path: "",
+        element: <MainHolder />,
         children: [
-          { path: "/dashboard/overview", element: <Overview />, index: true },
-          { path: "/dashboard/mock-exam", element: <Mockexam /> },
-          { path: "/dashboard/past-questions", element: <PastQuestion /> },
-          { path: "/dashboard/profile", element: <Profile /> },
-          { path: "/dashboard/subscription", element: <Subscription /> },
-          { path: "/dashboard/make-payment", element: <MakePayment /> },
-          { path: "/dashboard/mock-exam/result", element: <MockResult /> },
-          {
-            path: "/dashboard/view-pastquestion",
-            element: <ViewPastQuestion />,
-          },
-          { path: "/dashboard/resultpage", element: <ResultPage /> },
+          { path: "", element: <Home /> },
+          { path: "/learn-more", element: <LearnMore /> },
+          { path: "about-us", element: <AboutUs /> },
         ],
       },
-      { path: "mock-exam/:subject/:subjectId", element: <ExamBody /> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/login", element: <Login /> },
+      { path: "/welcome", element: <Welcome /> },
+      { path: "/congratulation", element: <Congratulation /> },
+      { path: "/forgetpassword", element: <ForgetPassword /> },
+      { path: "/resetlink", element: <ResetLink /> },
+      { path: "/resetpassword/:token", element: <ResetPassword /> },
+      { path: "/verify/:token", element: <Verify /> },
+      { path: "/callback/:token/:userId", element: <Callback /> },
+      {
+        element: <PrivateRoute />,
+        children: [
+          { path: "verifyingPayment", element: <VerifyPayment /> },
+          {
+            element: <Dashboard />,
+            children: [
+              {
+                path: "/dashboard/overview",
+                element: <Overview />,
+                index: true,
+              },
+              { path: "/dashboard/mock-exam", element: <Mockexam /> },
+              { path: "/dashboard/past-questions", element: <PastQuestion /> },
+              { path: "/dashboard/profile", element: <Profile /> },
+              { path: "/dashboard/subscription", element: <Subscription /> },
+              { path: "/dashboard/make-payment", element: <MakePayment /> },
+              { path: "/dashboard/mock-exam/result", element: <MockResult /> },
+              {
+                path: "/dashboard/view-pastquestion",
+                element: <ViewPastQuestion />,
+              },
+              { path: "/dashboard/resultpage", element: <ResultPage /> },
+            ],
+          },
+          { path: "mock-exam/:subject/:subjectId", element: <ExamBody /> },
+        ],
+      },
+      { path: "/data-deletion", element: <Facebookredirect /> },
     ],
   },
-  { path: "/data-deletion", element: <Facebookredirect /> },
- ]}           
 ]);
 
 const App = () => {

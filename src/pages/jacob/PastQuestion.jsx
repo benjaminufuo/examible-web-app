@@ -12,7 +12,6 @@ const PastQuestion = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const [dropDownSubject, setDropDownSubject] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
   const [activeDropdown, setActiveDropdown] = useState(null);
