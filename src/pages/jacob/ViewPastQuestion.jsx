@@ -199,7 +199,7 @@ const ViewPastQuestion = () => {
                     className="viewmore-btn"
                     onClick={() => dispatch(setAiResponseModal(true))}
                   >
-                    view more
+                    view Explanation
                   </button>
                 )}
               </div>
