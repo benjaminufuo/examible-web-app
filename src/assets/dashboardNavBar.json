@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Overview",
+    "link": "/dashboard/overview",
+    "id": 1
+  },
+  {
+    "name": "Mock Exam",
+    "link": "/dashboard/mock-exam",
+    "id": 2
+  },
+  {
+    "name": "Past Question",
+    "link": "/dashboard/past-questions",
+    "id": 3
+  },
+  {
+    "name": "Profile",
+    "link": "/dashboard/profile",
+    "id": 4
+  }
+]

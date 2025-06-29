@@ -20,13 +20,6 @@ const initialState = {
   examMeter: 0,
   examTimerMins: 0,
   examTimerSecs: 0,
-  navState: {
-    overview: true,
-    mockExam: false,
-    pastQuestion: false,
-    profile: false,
-    subscription: false,
-  },
   logout: false,
   leavingNow: false,
   exam: [],
@@ -36,6 +29,7 @@ const initialState = {
   timeOut: false,
   feedbackModal: false,
   aiResponseModal: false,
+  AIresponse: "",
 };
 
 const slice = createSlice({
@@ -78,7 +72,6 @@ const slice = createSlice({
       };
     },
     clearPastQuestionsOption: (state) => {
-      console.log("clearPastQuestionsOption");
       state.pastQuestionsOption = {};
     },
 
@@ -89,7 +82,7 @@ const slice = createSlice({
         state.mockSubject = payload;
       }
     },
-    setIsOverview: (state, { payload }) => {
+    setIsOverview: (state) => {
       state.isOverview = !state.isOverview;
     },
     setMockExamQuestion: (state, { payload }) => {
@@ -130,7 +123,7 @@ const slice = createSlice({
           break;
       }
     },
-    cancelExam: (state, { payload }) => {
+    cancelExam: (state) => {
       state.mockSubject = "";
       state.mockExamOptions.optionA = false;
       state.mockExamOptions.optionB = false;
@@ -138,7 +131,7 @@ const slice = createSlice({
       state.mockExamOptions.optionD = false;
       state.exam = [];
     },
-    previousQuestion: (state, { payload }) => {
+    previousQuestion: (state) => {
       state.examMeter = state.examMeter - 2;
     },
     nextQuestion: (state, { payload }) => {
@@ -199,7 +192,7 @@ const slice = createSlice({
       state.leavingNow = false;
       state.timeOut = false;
     },
-    theExamTimer: (state, { payload }) => {
+    theExamTimer: (state) => {
       if (state.examTimerSecs === 0) {
         state.examTimerMins--;
         state.examTimerSecs = 59;
@@ -207,57 +200,10 @@ const slice = createSlice({
         state.examTimerSecs--;
       }
     },
-    setNavState: (state, { payload }) => {
-      switch (payload) {
-        case "OVERVIEW":
-          state.navState.overview = true;
-          state.navState.mockExam = false;
-          state.navState.pastQuestion = false;
-          state.navState.profile = false;
-          state.navState.subscription = false;
-          break;
-        case "MOCKEXAM":
-          state.navState.overview = false;
-          state.navState.mockExam = true;
-          state.navState.pastQuestion = false;
-          state.navState.profile = false;
-          state.navState.subscription = false;
-          break;
-        case "PASTQUESTION":
-          state.navState.overview = false;
-          state.navState.mockExam = false;
-          state.navState.pastQuestion = true;
-          state.navState.profile = false;
-          state.navState.subscription = false;
-          break;
-        case "PROFILE":
-          state.navState.overview = false;
-          state.navState.mockExam = false;
-          state.navState.pastQuestion = false;
-          state.navState.profile = true;
-          state.navState.subscription = false;
-          break;
-        case "SUBSCRIPTION":
-          state.navState.overview = false;
-          state.navState.mockExam = false;
-          state.navState.pastQuestion = false;
-          state.navState.profile = false;
-          state.navState.subscription = true;
-          break;
-
-        default:
-          state.navState.overview = true;
-          state.navState.mockExam = false;
-          state.navState.pastQuestion = false;
-          state.navState.profile = false;
-          state.navState.subscription = false;
-          break;
-      }
-    },
-    setLogout: (state, { payload }) => {
+    setLogout: (state) => {
       state.logout = !state.logout;
     },
-    logoutTheUser: (state, { payload }) => {
+    logoutTheUser: (state) => {
       state.logout = !state.logout;
       state.user = {};
       state.userToken = "";
@@ -268,7 +214,7 @@ const slice = createSlice({
       state.navState.subscription = false;
       state.mockSubject = "";
     },
-    setLeavingNow: (state, { payload }) => {
+    setLeavingNow: (state) => {
       state.leavingNow = !state.leavingNow;
     },
     setNotEnrolledSubjects: (state, { payload }) => {
@@ -277,19 +223,22 @@ const slice = createSlice({
     setReference: (state, { payload }) => {
       state.reference = payload;
     },
-    setFinishedExam: (state, { payload }) => {
+    setFinishedExam: (state) => {
       state.FinishedExam = !state.FinishedExam;
     },
-    setExamTimeout: (state, { payload }) => {
+    setExamTimeout: (state) => {
       state.timeOut = !state.timeOut;
     },
-    setFeedbackModal: (state, { payload }) => {
+    setFeedbackModal: (state) => {
       if (!state?.user.feedback) {
         state.feedbackModal = !state.feedbackModal;
       }
     },
     setAiResponseModal: (state) => {
       state.aiResponseModal = !state.aiResponseModal;
+    },
+    setAIResponse: (state, { payload }) => {
+      state.AIresponse = payload;
     },
   },
 });
@@ -304,7 +253,6 @@ export const {
   setYear,
   setLogout,
   setLeavingNow,
-  setNavState,
   theExamTimer,
   setUser,
   setMockSubject,
@@ -322,6 +270,7 @@ export const {
   setExamTimeout,
   setFeedbackModal,
   setAiResponseModal,
+  setAIResponse,
 } = slice.actions;
 
 export default slice.reducer;
