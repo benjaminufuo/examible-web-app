@@ -11,8 +11,11 @@ import {
   clearPastQuestionsOption,
   setFeedbackModal,
   setAiResponseModal,
+  setAIResponse,
 } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router";
+import { getAiResponse } from "../../config/Api";
+import { ClipLoader } from "react-spinners";
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
@@ -35,6 +38,7 @@ const ViewPastQuestion = () => {
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
   const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 5;
@@ -112,6 +116,35 @@ const ViewPastQuestion = () => {
     }
   }, [count]);
 
+  const handleViewExplanation = async (
+    questionNum,
+    question,
+    passage,
+    options,
+    id
+  ) => {
+    setLoading(id);
+    try {
+      const res = await getAiResponse(
+        year,
+        subject,
+        questionNum,
+        question,
+        passage,
+        options
+      );
+      if (res) {
+        setLoading(null);
+        dispatch(setAIResponse(res));
+        dispatch(setAiResponseModal());
+      }
+    } catch (error) {
+      setLoading(null);
+      console.log(error);
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   return (
     <main className="viewpastquestionmain">
       <div className="viewpastquestionheader">
@@ -163,8 +196,7 @@ const ViewPastQuestion = () => {
                     cursor: pastQuestionsOption[indexOfFirstQuestion + index]
                       ? "not-allowed"
                       : "pointer",
-                  }}
-                >
+                  }}>
                   <span className="letterdoption">
                     {String.fromCharCode(65 + optionindex)}.
                   </span>
@@ -183,8 +215,7 @@ const ViewPastQuestion = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: "0.5rem",
-                  }}
-                >
+                  }}>
                   {pastQuestionsOption[indexOfFirstQuestion + index]
                     ? pastQuestionsOption[indexOfFirstQuestion + index]
                         .isCorrect
@@ -197,9 +228,21 @@ const ViewPastQuestion = () => {
                 {pastQuestionsOption[indexOfFirstQuestion + index] && (
                   <button
                     className="viewmore-btn"
-                    onClick={() => dispatch(setAiResponseModal(true))}
-                  >
-                    view more
+                    disabled={loading}
+                    onClick={() =>
+                      handleViewExplanation(
+                        item.number,
+                        item.question,
+                        item.passage,
+                        item.options,
+                        index
+                      )
+                    }>
+                    {loading === index ? (
+                      <ClipLoader color="black" size={16} />
+                    ) : (
+                      "view explanation"
+                    )}
                   </button>
                 )}
               </div>
@@ -216,8 +259,7 @@ const ViewPastQuestion = () => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="pagination-button"
-        >
+          className="pagination-button">
           <IoIosArrowBack size={25} />
           Previous
         </button>
@@ -230,8 +272,7 @@ const ViewPastQuestion = () => {
               const result = calculateScore();
               navigate("/dashboard/resultpage", { state: result });
             }}
-            className="pagination-button1"
-          >
+            className="pagination-button1">
             Finish
           </button>
         ) : (

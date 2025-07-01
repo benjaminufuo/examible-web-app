@@ -85,13 +85,19 @@
     padding-inline: 20px;
     display: flex;
     gap: 6px;
-    background-color: #804bf233;
+    background-color: white;
     align-items: center;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 21px;
     cursor: pointer;
     margin-bottom: 10px;
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+      background-color: #804bf233;
+    }
 
     nav {
       height: 35px;
@@ -294,7 +300,7 @@
     justify-content: space-between;
     background-color: white;
     animation-name: slideInLeft;
-    animation-duration: 2s;
+    animation-duration: 1s;
   }
 
   .dashboard-leftDropdown-navbarHolder {
@@ -330,6 +336,8 @@
     font-size: 21px;
     cursor: pointer;
     margin-bottom: 10px;
+    color: black;
+    text-decoration: none;
 
     nav {
       height: 35px;

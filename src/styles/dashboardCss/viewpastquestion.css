@@ -162,6 +162,11 @@
   outline: none;
   border: none;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #ffcb77;
+    pointer-events: none;
+  }
 }
 .viewmore-btn:hover {
   background-color: #ffcb77;
