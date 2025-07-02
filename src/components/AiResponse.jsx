@@ -16,13 +16,16 @@ const AiResponse = () => {
     };
   }, [aiResponseModal]);
   return (
-    <main className="modal-overlay">
+    <main
+      className="modal-overlay"
+      onClick={() => dispatch(setAiResponseModal())}
+    >
       <section className="ai-response-main-container">
         <header className="response-header">
           Study Time
           <BiArrowBack
             className="close-respone-modal"
-            onClick={() => dispatch(setAiResponseModal(false))}
+            onClick={() => dispatch(setAiResponseModal())}
           />
           <div className="second-header">
             <span className="second-header-text">

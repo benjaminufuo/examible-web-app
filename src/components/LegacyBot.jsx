@@ -1,4 +1,3 @@
-import React from "react";
 import { RiCloseLine } from "react-icons/ri";
 import "../styles/dashboardCss/legacybot.css";
 import LegacyChatbot from "./LegacyChatbot";

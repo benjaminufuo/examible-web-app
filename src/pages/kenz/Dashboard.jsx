@@ -31,7 +31,7 @@ const Dashboard = () => {
   const [showBot, setShowBot] = useState(false);
 
   const showMyBot = () => {
-    if (user?.plan === "Freemium") {
+    if (user?.plan !== "Freemium") {
       toast.error("Please Subscribe before you can access this feature");
     } else {
       setShowBot(true);

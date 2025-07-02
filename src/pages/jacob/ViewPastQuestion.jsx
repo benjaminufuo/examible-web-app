@@ -189,9 +189,7 @@ const ViewPastQuestion = () => {
                     ? pastQuestionsOption[indexOfFirstQuestion + index]
                         .isCorrect
                       ? "✅ Correct!"
-                      : "❌ Wrong! The correct answer is: " +
-                        pastQuestionsOption[indexOfFirstQuestion + index]
-                          .correctAnswerText
+                      : "❌ Wrong! "
                     : ""}
                 </p>
                 {pastQuestionsOption[indexOfFirstQuestion + index] && (
