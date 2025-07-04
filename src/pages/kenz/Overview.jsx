@@ -172,7 +172,10 @@ const Overview = () => {
                   <nav>
                     <h5>
                       <span style={{ color: "#F2AE30" }}>Hello,</span>{" "}
-                      {user?.fullName}
+                      {user?.fullName
+                        .split(" ")
+                        .filter((_, index) => index <= 1)
+                        .join(" ")}
                     </h5>
                     <p>
                       Welcome to Legacy Builder — your ultimate companion for

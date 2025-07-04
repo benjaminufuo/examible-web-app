@@ -137,7 +137,11 @@
   border-color: #c3e6cb;
   color: #155724;
 }
-
+.correct-answer {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
 .wrong-option {
   background-color: #f8d7da;
   border-color: #f5c6cb;
@@ -162,6 +166,11 @@
   outline: none;
   border: none;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #ffcb77;
+    pointer-events: none;
+  }
 }
 .viewmore-btn:hover {
   background-color: #ffcb77;

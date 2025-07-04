@@ -11,8 +11,11 @@ import {
   clearPastQuestionsOption,
   setFeedbackModal,
   setAiResponseModal,
+  setAIResponse,
 } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router";
+import { getAiResponse } from "../../config/Api";
+import { ClipLoader } from "react-spinners";
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
@@ -35,6 +38,7 @@ const ViewPastQuestion = () => {
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
   const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 5;
@@ -102,7 +106,7 @@ const ViewPastQuestion = () => {
     if (questions.length > 0) {
       dispatch(clearPastQuestionsOption());
     }
-  }, [dispatch]);
+  }, [dispatch, questions]);
 
   useEffect(() => {
     if (count === 1) {
@@ -111,6 +115,35 @@ const ViewPastQuestion = () => {
       }, 20000);
     }
   }, [count]);
+
+  const handleViewExplanation = async (
+    questionNum,
+    question,
+    passage,
+    options,
+    id
+  ) => {
+    setLoading(id);
+    try {
+      const res = await getAiResponse(
+        year,
+        subject,
+        questionNum,
+        question,
+        passage,
+        options
+      );
+      if (res) {
+        setLoading(null);
+        dispatch(setAIResponse(res));
+        dispatch(setAiResponseModal());
+      }
+    } catch (error) {
+      setLoading(null);
+      console.log(error);
+      toast.error(error?.response?.data?.message);
+    }
+  };
 
   return (
     <main className="viewpastquestionmain">
@@ -134,43 +167,48 @@ const ViewPastQuestion = () => {
               {indexOfFirstQuestion + index + 1}. {item.question}
             </h1>
             <ul className="answeroption">
-              {item.options.map((option, optionindex) => (
-                <li
-                  key={optionindex}
-                  className={
-                    pastQuestionsOption[indexOfFirstQuestion + index]
-                      ?.selectedOption === option
-                      ? pastQuestionsOption[indexOfFirstQuestion + index]
-                          ?.isCorrect
-                        ? "correct-option"
-                        : "wrong-option"
-                      : ""
+              {item.options.map((option, optionindex) => {
+                const userAnswer =
+                  pastQuestionsOption[indexOfFirstQuestion + index];
+                const correctAnswer = getAnswerText(item.answer, item.options);
+
+                let optionClass = "";
+                if (userAnswer) {
+                  if (option === userAnswer.selectedOption) {
+                    optionClass = userAnswer.isCorrect
+                      ? "correct-option"
+                      : "wrong-option";
+                  } else if (
+                    !userAnswer.isCorrect &&
+                    option === correctAnswer
+                  ) {
+                    optionClass = "correct-answer";
                   }
-                  onClick={() =>
-                    handleOptionClick(
-                      indexOfFirstQuestion + index,
-                      option,
-                      item.answer,
-                      item.options
-                    )
-                  }
-                  style={{
-                    pointerEvents: pastQuestionsOption[
-                      indexOfFirstQuestion + index
-                    ]
-                      ? "none"
-                      : "auto",
-                    cursor: pastQuestionsOption[indexOfFirstQuestion + index]
-                      ? "not-allowed"
-                      : "pointer",
-                  }}
-                >
-                  <span className="letterdoption">
-                    {String.fromCharCode(65 + optionindex)}.
-                  </span>
-                  {option}
-                </li>
-              ))}
+                }
+                return (
+                  <li
+                    key={optionindex}
+                    className={optionClass}
+                    onClick={() =>
+                      handleOptionClick(
+                        indexOfFirstQuestion + index,
+                        option,
+                        item.answer,
+                        item.options
+                      )
+                    }
+                    style={{
+                      pointerEvents: userAnswer ? "none" : "auto",
+                      cursor: userAnswer ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    <span className="letterdoption">
+                      {String.fromCharCode(65 + optionindex)}.
+                    </span>
+                    {option}
+                  </li>
+                );
+              })}
               <div className="aswer-airesponse">
                 <p
                   className="pastanswer"
@@ -195,9 +233,22 @@ const ViewPastQuestion = () => {
                 {pastQuestionsOption[indexOfFirstQuestion + index] && (
                   <button
                     className="viewmore-btn"
-                    onClick={() => dispatch(setAiResponseModal(true))}
+                    disabled={loading}
+                    onClick={() =>
+                      handleViewExplanation(
+                        item.number,
+                        item.question,
+                        item.passage,
+                        item.options,
+                        index
+                      )
+                    }
                   >
-                    view Explanation
+                    {loading === index ? (
+                      <ClipLoader color="black" size={16} />
+                    ) : (
+                      "view explanation"
+                    )}
                   </button>
                 )}
               </div>
