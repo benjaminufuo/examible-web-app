@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelExam } from "../../global/slice";
-import { useNavigate } from "react-router-dom";
+import {
+  cancelExam,
+  setAIResponse,
+  setAiResponseModal,
+} from "../../global/slice";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GrStatusGood } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+import { getAiResponse } from "../../config/Api";
 
 const MockResult = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
@@ -14,6 +21,8 @@ const MockResult = () => {
   const [finalCount, setFinalCount] = useState(5);
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const [loading, setLoading] = useState(null);
+  const location = useLocation();
 
   const nextSeries = () => {
     setIntialCount(intialCount + 5);
@@ -27,8 +36,12 @@ const MockResult = () => {
     window.scrollTo(0, 0);
   };
 
-  const performance = exam.reduce((acc, item, index) => {
-    acc = acc + item.score;
+  const performance = exam?.reduce((acc, item, index) => {
+    if (!item?.score) {
+      acc = acc + 0;
+    } else {
+      acc = acc + item?.score;
+    }
     return acc;
   }, 0);
 
@@ -36,6 +49,37 @@ const MockResult = () => {
     dispatch(cancelExam());
     nav("/dashboard/mock-exam");
   };
+
+  const handleViewExplanation = async (
+    questionNum,
+    question,
+    passage,
+    options,
+    year,
+    subject,
+    id
+  ) => {
+    setLoading(id);
+    try {
+      const res = await getAiResponse(
+        year,
+        subject,
+        questionNum,
+        question,
+        passage,
+        options
+      );
+      if (res) {
+        setLoading(null);
+        dispatch(setAIResponse(res));
+        dispatch(setAiResponseModal());
+      }
+    } catch (error) {
+      setLoading(null);
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   return (
     <div className="mockResult">
       <h2>
@@ -61,8 +105,7 @@ const MockResult = () => {
                         "A"
                           ? "flex"
                           : "none",
-                    }}
-                  >
+                    }}>
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -82,8 +125,7 @@ const MockResult = () => {
                         "B"
                           ? "flex"
                           : "none",
-                    }}
-                  >
+                    }}>
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -103,8 +145,7 @@ const MockResult = () => {
                         "C"
                           ? "flex"
                           : "none",
-                    }}
-                  >
+                    }}>
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -124,8 +165,7 @@ const MockResult = () => {
                         "D"
                           ? "flex"
                           : "none",
-                    }}
-                  >
+                    }}>
                     {exam.slice(intialCount, finalCount)?.[index]?.score ===
                     0 ? (
                       <GiCancel fontSize={25} color="red" />
@@ -143,7 +183,24 @@ const MockResult = () => {
                   ) : (
                     <footer>The answer is {item?.answer}</footer>
                   )}
-                  <button>View Explanation</button>
+                  <button
+                    onClick={() => {
+                      handleViewExplanation(
+                        item.number,
+                        item.question,
+                        item.passage,
+                        item.options,
+                        item.year,
+                        location.state.subject,
+                        index
+                      );
+                    }}>
+                    {loading === index ? (
+                      <ClipLoader color="black" size={16} />
+                    ) : (
+                      "view explanation"
+                    )}
+                  </button>
                 </div>
               </>
             </main>
@@ -153,8 +210,7 @@ const MockResult = () => {
         <button
           style={{ display: intialCount > 0 ? "flex" : "none" }}
           className="mockResult-more"
-          onClick={() => previousSeries()}
-        >
+          onClick={() => previousSeries()}>
           <IoIosArrowBack color="#88DDFF" fontSize={25} /> Previous
         </button>
         <button
@@ -162,15 +218,13 @@ const MockResult = () => {
           style={{
             display: intialCount === 0 || finalCount === 50 ? "flex" : "none",
           }}
-          onClick={() => retryExam()}
-        >
+          onClick={() => retryExam()}>
           Retry Quiz
         </button>
         <button
           className="mockResult-more"
           style={{ display: finalCount < 50 ? "flex" : "none" }}
-          onClick={() => nextSeries()}
-        >
+          onClick={() => nextSeries()}>
           See More
           <IoIosArrowForward color="#88DDFF" fontSize={25} />
         </button>

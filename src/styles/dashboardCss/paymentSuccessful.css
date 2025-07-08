@@ -1,103 +1,116 @@
-.paymentSuccessful{
+.paymentSuccessful {
+  width: 100%;
+  height: 100dvh;
+  background: rgba(231, 229, 229, 0.553);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.paymentSuccessful-holder {
+  width: 600px;
+  height: 450px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, white, #aa8deb);
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+  article {
+    position: absolute;
+    top: 20px;
+    height: 70%;
+    width: 55%;
+    background-image: url("../../assets/public/verifyPaymentImg.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  main {
+    height: 50%;
     width: 100%;
-    /* margin: 0 auto; */
-    height: 100dvh;
-    background: black;
+    background-color: #ffffff2d;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-}
 
-.paymentSuccessful-holder{
-    width: 700px;
-    height: 570px;
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(to bottom, white, #aa8deb);
-    position: relative;
+    section {
+      margin-top: 20px;
+      width: 90%;
+      height: 65%;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
 
-    article{
-        position: absolute;
-        top: 20px;
-        height: 70%;
-        width: 55%;
-        background: url('https://s3-alpha-sig.figma.com/img/6301/b9a6/85779f11b9eb6cb72bdb5c0d97e342ba?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=WxxMnQGBu4UjfuUo6W5-Ov5lP1hpnCz85T6~ByYEtbgGujMEO8wnId4ez7B5xFFOPySCK~KX4-2Vyqo0xV~G2ud4aO0olTe3FlB1s6wKr5RMfgq4I6eHuM0ZhSFcU6j~jdDpP6UXG5vgHjkIQxgWGcTFxeAzm7~aNtBUCqAXDRK72d9MauMZX72D~-YNvguP0DVQ7dwkKKDHIO9ov5eUZnpvlYOMqp3MIOnksGFvSlcTFYVlKmthHQ-mj5GFJw08fCJNfKNgyNZJb5qn3ZG2OHUAk4raxt3LdTYR5dZh9KH5hrgiApyX4vBU58KFv95zzawQvyV-1sDv31rckhYVaQ__');
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
+      h3 {
+        font-family: "sora", sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        text-align: center;
+      }
 
-    main{
-        height: 50%;
-        width: 100%;
-        background-color: #ffffff2d;
-        z-index: 2;
+      p {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      button {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
         display: flex;
         justify-content: center;
         align-items: center;
+        border: none;
+        outline: none;
+        background-color: #804bf2;
+        color: white;
+        padding: 12px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 350ms ease-in-out;
 
-        section{
-            width: 60%;
-            height: 65%;
-            padding-top: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-
-            h3{
-                font-family: "sora", sans-serif;
-                font-weight: 700;
-                font-size: 40px;
-            }
-
-            p{
-                font-family: "Montserrat", sans-serif;
-                font-weight: 400;
-                font-size: 20px;
-                text-align: center;
-            }
-
-            button{
-                font-family: "Montserrat", sans-serif;
-                font-weight: 700;
-                font-size: 25px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border: none;
-                outline: none;
-                background-color: #804BF2;
-                color: white;
-                height: 64px;
-                width: 326px;
-                border-radius: 12px;
-                cursor: pointer;
-            }
+        &:hover {
+          border: 1px solid #804bf2;
+          background-color: white;
+          color: #804bf2;
         }
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    article {
+      width: 100%;
+      top: 0;
     }
 
-    @media screen and (max-width:480px) {
-        article{
-            width: 100%;
-            top: 0;
+    main {
+      section {
+        width: 90%;
+
+        h3 {
+          font-size: 25px;
         }
 
-        main{
-            section{
-                width: 90%;
-
-                h3{
-                    font-size: 30px;
-                }
-
-                p{
-                    font-size: 16px;
-                }
-            }
+        p {
+          font-size: 12px;
         }
+      }
     }
+  }
 }
