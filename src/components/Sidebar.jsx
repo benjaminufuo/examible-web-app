@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardNavBar from "../assets/dashboardNavBar.json";
 import dashboardIcon from "../assets/public/legacy_builder_logo.png";
 import { MdDashboard } from "react-icons/md";
@@ -27,6 +27,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const user = useSelector((state) => state.user);
 

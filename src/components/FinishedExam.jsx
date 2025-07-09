@@ -21,7 +21,7 @@ const FinishedExam = () => {
     let duration = 0;
     let completed = "";
     for (let element of exam) {
-      if (element?.option === "") {
+      if (!element?.option) {
         completed = "no";
       } else {
         completed = "yes";
@@ -32,7 +32,7 @@ const FinishedExam = () => {
     } else {
       duration = 1800 - timeLeft;
     }
-    const performance = exam.reduce((acc, item, index) => {
+    const performance = exam?.reduce((acc, item, index) => {
       if (item?.score) {
         acc = acc + item.score;
         return acc;
@@ -49,7 +49,7 @@ const FinishedExam = () => {
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
           dispatch(setFinishedExam());
-          nav("/dashboard/mock-exam/result");
+          nav("/dashboard/mock-exam/result", { state: { subject } });
           setTimeout(() => {
             dispatch(setFeedbackModal());
           }, 20000);

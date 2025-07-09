@@ -122,49 +122,41 @@ const TheExam = () => {
           <main>
             <h6>Question {subjectId}</h6>
             <h5>{currentQuestion?.question}</h5>
-            <nav>
+            <nav
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                dispatch(setMockExamOption({ option: "A", answer: "A" }))
+              }>
               <h4>A.</h4>
               <p>{currentQuestion?.options[0]}</p>
-              <input
-                type="radio"
-                checked={mockExamOptions.optionA}
-                onChange={() =>
-                  dispatch(setMockExamOption({ option: "A", answer: "A" }))
-                }
-              />
+              <input type="radio" checked={mockExamOptions.optionA} readOnly />
             </nav>
-            <nav>
+            <nav
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                dispatch(setMockExamOption({ option: "B", answer: "B" }))
+              }>
               <h4>B.</h4>
               <p>{currentQuestion?.options[1]}</p>
-              <input
-                type="radio"
-                checked={mockExamOptions.optionB}
-                onChange={() =>
-                  dispatch(setMockExamOption({ option: "B", answer: "B" }))
-                }
-              />
+              <input type="radio" checked={mockExamOptions.optionB} />
             </nav>
-            <nav>
+            <nav
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                dispatch(setMockExamOption({ option: "C", answer: "C" }))
+              }>
               <h4>C.</h4>
               <p>{currentQuestion?.options[2]} </p>
-              <input
-                type="radio"
-                checked={mockExamOptions.optionC}
-                onChange={() =>
-                  dispatch(setMockExamOption({ option: "C", answer: "C" }))
-                }
-              />
+              <input type="radio" checked={mockExamOptions.optionC} />
             </nav>
-            <nav>
+            <nav
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                dispatch(setMockExamOption({ option: "D", answer: "D" }))
+              }>
               <h4>D.</h4>
               <p>{currentQuestion?.options[3]}</p>
-              <input
-                type="radio"
-                checked={mockExamOptions.optionD}
-                onChange={() =>
-                  dispatch(setMockExamOption({ option: "D", answer: "D" }))
-                }
-              />
+              <input type="radio" checked={mockExamOptions.optionD} />
             </nav>
           </main>
         </div>
@@ -209,6 +201,7 @@ const TheExam = () => {
             {arrayOfNumbers.map((item, index) => (
               <main
                 style={{
+                  cursor: "pointer",
                   backgroundColor:
                     item === Number(subjectId) || exam[index]?.option
                       ? "#804BF2"

@@ -48,7 +48,7 @@ const LeavingNow = () => {
           dispatch(setUser(res?.data?.data));
           dispatch(setLeavingNow());
           setLoading(false);
-          nav("/dashboard/mock-exam/result");
+          nav("/dashboard/mock-exam/result", { state: { subject } });
           setTimeout(() => {
             dispatch(setFeedbackModal());
           }, 20000);

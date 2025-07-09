@@ -135,7 +135,6 @@ const slice = createSlice({
       state.examMeter = state.examMeter - 2;
     },
     nextQuestion: (state, { payload }) => {
-      state.examMeter = state.examMeter + 2;
       if (state.mockExamOptions.optionA) {
         const obj = {
           option: "A",
@@ -144,6 +143,7 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
+        state.examMeter = state.examMeter + 2;
       } else if (state.mockExamOptions.optionB) {
         const obj = {
           option: "B",
@@ -152,6 +152,7 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
+        state.examMeter = state.examMeter + 2;
       } else if (state.mockExamOptions.optionC) {
         const obj = {
           option: "C",
@@ -160,6 +161,7 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
+        state.examMeter = state.examMeter + 2;
       } else if (state.mockExamOptions.optionD) {
         const obj = {
           option: "D",
@@ -168,6 +170,7 @@ const slice = createSlice({
         };
         const num = Number(payload.subjectId) - 1;
         state.exam[num] = obj;
+        state.examMeter = state.examMeter + 2;
       } else {
         const obj = {
           option: "",
