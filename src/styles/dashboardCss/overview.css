@@ -5,6 +5,7 @@
   flex-direction: column;
   padding: 30px;
   overflow: hidden;
+  border-top: 2px solid gainsboro;
 
   h1 {
     font-size: 24px;
@@ -137,7 +138,7 @@
         }
       }
 
-      @media screen and (max-width: 480px) {
+      @media screen and (max-width: 550px) {
         img {
           left: 20px;
         }
@@ -145,6 +146,7 @@
         main {
           min-height: 100px;
           nav {
+            min-height: 80px;
             width: 60%;
             h5 {
               font-size: 20px;
@@ -155,6 +157,18 @@
               z-index: 3;
               line-height: 15px;
             }
+          }
+        }
+      }
+
+      @media screen and (max-width: 340px) {
+        img {
+          display: none;
+        }
+        main {
+          nav {
+            width: 75%;
+            margin: 0 auto;
           }
         }
       }
@@ -252,6 +266,7 @@
 
     @media screen and (max-width: 1024px) {
       width: 550px;
+      margin: 0 auto;
     }
   }
 
@@ -462,21 +477,6 @@
         transform: translateY(-50%) translateX(-50%);
       }
     }
-
-    /* p {
-      position: absolute;
-      top: 50%;
-      left: 41%;
-      font-size: 24.16px;
-      font-weight: 800;
-      font-family: "Montserrat", sans-serif;
-    }
-
-    @media screen and (max-width: 768px) {
-      p {
-        left: 42%;
-      }
-    } */
   }
 
   .overview-secondLayerRight {
@@ -540,12 +540,13 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     flex-direction: column;
     align-items: center;
 
     .overview-secondLayerRight {
       width: 95%;
+      background-color: #804bf233;
     }
   }
 

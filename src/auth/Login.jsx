@@ -156,7 +156,8 @@ const Login = () => {
             style={{
               backgroundColor: disabled ? "#dbd2f0d2" : "#804bf2",
               cursor: disabled ? "not-allowed" : "pointer",
-            }}>
+            }}
+          >
             {loading ? "loading..." : "Login"}
           </button>
         </form>
@@ -171,7 +172,8 @@ const Login = () => {
         <article className="forgotpassworddiv">
           <p
             className="forgotpassword"
-            onClick={() => navigate("/forgetpassword")}>
+            onClick={() => navigate("/forgetpassword")}
+          >
             Forgot Password?
           </p>
           <p className="signuptext">
