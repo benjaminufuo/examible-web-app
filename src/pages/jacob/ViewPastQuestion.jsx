@@ -106,7 +106,7 @@ const ViewPastQuestion = () => {
     if (questions.length > 0) {
       dispatch(clearPastQuestionsOption());
     }
-  }, [dispatch]);
+  }, [dispatch, questions]);
 
   useEffect(() => {
     if (count === 1) {
@@ -167,42 +167,48 @@ const ViewPastQuestion = () => {
               {indexOfFirstQuestion + index + 1}. {item.question}
             </h1>
             <ul className="answeroption">
-              {item.options.map((option, optionindex) => (
-                <li
-                  key={optionindex}
-                  className={
-                    pastQuestionsOption[indexOfFirstQuestion + index]
-                      ?.selectedOption === option
-                      ? pastQuestionsOption[indexOfFirstQuestion + index]
-                          ?.isCorrect
-                        ? "correct-option"
-                        : "wrong-option"
-                      : ""
+              {item.options.map((option, optionindex) => {
+                const userAnswer =
+                  pastQuestionsOption[indexOfFirstQuestion + index];
+                const correctAnswer = getAnswerText(item.answer, item.options);
+
+                let optionClass = "";
+                if (userAnswer) {
+                  if (option === userAnswer.selectedOption) {
+                    optionClass = userAnswer.isCorrect
+                      ? "correct-option"
+                      : "wrong-option";
+                  } else if (
+                    !userAnswer.isCorrect &&
+                    option === correctAnswer
+                  ) {
+                    optionClass = "correct-answer";
                   }
-                  onClick={() =>
-                    handleOptionClick(
-                      indexOfFirstQuestion + index,
-                      option,
-                      item.answer,
-                      item.options
-                    )
-                  }
-                  style={{
-                    pointerEvents: pastQuestionsOption[
-                      indexOfFirstQuestion + index
-                    ]
-                      ? "none"
-                      : "auto",
-                    cursor: pastQuestionsOption[indexOfFirstQuestion + index]
-                      ? "not-allowed"
-                      : "pointer",
-                  }}>
-                  <span className="letterdoption">
-                    {String.fromCharCode(65 + optionindex)}.
-                  </span>
-                  {option}
-                </li>
-              ))}
+                }
+                return (
+                  <li
+                    key={optionindex}
+                    className={optionClass}
+                    onClick={() =>
+                      handleOptionClick(
+                        indexOfFirstQuestion + index,
+                        option,
+                        item.answer,
+                        item.options
+                      )
+                    }
+                    style={{
+                      pointerEvents: userAnswer ? "none" : "auto",
+                      cursor: userAnswer ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    <span className="letterdoption">
+                      {String.fromCharCode(65 + optionindex)}.
+                    </span>
+                    {option}
+                  </li>
+                );
+              })}
               <div className="aswer-airesponse">
                 <p
                   className="pastanswer"
@@ -215,14 +221,13 @@ const ViewPastQuestion = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: "0.5rem",
-                  }}>
+                  }}
+                >
                   {pastQuestionsOption[indexOfFirstQuestion + index]
                     ? pastQuestionsOption[indexOfFirstQuestion + index]
                         .isCorrect
                       ? "✅ Correct!"
-                      : "❌ Wrong! The correct answer is: " +
-                        pastQuestionsOption[indexOfFirstQuestion + index]
-                          .correctAnswerText
+                      : "❌ Wrong! "
                     : ""}
                 </p>
                 {pastQuestionsOption[indexOfFirstQuestion + index] && (
@@ -237,7 +242,8 @@ const ViewPastQuestion = () => {
                         item.options,
                         index
                       )
-                    }>
+                    }
+                  >
                     {loading === index ? (
                       <ClipLoader color="black" size={16} />
                     ) : (
@@ -259,7 +265,8 @@ const ViewPastQuestion = () => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="pagination-button">
+          className="pagination-button"
+        >
           <IoIosArrowBack size={25} />
           Previous
         </button>
@@ -272,7 +279,8 @@ const ViewPastQuestion = () => {
               const result = calculateScore();
               navigate("/dashboard/resultpage", { state: result });
             }}
-            className="pagination-button1">
+            className="pagination-button1"
+          >
             Finish
           </button>
         ) : (

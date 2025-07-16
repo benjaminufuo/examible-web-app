@@ -8,14 +8,20 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const PastQuestion = () => {
+  // Using useNavigate to programmatically navigate between routes
+  // Using useDispatch to dispatch actions to the Redux store
+  // Using useSelector to access the Redux store state
+  // Using useState to manage local component state
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
   const [activeDropdown, setActiveDropdown] = useState(null);
 
+  // Function to toggle the dropdown
+  // This function checks if the dropdown is already active. If it is, it sets the activeDropdown to null, effectively closing it. If it is not active, it sets the activeDropdown to the dropdown that was clicked, opening it.
+  // This allows for only one dropdown to be open at a time.
   const toggleDropdown = (dropdown) => {
     if (activeDropdown === dropdown) {
       setActiveDropdown(null);
@@ -26,25 +32,26 @@ const PastQuestion = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
+  // List of years for the dropdown
   const years = [
-    // "2023",
-    // "2022",
-    // "2021",
-    // "2020",
-    // "2019",
-    // "2018",
-    // "2017",
-    // "2016",
-    // "2015",
-    // "2014",
-    // "2013",
-    // "2012",
-    // "2011",
-    // "2010",
-    // "2009",
-    // "2008",
-    // "2007",
-    // "2006",
+    "2023",
+    "2022",
+    "2021",
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+    "2016",
+    "2015",
+    "2014",
+    "2013",
+    "2012",
+    "2011",
+    "2010",
+    "2009",
+    "2008",
+    "2007",
+    "2006",
     "2005",
     "2004",
     "2003",
@@ -53,6 +60,7 @@ const PastQuestion = () => {
     "2000",
   ];
 
+  // function to get past question for year and subject
   const getPastQuestionForYearSubject = async (year, subject) => {
     if (year === "All" || subject === "All") {
       toast.error("please select both subject and year.");
@@ -67,7 +75,6 @@ const PastQuestion = () => {
           import.meta.env.VITE_BASE_URL
         }api/v1/fetch-questions/${year}/${subject}/${user?._id}`
       );
-      console.log(response);
       toast.update(toastId, {
         // render: "Question fetched succesfully!",
         render: response?.data?.data?.message,
@@ -99,6 +106,9 @@ const PastQuestion = () => {
     dispatch(setYear(year));
   };
 
+  // Effect to enable or disable the button based on loading state and selected values
+  // This effect checks if the loading state is false and both selectedYear and selectedSubject are not "All". If these conditions are met, it enables the button by setting disabled to false. Otherwise, it disables the button.
+  // This ensures that the button is only enabled when both a year and a subject are selected
   useEffect(() => {
     if (!loading && selectedYear !== "All" && selectedSubject !== "All") {
       setDisabled(false);

@@ -23,7 +23,8 @@ const AiResponse = () => {
   return (
     <main
       className="modal-overlay"
-      onClick={() => dispatch(setAiResponseModal())}>
+      onClick={() => dispatch(setAiResponseModal())}
+    >
       <section className="ai-response-main-container">
         <header className="response-header">
           Study Time
