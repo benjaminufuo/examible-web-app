@@ -102,9 +102,9 @@ const Overview = () => {
                         .join(" ")}
                     </h5>
                     <p>
-                      Welcome to Legacy Builder — your ultimate companion for
-                      JAMB success. Let’s help you score 300+ and unlock your
-                      dream university!
+                      Welcome to Examible — your ultimate companion for JAMB
+                      success. Let’s help you score 300+ and unlock your dream
+                      university!
                     </p>
                   </nav>
                   <article></article>
@@ -154,14 +154,16 @@ const Overview = () => {
                         background: allSubjectsData.find(
                           (items) => items.subject === item
                         )?.cardColor,
-                      }}>
+                      }}
+                    >
                       <aside>
                         <section
                           style={{
                             background: allSubjectsData.find(
                               (items) => items.subject === item
                             )?.divColor,
-                          }}>
+                          }}
+                        >
                           <FaBook
                             fontSize={35}
                             color={
@@ -176,7 +178,8 @@ const Overview = () => {
                             color: allSubjectsData.find(
                               (items) => items.subject === item
                             )?.textColor,
-                          }}>
+                          }}
+                        >
                           {item}
                         </p>
                       </aside>
@@ -198,7 +201,8 @@ const Overview = () => {
                       backgroundColor: "white",
                       cursor: "pointer",
                     }}
-                    onClick={() => addMoreSubject()}>
+                    onClick={() => addMoreSubject()}
+                  >
                     <aside>
                       <div>+</div>
                       <h6>Add Subject</h6>
@@ -284,7 +288,8 @@ const Overview = () => {
                       fontWeight: 700,
                       fontSize: 30,
                       fontFamily: '"Montserrat", sans-serif',
-                    }}>
+                    }}
+                  >
                     No Performance yet
                   </p>
                 ) : (

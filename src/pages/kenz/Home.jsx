@@ -58,7 +58,7 @@ const Home = () => {
             <section>
               <h5>
                 Score <span style={{ color: "#804BF2" }}>300+</span> in JAMB
-                with Legacy Builders
+                with Examible
               </h5>
               <p>
                 Get the right resources, practice past questions, and track your
@@ -240,7 +240,7 @@ const Home = () => {
           <div className="home-nineLayerHolder">
             <h3>“</h3>
             <p>
-              I was unsure if I could get 250 or above in JAMB. Legacy Builders’
+              I was unsure if I could get 250 or above in JAMB. Examibles’
               quizzes, study guides, helped me a lot. My score of 265 exceeded
               my expectations.
             </p>
@@ -261,8 +261,8 @@ const Home = () => {
           <div className="home-nineLayerHolder">
             <h3>“</h3>
             <p>
-              "I thought getting 250+ in JAMB was impossible for me. But Legacy
-              Builders gave me the resources, mock tests, and motivation I
+              "I thought getting 250+ in JAMB was impossible for me. But
+              Examible gave me the resources, mock tests, and motivation I
               needed. The practice quizzes helped me prepare and I scored 305.
             </p>
             <nav>
@@ -279,32 +279,11 @@ const Home = () => {
               </article>
             </nav>
           </div>
-          {/* <div className="home-nineLayerHolder">
-            <h3>“</h3>
-            <p>
-              "I thought getting 250+ in JAMB was impossible for me. But Legacy
-              Builders gave me the resources, mock tests, and motivation I
-              needed. The practice quizzes helped me prepare and I scored 305.
-            </p>
-            <nav>
-              <div>
-                <img src={home11} alt="" />
-              </div>
-              <h6>John (university of Lagos) </h6>
-              <article>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-              </article>
-            </nav>
-          </div> */}
           <div className="home-nineLayerHolder">
             <h3>“</h3>
             <p>
-              "I thought getting 250+ in JAMB was impossible for me. But Legacy
-              Builders gave me the resources, mock tests, and motivation I
+              "I thought getting 250+ in JAMB was impossible for me. But
+              Examible gave me the resources, mock tests, and motivation I
               needed. The practice quizzes helped me prepare and I scored 305.
             </p>
             <nav>
@@ -324,8 +303,8 @@ const Home = () => {
           <div className="home-nineLayerHolder">
             <h3>“</h3>
             <p>
-              "I thought getting 250+ in JAMB was impossible for me. But Legacy
-              Builders gave me the resources, mock tests, and motivation I
+              "I thought getting 250+ in JAMB was impossible for me. But
+              Examible gave me the resources, mock tests, and motivation I
               needed. The practice quizzes helped me prepare and I scored 305.
             </p>
             <nav>

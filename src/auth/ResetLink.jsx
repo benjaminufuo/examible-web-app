@@ -1,4 +1,3 @@
-import React from "react";
 import "../../src/styles/authCss/resetlink.css";
 import { CiMail } from "react-icons/ci";
 const ResetLink = () => {

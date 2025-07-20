@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Loading from "./Loading";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -26,7 +26,7 @@ const Callback = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message);
       setTimeout(() => {
-        nav('/login')
+        nav("/login");
       }, 3000);
     }
   };

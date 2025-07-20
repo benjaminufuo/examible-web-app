@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardNavBar from "../assets/dashboardNavBar.json";
-import dashboardIcon from "../assets/public/legacy_builder_logo.png";
+import dashboardIcon from "../../public/logo.png";
 import { MdDashboard } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import img2 from "../assets/public/pastquestion.svg";
@@ -45,7 +45,8 @@ const Sidebar = () => {
                 item.link === location.pathname ? "#804bf233" : "white",
             }}
             className="dashboard-navBar"
-            key={item.id}>
+            key={item.id}
+          >
             {dashboardIcons[index]}
             {item.name}
           </Link>
@@ -62,7 +63,8 @@ const Sidebar = () => {
                       location.pathname === "/dashboard/subscription"
                         ? "#804BF233"
                         : "white",
-                  }}>
+                  }}
+                >
                   <SiMoneygram color="#804BF266" fontSize={35} />
                   Subscription
                 </Link>
@@ -76,7 +78,8 @@ const Sidebar = () => {
                   <button
                     onClick={() => {
                       nav("/dashboard/subscription");
-                    }}>
+                    }}
+                  >
                     Subscribe Now
                   </button>
                 </div>
@@ -91,7 +94,8 @@ const Sidebar = () => {
                   location.pathname === "/dashboard/subscription"
                     ? "#804BF233"
                     : "white",
-              }}>
+              }}
+            >
               <SiMoneygram color="#804BF266" fontSize={35} />
               Subscription
             </Link>
@@ -101,7 +105,8 @@ const Sidebar = () => {
       <div
         className="dashboard-navBar"
         style={{ backgroundColor: "white" }}
-        onClick={() => dispatch(setLogout())}>
+        onClick={() => dispatch(setLogout())}
+      >
         <AiOutlineLogout fontSize={35} color="red" />
         Logout
       </div>

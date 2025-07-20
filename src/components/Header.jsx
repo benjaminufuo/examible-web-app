@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../styles/header.css";
 import menuBar from "../assets/navBar.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import HeaderLogo from "../assets/public/legacy_builder_logo.png";
+import HeaderLogo from "../../public/logo.png";
 import hambuger from "../assets/public/hambuger.svg";
 
 const Header = () => {
@@ -17,7 +17,8 @@ const Header = () => {
           <div className="header-holderImg">
             <img
               src={HeaderLogo}
-              alt="Legacy Builders"
+              alt="Examible"
+              style={{ cursor: "pointer" }}
               onClick={() => nav("/")}
             />
           </div>
@@ -58,50 +59,56 @@ const Header = () => {
         </div>
       </div>
       {showDropdown && (
-        <div className="header-dropDown" onClick={()=>setShowDropdown(!showDropdown)}>
-          <div className="header-dropDownHolder" onClick={(e)=>e.stopPropagation()}>
-          <div className="headerDropdown-holderImg">
-            <img
-              src={HeaderLogo}
-              alt="Legacy Builders"
-              onClick={() => {
-                nav("/"), setShowDropdown(!showDropdown);
-              }}
-            />
-          </div>
-          <div className="headerDropdown-holderText">
-            <>
-              {menuBar.map((item, index) => (
-                <li
-                  key={index}
-                  style={{
-                    borderColor:
-                      location.pathname === item.link ? "#804BF2" : "white",
-                  }}
-                  onClick={() => setShowDropdown(!showDropdown)}
-                >
-                  <Link
-                    to={item.link}
-                    style={{ color: "black", textDecoration: "none" }}
+        <div
+          className="header-dropDown"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
+          <div
+            className="header-dropDownHolder"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="headerDropdown-holderImg">
+              <img
+                src={HeaderLogo}
+                alt="Examible"
+                onClick={() => {
+                  nav("/"), setShowDropdown(!showDropdown);
+                }}
+              />
+            </div>
+            <div className="headerDropdown-holderText">
+              <>
+                {menuBar.map((item, index) => (
+                  <li
+                    key={index}
+                    style={{
+                      borderColor:
+                        location.pathname === item.link ? "#804BF2" : "white",
+                    }}
+                    onClick={() => setShowDropdown(!showDropdown)}
                   >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </>
-            <button
-              className="headerDropdown-signup"
-              onClick={() => nav("/signup")}
-            >
-              SIGN UP
-            </button>
-            <button
-              className="headerDropdown-login"
-              onClick={() => nav("/login")}
-            >
-              LOGIN
-            </button>
-          </div>
+                    <Link
+                      to={item.link}
+                      style={{ color: "black", textDecoration: "none" }}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </>
+              <button
+                className="headerDropdown-signup"
+                onClick={() => nav("/signup")}
+              >
+                SIGN UP
+              </button>
+              <button
+                className="headerDropdown-login"
+                onClick={() => nav("/login")}
+              >
+                LOGIN
+              </button>
+            </div>
           </div>
         </div>
       )}
