@@ -13,7 +13,7 @@ const PaymentSuccessfull = ({ plan }) => {
             <h3>Payment Successful</h3>
             <p>
               You have been upgraded to {plan}! <br />
-              Explore more with Legacy Builder.
+              Explore more with Examible.
             </p>
             <button onClick={() => nav("/dashboard/overview")}>
               Return to Dashboard

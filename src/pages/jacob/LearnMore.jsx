@@ -54,7 +54,7 @@ const LearnMore = () => {
         <div className="learnmoreheader">
           <h1>
             Score <span className="threehundredplus">300+</span> in JAMB with
-            Legacy Builders
+            Examible
           </h1>
           <p>
             Get the right resources, practice past questions, and track your
@@ -74,17 +74,17 @@ const LearnMore = () => {
         </div>
         <div className="learnmoredescription">
           <span>
-            Preparing for JAMB can be stressful, but with Legacy Builder, you
-            get the right tools to study smarter, not harder. Our platform is
-            designed to help you achieve your dream score with real mockup
-            exams, past questions, and personalized study tracking.
+            Preparing for JAMB can be stressful, but with Examible, you get the
+            right tools to study smarter, not harder. Our platform is designed
+            to help you achieve your dream score with real mockup exams, past
+            questions, and personalized study tracking.
           </span>
         </div>
         <div className="learnmoresecondheader">
-          <h1>Legacy Builders</h1>
+          <h1>Examible</h1>
           <span>
-            Legacy Builder is designed to help students score 300+ in JAMB with
-            an efficient and engaging study experience.
+            Examible is designed to help students score 300+ in JAMB with an
+            efficient and engaging study experience.
           </span>
         </div>
 
@@ -118,10 +118,12 @@ const LearnMore = () => {
               <div className="righttext">
                 <div className="righttextheader">
                   <h1>
-                    Legacy builders
-                    <em className="purplefeatures">Key Features:</em>
+                    Examible
+                    <em className="purplefeatures" style={{ marginLeft: 10 }}>
+                      Key Features:
+                    </em>
                   </h1>
-                  <span>What Makes Legacy Builder Unique?</span>
+                  <span>What Makes Examible Unique?</span>
                 </div>
                 <div className="righttextcontent">
                   <div className="firstcontent">
@@ -196,8 +198,7 @@ const LearnMore = () => {
                 Ready to Ace <em className="learnmorejamb">JAMB?</em>
               </h1>
               <span>
-                Join thousands of students improving their scores with Legacy
-                Builder.
+                Join thousands of students improving their scores with Exambile.
               </span>
             </div>
             <div className="learnmorefooter">

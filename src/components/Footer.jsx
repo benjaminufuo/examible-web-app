@@ -1,9 +1,8 @@
-import React from "react";
 import "../styles/footer.css";
 import { MdEmail } from "react-icons/md";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
-import FooterLogo from "../assets/public/legacy_builder_logo.png";
+import FooterLogo from "../../public/logo.png";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -12,7 +11,7 @@ const Footer = () => {
       <div className="footer-top">
         <div className="footer-topHolder">
           <div className="footer-iconHolder">
-            <img src={FooterLogo} alt="LEGACY BUILDERS" />
+            <img src={FooterLogo} alt="Examible" />
           </div>
           <div className="footer-aboutUs">
             <h3>About Us</h3>
@@ -71,7 +70,7 @@ const Footer = () => {
                   (window.location.href = "mailto:legacybuilders710@gmail.com")
                 }
               />
-              legacybuilders710@gmail.com
+              info@examible.com
             </article>
             <main>
               <h6>Social Media</h6>
@@ -89,14 +88,14 @@ const Footer = () => {
                   <FaLinkedin fontSize={24} cursor={"pointer"} />
                   <FaInstagram fontSize={24} cursor={"pointer"} />
                 </div>
-                <h6>@legacybuilders</h6>
+                <h6>@examible</h6>
               </nav>
             </main>
           </div>
         </div>
       </div>
       <footer className="footer-bottom">
-        © 2025 Legacy Builders | All rights reserved
+        © 2025 Examible | All rights reserved
       </footer>
     </div>
   );

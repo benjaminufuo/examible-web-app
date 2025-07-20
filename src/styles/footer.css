@@ -1,241 +1,240 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-.footer{
-    height: fit-content;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.footer {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+
+  .footer-top {
+    min-height: 248px;
     width: 100%;
+    background-color: #804bf233;
     display: flex;
-    flex-direction: column;
-    font-family: "Montserrat", sans-serif;
+    justify-content: center;
+    align-items: center;
 
-    .footer-top{
-        min-height: 248px;
-        width: 100%;
-        background-color: #804BF233;
+    .footer-topHolder {
+      min-height: 229px;
+      width: 86%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 39px;
+
+      .footer-iconHolder {
+        height: 131px;
+        width: 197.16px;
         display: flex;
         justify-content: center;
         align-items: center;
 
-        .footer-topHolder{
-            min-height: 229px;
-            width: 86%;
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .footer-aboutUs {
+        min-height: 156px;
+        width: 12.6%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 46px;
+        gap: 16px;
+
+        h3 {
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 35px;
+        }
+
+        ul {
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 35px;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      .footer-handles {
+        width: 25%;
+        height: 186px;
+        flex-direction: column;
+        display: flex;
+        gap: 27px;
+        margin-top: 46px;
+
+        h3 {
+          font-weight: 600;
+          font-size: 24px;
+          color: #1e1e1e;
+          line-height: 35px;
+        }
+
+        article {
+          width: 100%;
+          height: 124px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-weight: 400;
+          font-size: 18px;
+        }
+
+        main {
+          height: 56px;
+          width: 96%;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          h6 {
+            font-weight: 500;
+            font-size: 20px;
+            color: #1e1e1e;
+          }
+
+          nav {
+            height: 26px;
+            width: 100%;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 39px;
+            gap: 10px;
+            align-items: center;
 
-            .footer-iconHolder{
-                height: 131px;
-                width: 197.16px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                img{
-                    height: 100%;
-                    width: 100%;
-                    object-fit: cover;
-                }
+            div {
+              height: 26px;
+              width: 113px;
+              gap: 4px;
+              display: flex;
+              align-items: center;
             }
-
-            .footer-aboutUs{
-                min-height: 156px;
-                width: 12.6%;
-                display: flex;
-                flex-direction: column;
-                margin-top: 46px;
-                gap: 16px;
-
-                h3{
-                    font-size: 24px;
-                    font-weight: 600;
-                    line-height: 35px;
-                }
-
-                ul{
-                    font-size: 20px;
-                    font-weight: 400;
-                    line-height: 35px;
-                    list-style: none;
-                    display: flex;
-                    flex-direction: column;
-                }
-            }
-
-            .footer-handles{
-                width: 25%;
-                height: 186px;
-                flex-direction: column;
-                display: flex;
-                gap: 27px;
-                margin-top: 46px;
-
-                h3{
-                    font-weight: 600;
-                    font-size: 24px;
-                    color: #1E1E1E;
-                    line-height: 35px;
-                }
-
-                article{
-                    width: 100%;
-                    height: 124px;
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    font-weight: 400;
-                    font-size: 18px;
-                }
-
-                main{
-                    height: 56px;
-                    width: 96%;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-
-                    h6{
-                        font-weight: 500;
-                        font-size: 20px;
-                        color: #1E1E1E;
-                    }
-
-                    nav{
-                        height: 26px;
-                        width: 100%;
-                        display: flex;
-                        gap: 10px;
-                        align-items: center;
-
-                        div{
-                            height: 26px;
-                            width: 113px;
-                            gap: 4px;
-                            display: flex;
-                            align-items: center;
-                        }
-                    }
-                }
-            }
-
-            .footer-contactUs{
-                height: 197px;
-                width: 18%;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-                margin-top: 46px;
-
-                h3{
-                    font-weight: 600;
-                    font-size: 24px;
-                    line-height: 35px;
-                }
-                
-                p{
-                    line-height: 35px;
-                    font-weight: 400;
-                    font-size: 20px;
-                    color: #1E1E1E;
-                }
-
-                h5{
-                    width: 100%;
-                    height: 60px;
-                    font-weight: 600;
-                    font-size: 23px;
-                    line-height: 30px;
-                    color: #1E1E1E;
-                }
-            }
-
-            @media screen and (max-width:1024px) {
-                width: 100%;
-
-                .footer-contactUs{
-                    width: 24%;
-                }
-
-                .footer-handles{
-                    width: 32%;
-                }
-
-                .footer-aboutUs{
-                    width: 16%;
-                }
-            }
-
-            @media screen and (max-width:768px) {
-                flex-direction: column;
-                padding-left: 50px;
-                align-items: center;
-
-                .footer-iconHolder{
-                    height: 160px;
-                    width: 250px;
-                }
-
-                .footer-contactUs{
-                    width: 80%;
-                }
-
-                .footer-handles{
-                    width: 80%;
-
-                    main{
-                        align-items: center;
-                    }
-
-                    nav{
-                        justify-content: center;
-                    }
-
-                    article{
-                        justify-content: center;
-                    }
-                }
-
-                .footer-aboutUs{
-                    width: 80%;
-                }
-            }
-
-            @media screen and (max-width:768px) {
-                align-items: center;
-                padding-left: 0px;
-
-                .footer-contactUs{
-                    width: 80%;
-                    align-items: center;
-                    text-align: center;
-                }
-                
-                .footer-handles{
-                    width: 80%;
-                    align-items: center;
-                    text-align: center;
-                }
-                
-                .footer-aboutUs{
-                    width: 80%;
-                    align-items: center;
-                    text-align: center;
-                }
-                
-            }
+          }
         }
-    }
+      }
 
-    .footer-bottom{
-        width: 100%;
-        height: 90px;
+      .footer-contactUs {
+        height: 197px;
+        width: 18%;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 400;
-        font-size: 20px;
-        background-color: #804BF2;
-        color: white;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 46px;
 
-        @media screen and (max-width:480px) {
-                font-size: 15px;
+        h3 {
+          font-weight: 600;
+          font-size: 24px;
+          line-height: 35px;
         }
+
+        p {
+          line-height: 35px;
+          font-weight: 400;
+          font-size: 20px;
+          color: #1e1e1e;
+        }
+
+        h5 {
+          width: 100%;
+          height: 60px;
+          font-weight: 600;
+          font-size: 23px;
+          line-height: 30px;
+          color: #1e1e1e;
+        }
+      }
+
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+
+        .footer-contactUs {
+          width: 24%;
+        }
+
+        .footer-handles {
+          width: 32%;
+        }
+
+        .footer-aboutUs {
+          width: 16%;
+        }
+      }
+
+      @media screen and (max-width: 850px) {
+        flex-direction: column;
+        padding-left: 50px;
+        align-items: center;
+
+        .footer-iconHolder {
+          height: 160px;
+          width: 250px;
+        }
+
+        .footer-contactUs {
+          width: 80%;
+        }
+
+        .footer-handles {
+          width: 80%;
+
+          main {
+            align-items: center;
+          }
+
+          nav {
+            justify-content: center;
+          }
+
+          article {
+            justify-content: center;
+          }
+        }
+
+        .footer-aboutUs {
+          width: 80%;
+        }
+      }
+
+      @media screen and (max-width: 850px) {
+        align-items: center;
+        padding-left: 0px;
+
+        .footer-contactUs {
+          width: 80%;
+          align-items: center;
+          text-align: center;
+        }
+
+        .footer-handles {
+          width: 80%;
+          align-items: center;
+          text-align: center;
+        }
+
+        .footer-aboutUs {
+          width: 80%;
+          align-items: center;
+          text-align: center;
+        }
+      }
     }
+  }
+
+  .footer-bottom {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 20px;
+    background-color: #804bf2;
+    color: white;
+
+    @media screen and (max-width: 550px) {
+      font-size: 15px;
+    }
+  }
 }

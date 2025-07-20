@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardNavBar from "../assets/dashboardNavBar.json";
-import dashboardIcon from "../assets/public/legacy_builder_logo.png";
+import dashboardIcon from "../../public/logo.png";
 import { MdDashboard } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import img2 from "../assets/public/pastquestion.svg";
@@ -44,10 +44,12 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
       {showDropdown && (
         <div
           className="dashboard-leftDropdown"
-          onClick={() => setShowDropdown(!showDropdown)}>
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           <div
             className="dashboard-leftDropdownHolder"
-            onClick={(e) => e.stopPropagation()}>
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="dashboard-leftDropdown-navbarHolder">
               <div className="dashboard-leftDropdown-leftImg">
                 <img src={dashboardIcon} alt="" />
@@ -61,7 +63,8 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                       item.link === location.pathname ? "#804bf233" : "white",
                   }}
                   className="dashboard-leftDropdown-navBar"
-                  onClick={() => setShowDropdown(!showDropdown)}>
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
                   {dashboardIcons[index]}
                   {item.name}
                 </Link>
@@ -81,7 +84,8 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                             location.pathname === "/dashboard/subscription"
                               ? "#804BF233"
                               : "white",
-                        }}>
+                        }}
+                      >
                         <SiMoneygram color="#804BF266" fontSize={35} />
                         Subscription
                       </Link>
@@ -96,7 +100,8 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                           onClick={() => {
                             nav("/dashboard/subscription");
                             setShowDropdown(!showDropdown);
-                          }}>
+                          }}
+                        >
                           Subscribe Now
                         </button>
                       </div>
@@ -114,7 +119,8 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                         location.pathname === "/dashboard/subscription"
                           ? "#804BF233"
                           : "white",
-                    }}>
+                    }}
+                  >
                     <SiMoneygram color="#804BF266" fontSize={35} />
                     Subscription
                   </Link>
@@ -124,7 +130,8 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
             <div
               className="dashboard-leftDropdown-navBar"
               style={{ backgroundColor: "white" }}
-              onClick={() => dispatch(setLogout())}>
+              onClick={() => dispatch(setLogout())}
+            >
               <AiOutlineLogout fontSize={35} color="red" />
               Logout
             </div>

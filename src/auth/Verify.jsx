@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
