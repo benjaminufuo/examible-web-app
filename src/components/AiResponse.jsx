@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "../styles/dashboardCss/airesponse.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setAiResponseModal } from "../global/slice";
@@ -30,6 +30,7 @@ const AiResponse = () => {
           Study Time
           <BiArrowBack
             className="close-respone-modal"
+            style={{ zIndex: 3, cursor: "pointer" }}
             onClick={() => dispatch(setAiResponseModal())}
           />
           <div className="second-header">

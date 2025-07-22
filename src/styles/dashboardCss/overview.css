@@ -15,9 +15,13 @@
     font-family: "Montserrat", sans-serif;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     background-color: white;
     align-items: center;
+  }
+
+  @media screen and (max-width: 550px) {
+    padding: 12px;
   }
 }
 
@@ -140,7 +144,7 @@
 
       @media screen and (max-width: 550px) {
         img {
-          left: 20px;
+          left: 15px;
         }
 
         main {
@@ -148,14 +152,16 @@
           nav {
             min-height: 80px;
             width: 60%;
+            gap: 5px;
             h5 {
-              font-size: 20px;
+              font-size: 17px;
+              line-height: 20px;
             }
 
             p {
-              font-size: 6px;
+              font-size: 7px;
               z-index: 3;
-              line-height: 15px;
+              line-height: 10px;
             }
           }
         }
@@ -270,7 +276,7 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     .overview-firstLayerMiddle {
       width: 215px;
       height: 488px;
@@ -403,7 +409,7 @@
     margin-top: 45px;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     display: none;
   }
 }
@@ -600,7 +606,7 @@
       margin-left: 20px;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 850px) {
       ol {
         font-size: 12px;
       }
@@ -617,4 +623,10 @@
       }
     }
   }
+}
+
+.overview-noPerformance {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: "Montserrat", sans-serif;
 }

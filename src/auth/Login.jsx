@@ -59,7 +59,7 @@ const Login = () => {
           toast.success("Login successful!");
           setLoading(false);
           setTimeout(() => {
-            navigate("/dashboard/overview");
+            navigate("/dashboard/overview", { replace: true });
           }, 3000);
         }
       } catch (error) {

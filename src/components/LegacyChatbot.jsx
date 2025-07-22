@@ -14,7 +14,7 @@ const LegacyChatbot = () => {
   const [messages, setMessages] = useState([
     {
       message:
-        "Hello, I am Legacy bot, Feel free to ask me ask me question based on O'level Subjects",
+        "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
       sender: "ChatGPT",
       direction: "Outgoing",
     },
@@ -81,7 +81,7 @@ const LegacyChatbot = () => {
           style={{ padding: 10 }}
           scrollBehavior="smooth"
           typingIndicator={
-            typing ? <TypingIndicator content="Legacy bot is typing" /> : null
+            typing ? <TypingIndicator content="Examible bot is typing" /> : null
           }
         >
           {messages.map((message, index) => {

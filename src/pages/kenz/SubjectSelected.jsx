@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/dashboardCss/subjectSelected.css";
 import image1 from "../../assets/public/home-firstlayer.png";
 import { FaArrowLeftLong, FaBook } from "react-icons/fa6";
@@ -83,6 +83,13 @@ const SubjectSelected = () => {
       divColor: "#88DDFF",
       iconColor: "#1E1E1E",
       textColor: "#FFFFFF",
+    },
+    {
+      subject: "Commerce",
+      cardColor: "#FFFFFF",
+      divColor: "#1E1E1E",
+      iconColor: "#FFFFFF",
+      textColor: "#1E1E1E",
     },
   ];
 

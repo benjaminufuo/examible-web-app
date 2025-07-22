@@ -20,7 +20,7 @@ const Callback = () => {
         dispatch(setUser(res?.data?.data));
         dispatch(setUserToken(token));
         setTimeout(() => {
-          nav("/dashboard/overview");
+          nav("/dashboard/overview", { replace: true });
         }, 3000);
       }
     } catch (error) {
