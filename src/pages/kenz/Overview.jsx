@@ -283,15 +283,7 @@ const Overview = () => {
                   <li>Completed</li>
                 </ul>
                 {user?.myRating.length <= 0 ? (
-                  <p
-                    style={{
-                      fontWeight: 700,
-                      fontSize: 30,
-                      fontFamily: '"Montserrat", sans-serif',
-                    }}
-                  >
-                    No Performance yet
-                  </p>
+                  <p className="overview-noPerformance">No Performance yet</p>
                 ) : (
                   <>
                     {user?.myRating.map((item, index) => (

@@ -6,7 +6,7 @@ const ChatBot = ({ closeBot }) => {
   return (
     <div className="chatbot-container">
       <div className="chatbot-header">
-        <h4>Legacy Assistant</h4>
+        <h4>Examible Assistant</h4>
         <RiCloseLine
           size={30}
           onClick={closeBot}

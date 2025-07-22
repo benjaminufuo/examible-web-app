@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/dashboardCss/examBody.css";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { LuClock2 } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  cancelExam,
   nextQuestion,
-  previousQuestion,
   setExamTimeout,
   setFinishedExam,
   setLeavingNow,
@@ -34,11 +32,9 @@ const TheExam = () => {
   const nav = useNavigate();
   const { subject, subjectId } = useParams();
   const num = Number(subjectId);
-  // console.log(exam[num -1]?.option,exam[num - 1]?.answer)
   const currentQuestion = mockExamQuestions?.find(
     (item, index) => index === num - 1
   );
-  // console.log(currentQuestion)
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(theExamTimer());
@@ -126,36 +122,56 @@ const TheExam = () => {
               style={{ cursor: "pointer" }}
               onClick={() =>
                 dispatch(setMockExamOption({ option: "A", answer: "A" }))
-              }>
+              }
+            >
               <h4>A.</h4>
-              <p>{currentQuestion?.options[0]}</p>
+              <p>
+                {currentQuestion?.options[0]?.startsWith("A.")
+                  ? currentQuestion?.options[0]?.slice(2)
+                  : currentQuestion?.options[0]}
+              </p>
               <input type="radio" checked={mockExamOptions.optionA} readOnly />
             </nav>
             <nav
               style={{ cursor: "pointer" }}
               onClick={() =>
                 dispatch(setMockExamOption({ option: "B", answer: "B" }))
-              }>
+              }
+            >
               <h4>B.</h4>
-              <p>{currentQuestion?.options[1]}</p>
+              <p>
+                {currentQuestion?.options[1]?.startsWith("B.")
+                  ? currentQuestion?.options[1]?.slice(2)
+                  : currentQuestion?.options[1]}
+              </p>
               <input type="radio" checked={mockExamOptions.optionB} />
             </nav>
             <nav
               style={{ cursor: "pointer" }}
               onClick={() =>
                 dispatch(setMockExamOption({ option: "C", answer: "C" }))
-              }>
+              }
+            >
               <h4>C.</h4>
-              <p>{currentQuestion?.options[2]} </p>
+              <p>
+                {currentQuestion?.options[2]?.startsWith("C.")
+                  ? currentQuestion?.options[2]?.slice(2)
+                  : currentQuestion?.options[2]}{" "}
+              </p>
               <input type="radio" checked={mockExamOptions.optionC} />
             </nav>
             <nav
               style={{ cursor: "pointer" }}
               onClick={() =>
                 dispatch(setMockExamOption({ option: "D", answer: "D" }))
-              }>
+              }
+            >
               <h4>D.</h4>
-              <p>{currentQuestion?.options[3]}</p>
+              <p>
+                {currentQuestion?.options[3]?.startsWith("D.")
+                  ? currentQuestion?.options[3]?.slice(2)
+                  : currentQuestion?.options[3]}
+              </p>
               <input type="radio" checked={mockExamOptions.optionD} />
             </nav>
           </main>
@@ -163,7 +179,8 @@ const TheExam = () => {
         <div className="examBody-secondLayerButton">
           <button
             style={{ display: parseInt(subjectId) === 1 ? "none" : "flex" }}
-            onClick={() => previousExam()}>
+            onClick={() => previousExam()}
+          >
             <article>
               <FaArrowLeftLong />
             </article>
@@ -176,7 +193,8 @@ const TheExam = () => {
                   ? "none"
                   : "flex",
             }}
-            onClick={() => nextExam()}>
+            onClick={() => nextExam()}
+          >
             <h2>{isNext ? "Next" : "Skip"}</h2>
             <article>
               <FaArrowRightLong />
@@ -192,7 +210,8 @@ const TheExam = () => {
               color: "white",
               borderColor: "#804BF2",
             }}
-            onClick={() => dispatch(setFinishedExam())}>
+            onClick={() => dispatch(setFinishedExam())}
+          >
             <h2>Finish</h2>
           </button>
         </div>
@@ -223,7 +242,8 @@ const TheExam = () => {
                     })
                   );
                 }}
-                key={index}>
+                key={index}
+              >
                 {item}
               </main>
             ))}

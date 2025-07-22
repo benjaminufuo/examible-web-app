@@ -1,6 +1,4 @@
-import React from "react";
 import "../../styles/home.css";
-import ProvenProcess from "../../components/ProvenProcess";
 import home1 from "../../assets/public/home-firstlayer.png";
 import home2 from "../../assets/public/home-secondLeft.png";
 import home3 from "../../assets/public/home-jamb-syllabus.png";
@@ -11,7 +9,6 @@ import home7 from "../../assets/public/home-past-question.png";
 import home8 from "../../assets/public/chat-bot.jpg";
 import home9 from "../../assets/public/home-victoria.jpg";
 import home10 from "../../assets/public/home-kenneth.jpg";
-import home11 from "../../assets/public/home-jacob.jpg";
 import home12 from "../../assets/public/home-augustine.jpg";
 import home13 from "../../assets/public/home-lola.jpg";
 import home14 from "../../assets/public/home-jamb.png";
@@ -174,7 +171,7 @@ const Home = () => {
           <div>
             <img src={home8} alt="Legacy Bot" />
           </div>
-          <p>Legacy Bot</p>
+          <p>Examible Bot</p>
         </nav>
       </div>
       <div className="home-sixthLayer">

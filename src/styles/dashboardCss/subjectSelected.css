@@ -128,9 +128,9 @@
       }
     }
 
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 550px) {
       img {
-        left: 20px;
+        left: 13px;
       }
 
       main {
@@ -139,13 +139,14 @@
         nav {
           width: 60%;
           h5 {
-            font-size: 20px;
+            font-size: 18px;
+            line-height: 20px;
           }
 
           p {
-            font-size: 6px;
+            font-size: 8px;
             z-index: 3;
-            line-height: 15px;
+            line-height: 10px;
           }
         }
       }
@@ -173,7 +174,7 @@
     }
   }
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 550px) {
     aside {
       top: 0px;
     }
@@ -198,7 +199,7 @@
     display: none;
   }
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 550px) {
     .not-selected {
       font-size: 22px;
       display: block;
