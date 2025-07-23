@@ -1,7 +1,7 @@
 import "../../styles/learnmore.css";
-import learnimg1 from "../../assets/public/learnimg1.png";
-import learnimg2 from "../../assets/public/learnimg2.png";
-import learnimg3 from "../../assets/public/learnimg3.png";
+import learn1 from "../../assets/public/learn1.svg";
+import learn2 from "../../assets/public/learn2.svg";
+import learn3 from "../../assets/public/learn3.svg";
 import learnimg4 from "../../assets/public/learnimg4.png";
 import { FaCheck } from "react-icons/fa6";
 
@@ -63,13 +63,13 @@ const LearnMore = () => {
         </div>
         <div className="learnmoreimage">
           <div className="learnimg1">
-            <img src={learnimg1} className="learnmorepicssame" />
+            <img src={learn1} className="learnmorepicssame" />
           </div>
           <div className="learnimg2">
-            <img src={learnimg2} className="learnmorepics" />
+            <img src={learn2} className="learnmorepics" />
           </div>
           <div className="learnimg3">
-            <img src={learnimg3} className="learnmorepicssame" />
+            <img src={learn3} className="learnmorepicssame" />
           </div>
         </div>
         <div className="learnmoredescription">
