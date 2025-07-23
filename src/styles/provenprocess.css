@@ -554,7 +554,7 @@
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1024) {
+@media screen and (min-width: 769px) and (max-width: 1030px) {
   .provenmainprocess {
     width: 90%;
     min-height: 100vh;
