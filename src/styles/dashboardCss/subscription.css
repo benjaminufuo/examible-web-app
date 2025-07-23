@@ -776,7 +776,7 @@
     height: 100%;
     justify-content: center;
     align-items: center;
-    padding: 12px;
+    padding: 10px;
     flex-shrink: 0;
     border-radius: 20px;
     background: #804bf2;
@@ -785,10 +785,10 @@
       color: #fff;
       text-align: center;
       font-family: Montserrat;
-      font-size: 12px;
+      font-size: 11px;
       font-style: normal;
       font-weight: 500;
-      line-height: 23px;
+      line-height: 27.778px;
     }
   }
 }
@@ -968,7 +968,7 @@
 
   .subfooter {
     display: flex;
-    width: 70%;
+    width: 100%;
     height: 80%;
     justify-content: center;
     align-items: center;
