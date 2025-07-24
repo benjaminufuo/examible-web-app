@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/dashboardCss/pastquestion.css";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,8 +18,6 @@ const PastQuestion = () => {
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [years, setYears] = useState([]); // State to hold the years fetched from the API
-  const [subjectYearsMap, setSubjectYearsMap] = useState({}); // State to hold the mapping of subjects to years
 
   // Function to toggle the dropdown
   // This function checks if the dropdown is already active. If it is, it sets the activeDropdown to null, effectively closing it. If it is not active, it sets the activeDropdown to the dropdown that was clicked, opening it.
@@ -86,12 +84,6 @@ const PastQuestion = () => {
   const handleSubjectClick = (subject) => {
     setSelectedSubject(subject);
     dispatch(setExam(subject));
-    if (subjectYearsMap[subject]) {
-      setYears(subjectYearsMap[subject].sort((a, b) => b - a)); // Sort years in descending order
-    } else {
-      setYears([]); // If no years are available for the subject, set years to an empty array
-    }
-    setSelectedYear("All"); // Reset selected year when subject changes
   };
 
   const handleYearClick = (year) => {
@@ -167,6 +159,7 @@ const PastQuestion = () => {
                 cursor: "pointer",
                 opacity: selectedSubject === "All" ? 0.5 : 1,
               }}
+
             >
               {selectedYear}
               {activeDropdown === "year" ? (
