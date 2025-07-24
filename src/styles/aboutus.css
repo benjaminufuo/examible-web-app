@@ -316,13 +316,6 @@
       gap: 10px;
     }
 
-    .aboutmaiinicon {
-      font-size: 30px;
-      border-radius: 50%;
-      border: 2px solid black;
-      padding: 3px;
-    }
-
     .aboutname {
       width: 80%;
       padding: 15px;
@@ -357,6 +350,21 @@
       }
     }
   }
+}
+
+.aboutmaiinicon {
+  font-size: 30px;
+  border-radius: 50%;
+  border: 2px solid black;
+  padding: 3px;
+  cursor: pointer;
+  transform: scale(1);
+}
+
+.aboutmaiinicon :hover {
+  transform: scale(1.2);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 320px) and (max-width: 430px) {
