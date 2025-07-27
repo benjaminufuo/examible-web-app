@@ -39,7 +39,7 @@ const LearnMore = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="100%"
-          height="102vh"
+          height="90vh"
           preserveAspectRatio="none"
           viewBox="0 0 1440 656"
           fill="none"

@@ -135,7 +135,7 @@ const AboutUs = () => {
           <Swiper
             modules={[Autoplay]}
             spaceBetween={10}
-            slidesPerView={4}
+            slidesPerView={3}
             autoplay={{
               disableOnInteraction: false,
             }}

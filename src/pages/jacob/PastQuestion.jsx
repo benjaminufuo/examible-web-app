@@ -34,43 +34,12 @@ const PastQuestion = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
-  // List of years for the dropdown
-  // const years = [
-  //   "2023",
-  //   "2022",
-  //   "2021",
-  //   "2020",
-  //   "2019",
-  //   "2018",
-  //   "2017",
-  //   "2016",
-  //   "2015",
-  //   "2014",
-  //   "2013",
-  //   "2012",
-  //   "2011",
-  //   "2010",
-  //   "2009",
-  //   "2008",
-  //   "2007",
-  //   "2006",
-  //   "2005",
-  //   "2004",
-  //   "2003",
-  //   "2002",
-  //   "2001",
-  //   "2000",
-  // ];
-
+  // Base URL for fetching subjects and years
   const baseUrl = "https://questionapp-t8bu.onrender.com/subjects";
   const getYears = async () => {
     try {
       const response = await axios.get(baseUrl);
       setSubjectYearsMap(response.data.data); // Save the mapping
-      // Optionally set all years initially
-      const allYears = Object.values(response.data.data).flat();
-      setYears([...new Set(allYears)].sort((a, b) => b - a));
-      console.log(uniqueYears);
     } catch (error) {
       console.error("Error fetching years:", error);
     }
@@ -95,7 +64,6 @@ const PastQuestion = () => {
         }api/v1/fetch-questions/${year}/${subject}/${user?._id}`
       );
       toast.update(toastId, {
-        // render: "Question fetched succesfully!",
         render: response?.data?.data?.message,
         type: "success",
         isLoading: false,
@@ -198,7 +166,6 @@ const PastQuestion = () => {
               style={{
                 cursor: "pointer",
                 opacity: selectedSubject === "All" ? 0.5 : 1,
-                pointerEvents: selectedSubject === "All" ? "none" : "auto",
               }}
             >
               {selectedYear}
@@ -237,7 +204,7 @@ const PastQuestion = () => {
             }
             disabled={disabled || loading}
             style={{
-              backgroundColor: disabled || loading ? "#dbd2f0d2" : "#804bf2",
+              opacity: disabled || loading ? 0.3 : 1,
               cursor: disabled || loading ? "not-allowed" : "pointer",
             }}
           >

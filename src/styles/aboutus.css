@@ -16,6 +16,7 @@
 }
 .heroImgContainer {
   object-fit: contain;
+  background-repeat: no-repeat;
   width: 100%;
   height: 45vh;
 
@@ -316,13 +317,6 @@
       gap: 10px;
     }
 
-    .aboutmaiinicon {
-      font-size: 30px;
-      border-radius: 50%;
-      border: 2px solid black;
-      padding: 3px;
-    }
-
     .aboutname {
       width: 80%;
       padding: 15px;
@@ -357,6 +351,21 @@
       }
     }
   }
+}
+
+.aboutmaiinicon {
+  font-size: 30px;
+  border-radius: 50%;
+  border: 2px solid black;
+  padding: 3px;
+  cursor: pointer;
+  transform: scale(1);
+}
+
+.aboutmaiinicon :hover {
+  transform: scale(1.2);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 320px) and (max-width: 430px) {
@@ -604,7 +613,6 @@
     .teamdiv {
       width: 90px;
       height: 200px;
-      /* background-color: #f2ae30; */
       display: flex;
       object-fit: contain;
       flex-direction: column;
