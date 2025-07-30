@@ -62,7 +62,7 @@ const AboutUs = () => {
         </div>
         <div className="aboutdescription">
           <h1>
-            Introduction to <em className="aboutem">Emaxible</em>
+            Introduction to <em className="aboutem">Examible</em>
           </h1>
           <div className="heroline">
             <svg
@@ -76,7 +76,7 @@ const AboutUs = () => {
             </svg>
           </div>
           <span>
-            Emaxible is dedicated to helping students achieve their academic
+            Examible is dedicated to helping students achieve their academic
             goals through, Mock Exams, Past Questions and expert guidance.
           </span>
         </div>
@@ -105,12 +105,12 @@ const AboutUs = () => {
           </div>
           <div className="rightthirdsection">
             <h1>
-              Emaxible Your Ultimate Platform for{" "}
+              Examible Your Ultimate Platform for{" "}
               <em className="emsucces">JAMB Success!</em>
             </h1>
             <div className="aboutstudytext">
               <p>
-                Emaxible offers a comprehensive and study experience, providing
+                Examible offers a comprehensive and study experience, providing
                 you with past questions, personalized quizzes, real-time
                 progress tracking, and expert assistance.
               </p>

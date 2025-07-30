@@ -62,13 +62,17 @@ const Dashboard = () => {
                 {user?.fullName
                   ?.split(" ")
                   .map((item) => item.charAt(0))
+                  .join(" ")
+                  .split(" ")
+                  .filter((_, index) => index <= 1)
                   .join(" ")}
               </h1>
             )}
           </nav>
           <div
             className="header-menuIcon"
-            onClick={() => setShowDropdown(!showDropdown)}>
+            onClick={() => setShowDropdown(!showDropdown)}
+          >
             <img src={hambuger} />
           </div>
         </div>
