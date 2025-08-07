@@ -3,6 +3,9 @@
 import "../../styles/proctor.css";
 import { AiOutlineCamera, AiOutlineDesktop, AiOutlineAudio, AiOutlineFileText, AiOutlineSafetyCertificate } from "react-icons/ai";
 import { FaGraduationCap } from "react-icons/fa";
+import proctorImg from "../../assets/public/proctorDashboard.webp";
+import studentTakingExam from "../../assets/public/studentTakingExam.webp";
+import institution from "../../assets/public/institution.webp";
 
 const ProctorPage = () => {
   return (
@@ -20,7 +23,8 @@ const ProctorPage = () => {
           </div>
           <div className="hero-image-wrapper animate-fade-in-scale">
             <img
-              src="https://placehold.co/1200x600/E0E7FF/3F51B5?text=ProctorPlus+Dashboard"
+              // src="https://placehold.co/1200x600/E0E7FF/3F51B5?text=ProctorPlus+Dashboard"
+              src={proctorImg}
               alt="AI-powered remote proctoring dashboard"
               width={1200}
               height={600}
@@ -78,7 +82,8 @@ const ProctorPage = () => {
                 </a>
               </div>
               <img
-                src="https://placehold.co/600x400/E0E7FF/3F51B5?text=Students+Taking+Exam"
+                // src="https://placehold.co/600x400/E0E7FF/3F51B5?text=Students+Taking+Exam"
+                src={studentTakingExam}
                 alt="Students taking online exam"
                 width={600}
                 height={400}
@@ -95,7 +100,8 @@ const ProctorPage = () => {
                 </a>
               </div>
               <img
-                src="https://placehold.co/600x400/E0E7FF/3F51B5?text=Professional+Exam"
+                // src="https://placehold.co/600x400/E0E7FF/3F51B5?text=Professional+Exam"
+                src={institution}
                 alt="Professional taking online certification exam"
                 width={600}
                 height={400}
