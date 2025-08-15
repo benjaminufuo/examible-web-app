@@ -7,6 +7,8 @@ import proctorImg from "../../assets/public/proctorDashboard.webp";
 import studentTakingExam from "../../assets/public/studentTakingExam.webp";
 import institution from "../../assets/public/institution.webp";
 
+
+
 const ProctorPage = () => {
   return (
     <>
