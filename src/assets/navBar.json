@@ -1,22 +1,17 @@
 [
-    {
-        "name": "HOME",
-        "link": "/",
-        "id" : 1
-    },
-    {
-        "name": "ABOUT US",
-        "link": "/about-us",
-        "id" : 2
-    },
-    {
-        "name": "LEARN MORE",
-        "link": "/learn-more",
-        "id" : 3
-    },
-      {
-        "name": "PROCTOR",
-        "link": "/proctor-plus",
-        "id" : 4
-    }
+  {
+    "name": "HOME",
+    "link": "/",
+    "id": 1
+  },
+  {
+    "name": "ABOUT US",
+    "link": "/about-us",
+    "id": 2
+  },
+  {
+    "name": "LEARN MORE",
+    "link": "/learn-more",
+    "id": 3
+  }
 ]
