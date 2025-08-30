@@ -20,6 +20,7 @@ import home19 from "../../assets/public/fome-ilorin.png";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from "react-router-dom";
+import { Rate } from "antd";
 
 const responsive = {
   superLargeDesktop: {
@@ -40,6 +41,41 @@ const responsive = {
     items: 1,
   },
 };
+
+const usersFeedback = [
+  {
+    feedback:
+      "I was unsure if I could get 250 or above in JAMB. Examibles’ quizzes, study guides, helped me a lot. My score of 265 exceeded my expectations.",
+    name: "Tolu",
+    school: "University of Ibadan",
+    image: home13,
+    ratings: 5,
+  },
+  {
+    feedback:
+      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
+    name: "Emeka",
+    school: "University of Lagos",
+    image: home12,
+    ratings: 4,
+  },
+  {
+    feedback:
+      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
+    name: "Miracle",
+    school: "University of Lagos",
+    image: home10,
+    ratings: 4.5,
+  },
+  {
+    feedback:
+      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
+    name: "Esther",
+    school: "University of Lagos",
+    image: home9,
+    ratings: 5,
+  },
+];
 
 const Home = () => {
   const nav = useNavigate();
@@ -205,8 +241,6 @@ const Home = () => {
           </nav>
         </div>
       </div>
-      {/* <div className="home-seventhLayerText">our proven <span style={{color:'#804BF2'}}>process</span></div> */}
-      {/* <ProvenProcess/> */}
       <div className="home-eightLayer">
         <h5>TESTIMONIES</h5>
         <h6>
@@ -220,7 +254,6 @@ const Home = () => {
           swipeable={true}
           draggable={true}
           showDots={false}
-          /* responsive={responsive} */
           ssr={true}
           infinite={true}
           autoPlay={true}
@@ -230,121 +263,36 @@ const Home = () => {
           transitionDuration={500}
           containerClass="carousel-container"
           removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
-          /* deviceType={this.props.deviceType} */
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         >
-          <div className="home-nineLayerHolder">
-            <h3>“</h3>
-            <p>
-              I was unsure if I could get 250 or above in JAMB. Examibles’
-              quizzes, study guides, helped me a lot. My score of 265 exceeded
-              my expectations.
-            </p>
-            <nav>
-              <div>
-                <img src={home13} alt="" />
-              </div>
-              <h6>Tolu (University of Ibadan) </h6>
-              <article>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-              </article>
-            </nav>
-          </div>
-          <div className="home-nineLayerHolder">
-            <h3>“</h3>
-            <p>
-              "I thought getting 250+ in JAMB was impossible for me. But
-              Examible gave me the resources, mock tests, and motivation I
-              needed. The practice quizzes helped me prepare and I scored 305.
-            </p>
-            <nav>
-              <div>
-                <img src={home12} alt="" />
-              </div>
-              <h6>Emeka (University of Lagos) </h6>
-              <article>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-              </article>
-            </nav>
-          </div>
-          <div className="home-nineLayerHolder">
-            <h3>“</h3>
-            <p>
-              "I thought getting 250+ in JAMB was impossible for me. But
-              Examible gave me the resources, mock tests, and motivation I
-              needed. The practice quizzes helped me prepare and I scored 305.
-            </p>
-            <nav>
-              <div>
-                <img src={home10} alt="" />
-              </div>
-              <h6>Miracle (university of Lagos) </h6>
-              <article>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-              </article>
-            </nav>
-          </div>
-          <div className="home-nineLayerHolder">
-            <h3>“</h3>
-            <p>
-              "I thought getting 250+ in JAMB was impossible for me. But
-              Examible gave me the resources, mock tests, and motivation I
-              needed. The practice quizzes helped me prepare and I scored 305.
-            </p>
-            <nav>
-              <div>
-                <img src={home9} alt="" />
-              </div>
-              <h6>Esther (university of Lagos) </h6>
-              <article>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-                <section></section>
-              </article>
-            </nav>
-          </div>
+          {usersFeedback?.map((item, index) => (
+            <div className="home-nineLayerHolder" key={index}>
+              <h3>“</h3>
+              <p>{item?.feedback}</p>
+              <nav>
+                <div className="nineLayerHolder-div">
+                  <div>
+                    <img src={item?.image} alt="" />
+                  </div>
+                  <h6>{`${item?.name} (${item?.school})`} </h6>
+                </div>
+                <article>
+                  <Rate
+                    style={{
+                      width: "100%",
+                      fontSize: "17px",
+                      color: "#804BF2",
+                    }}
+                    disabled
+                    allowHalf
+                    defaultValue={item?.ratings}
+                  />
+                </article>
+              </nav>
+            </div>
+          ))}
         </Carousel>
-      </div>
-      <div className="home-tenthLayer">
-        <h5>
-          Trusted by <span style={{ color: "#804BF2" }}>Institutions</span> and
-          thousands of learners all over the country
-        </h5>
-        <nav>
-          <div>
-            <img src={home14} alt="" />
-          </div>
-          <div>
-            <img src={home15} alt="" />
-          </div>
-          <div>
-            <img src={home16} alt="" />
-          </div>
-          <div>
-            <img src={home17} alt="" />
-          </div>
-          <div>
-            <img src={home18} alt="" />
-          </div>
-          <div>
-            <img src={home19} alt="" />
-          </div>
-        </nav>
       </div>
     </div>
   );
