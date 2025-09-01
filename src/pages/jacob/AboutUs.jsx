@@ -258,7 +258,7 @@ const AboutUs = () => {
                 <img src={team7} />
                 <div className="aboutname">
                   <h1>Aimudo Anthony</h1>
-                  <span>Backend</span>
+                  <span>Backend Developer</span>
                 </div>
                 <div className="role">
                   <div className="abouticons">
