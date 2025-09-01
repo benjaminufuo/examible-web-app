@@ -261,6 +261,10 @@
     width: 80%;
   }
 }
+.card:hover span {
+  color: #fff;
+  transition: color 0.3s ease-in-out;
+}
 .card:hover {
   background-color: #804bf2;
   transition: all 0.3s ease-in-out;
@@ -398,7 +402,7 @@
   font-family: Montserrat;
   font-size: 22px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   /* line-height: 40px; */
 }
 .firsttexttwo {
