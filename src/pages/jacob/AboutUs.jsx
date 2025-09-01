@@ -110,13 +110,17 @@ const AboutUs = () => {
             </h1>
             <div className="aboutstudytext">
               <p>
-                Examible offers a comprehensive and study experience, providing
-                you with past questions, personalized quizzes, real-time
-                progress tracking, and expert assistance.
+                Examible offers a comprehensive and study experience,
+                <br /> providing you with past questions, personalized quizzes,
+                <br />
+                real-time progress tracking, and expert assistance.
               </p>
               <span>
-                All designed to help you excel in your JAMB exams, boost your
-                knowledge, and increase your chances of scoring 300+.
+                All designed to help you excel in your JAMB exams,
+                <br />
+                boost your knowledge, and increase your chances
+                <br />
+                of scoring 300+.
               </span>
             </div>
           </div>
@@ -135,9 +139,14 @@ const AboutUs = () => {
           <Swiper
             modules={[Autoplay]}
             spaceBetween={10}
-            slidesPerView={3}
+            slidesPerView={4}
             autoplay={{
               disableOnInteraction: false,
+            }}
+            breakpoints={{
+              1024: { slidesPerView: 4 },
+              768: { slidesPerView: 3 },
+              320: { slidesPerView: 3 },
             }}
             speed={8000}
             loop={true}
@@ -231,8 +240,8 @@ const AboutUs = () => {
               <div className="teamdiv">
                 <img src={team6} />
                 <div className="aboutname">
-                  <h1>Kenneth</h1>
-                  <span>Backend</span>
+                  <h1>Kenneth Ukunwanne</h1>
+                  <span>Backend Developer</span>
                 </div>
                 <div className="role">
                   <div className="abouticons">
