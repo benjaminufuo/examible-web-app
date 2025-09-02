@@ -43,6 +43,10 @@
     .header-holderText {
       display: none;
     }
+
+    .header-holderButton {
+      display: none;
+    }
   }
 }
 .header-holderImg {
@@ -58,8 +62,47 @@
     object-fit: cover;
   }
 }
+
+.header-holderButton {
+  height: 40px;
+  width: 192px;
+  display: flex;
+  justify-content: space-between;
+
+  .header-signup {
+    width: 89px;
+    height: 40px;
+    border-radius: 6px;
+    padding: 10px;
+    border: 1px solid #804bf2;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e1e1e;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  .header-login {
+    width: 89px;
+    height: 40px;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #804bf2;
+    border: 1px solid #804bf2;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+  }
+}
 .header-holderText {
-  width: 65%;
+  width: fit-content;
   height: 54px;
   display: flex;
   align-items: center;
@@ -67,7 +110,7 @@
 
   ul {
     height: 34px;
-    width: 50%;
+    width: fit-content;
     display: flex;
     justify-content: space-between;
     padding-inline: 5px;
@@ -83,53 +126,6 @@
       align-items: center;
       border-bottom: 1px solid;
       transition: border 350ms ease-in-out;
-    }
-  }
-
-  aside {
-    height: 40px;
-    width: 192px;
-    display: flex;
-    justify-content: space-between;
-
-    .header-signup {
-      width: 89px;
-      height: 40px;
-      border-radius: 6px;
-      padding: 10px;
-      border: 1px solid #804bf2;
-      justify-content: center;
-      align-items: center;
-      outline: none;
-      font-weight: 700;
-      font-size: 14px;
-      color: #1e1e1e;
-      cursor: pointer;
-      background-color: white;
-    }
-
-    .header-login {
-      width: 89px;
-      height: 40px;
-      border-radius: 6px;
-      padding: 10px;
-      background-color: #804bf2;
-      border: 1px solid #804bf2;
-      justify-content: center;
-      align-items: center;
-      outline: none;
-      font-weight: 700;
-      font-size: 14px;
-      color: white;
-      cursor: pointer;
-    }
-  }
-
-  @media screen and (max-width: 1024px) {
-    width: 76%;
-
-    .header-holderText {
-      width: 70%;
     }
   }
 }

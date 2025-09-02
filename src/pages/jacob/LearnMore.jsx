@@ -39,7 +39,7 @@ const LearnMore = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="100%"
-          height="90vh"
+          height="546px"
           preserveAspectRatio="none"
           viewBox="0 0 1440 656"
           fill="none"
@@ -53,7 +53,7 @@ const LearnMore = () => {
       <div className="learnmorecontainer">
         <div className="learnmoreheader">
           <h1>
-            Score <span className="threehundredplus">300+</span> in JAMB with
+            Score <span style={{ color: "#f2ae30" }}>300+</span> in JAMB with
             Examible
           </h1>
           <p>
@@ -63,37 +63,38 @@ const LearnMore = () => {
         </div>
         <div className="learnmoreimage">
           <div className="learnimg1">
-            <img src={learn1} className="learnmorepicssame" />
+            <img src={learn1} />
           </div>
           <div className="learnimg2">
-            <img src={learn2} className="learnmorepics" />
+            <img src={learn2} />
           </div>
           <div className="learnimg3">
-            <img src={learn3} className="learnmorepicssame" />
+            <img src={learn3} />
           </div>
         </div>
         <div className="learnmoredescription">
-          <span>
+          <p>
             Preparing for JAMB can be stressful, but with Examible, you get the
             right tools to study smarter, not harder. Our platform is designed
             to help you achieve your dream score with real mockup exams, past
             questions, and personalized study tracking.
-          </span>
+          </p>
         </div>
         <div className="learnmoresecondheader">
           <h1>Examible</h1>
-          <span>
+          <p>
             Examible is designed to help students score 300+ in JAMB with an
             efficient and engaging study experience.
-          </span>
+          </p>
         </div>
 
         <div className="smartpreparation">
           <div className="smartheader">
             <h1>
-              Faster & Smarter <span className="preparation">Preparation</span>
+              Faster & Smarter{" "}
+              <span style={{ color: "#804bf2" }}>Preparation</span>
             </h1>
-            <span>No more aimless studying; focus on what truly matters.</span>
+            <p>No more aimless studying; focus on what truly matters.</p>
           </div>
 
           <div className="carddata">
@@ -106,7 +107,7 @@ const LearnMore = () => {
                     </div>
                   </div>
                 )}
-                <span>{card.title}</span>
+                <p>{card.title}</p>
               </div>
             ))}
           </div>
@@ -119,11 +120,11 @@ const LearnMore = () => {
                 <div className="righttextheader">
                   <h1>
                     Examible
-                    <em className="purplefeatures" style={{ marginLeft: 10 }}>
+                    <span style={{ marginLeft: 10, color: "#804bf2" }}>
                       Key Features:
-                    </em>
+                    </span>
                   </h1>
-                  <span>What Makes Examible Unique?</span>
+                  <p>What Makes Examible Unique?</p>
                 </div>
                 <div className="righttextcontent">
                   <div className="firstcontent">
@@ -195,15 +196,15 @@ const LearnMore = () => {
             </div>
             <div className="bottomtext">
               <h1>
-                Ready to Ace <em className="learnmorejamb">JAMB?</em>
+                Ready to Ace <span style={{ color: "#804bf2" }}>JAMB?</span>
               </h1>
-              <span>
+              <p>
                 Join thousands of students improving their scores with Exambile.
-              </span>
+              </p>
             </div>
             <div className="learnmorefooter">
               <h1>
-                Our Proven <em className="process">Process</em>
+                Our Proven <span style={{ color: "#804bf2" }}>Process</span>
               </h1>
               <ProvenProcess />
             </div>

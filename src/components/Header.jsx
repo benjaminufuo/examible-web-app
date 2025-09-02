@@ -41,15 +41,15 @@ const Header = () => {
                 </li>
               ))}
             </ul>
-            <aside>
-              <button className="header-signup" onClick={() => nav("/signup")}>
-                SIGN UP
-              </button>
-              <button className="header-login" onClick={() => nav("/login")}>
-                LOGIN
-              </button>
-            </aside>
           </div>
+          <aside className="header-holderButton">
+            <button className="header-signup" onClick={() => nav("/signup")}>
+              SIGN UP
+            </button>
+            <button className="header-login" onClick={() => nav("/login")}>
+              LOGIN
+            </button>
+          </aside>
           <div
             className="header-menuIcon"
             onClick={() => setShowDropdown(!showDropdown)}
