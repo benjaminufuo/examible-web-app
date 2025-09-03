@@ -22,7 +22,7 @@ const Footer = () => {
                   color: "black",
                   cursor: "pointer",
                 }}
-                to={"/"}
+                to={"/dashboard/mock-exam"}
               >
                 Mock Exam
               </Link>
@@ -32,7 +32,7 @@ const Footer = () => {
                   color: "black",
                   cursor: "pointer",
                 }}
-                to={"/"}
+                to={"/dashboard/past-questions"}
               >
                 Past Question
               </Link>

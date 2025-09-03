@@ -221,6 +221,20 @@
         }
       }
     }
+
+    @media screen and (max-width: 360px) {
+      main {
+        section {
+          h5 {
+            font-size: 28px;
+            line-height: 35px;
+          }
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 1024px) {
@@ -442,9 +456,10 @@
         padding-inline: 10px;
       }
       width: 100%;
-
-      article {
-        width: 18%;
+      main {
+        article {
+          width: 28%;
+        }
       }
 
       section {
@@ -721,13 +736,13 @@
     line-height: 85px;
     font-family: "Sora", sans-serif;
     text-align: center;
+    margin-bottom: 15px;
   }
 
   p {
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 24px;
-    line-height: 64px;
     text-align: center;
   }
 
@@ -803,7 +818,7 @@
 }
 
 .home-sixthLayer {
-  height: fit-content;
+  height: max-content;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -833,7 +848,7 @@
     }
 
     nav {
-      height: 384px;
+      min-height: 384px;
       width: 600px;
       display: flex;
       flex-direction: column;
@@ -854,7 +869,7 @@
       }
 
       ul {
-        height: 150px;
+        min-height: 150px;
         width: 479px;
         display: flex;
         flex-direction: column;
@@ -906,7 +921,9 @@
       gap: 30px;
 
       main {
-        width: 100%;
+        width: 300px;
+        margin: 0 auto;
+        max-width: 100%;
       }
       nav {
         width: 90%;
