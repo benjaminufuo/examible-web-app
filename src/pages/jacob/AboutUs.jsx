@@ -57,28 +57,30 @@ const AboutUs = () => {
   return (
     <main className="aboutUsMain">
       <section className="aboutUsContainer">
-        <div className="heroImgContainer">
-          <img className="heroImg" src={heroImg} />
-        </div>
-        <div className="aboutdescription">
-          <h1>
-            Introduction to <em className="aboutem">Examible</em>
-          </h1>
-          <div className="heroline">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="3"
-              height="144"
-              viewBox="0 0 3 144"
-              fill="none"
-            >
-              <path d="M1.5 0V144" stroke="white" stroke-width="2" />
-            </svg>
+        <div className="heroSection">
+          <div className="heroImgContainer">
+            <img className="heroImg" src={heroImg} />
           </div>
-          <span>
-            Examible is dedicated to helping students achieve their academic
-            goals through, Mock Exams, Past Questions and expert guidance.
-          </span>
+          <div className="aboutdescription">
+            <h1>
+              Introduction to <em className="aboutem">Examible</em>
+            </h1>
+            <div className="heroline">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="3"
+                height="144"
+                viewBox="0 0 3 144"
+                fill="none"
+              >
+                <path d="M1.5 0V144" stroke="white" stroke-width="2" />
+              </svg>
+            </div>
+            <span>
+              Examible is dedicated to helping students achieve their academic
+              goals through, Mock Exams, Past Questions and expert guidance.
+            </span>
+          </div>
         </div>
         <div className="aboutstatements">
           {heroDescription.map((aboutcard, index) => (

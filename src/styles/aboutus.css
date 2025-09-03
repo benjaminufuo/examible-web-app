@@ -1,6 +1,6 @@
 .aboutUsMain {
   width: 100%;
-  min-height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,11 +14,18 @@
   height: auto;
   padding-bottom: 40px;
 }
+.heroSection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .heroImgContainer {
   object-fit: contain;
   background-repeat: no-repeat;
   width: 100%;
-  height: 45vh;
+  height: 250px;
 
   .heroImg {
     width: 100%;
@@ -28,7 +35,7 @@
 
 .aboutdescription {
   width: 100%;
-  height: auto;
+  height: 250px;
   display: flex;
   padding: 47px 127.5px 47px 128.5px;
   justify-content: center;
@@ -72,7 +79,7 @@
 }
 .aboutstatements {
   width: 100%;
-  min-height: 100vh;
+  height: auto;
   display: flex;
   gap: 5px;
   position: relative;
@@ -133,7 +140,7 @@
 
 .aboutthirdsection {
   width: 90%;
-  min-height: 100vh;
+  height: auto;
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
@@ -153,7 +160,7 @@
 
 .leftthirdsection {
   width: 35%;
-  min-height: auto;
+  height: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -164,7 +171,7 @@
 
   .leftcard {
     width: 48%;
-    height: 50%;
+    height: auto;
     object-fit: contain;
 
     & img {
@@ -176,7 +183,7 @@
 
 .rightthirdsection {
   width: 60%;
-  min-height: 100vh;
+  height: auto;
   padding: 100px 20px 60px 20px;
   display: flex;
   flex-direction: column;
@@ -226,7 +233,8 @@
 
 .bottomheader {
   width: 68%;
-  height: 40vh;
+  height: auto;
+  padding-block: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -265,7 +273,7 @@
 
 .teamcarousel {
   width: 100%;
-  height: 70vh;
+  height: auto;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -275,7 +283,7 @@
 
   .teamdiv {
     width: 90%;
-    height: 80vh;
+    height: auto;
     /* background-color: #f2ae30; */
     display: flex;
     flex-direction: column;
@@ -285,11 +293,11 @@
 
     & img {
       width: 100%;
-      height: 60vh;
+      height: 380px;
     }
     .role {
       width: 100%;
-      height: 28vh;
+      height: 150px;
       position: absolute;
       bottom: 0;
       border-start-start-radius: 19.771px;
@@ -301,7 +309,7 @@
 
     .abouticons {
       width: 100%;
-      height: 55%;
+      height: 70px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -363,12 +371,11 @@
   .heroImgContainer {
     object-fit: contain;
     width: 100%;
-    height: 15vh;
+    height: 100px;
   }
 
   .aboutdescription {
     width: 100%;
-    height: 50vh;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -400,7 +407,6 @@
 
   .aboutstatements {
     width: 100%;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -417,7 +423,7 @@
       & h1 {
         color: #804bf2;
         width: 100%;
-        font-size: 25px;
+        font-size: 30px;
         text-align: center;
       }
 
@@ -426,6 +432,7 @@
         text-align: center;
         width: 100%;
         font-weight: 600;
+        font-size: 18px;
         text-align: center;
       }
 
@@ -434,6 +441,7 @@
         width: 100%;
         text-align: center;
         font-weight: 600;
+        font-size: 18px;
         text-align: center;
       }
     }
@@ -554,7 +562,8 @@
   }
   .bottomheader {
     width: 68%;
-    min-height: 50vh;
+    width: 100%;
+    padding-inline: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -584,7 +593,7 @@
       color: #1e1e1e;
       text-align: center;
       font-family: Montserrat;
-      font-size: 19.415px;
+      font-size: 17px;
       font-style: normal;
       font-weight: 500;
       line-height: 35px;
@@ -593,7 +602,7 @@
 
   .teamcarousel {
     width: 100%;
-    height: 40vh;
+    height: auto;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -603,7 +612,7 @@
 
     .teamdiv {
       width: 110px;
-      height: 200px;
+      height: 170px;
       display: flex;
       object-fit: contain;
       flex-direction: column;
@@ -611,13 +620,9 @@
       align-items: center;
       position: relative;
 
-      & img {
-        width: 100%;
-        height: 50vh;
-      }
       .role {
         width: 100%;
-        height: 8vh;
+        height: 60px;
         position: absolute;
         bottom: 0;
         border-start-start-radius: 19.771px;
@@ -629,10 +634,10 @@
 
       .abouticons {
         width: 100%;
+        height: 30px;
         padding-left: 5px;
         padding-right: 10px;
         padding-top: 0;
-        height: 30%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -653,7 +658,7 @@
         border-radius: 10px;
         background: #804bf2;
         position: absolute;
-        bottom: 25px;
+        bottom: 30px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -685,23 +690,11 @@
   }
 }
 
-@media screen and (min-width: 431px) and (max-width: 844px) {
-  .heroImgContainer {
-    object-fit: contain;
-    width: 100%;
-    height: 30vh;
-
-    .heroImg {
-      width: 100%;
-      height: 100%;
-    }
-  }
+@media screen and (min-width: 431px) and (max-width: 900px) {
   .aboutdescription {
     width: 100%;
-    height: 40vh;
     padding: 20px;
     display: flex;
-
     align-items: center;
     justify-content: center;
     gap: 10px;
@@ -728,7 +721,6 @@
 
   .aboutstatements {
     width: 100%;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -737,7 +729,6 @@
 
     .aboutcard {
       width: 100%;
-      height: 75vh;
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -801,7 +792,7 @@
   }
   .aboutthirdsection {
     width: 100%;
-    min-height: 100vh;
+    height: auto;
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -812,7 +803,7 @@
 
   .leftthirdsection {
     width: 40%;
-    height: 90vh;
+    height: 700px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -822,7 +813,7 @@
 
     .leftcard {
       width: 48%;
-      height: 45%;
+      height: auto;
       object-fit: contain;
 
       & img {
@@ -834,8 +825,8 @@
 
   .rightthirdsection {
     width: 60%;
-    height: 80vh;
-    padding: 60px 20px 60px 20px;
+    height: 700px;
+    padding: 20px 20px 60px 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -843,7 +834,7 @@
     & h1 {
       color: #1e1e1e;
       font-family: Sora;
-      font-size: 36px;
+      font-size: 34px;
       font-style: normal;
       font-weight: 700;
       line-height: 67.953px;
@@ -884,7 +875,7 @@
 
   .teamcarousel {
     width: 100%;
-    height: 50vh;
+    height: 350px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -894,7 +885,7 @@
 
     .teamdiv {
       width: 90%;
-      height: 80vh;
+      height: 500px;
       /* background-color: #f2ae30; */
       display: flex;
       flex-direction: column;
@@ -904,11 +895,11 @@
 
       & img {
         width: 100%;
-        height: 35vh;
+        height: 300px;
       }
       .role {
         width: 100%;
-        height: 28vh;
+        height: 170px;
         position: absolute;
         bottom: 0;
         border-start-start-radius: 19.771px;
@@ -920,7 +911,7 @@
 
       .abouticons {
         width: 100%;
-        height: 50%;
+        height: 70px;
         display: flex;
         justify-content: center;
         gap: 5px;
@@ -935,13 +926,13 @@
 
       .aboutname {
         width: 80%;
-        height: 10%;
+        height: 60px;
         padding-bottom: 5px;
         padding-top: 5px;
         border-radius: 13.771px;
         background: #804bf2;
         position: absolute;
-        bottom: 28%;
+        bottom: 26%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -952,7 +943,7 @@
         & h1 {
           color: #fff;
           font-family: Montserrat;
-          font-size: 10px;
+          font-size: 12px;
           text-align: center;
           font-style: normal;
           font-weight: 700;
@@ -964,7 +955,7 @@
           text-align: center;
           color: #fff;
           font-family: Montserrat;
-          font-size: 8.794px;
+          font-size: 10px;
           font-style: normal;
           font-weight: 400;
           /* 166.667% */
@@ -974,28 +965,9 @@
   }
 }
 
-@media screen and (min-width: 844px) and (max-width: 1280px) {
-  .heroImgContainer {
-    object-fit: contain;
-    width: 100%;
-    height: 30vh;
-
-    .heroImg {
-      width: 100%;
-      height: 100%;
-    }
-  }
+@media screen and (min-width: 901px) and (max-width: 1024px) {
   .aboutdescription {
-    width: 100%;
-    height: 40vh;
     padding: 20px;
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: #804bf2;
-
     & h1 {
       width: 100%;
       font-size: 38px;
@@ -1008,7 +980,6 @@
     }
 
     & span {
-      width: 40%;
       width: 100%;
       text-align: center;
       font-size: 23px;
@@ -1026,7 +997,6 @@
 
     .aboutcard {
       width: 100%;
-      height: 90vh;
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -1089,7 +1059,7 @@
   }
   .aboutthirdsection {
     width: 100%;
-    min-height: 100vh;
+    height: auto;
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -1100,7 +1070,7 @@
 
   .leftthirdsection {
     width: 40%;
-    min-height: 100vh;
+    min-height: 500px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -1110,7 +1080,7 @@
 
     .leftcard {
       width: 48%;
-      height: 45%;
+      height: 380px;
       object-fit: contain;
 
       & img {
@@ -1196,41 +1166,40 @@
       }
       .role {
         width: 100%;
-        height: 30vh;
+        height: 60px;
         position: absolute;
         bottom: 0;
         border-start-start-radius: 19.771px;
         border-start-end-radius: 19.771px;
         background: #d9d9d9;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
       }
 
       .abouticons {
         width: 100%;
-        height: 50%;
+        height: 70px;
         display: flex;
         justify-content: center;
-        padding-top: 10px;
-        gap: 10px;
+        gap: 5px;
       }
 
       .aboutmaiinicon {
         font-size: 20px;
         border-radius: 50%;
-        border: 1px solid black;
+        border: 2px solid black;
         padding: 1px;
       }
 
       .aboutname {
         width: 80%;
-        height: 13%;
+        height: 60px;
         padding-bottom: 5px;
         padding-top: 5px;
         border-radius: 13.771px;
         background: #804bf2;
         position: absolute;
-        bottom: 28%;
+        bottom: 26%;
         display: flex;
         flex-direction: column;
         align-items: center;
