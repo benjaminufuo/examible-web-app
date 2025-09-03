@@ -7,7 +7,7 @@ const FormattedResponse = ({ response }) => {
           {item === "" ? (
             <br />
           ) : (
-            <div>
+            <div key={index}>
               {item
                 .split("**")
                 .map((items, indexes) =>

@@ -72,7 +72,7 @@ const routes = createBrowserRouter([
               { path: "/dashboard/make-payment", element: <MakePayment /> },
               { path: "/dashboard/mock-exam/result", element: <MockResult /> },
               {
-                path: "/dashboard/view-pastquestion",
+                path: "/dashboard/past-questions/view",
                 element: <ViewPastQuestion />,
               },
               { path: "/dashboard/resultpage", element: <ResultPage /> },
