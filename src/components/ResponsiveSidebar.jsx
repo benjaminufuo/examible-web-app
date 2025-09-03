@@ -59,8 +59,9 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                   key={index}
                   to={item.link}
                   style={{
-                    backgroundColor:
-                      item.link === location.pathname ? "#804bf233" : "white",
+                    backgroundColor: location.pathname.startsWith(item.link)
+                      ? "#804bf233"
+                      : "white",
                   }}
                   className="dashboard-leftDropdown-navBar"
                   onClick={() => setShowDropdown(!showDropdown)}
