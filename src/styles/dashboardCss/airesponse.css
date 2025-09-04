@@ -98,3 +98,21 @@
   padding-top: 10px;
   padding-inline: 10px;
 }
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .second-header-text {
+    font-size: 7px;
+  }
+  .response-text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .second-header-text {
+    font-size: 6px;
+  }
+  .response-text {
+    font-size: 14px;
+  }
+}
