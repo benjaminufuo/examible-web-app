@@ -225,7 +225,7 @@ const AboutUs = () => {
               <div className="teamdiv">
                 <img src={team5} />
                 <div className="aboutname">
-                  <h1>Austine Okoye</h1>
+                  <h1>Augustine Okoye</h1>
                   <span>Frontend Developer</span>
                 </div>
                 <div className="role">
