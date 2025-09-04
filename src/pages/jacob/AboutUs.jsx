@@ -126,6 +126,15 @@ const AboutUs = () => {
               </span>
             </div>
           </div>
+          <div className="aboutcircle">
+            <div className="aboutinnercircle"></div>
+          </div>
+          <div className="aboutcircle1">
+            <div className="aboutinnercircle1"></div>
+          </div>
+          <div className="aboutpurplesmallcircle1"></div>
+          <div className="aboutgoldsmallcircle1"></div>
+          <div className="aboutpurplesmallcircle"></div>
         </div>
         <div className="bottomheader">
           <h1>

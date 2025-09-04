@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 .aboutUsContainer {
@@ -139,6 +140,7 @@
 }
 
 .aboutthirdsection {
+  position: relative;
   width: 90%;
   height: auto;
   display: flex;
@@ -231,9 +233,79 @@
   }
 }
 
+.aboutcircle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #f2edfe;
+  position: absolute;
+  bottom: -200px;
+  left: -190px;
+
+  .aboutinnercircle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0px;
+    top: 30px;
+    left: 30px;
+    background: white;
+  }
+}
+
+.aboutpurplesmallcircle1 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #804bf2;
+  position: absolute;
+  top: 200px;
+  left: -40px;
+}
+
+.aboutpurplesmallcircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #804bf2;
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+}
+
+.aboutgoldsmallcircle1 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f2ae30;
+  position: absolute;
+  bottom: -120px;
+  left: 80px;
+}
+.aboutcircle1 {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #804bf2;
+  position: absolute;
+  bottom: -50px;
+  right: -190px;
+
+  .aboutinnercircle1 {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
 .bottomheader {
   width: 68%;
-  height: auto;
+  height: 250px;
   padding-block: 30px;
   display: flex;
   flex-direction: column;
@@ -392,6 +464,27 @@
   }
 }
 @media screen and (min-width: 320px) and (max-width: 430px) {
+  .aboutcircle {
+    display: none;
+  }
+  .aboutinnercircle {
+    display: none;
+  }
+  .aboutcircle1 {
+    display: none;
+  }
+  .aboutinnercircle1 {
+    display: none;
+  }
+  .aboutpurplesmallcircle1 {
+    display: none;
+  }
+  .aboutpurplesmallcircle {
+    display: none;
+  }
+  .aboutgoldsmallcircle1 {
+    display: none;
+  }
   .heroImgContainer {
     object-fit: contain;
     width: 100%;
@@ -713,6 +806,27 @@
 }
 
 @media screen and (min-width: 431px) and (max-width: 1024px) {
+  .aboutcircle {
+    display: none;
+  }
+  .aboutinnercircle {
+    display: none;
+  }
+  .aboutcircle1 {
+    display: none;
+  }
+  .aboutinnercircle1 {
+    display: none;
+  }
+  .aboutpurplesmallcircle1 {
+    display: none;
+  }
+  .aboutpurplesmallcircle {
+    display: none;
+  }
+  .aboutgoldsmallcircle1 {
+    display: none;
+  }
   .aboutdescription {
     width: 100%;
     padding: 20px;
