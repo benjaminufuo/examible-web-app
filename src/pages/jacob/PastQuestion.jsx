@@ -70,7 +70,7 @@ const PastQuestion = () => {
         autoClose: 2000,
       });
       dispatch(setPastQuestions(response.data.data));
-      navigate("/dashboard/view-pastquestion");
+      navigate("/dashboard/past-questions/view");
       setLoading(false);
       setDisabled(true);
     } catch (error) {

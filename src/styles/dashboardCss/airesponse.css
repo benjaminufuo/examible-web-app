@@ -15,8 +15,8 @@
 }
 
 .ai-response-main-container {
-  width: 90%;
-  max-width: 500px;
+  width: 550px;
+  max-width: 90%;
   height: auto;
   background-color: #804bf2;
   border-radius: 10px;
@@ -69,7 +69,7 @@
   font-size: 10px;
   font-style: normal;
   font-weight: 600;
-  line-height: 35px; /* 350% */
+  line-height: 20px;
 }
 .empty-space {
   width: 100%;

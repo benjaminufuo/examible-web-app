@@ -25,7 +25,10 @@ const AiResponse = () => {
       className="modal-overlay"
       onClick={() => dispatch(setAiResponseModal())}
     >
-      <section className="ai-response-main-container">
+      <section
+        className="ai-response-main-container"
+        onClick={(e) => e.stopPropagation()}
+      >
         <header className="response-header">
           Study Time
           <BiArrowBack
