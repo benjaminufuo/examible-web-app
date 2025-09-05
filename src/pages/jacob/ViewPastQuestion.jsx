@@ -163,8 +163,9 @@ const ViewPastQuestion = () => {
       {currentQuestions?.length > 0 ? (
         currentQuestions?.map((item, index) => (
           <div className="answerquestiondiv" key={index}>
-            <h1>
-              {indexOfFirstQuestion + index + 1}. {item.question}
+            <h1 className="questiontext">
+              <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
+              <span>{item.question}</span>
             </h1>
             <ul className="answeroption">
               {item.options.map((option, optionindex) => {
