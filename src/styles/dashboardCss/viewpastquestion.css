@@ -1,7 +1,7 @@
 .viewpastquestionmain {
   width: 100%;
   min-height: 100vh;
-  background-color: rgba(128, 75, 242, 0.2);
+  background-color: rgba(187, 158, 250, 0.2);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -40,7 +40,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
 
   & h1 {
     color: #1e1e1e;
@@ -49,12 +49,17 @@
     font-style: normal;
     font-weight: 600;
     line-height: 35px; /* 218.75% */
+    display: flex;
+    gap: 3px;
   }
 
   .answeroption {
-    padding-left: 30px;
+    padding-left: 20px;
     width: 100%;
     height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 
     & li {
       color: #1e1e1e;
@@ -68,6 +73,9 @@
       word-break: break-word;
       width: auto;
       border: none;
+      cursor: default;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     }
   }
   .pastanswer {
@@ -203,7 +211,7 @@
 }
 
 .pagination-button1 {
-  padding-left: 10px;
+  padding-left: 20px;
   padding-right: 10px;
   width: 140px;
   height: 40px;
@@ -218,9 +226,28 @@
   font-family: Montserrat;
   border: none;
 }
+.pagination-button1:hover {
+  background-color: #ffcb77;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  color: #1e1e1e;
+}
 
+.pagination-button:disabled {
+  background-color: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+  pointer-events: none;
+  border: none;
+  opacity: 0.7;
+}
+
+.pagination-button:disabled:hover {
+  background-color: #e0e0e0;
+  color: #aaa;
+}
 .pagination-button {
-  padding-right: 10px;
+  padding-right: 20px;
   padding-left: 10px;
   width: 140px;
   height: 40px;
@@ -234,6 +261,12 @@
   font-weight: 700;
   font-family: Montserrat;
   border: none;
+}
+.pagination-button:hover {
+  background-color: #ffcb77;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  color: #1e1e1e;
 }
 
 .pagination-info {
@@ -519,5 +552,13 @@
       font-size: 22px;
       line-height: 35px;
     }
+  }
+}
+@media screen and (max-width: 320px) {
+  .pagination-info {
+    font-size: 7px;
+    line-height: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
   }
 }
