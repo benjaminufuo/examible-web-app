@@ -1043,6 +1043,9 @@
 }
 
 @media screen and (max-width: 320px) {
+  .subscriptionmain {
+    padding: 10px;
+  }
   .yearlytext {
     font-size: 12px;
   }
