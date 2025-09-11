@@ -63,12 +63,7 @@ const PastQuestion = () => {
           import.meta.env.VITE_BASE_URL
         }api/v1/fetch-questions/${year}/${subject}/${user?._id}`
       );
-      toast.update(toastId, {
-        render: response?.data?.data?.message,
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      toast.dismiss(toastId);
       dispatch(setPastQuestions(response.data.data));
       navigate("/dashboard/past-questions/view");
       setLoading(false);

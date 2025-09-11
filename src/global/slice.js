@@ -207,15 +207,11 @@ const slice = createSlice({
       state.logout = !state.logout;
     },
     logoutTheUser: (state) => {
-      state.logout = !state.logout;
+      state.logout = false;
       state.user = {};
       state.userToken = "";
-      state.navState.overview = true;
-      state.navState.mockExam = false;
-      state.navState.pastQuestion = false;
-      state.navState.profile = false;
-      state.navState.subscription = false;
       state.mockSubject = "";
+      console.log("logout the user worked");
     },
     setLeavingNow: (state) => {
       state.leavingNow = !state.leavingNow;

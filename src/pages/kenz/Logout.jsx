@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../../styles/dashboardCss/logout.css";
 import img1 from "../../assets/public/Log out.svg";
 import { useDispatch, useSelector } from "react-redux";
