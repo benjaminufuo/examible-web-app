@@ -35,7 +35,12 @@ const Sidebar = () => {
     <div className="dashboard-left">
       <div className="dashboard-leftNavbarHolder">
         <div className="dashboard-leftImg">
-          <img src={dashboardIcon} alt="" />
+          <img
+            src={dashboardIcon}
+            alt=""
+            onClick={() => nav("/dashboard/overview")}
+            style={{ cursor: "pointer" }}
+          />
         </div>
         {dashboardNavBar.map((item, index) => (
           <Link

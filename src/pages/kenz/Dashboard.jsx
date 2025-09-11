@@ -65,7 +65,7 @@ const Dashboard = () => {
                   .join(" ")
                   .split(" ")
                   .filter((_, index) => index <= 1)
-                  .join(" ")}
+                  .join("")}
               </h1>
             )}
           </nav>

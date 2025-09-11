@@ -200,6 +200,7 @@
 
   @media screen and (max-width: 850px) {
     width: 100%;
+    padding-top: 105px;
   }
 
   .dashboard-header {
@@ -250,8 +251,10 @@
     }
 
     @media screen and (max-width: 850px) {
-      position: sticky;
+      position: fixed;
       top: 0;
+      margin-top: 0px;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       h3 {
         font-size: 20px;
       }

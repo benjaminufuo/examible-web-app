@@ -271,9 +271,10 @@ const SignUp = () => {
           <span className="or">or</span>
           <div className="line"></div>
         </span>
-        <article className="socials">
-          <FcGoogle className="googleIcon" onClick={googleIcon} />
-        </article>
+        <button className="signup-authBtn" onClick={googleIcon}>
+          <FcGoogle className="googleIcon" />
+          <span>Continue with Google</span>
+        </button>
       </div>
     </div>
   );

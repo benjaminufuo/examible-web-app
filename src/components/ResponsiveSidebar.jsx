@@ -52,7 +52,12 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
           >
             <div className="dashboard-leftDropdown-navbarHolder">
               <div className="dashboard-leftDropdown-leftImg">
-                <img src={dashboardIcon} alt="" />
+                <img
+                  src={dashboardIcon}
+                  alt=""
+                  onClick={() => nav("/dashboard/overview")}
+                  style={{ cursor: "pointer" }}
+                />
               </div>
               {dashboardNavBar.map((item, index) => (
                 <Link
