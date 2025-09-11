@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../styles/header.css";
 import menuBar from "../assets/navBar.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import HeaderLogo from "../../public/logo.png";
+import HeaderLogo from "../assets/public/logo.png";
 import hambuger from "../assets/public/hambuger.svg";
 
 const Header = () => {

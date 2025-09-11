@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/authCss/auth.css";
 import { FcGoogle } from "react-icons/fc";
-import logo from "../../public/logo.png";
+import logo from "../assets/public/logo.png";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";

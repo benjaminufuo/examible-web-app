@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../global/slice";
 import PaymentSuccessfull from "../../components/PaymentSuccessfull";
 
 const VerifyPayment = () => {
   const [isVerifying, setIsVerifying] = useState(true);
-  const reference = useSelector((state) => state.reference);
+  const [searchParams] = useSearchParams();
+  const reference = searchParams.get("reference");
   const [plan, setPlan] = useState("");
   const dispatch = useDispatch();
   const nav = useNavigate();
