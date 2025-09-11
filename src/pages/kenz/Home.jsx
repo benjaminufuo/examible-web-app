@@ -5,7 +5,7 @@ import home3 from "../../assets/public/home-jamb-syllabus.png";
 import home4 from "../../assets/public/home-question.png";
 import home5 from "../../assets/public/home-badges.png";
 import home6 from "../../assets/public/home-mock-exam.jpg";
-import home7 from "../../assets/public/home-past-question.png";
+import home7 from "../../assets/public/home-past-question.jpeg";
 import home8 from "../../assets/public/chat-bot.jpg";
 import home9 from "../../assets/public/home-victoria.jpg";
 import home10 from "../../assets/public/home-kenneth.jpg";
@@ -182,7 +182,7 @@ const Home = () => {
         <h6>
           Our <span style={{ color: "#804BF2" }}>Key</span> Features
         </h6>
-        <p>Explore our Key features with Ease</p>
+        <p>Here are some of our key features</p>
       </div>
       <div className="home-fifthLayer">
         <nav>

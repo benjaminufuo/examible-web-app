@@ -165,9 +165,10 @@ const Login = () => {
           <span className="or">Other login options</span>
           <div className="line"></div>
         </span>
-        <article className="socials">
-          <FcGoogle className="googleIcon" onClick={() => loginGoogleIcon()} />
-        </article>
+        <button className="signup-authBtn" onClick={() => loginGoogleIcon()}>
+          <FcGoogle className="googleIcon" />
+          <span>Continue with Google</span>
+        </button>
         <article className="forgotpassworddiv">
           <p
             className="forgotpassword"
