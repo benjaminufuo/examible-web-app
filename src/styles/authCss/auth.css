@@ -113,7 +113,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 5px;
+  margin-bottom: 10px;
   z-index: 1;
 
   & h1 {
@@ -324,6 +325,7 @@
   justify-content: center;
   width: 70%;
   gap: 10px;
+  margin: 10px 0px;
 }
 
 .or {
@@ -361,10 +363,6 @@
 }
 .googleIcon {
   font-size: 30px;
-}
-.googleIcon:hover {
-  transform: scale(1.3);
-  transition: 350ms ease-in-out;
 }
 
 .forgotpassworddiv {
@@ -702,5 +700,32 @@
   }
   .signupForm {
     width: 100%;
+  }
+}
+
+.signup-authBtn {
+  background-color: #5e1cee3f;
+  width: 80%;
+  height: 45px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+
+  span {
+    font-size: 18px;
+    font-family: "Sora", sans-serif;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 }

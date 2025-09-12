@@ -1,16 +1,42 @@
-import React from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Loading from "../components/Loading";
 
 const MainHolder = () => {
+  const userToken = useSelector((state) => state.userToken);
+  const nav = useNavigate();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    // setTimeout(() => {
+    //   if (userToken) {
+    //     nav("/dashboard/overview", { replace: true });
+    //   }
+    // }, 800);
+  }, [userToken]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  console.log(userToken);
+
+  if (userToken && !loading) {
+    nav("/dashboard/overview", { replace: true });
+  }
   return (
     <>
-      <Header/>
-      <Outlet/>
-      <Footer/>
+      <Header />
+      <Outlet />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default MainHolder
+export default MainHolder;

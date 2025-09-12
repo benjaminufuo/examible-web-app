@@ -2,7 +2,7 @@ import "../styles/footer.css";
 import { MdEmail } from "react-icons/md";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
-import FooterLogo from "../../public/logo.png";
+import FooterLogo from "../assets/public/logo.png";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

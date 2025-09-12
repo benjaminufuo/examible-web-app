@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/dashboardCss/leavingNow.css";
-import img1 from "../../assets/public/Quit Game.svg";
-import {
-  cancelExam,
-  setFeedbackModal,
-  setLeavingNow,
-  setUser,
-} from "../../global/slice";
+import { setFeedbackModal, setLeavingNow, setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -80,13 +74,15 @@ const LeavingNow = () => {
                 color: "white",
                 cursor: loading ? "not-allowed" : "pointer",
               }}
-              onClick={() => quitExam()}>
+              onClick={() => quitExam()}
+            >
               Quit Anyway
             </button>
             <button
               disabled={loading}
               style={{ background: "white", color: "#804BF2" }}
-              onClick={() => dispatch(setLeavingNow())}>
+              onClick={() => dispatch(setLeavingNow())}
+            >
               Stay in Exam
             </button>
           </nav>

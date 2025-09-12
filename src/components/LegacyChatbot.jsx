@@ -8,17 +8,13 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useState } from "react";
+import { setChatbotMessages } from "../global/slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      message:
-        "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
-      sender: "ChatGPT",
-      direction: "Outgoing",
-    },
-  ]);
+  const messages = useSelector((state) => state.chatbotMessages);
+  const dispatch = useDispatch();
 
   const processMessage = async (chatMessages) => {
     let apiMessages = chatMessages.map((message) => {
@@ -38,30 +34,53 @@ const LegacyChatbot = () => {
     };
 
     const apiRequest = {
-      model: "gpt-4o-mini",
+      model: "deepseek/deepseek-chat-v3.1:free",
       messages: [systemMessage, ...apiMessages],
     };
 
-    await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(apiRequest),
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        setMessages([
+    try {
+      const response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiRequest),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      dispatch(
+        setChatbotMessages([
           ...chatMessages,
           {
             message: data.choices[0].message.content,
             sender: "ChatGPT",
             direction: "Outgoing",
           },
-        ]),
-          setTyping(false);
-      });
+        ])
+      );
+    } catch (error) {
+      dispatch(
+        setChatbotMessages([
+          ...chatMessages,
+          {
+            message: "Sorry, something went wrong. Please try again.",
+            sender: "ChatGPT",
+            direction: "Outgoing",
+          },
+        ])
+      );
+      console.error("Chatbot error:", error);
+    } finally {
+      setTyping(false);
+    }
   };
 
   const handleSend = async (message) => {
@@ -70,7 +89,7 @@ const LegacyChatbot = () => {
       sender: "user",
     };
     const newMessages = [...messages, newMessage];
-    setMessages(newMessages);
+    dispatch(setChatbotMessages(newMessages));
     setTyping(true);
     processMessage(newMessages);
   };

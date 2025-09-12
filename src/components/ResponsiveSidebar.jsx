@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardNavBar from "../assets/dashboardNavBar.json";
-import dashboardIcon from "../../public/logo.png";
+import dashboardIcon from "../assets/public/logo.png";
 import { MdDashboard } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import img2 from "../assets/public/pastquestion.svg";
@@ -52,7 +52,12 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
           >
             <div className="dashboard-leftDropdown-navbarHolder">
               <div className="dashboard-leftDropdown-leftImg">
-                <img src={dashboardIcon} alt="" />
+                <img
+                  src={dashboardIcon}
+                  alt=""
+                  onClick={() => nav("/dashboard/overview")}
+                  style={{ cursor: "pointer" }}
+                />
               </div>
               {dashboardNavBar.map((item, index) => (
                 <Link

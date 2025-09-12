@@ -159,7 +159,7 @@
             }
 
             p {
-              font-size: 7px;
+              font-size: 8.2px;
               z-index: 3;
               line-height: 10px;
             }
@@ -266,6 +266,16 @@
               align-items: center;
             }
           }
+        }
+      }
+
+      @media screen and (max-width: 550px) {
+        h4 {
+          text-align: center;
+          margin-top: 15px;
+        }
+        main {
+          justify-content: center;
         }
       }
     }
@@ -583,7 +593,7 @@
 
   .overview-thirdLayerHolder {
     width: 87%;
-    height: 257px;
+    min-height: 257px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -595,7 +605,7 @@
     }
 
     ol {
-      height: 227px;
+      min-height: 227px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -614,14 +624,23 @@
 
     @media screen and (max-width: 480px) {
       justify-content: space-evenly;
+      padding: 8px 8px 8px 0px;
       h6 {
-        font-size: 9px;
+        font-size: 13px;
         text-align: center;
+        width: 100%;
+        margin-bottom: 10px;
       }
       ol {
-        font-size: 9px;
+        font-size: 11px;
+        gap: 8px;
       }
     }
+  }
+
+  @media screen and (max-width: 550px) {
+    justify-content: center;
+    padding-left: 0px;
   }
 }
 

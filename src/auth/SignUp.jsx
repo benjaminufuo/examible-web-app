@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/authCss/auth.css";
 import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import logo from "../../public/logo.png";
+import logo from "../assets/public/logo.png";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -271,9 +271,10 @@ const SignUp = () => {
           <span className="or">or</span>
           <div className="line"></div>
         </span>
-        <article className="socials">
-          <FcGoogle className="googleIcon" onClick={googleIcon} />
-        </article>
+        <button className="signup-authBtn" onClick={googleIcon}>
+          <FcGoogle className="googleIcon" />
+          <span>Continue with Google</span>
+        </button>
       </div>
     </div>
   );

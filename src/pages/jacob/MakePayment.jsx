@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { setReference } from "../../global/slice";
 
 const MakePayment = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +27,6 @@ const MakePayment = () => {
         { amount, email, name, plan }
       );
       if (response?.status === 200) {
-        dispatch(setReference(response?.data?.data?.reference));
         setTimeout(() => {
           window.location.href = response?.data?.data?.checkout_url;
         }, 500);

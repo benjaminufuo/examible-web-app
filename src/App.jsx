@@ -58,7 +58,7 @@ const routes = createBrowserRouter([
       {
         element: <PrivateRoute />,
         children: [
-          { path: "verifyingPayment", element: <VerifyPayment /> },
+          { path: "verifying-payment", element: <VerifyPayment /> },
           {
             element: <Dashboard />,
             children: [

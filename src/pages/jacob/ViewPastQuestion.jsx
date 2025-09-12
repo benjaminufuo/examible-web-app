@@ -135,7 +135,7 @@ const ViewPastQuestion = () => {
       );
       if (res) {
         setLoading(null);
-        dispatch(setAIResponse(res));
+        dispatch(setAIResponse(res.data.aiResponse));
         dispatch(setAiResponseModal());
       }
     } catch (error) {
