@@ -34,32 +34,53 @@ const LegacyChatbot = () => {
     };
 
     const apiRequest = {
-      model: "gpt-4o-mini",
+      model: "deepseek/deepseek-chat-v3.1:free",
       messages: [systemMessage, ...apiMessages],
     };
 
-    await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(apiRequest),
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        dispatch(
-          setChatbotMessages([
-            ...chatMessages,
-            {
-              message: data.choices[0].message.content,
-              sender: "ChatGPT",
-              direction: "Outgoing",
-            },
-          ])
-        );
-        setTyping(false);
-      });
+    try {
+      const response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiRequest),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      dispatch(
+        setChatbotMessages([
+          ...chatMessages,
+          {
+            message: data.choices[0].message.content,
+            sender: "ChatGPT",
+            direction: "Outgoing",
+          },
+        ])
+      );
+    } catch (error) {
+      dispatch(
+        setChatbotMessages([
+          ...chatMessages,
+          {
+            message: "Sorry, something went wrong. Please try again.",
+            sender: "ChatGPT",
+            direction: "Outgoing",
+          },
+        ])
+      );
+      console.error("Chatbot error:", error);
+    } finally {
+      setTyping(false);
+    }
   };
 
   const handleSend = async (message) => {
@@ -72,7 +93,6 @@ const LegacyChatbot = () => {
     setTyping(true);
     processMessage(newMessages);
   };
-  console.log(messages);
   return (
     <MainContainer>
       <ChatContainer>

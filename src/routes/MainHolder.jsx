@@ -14,15 +14,21 @@ const MainHolder = () => {
       setLoading(false);
     }, 1000);
 
-    if (userToken) {
-      setTimeout(() => {
-        nav("/dashboard/overview", { replace: true });
-      }, 800);
-    }
+    // setTimeout(() => {
+    //   if (userToken) {
+    //     nav("/dashboard/overview", { replace: true });
+    //   }
+    // }, 800);
   }, [userToken]);
 
   if (loading) {
     return <Loading />;
+  }
+
+  console.log(userToken);
+
+  if (userToken && !loading) {
+    nav("/dashboard/overview", { replace: true });
   }
   return (
     <>
