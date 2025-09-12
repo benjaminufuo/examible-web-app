@@ -24,12 +24,19 @@ const initialState = {
   leavingNow: false,
   exam: [],
   notEnrolledSubjects: [],
-  reference: "",
   FinishedExam: false,
   timeOut: false,
   feedbackModal: false,
   aiResponseModal: false,
   AIresponse: "",
+  chatbotMessages: [
+    {
+      message:
+        "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
+      sender: "ChatGPT",
+      direction: "Outgoing",
+    },
+  ],
 };
 
 const slice = createSlice({
@@ -219,9 +226,6 @@ const slice = createSlice({
     setNotEnrolledSubjects: (state, { payload }) => {
       state.notEnrolledSubjects = payload;
     },
-    setReference: (state, { payload }) => {
-      state.reference = payload;
-    },
     setFinishedExam: (state) => {
       state.FinishedExam = !state.FinishedExam;
     },
@@ -238,6 +242,9 @@ const slice = createSlice({
     },
     setAIResponse: (state, { payload }) => {
       state.AIresponse = payload;
+    },
+    setChatbotMessages: (state, { payload }) => {
+      state.chatbotMessages = payload;
     },
   },
 });
@@ -264,12 +271,12 @@ export const {
   setExamTimer,
   setToggle,
   setNotEnrolledSubjects,
-  setReference,
   setFinishedExam,
   setExamTimeout,
   setFeedbackModal,
   setAiResponseModal,
   setAIResponse,
+  setChatbotMessages,
 } = slice.actions;
 
 export default slice.reducer;

@@ -1,5 +1,5 @@
 const FormattedResponse = ({ response }) => {
-  const lineBreakRes = response.split("\n");
+  const lineBreakRes = response?.split("\n");
   return (
     <div>
       {lineBreakRes.map((item, index) => (

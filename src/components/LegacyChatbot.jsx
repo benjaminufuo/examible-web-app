@@ -8,17 +8,13 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useState } from "react";
+import { setChatbotMessages } from "../global/slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      message:
-        "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
-      sender: "ChatGPT",
-      direction: "Outgoing",
-    },
-  ]);
+  const messages = useSelector((state) => state.chatbotMessages);
+  const dispatch = useDispatch();
 
   const processMessage = async (chatMessages) => {
     let apiMessages = chatMessages.map((message) => {
@@ -52,15 +48,17 @@ const LegacyChatbot = () => {
     })
       .then((data) => data.json())
       .then((data) => {
-        setMessages([
-          ...chatMessages,
-          {
-            message: data.choices[0].message.content,
-            sender: "ChatGPT",
-            direction: "Outgoing",
-          },
-        ]),
-          setTyping(false);
+        dispatch(
+          setChatbotMessages([
+            ...chatMessages,
+            {
+              message: data.choices[0].message.content,
+              sender: "ChatGPT",
+              direction: "Outgoing",
+            },
+          ])
+        );
+        setTyping(false);
       });
   };
 
@@ -70,10 +68,11 @@ const LegacyChatbot = () => {
       sender: "user",
     };
     const newMessages = [...messages, newMessage];
-    setMessages(newMessages);
+    dispatch(setChatbotMessages(newMessages));
     setTyping(true);
     processMessage(newMessages);
   };
+  console.log(messages);
   return (
     <MainContainer>
       <ChatContainer>
