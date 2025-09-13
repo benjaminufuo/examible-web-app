@@ -291,7 +291,7 @@ const Overview = () => {
                         <li style={{ justifyContent: "left" }}>
                           {item?.subject}
                         </li>
-                        <li>{item?.performance} %</li>
+                        <li>{item?.performance?.toFixed(2)} %</li>
                         <li>
                           {`${Math.floor(item?.duration / 60)} `}{" "}
                           <em style={{ marginInline: "5px" }}> mins </em>

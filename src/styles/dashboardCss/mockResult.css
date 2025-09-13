@@ -45,6 +45,32 @@
       width: 100%;
       font-family: "Montserrat", sans-serif;
 
+      h2 {
+        font-size: 25px;
+        line-height: 25px;
+        font-weight: 600;
+        font-family: "Montserrat", sans-serif;
+        margin-bottom: 19.5px;
+        width: 95%;
+      }
+
+      h3 {
+        font-size: 22px;
+        line-height: 25px;
+        font-weight: 500;
+        font-family: "Montserrat", sans-serif;
+        margin-bottom: 19.5px;
+        width: 95%;
+      }
+
+      img {
+        height: max-content;
+        max-height: 400px;
+        margin-bottom: 19.5px;
+        max-width: 90%;
+        object-fit: contain;
+      }
+
       header {
         min-height: 5vh;
         width: 100%;
@@ -79,6 +105,22 @@
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
+      }
+    }
+
+    @media screen and (max-width: 550px) {
+      main {
+        h2 {
+          font-size: 20px;
+        }
+
+        h3 {
+          font-size: 18px;
+        }
+
+        img {
+          max-width: 100%;
+        }
       }
     }
   }

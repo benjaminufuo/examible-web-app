@@ -715,6 +715,7 @@
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease-in-out;
+  z-index: 5;
 
   span {
     font-size: 18px;
@@ -722,10 +723,14 @@
   }
 
   &:hover {
-    opacity: 0.9;
+    opacity: 0.8;
   }
 
   &:active {
     transform: translateY(1px);
+  }
+
+  @media screen and (max-width: 550px) {
+    width: 100%;
   }
 }
