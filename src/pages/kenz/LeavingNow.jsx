@@ -12,6 +12,7 @@ const LeavingNow = () => {
   const { subject } = useParams();
   const examTimerMins = useSelector((state) => state.examTimerMins);
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
+  const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
@@ -25,10 +26,14 @@ const LeavingNow = () => {
     } else {
       duration = 1800 - timeLeft;
     }
-    const performance = exam.reduce((acc, item, index) => {
-      acc = acc + item.score;
-      return acc;
-    }, 0);
+    const performance =
+      (exam.reduce((acc, item) => {
+        acc = acc + item.score;
+        return acc;
+      }, 0) /
+        2 /
+        mockExamQuestions?.length) *
+      100;
     try {
       setLoading(true);
       const id = toast.loading("Please wait ...");

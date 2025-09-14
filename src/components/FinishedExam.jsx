@@ -12,17 +12,18 @@ const FinishedExam = () => {
   const { subject } = useParams();
   const examTimerMins = useSelector((state) => state.examTimerMins);
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
+  const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
-  const [loading, setLoading] = useState(false);
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
     let duration = 0;
     let completed = "";
     for (let element of exam) {
-      if (!element?.option) {
+      if (!element?.option || exam.length < mockExamQuestions.length) {
         completed = "no";
+        break;
       } else {
         completed = "yes";
       }
@@ -32,14 +33,18 @@ const FinishedExam = () => {
     } else {
       duration = 1800 - timeLeft;
     }
-    const performance = exam?.reduce((acc, item, index) => {
-      if (item?.score) {
-        acc = acc + item.score;
-        return acc;
-      } else {
-        return acc;
-      }
-    }, 0);
+    const performance =
+      (exam?.reduce((acc, item, index) => {
+        if (item?.score) {
+          acc = acc + item.score;
+          return acc;
+        } else {
+          return acc;
+        }
+      }, 0) /
+        2 /
+        mockExamQuestions.length) *
+      100;
     try {
       const res = await axios.put(
         `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user._id}`,
@@ -48,12 +53,14 @@ const FinishedExam = () => {
       if (res?.status === 200) {
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
-          dispatch(setFinishedExam());
           nav("/dashboard/mock-exam/result", { state: { subject } });
           setTimeout(() => {
             dispatch(setFeedbackModal());
           }, 20000);
         }, 500);
+        setTimeout(() => {
+          dispatch(setFinishedExam());
+        }, 550);
       }
     } catch (error) {
       setTimeout(() => {
@@ -72,10 +79,11 @@ const FinishedExam = () => {
         position: "fixed",
         zIndex: 10,
         top: 0,
-        background: "aqua",
+        background: "white",
         height: "100vh",
         width: "100%",
-      }}>
+      }}
+    >
       <Loading />
     </div>
   );

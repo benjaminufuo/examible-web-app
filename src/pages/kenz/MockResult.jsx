@@ -17,6 +17,7 @@ import { getAiResponse } from "../../config/Api";
 const MockResult = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const exam = useSelector((state) => state.exam);
+  const mockYear = useSelector((state) => state.mockYear);
   const [intialCount, setIntialCount] = useState(0);
   const [finalCount, setFinalCount] = useState(5);
   const dispatch = useDispatch();
@@ -36,14 +37,18 @@ const MockResult = () => {
     window.scrollTo(0, 0);
   };
 
-  const performance = exam?.reduce((acc, item, index) => {
-    if (!item?.score) {
-      acc = acc + 0;
-    } else {
-      acc = acc + item?.score;
-    }
-    return acc;
-  }, 0);
+  const performance =
+    (exam?.reduce((acc, item, index) => {
+      if (!item?.score) {
+        acc = acc + 0;
+      } else {
+        acc = acc + item?.score;
+      }
+      return acc;
+    }, 0) /
+      2 /
+      mockExamQuestions?.length) *
+    100;
 
   const retryExam = () => {
     dispatch(cancelExam());
@@ -94,6 +99,14 @@ const MockResult = () => {
           ?.slice(intialCount, finalCount)
           .map((item, index) => (
             <main key={index}>
+              {item?.subheadingA && <h2>{item?.subheadingA}</h2>}
+              {item?.diagramUrlA && (
+                <img src={item?.diagramUrlA} alt="Diagram loading..." />
+              )}
+              {item?.subheadingB && <h3>{item?.subheadingB}</h3>}
+              {item?.diagramUrlB && (
+                <img src={item?.diagramUrlB} alt="Diagram loading..." />
+              )}
               <header>{item?.question}</header>
               <ul>
                 <li>
@@ -196,7 +209,7 @@ const MockResult = () => {
                         item.question,
                         item.passage,
                         item.options,
-                        item.year,
+                        mockYear,
                         location.state.subject,
                         index
                       );
@@ -225,7 +238,10 @@ const MockResult = () => {
         <button
           className="mockResult-retry"
           style={{
-            display: intialCount === 0 || finalCount === 50 ? "flex" : "none",
+            display:
+              intialCount === 0 || finalCount === mockExamQuestions?.length
+                ? "flex"
+                : "none",
           }}
           onClick={() => retryExam()}
         >
@@ -233,7 +249,9 @@ const MockResult = () => {
         </button>
         <button
           className="mockResult-more"
-          style={{ display: finalCount < 50 ? "flex" : "none" }}
+          style={{
+            display: finalCount < mockExamQuestions?.length ? "flex" : "none",
+          }}
           onClick={() => nextSeries()}
         >
           See More
