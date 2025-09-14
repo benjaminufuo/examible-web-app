@@ -28,7 +28,6 @@ const Logout = () => {
       toast.dismiss(id);
       if (res?.status === 200) {
         setTimeout(() => {
-          toast.success(res?.data?.message, { autoClose: 4000 });
           nav("/");
           dispatch(setLogout());
         }, 500);

@@ -21,11 +21,10 @@ const TheExam = () => {
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
   const exam = useSelector((state) => state.exam);
   const [isNext, setIsNext] = useState(false);
-  const arrayOfNumbers = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-  ];
+  const arrayOfNumbers = Array.from(
+    { length: mockExamQuestions.length },
+    (_, i) => i + 1
+  );
   // console.log(mockExamOptions,exam)
 
   const dispatch = useDispatch();
@@ -70,6 +69,11 @@ const TheExam = () => {
     } else {
       dispatch(setMockExamOption("E"));
     }
+  };
+
+  const handleFinishedExam = () => {
+    dispatch(nextQuestion({ answer: currentQuestion?.answer, subjectId }));
+    dispatch(setFinishedExam());
   };
 
   useEffect(() => {
@@ -117,6 +121,24 @@ const TheExam = () => {
         <div className="examBody-secondLayerHolder">
           <main>
             <h6>Question {subjectId}</h6>
+            {currentQuestion?.subheadingA && (
+              <h2>{currentQuestion?.subheadingA}</h2>
+            )}
+            {currentQuestion?.diagramUrlA && (
+              <img
+                src={currentQuestion?.diagramUrlA}
+                alt="Diagram loading..."
+              />
+            )}
+            {currentQuestion?.subheadingB && (
+              <h3>{currentQuestion?.subheadingB}</h3>
+            )}
+            {currentQuestion?.diagramUrlB && (
+              <img
+                src={currentQuestion?.diagramUrlB}
+                alt="Diagram loading..."
+              />
+            )}
             <h5>{currentQuestion?.question}</h5>
             <nav
               style={{ cursor: "pointer" }}
@@ -210,7 +232,7 @@ const TheExam = () => {
               color: "white",
               borderColor: "#804BF2",
             }}
-            onClick={() => dispatch(setFinishedExam())}
+            onClick={() => handleFinishedExam()}
           >
             <h2>Finish</h2>
           </button>

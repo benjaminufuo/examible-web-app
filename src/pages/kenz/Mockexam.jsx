@@ -5,6 +5,7 @@ import {
   setExamTimer,
   setMockExamQuestion,
   setMockSubject,
+  setMockYear,
 } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -27,6 +28,7 @@ const Mockexam = () => {
       );
       if (res?.status === 200) {
         dispatch(setMockExamQuestion(res?.data?.data));
+        dispatch(setMockYear(res?.data?.year));
         dispatch(setExamTimer(user?.plan));
         setTimeout(() => {
           nav(`/mock-exam/${subject}/1`);
