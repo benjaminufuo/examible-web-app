@@ -71,3 +71,49 @@
     cursor: pointer;
   }
 }
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .emailverifycomponent {
+    width: 100%;
+    height: 100vh;
+  }
+  .mailimagediv {
+    width: 100%;
+    height: 30vh;
+  }
+  .emailverifytextdiv {
+    width: 100%;
+    height: auto;
+    .emailverifytext {
+      width: 90%;
+      font-size: 25px;
+      line-height: 40px;
+    }
+  }
+  .emailverifybtn {
+    height: 70px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1028px) {
+  .emailverifycomponent {
+    width: 100%;
+    height: 100vh;
+  }
+  .mailimagediv {
+    width: 100%;
+    height: 22vh;
+  }
+  .emailverifytextdiv {
+    width: 100%;
+    height: auto;
+    .emailverifytext {
+      width: 80%;
+      font-size: 24px;
+      line-height: 30px;
+    }
+  }
+  .emailverifybtn {
+    height: 70px;
+  }
+}

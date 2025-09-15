@@ -13,7 +13,7 @@ import {
   setAiResponseModal,
   setAIResponse,
 } from "../../global/slice";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { getAiResponse } from "../../config/Api";
 import { ClipLoader } from "react-spinners";
 
@@ -163,10 +163,27 @@ const ViewPastQuestion = () => {
       {currentQuestions?.length > 0 ? (
         currentQuestions?.map((item, index) => (
           <div className="answerquestiondiv" key={index}>
-            <h1 className="questiontext">
+            <h1>
               <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
               <span>{item.question}</span>
             </h1>
+            {<h1 className="subheading">{item?.subheadingA}</h1>}
+            {item?.diagramUrlA && (
+              <img
+                src={item?.diagramUrlA}
+                className="question-diagram"
+                style={{ paddingLeft: "20px" }}
+              />
+            )}
+            {<h1 className="subheading">{item?.subheadingB}</h1>}
+            {item?.diagramUrlB && (
+              <img
+                src={item?.diagramUrlB}
+                className="question-diagram"
+                style={{ paddingLeft: "20px" }}
+              />
+            )}
+
             <ul className="answeroption">
               {item.options.map((option, optionindex) => {
                 const userAnswer =
@@ -195,7 +212,7 @@ const ViewPastQuestion = () => {
                         indexOfFirstQuestion + index,
                         option,
                         item.answer,
-                        item.options
+                        item.options || []
                       )
                     }
                     style={{

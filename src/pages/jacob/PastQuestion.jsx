@@ -65,6 +65,7 @@ const PastQuestion = () => {
       );
       toast.dismiss(toastId);
       dispatch(setPastQuestions(response.data.data));
+      console.log("questions", response.data.data);
       navigate("/dashboard/past-questions/view");
       setLoading(false);
       setDisabled(true);
