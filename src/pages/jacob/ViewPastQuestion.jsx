@@ -167,7 +167,7 @@ const ViewPastQuestion = () => {
               <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
               <span>{item.question}</span>
             </h1>
-            {<h1 className="subheading">{item?.subheadingA}</h1>}
+            {item?.subheadingA && <h1 className="subheading">{item?.subheadingA}</h1>}
             {item?.diagramUrlA && (
               <img
                 src={item?.diagramUrlA}
