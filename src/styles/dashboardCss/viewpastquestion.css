@@ -42,7 +42,7 @@
   align-items: flex-start;
   gap: 8px;
 
-  & h1 {
+  & .questiontext {
     color: #1e1e1e;
     font-family: Montserrat;
     font-size: 16px;
@@ -52,7 +52,14 @@
     display: flex;
     gap: 3px;
   }
-
+  .question-diagram {
+    width: auto;
+    height: auto;
+    max-width: 400px;
+    max-height: 500px;
+    border-radius: 5px;
+    margin-left: 20px;
+  }
   .subheading {
     color: #464242;
     padding-left: 20px;
