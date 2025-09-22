@@ -163,25 +163,21 @@ const ViewPastQuestion = () => {
       {currentQuestions?.length > 0 ? (
         currentQuestions?.map((item, index) => (
           <div className="answerquestiondiv" key={index}>
-            <h1>
+            <h1 className="questiontext">
               <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
               <span>{item.question}</span>
             </h1>
-            {item?.subheadingA && <h1 className="subheading">{item?.subheadingA}</h1>}
-            {item?.diagramUrlA && (
-              <img
-                src={item?.diagramUrlA}
-                className="question-diagram"
-                style={{ paddingLeft: "20px" }}
-              />
+            {item?.subheadingA && (
+              <h1 className="subheading">{item?.subheadingA}</h1>
             )}
-            {<h1 className="subheading">{item?.subheadingB}</h1>}
+            {item?.diagramUrlA && (
+              <img src={item?.diagramUrlA} className="question-diagram" />
+            )}
+            {item?.subheadingB && (
+              <h1 className="subheading">{item?.subheadingB}</h1>
+            )}
             {item?.diagramUrlB && (
-              <img
-                src={item?.diagramUrlB}
-                className="question-diagram"
-                style={{ paddingLeft: "20px" }}
-              />
+              <img src={item?.diagramUrlB} className="question-diagram" />
             )}
 
             <ul className="answeroption">
