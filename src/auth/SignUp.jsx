@@ -84,7 +84,9 @@ const SignUp = () => {
     const { name, value } = e.target;
     setInputValue((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
-    setErrorMessage({ ...errorMessage, password: "" });
+    if (name === "password") {
+      setErrorMessage({ ...errorMessage, password: "" });
+    }
   };
 
   const handleShowConfirmPassword = () =>

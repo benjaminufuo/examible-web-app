@@ -5,12 +5,12 @@ import { MdDashboard } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import img2 from "../assets/public/pastquestion.svg";
 import img1 from "../assets/public/profile.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { setLogout } from "../global/slice";
+import { useSelector } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
 import { SiMoneygram } from "react-icons/si";
 import { GrStatusGood } from "react-icons/gr";
 import "../styles/dashboardCss/dashboard.css";
+import { useExamibleContext } from "../context/ExamibleContext";
 
 const Sidebar = () => {
   const dashboardIcons = [
@@ -25,8 +25,8 @@ const Sidebar = () => {
   ];
 
   const location = useLocation();
+  const { setIsLogout } = useExamibleContext();
 
-  const dispatch = useDispatch();
   const nav = useNavigate();
 
   const user = useSelector((state) => state.user);
@@ -111,7 +111,7 @@ const Sidebar = () => {
       <div
         className="dashboard-navBar"
         style={{ backgroundColor: "white" }}
-        onClick={() => dispatch(setLogout())}
+        onClick={() => setIsLogout(true)}
       >
         <AiOutlineLogout fontSize={35} color="red" />
         Logout

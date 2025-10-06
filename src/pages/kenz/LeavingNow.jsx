@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "../../styles/dashboardCss/leavingNow.css";
-import { setFeedbackModal, setLeavingNow, setUser } from "../../global/slice";
+import { setLeavingNow, setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const LeavingNow = () => {
   const nav = useNavigate();
@@ -16,6 +17,8 @@ const LeavingNow = () => {
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+
+  const { handleShowUserFeedback } = useExamibleContext();
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
@@ -49,7 +52,7 @@ const LeavingNow = () => {
           setLoading(false);
           nav("/dashboard/mock-exam/result", { state: { subject } });
           setTimeout(() => {
-            dispatch(setFeedbackModal());
+            handleShowUserFeedback();
           }, 20000);
         }, 500);
       }

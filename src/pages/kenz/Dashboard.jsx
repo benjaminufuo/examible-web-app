@@ -11,14 +11,15 @@ import FeedbackForm from "../../components/FeedbackForm";
 import AiResponse from "../../components/AiResponse";
 import Sidebar from "../../components/Sidebar";
 import ResponsiveSidebar from "../../components/ResponsiveSidebar";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
-  const logout = useSelector((state) => state.logout);
-  const feedbackModal = useSelector((state) => state.feedbackModal);
-  const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBot, setShowBot] = useState(false);
+
+  const { isLogout, showFeedbackModal, showAiResponseModal } =
+    useExamibleContext();
 
   const showMyBot = () => {
     if (user?.plan === "Freemium") {
@@ -78,9 +79,9 @@ const Dashboard = () => {
         </div>
         <div className="dashboard-rightHolder">
           <Outlet />
-          {logout && <Logout />}
-          {feedbackModal && <FeedbackForm />}
-          {aiResponseModal && <AiResponse />}
+          {isLogout && <Logout />}
+          {showFeedbackModal && <FeedbackForm />}
+          {showAiResponseModal && <AiResponse />}
         </div>
       </div>
     </div>

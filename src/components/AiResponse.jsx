@@ -1,27 +1,26 @@
 import { useEffect } from "react";
 import "../styles/dashboardCss/airesponse.css";
-import { useDispatch, useSelector } from "react-redux";
-import { setAiResponseModal } from "../global/slice";
+import { useSelector } from "react-redux";
 import { BiArrowBack } from "react-icons/bi";
 import handwave from "../assets/public/fluent_hand-wave-16-filled.svg";
 import FormattedResponse from "./FormattedResponse";
+import { useExamibleContext } from "../context/ExamibleContext";
 
 const AiResponse = () => {
-  const dispatch = useDispatch();
-  const aiResponseModal = useSelector((state) => state.aiResponseModal);
-  const AIresponse = useSelector((state) => state.AIresponse);
+  const { showAiResponseModal, setShowAiResponseModal, AIresponse } =
+    useExamibleContext();
 
   useEffect(() => {
-    document.body.style.overflow = aiResponseModal ? "hidden" : "";
+    document.body.style.overflow = showAiResponseModal ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [aiResponseModal]);
+  }, [showAiResponseModal]);
 
   return (
     <main
       className="modal-overlay"
-      onClick={() => dispatch(setAiResponseModal())}
+      onClick={() => setShowAiResponseModal(false)}
     >
       <section
         className="ai-response-main-container"
@@ -32,7 +31,7 @@ const AiResponse = () => {
           <BiArrowBack
             className="close-respone-modal"
             style={{ zIndex: 3, cursor: "pointer" }}
-            onClick={() => dispatch(setAiResponseModal())}
+            onClick={() => setShowAiResponseModal(false)}
           />
           <div className="second-header">
             <span className="second-header-text">

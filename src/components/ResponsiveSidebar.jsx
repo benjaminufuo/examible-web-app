@@ -5,16 +5,17 @@ import { MdDashboard } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import img2 from "../assets/public/pastquestion.svg";
 import img1 from "../assets/public/profile.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { setLogout } from "../global/slice";
+import { useSelector } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
 import { SiMoneygram } from "react-icons/si";
 import { GrStatusGood } from "react-icons/gr";
 import "../styles/dashboardCss/dashboard.css";
 import { useEffect } from "react";
+import { useExamibleContext } from "../context/ExamibleContext";
 
 const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
   const location = useLocation();
+  const { setIsLogout } = useExamibleContext();
   const dashboardIcons = [
     <MdDashboard color="#804BF266" fontSize={35} />,
     <PiExamFill color="#804BF266" fontSize={35} />,
@@ -26,7 +27,6 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
     </nav>,
   ];
 
-  const dispatch = useDispatch();
   const nav = useNavigate();
 
   const user = useSelector((state) => state.user);
@@ -136,7 +136,7 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
             <div
               className="dashboard-leftDropdown-navBar"
               style={{ backgroundColor: "white" }}
-              onClick={() => dispatch(setLogout())}
+              onClick={() => setIsLogout(true)}
             >
               <AiOutlineLogout fontSize={35} color="red" />
               Logout

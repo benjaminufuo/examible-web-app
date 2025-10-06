@@ -3,10 +3,11 @@ import "../styles/dashboardCss/feedbackForm.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { setFeedbackModal, setUser } from "../global/slice";
+import { setUser } from "../global/slice";
 import emailjs from "@emailjs/browser";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
+import { useExamibleContext } from "../context/ExamibleContext";
 
 const FeedbackForm = () => {
   const [showRatings, setShowRatings] = useState(true);
@@ -16,7 +17,11 @@ const FeedbackForm = () => {
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const url = `https://legacybuilderbackend.onrender.com/api/v1/students/${user._id}/feedback`;
+  const url = `${import.meta.env.VITE_BASE_URL}api/v1/students/${
+    user._id
+  }/feedback`;
+
+  const { setShowFeedbackModal } = useExamibleContext();
 
   const handleRateUs = () => {
     setRatings(`${(starRatings / 5) * 100}%`);
@@ -45,7 +50,7 @@ const FeedbackForm = () => {
                 autoClose: 2000,
               });
               setTimeout(() => {
-                dispatch(setFeedbackModal());
+                setShowFeedbackModal(false);
                 setTimeout(() => {
                   dispatch(setUser(res?.data?.data));
                 }, 500);
@@ -66,10 +71,10 @@ const FeedbackForm = () => {
   };
 
   return (
-    <div className="feedbackForm" onClick={() => dispatch(setFeedbackModal())}>
+    <div className="feedbackForm" onClick={() => setShowFeedbackModal(false)}>
       <div className="feedbackForm-modal" onClick={(e) => e.stopPropagation()}>
         <header>
-          <button onClick={() => dispatch(setFeedbackModal())}>x</button>
+          <button onClick={() => setShowFeedbackModal(false)}>x</button>
         </header>
         {showRatings ? (
           <>

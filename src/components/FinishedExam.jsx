@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Loading from "./Loading";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setFeedbackModal, setFinishedExam, setUser } from "../global/slice";
+import { setFinishedExam, setUser } from "../global/slice";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useExamibleContext } from "../context/ExamibleContext";
 
 const FinishedExam = () => {
   const nav = useNavigate();
@@ -15,6 +16,8 @@ const FinishedExam = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
+
+  const { handleShowUserFeedback } = useExamibleContext();
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
@@ -55,7 +58,7 @@ const FinishedExam = () => {
           dispatch(setUser(res?.data?.data));
           nav("/dashboard/mock-exam/result", { state: { subject } });
           setTimeout(() => {
-            dispatch(setFeedbackModal());
+            handleShowUserFeedback();
           }, 20000);
         }, 500);
         setTimeout(() => {

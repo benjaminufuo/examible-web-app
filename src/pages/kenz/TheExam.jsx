@@ -67,7 +67,7 @@ const TheExam = () => {
         })
       );
     } else {
-      dispatch(setMockExamOption("E"));
+      dispatch(setMockExamOption("F"));
     }
   };
 
@@ -96,7 +96,7 @@ const TheExam = () => {
         <article>
           <aside>
             <meter min={0} max={100} value={examMeter}></meter>
-            <p>{examMeter}%</p>
+            <p>{parseInt(examMeter).toFixed(2)}%</p>
           </aside>
           <section>
             <LuClock2 fontSize={30} />
@@ -108,7 +108,7 @@ const TheExam = () => {
         <h3>Jamb Mock Exam</h3>
         <aside>
           <meter min={0} max={100} value={examMeter}></meter>
-          <p>{examMeter}%</p>
+          <p>{parseInt(examMeter).toFixed(2)}%</p>
         </aside>
         <section>
           <LuClock2 fontSize={30} />
@@ -140,62 +140,90 @@ const TheExam = () => {
               />
             )}
             <h5>{currentQuestion?.question}</h5>
-            <nav
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                dispatch(setMockExamOption({ option: "A", answer: "A" }))
-              }
-            >
-              <h4>A.</h4>
-              <p>
-                {currentQuestion?.options[0]?.startsWith("A.")
-                  ? currentQuestion?.options[0]?.slice(2)
-                  : currentQuestion?.options[0]}
-              </p>
-              <input type="radio" checked={mockExamOptions.optionA} readOnly />
-            </nav>
-            <nav
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                dispatch(setMockExamOption({ option: "B", answer: "B" }))
-              }
-            >
-              <h4>B.</h4>
-              <p>
-                {currentQuestion?.options[1]?.startsWith("B.")
-                  ? currentQuestion?.options[1]?.slice(2)
-                  : currentQuestion?.options[1]}
-              </p>
-              <input type="radio" checked={mockExamOptions.optionB} />
-            </nav>
-            <nav
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                dispatch(setMockExamOption({ option: "C", answer: "C" }))
-              }
-            >
-              <h4>C.</h4>
-              <p>
-                {currentQuestion?.options[2]?.startsWith("C.")
-                  ? currentQuestion?.options[2]?.slice(2)
-                  : currentQuestion?.options[2]}{" "}
-              </p>
-              <input type="radio" checked={mockExamOptions.optionC} />
-            </nav>
-            <nav
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                dispatch(setMockExamOption({ option: "D", answer: "D" }))
-              }
-            >
-              <h4>D.</h4>
-              <p>
-                {currentQuestion?.options[3]?.startsWith("D.")
-                  ? currentQuestion?.options[3]?.slice(2)
-                  : currentQuestion?.options[3]}
-              </p>
-              <input type="radio" checked={mockExamOptions.optionD} />
-            </nav>
+            {currentQuestion?.options[0] && (
+              <nav
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  dispatch(setMockExamOption({ option: "A", answer: "A" }))
+                }
+              >
+                <h4>A.</h4>
+                <p>
+                  {currentQuestion?.options[0]?.startsWith("A.")
+                    ? currentQuestion?.options[0]?.slice(2)
+                    : currentQuestion?.options[0]}
+                </p>
+                <input
+                  type="radio"
+                  checked={mockExamOptions.optionA}
+                  readOnly
+                />
+              </nav>
+            )}
+            {currentQuestion.options[1] && (
+              <nav
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  dispatch(setMockExamOption({ option: "B", answer: "B" }))
+                }
+              >
+                <h4>B.</h4>
+                <p>
+                  {currentQuestion?.options[1]?.startsWith("B.")
+                    ? currentQuestion?.options[1]?.slice(2)
+                    : currentQuestion?.options[1]}
+                </p>
+                <input type="radio" checked={mockExamOptions.optionB} />
+              </nav>
+            )}
+            {currentQuestion.options[2] && (
+              <nav
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  dispatch(setMockExamOption({ option: "C", answer: "C" }))
+                }
+              >
+                <h4>C.</h4>
+                <p>
+                  {currentQuestion?.options[2]?.startsWith("C.")
+                    ? currentQuestion?.options[2]?.slice(2)
+                    : currentQuestion?.options[2]}{" "}
+                </p>
+                <input type="radio" checked={mockExamOptions.optionC} />
+              </nav>
+            )}
+            {currentQuestion.options[3] && (
+              <nav
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  dispatch(setMockExamOption({ option: "D", answer: "D" }))
+                }
+              >
+                <h4>D.</h4>
+                <p>
+                  {currentQuestion?.options[3]?.startsWith("D.")
+                    ? currentQuestion?.options[3]?.slice(2)
+                    : currentQuestion?.options[3]}
+                </p>
+                <input type="radio" checked={mockExamOptions.optionD} />
+              </nav>
+            )}
+            {currentQuestion?.options[4] && (
+              <nav
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  dispatch(setMockExamOption({ option: "E", answer: "E" }))
+                }
+              >
+                <h4>E.</h4>
+                <p>
+                  {currentQuestion?.options[4]?.startsWith("E.")
+                    ? currentQuestion?.options[4]?.slice(2)
+                    : currentQuestion?.options[4]}
+                </p>
+                <input type="radio" checked={mockExamOptions.optionE} />
+              </nav>
+            )}
           </main>
         </div>
         <div className="examBody-secondLayerButton">

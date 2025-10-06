@@ -2,17 +2,14 @@ import { useState } from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  cancelExam,
-  setAIResponse,
-  setAiResponseModal,
-} from "../../global/slice";
+import { cancelExam } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GrStatusGood } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { getAiResponse } from "../../config/Api";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const MockResult = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
@@ -24,6 +21,8 @@ const MockResult = () => {
   const nav = useNavigate();
   const [loading, setLoading] = useState(null);
   const location = useLocation();
+
+  const { setShowAiResponseModal, setAIResponse } = useExamibleContext();
 
   const nextSeries = () => {
     setIntialCount(intialCount + 5);
@@ -76,8 +75,8 @@ const MockResult = () => {
       );
       if (res) {
         setLoading(null);
-        dispatch(setAIResponse(res.data.aiResponse));
-        dispatch(setAiResponseModal());
+        setAIResponse(res.data.aiResponse);
+        setShowAiResponseModal(true);
       }
     } catch (error) {
       setLoading(null);
@@ -93,7 +92,7 @@ const MockResult = () => {
         <span style={{ color: "#804bf2" }}>Mock Exam</span> (Jamb CBT Practice)
       </h2>
       <h2>Questions & Answers </h2>
-      <h5>You Scored {performance} out of 100</h5>
+      <h5>You Scored {performance.toFixed(2)} out of 100</h5>
       <div className="mockResult-holder">
         {mockExamQuestions
           ?.slice(intialCount, finalCount)
