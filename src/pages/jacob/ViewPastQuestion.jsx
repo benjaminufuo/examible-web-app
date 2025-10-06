@@ -10,7 +10,7 @@ import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
 } from "../../global/slice";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { getAiResponse } from "../../config/Api";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -167,6 +167,19 @@ const ViewPastQuestion = () => {
               <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
               <span>{item.question}</span>
             </h1>
+            {item?.subheadingA && (
+              <h1 className="subheading">{item?.subheadingA}</h1>
+            )}
+            {item?.diagramUrlA && (
+              <img src={item?.diagramUrlA} className="question-diagram" />
+            )}
+            {item?.subheadingB && (
+              <h1 className="subheading">{item?.subheadingB}</h1>
+            )}
+            {item?.diagramUrlB && (
+              <img src={item?.diagramUrlB} className="question-diagram" />
+            )}
+
             <ul className="answeroption">
               {item.options.map((option, optionindex) => {
                 const userAnswer =
@@ -195,7 +208,7 @@ const ViewPastQuestion = () => {
                         indexOfFirstQuestion + index,
                         option,
                         item.answer,
-                        item.options
+                        item.options || []
                       )
                     }
                     style={{
