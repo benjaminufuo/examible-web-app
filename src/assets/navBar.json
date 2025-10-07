@@ -13,5 +13,10 @@
     "name": "LEARN MORE",
     "link": "/learn-more",
     "id": 3
+  },
+  {
+    "name": "PLANS",
+    "link": "/plans",
+    "id": 4
   }
 ]
