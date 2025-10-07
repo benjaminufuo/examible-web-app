@@ -5,24 +5,21 @@ import { FaBook } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import SubjectSelected from "./SubjectSelected";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setIsOverview,
-  setNotEnrolledSubjects,
-  setUser,
-} from "../../global/slice";
+import { setNotEnrolledSubjects, setUser } from "../../global/slice";
 import { TbTrashX } from "react-icons/tb";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const Overview = () => {
-  const isOverview = useSelector((state) => state.isOverview);
   const user = useSelector((state) => state.user);
   const [showBin, setShowBin] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  console.log(user);
+
+  const { setShowSubjectSelected, showSubjectSelected } = useExamibleContext();
 
   const removeSubject = async (subject) => {
     const id = toast.loading("Removing Subject ...");
@@ -73,7 +70,7 @@ const Overview = () => {
         if (res?.status) {
           dispatch(setNotEnrolledSubjects(res?.data?.data));
           toast.dismiss(id);
-          dispatch(setIsOverview());
+          setShowSubjectSelected(true);
         }
       } catch (error) {
         setLoading(false);
@@ -85,7 +82,7 @@ const Overview = () => {
 
   return (
     <>
-      {isOverview ? (
+      {showSubjectSelected ? (
         <SubjectSelected />
       ) : (
         <div className="overview">

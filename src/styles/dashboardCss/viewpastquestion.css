@@ -183,13 +183,11 @@
   color: #333;
 }
 .viewmore-btn {
-  min-width: 116px;
-  min-height: 21px;
   border-radius: 10px;
   background-color: #f2ae30;
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
-  padding: 5px;
+  padding: 8px 12px;
   font-weight: 600;
   color: #1e1e1e;
   outline: none;
@@ -216,8 +214,11 @@
 
 .aswer-airesponse {
   display: flex;
-  width: auto;
+  width: 500px;
+  max-width: 90%;
   gap: 10px;
+  justify-content: space-between;
+  margin-top: 12px;
 }
 .pagination-controls {
   display: flex;
