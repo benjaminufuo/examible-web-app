@@ -1,0 +1,332 @@
+.plans-main {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.plans-header-bg {
+  width: 100%;
+  background: #804bf2;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plans-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.plans-header-text {
+  font-weight: 700;
+  color: #fff;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 70px;
+
+  & h2 {
+    color: #fff;
+    font-family: Montserrat;
+    font-size: 35.222px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}
+
+.plans-header-text .highlight {
+  color: #f2ae30;
+}
+
+.wallet-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 60px;
+  width: 30%;
+  height: 100%;
+}
+
+.plans-wallet-img {
+  width: 440px;
+  height: 200px;
+}
+
+.plans-cards {
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 90%;
+  height: auto;
+  padding-block: 60px;
+}
+
+.plan-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 350px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+}
+
+.freemium-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 350px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+  background: #fff;
+}
+
+.freemium-card:hover {
+  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
+  border-color: #804bf2;
+  transition: border-color 1.05s ease-in-out;
+}
+
+.yearly-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 350px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+  background: #804bf2;
+}
+.yearly-card:hover {
+  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
+  border-color: #b9b7b7;
+  transition: border-color 1.05s ease-in-out;
+}
+.monthly-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 350px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+  background: #fff;
+}
+.monthly-card:hover {
+  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
+  border-color: #804bf2;
+  transition: border-color 1.05s ease-in-out;
+}
+
+.plan-title {
+  background: #804bf2;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 6px 18px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.plan-desc {
+  color: #1e1e1e;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.266px;
+}
+
+.plan-link {
+  color: #804bf2;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 25px; /* 178.571% */
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.plan-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 16px 0 8px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.plan-price .sub {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.benefit {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 107%; /* 17.12px */
+  letter-spacing: -0.304px;
+  text-transform: capitalize;
+}
+.plan-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 24px 0;
+  width: 100%;
+}
+
+.plan-benefits li {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.benefit-text {
+  margin-left: 8px;
+  width: 90%;
+}
+.checkmark {
+  color: #804bf2;
+  width: 6%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plan-btn {
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.freemium-btn {
+  background: #804bf2;
+  color: #fff;
+}
+.freemium-btn:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.yearly-btn {
+  background: #fff;
+  color: #804bf2;
+}
+.yearly-btn:hover {
+  opacity: 0.9;
+  color: #804bf2;
+}
+
+.monthly-btn {
+  background: #804bf2;
+  color: #fff;
+}
+.monthly-btn:hover {
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .plans-header-content {
+    display: flex;
+  }
+  .plans-header-text {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & h2 {
+      font-size: 20px;
+    }
+  }
+  .wallet-container {
+    display: none;
+  }
+  .plans-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .plan-card {
+    width: 90vw;
+    max-width: 400px;
+  }
+  .plans-header-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .plans-wallet-img {
+    margin-left: 0;
+    margin-top: 24px;
+    width: 90px;
+  }
+  .plans-header-text h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 1024px) {
+  .plans-header-bg {
+    height: 150px;
+  }
+  .plans-header-text {
+    width: 100%;
+    width: 50%;
+    & h2 {
+      font-size: 20px;
+    }
+  }
+  .wallet-container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .plans-wallet-img {
+    width: 380px;
+    height: 150px;
+  }
+  .plans-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+}

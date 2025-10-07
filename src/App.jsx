@@ -29,6 +29,7 @@ import Facebookredirect from "./auth/Facebookredirect";
 import AppWrapper from "./components/AppWrapper";
 import ErrorPgae from "./pages/jacob/ErrorPgae";
 import ResultPage from "./pages/jacob/ResultPage";
+import Plans from "./pages/jacob/Plans";
 
 const routes = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const routes = createBrowserRouter([
           { path: "", element: <Home /> },
           { path: "/learn-more", element: <LearnMore /> },
           { path: "about-us", element: <AboutUs /> },
+          { path: "plans", element: <Plans /> },
         ],
       },
       { path: "/signup", element: <SignUp /> },
