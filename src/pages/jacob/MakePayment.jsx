@@ -27,12 +27,6 @@ const MakePayment = () => {
   ) => {
     e.preventDefault();
     setLoading(true);
-    console.log("Payment params:", {
-      amount,
-      email: user?.email,
-      name: user?.fullName,
-      selectedPlan: plan,
-    });
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/initializeKoraPay`,
