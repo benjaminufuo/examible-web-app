@@ -6,11 +6,10 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleShowPassword = () => setShowPassword((prev) => !prev);
