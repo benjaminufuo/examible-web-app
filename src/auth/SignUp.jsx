@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import "../styles/authCss/auth.css";
-import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleShowPassword = () => setShowPassword((prev) => !prev);

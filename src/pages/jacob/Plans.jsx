@@ -5,8 +5,8 @@ import { useNavigate } from "react-router";
 
 const plans = [
   {
-    title: "FREEMIUM",
-    price: "",
+    title: "Freemium",
+    price: null,
     description:
       "Start for free: explore Examible core features without PAYING A DIME. Upgrade anytime for full access.",
     link: "FREEMIUM PLAN HERE",
@@ -18,8 +18,9 @@ const plans = [
     button: "Get Started →",
   },
   {
-    title: "YEARLY",
-    price: "₦5,000",
+    title: "Yearly",
+    price: 5000,
+    displayPrice: "₦5,000",
     sub: "/ Year / Student",
     description:
       "Subscribe to the YEARLY PLAN and enjoy unlimited access to all Examible features for FULL 12 MONTHS.",
@@ -33,8 +34,9 @@ const plans = [
     button: "Get Started →",
   },
   {
-    title: "MONTHLY",
-    price: "₦500",
+    title: "Monthly",
+    price: 500,
+    displayPrice: "₦500",
     sub: "/ Monthly / Student",
     description:
       "Subscribe to the MONTHLY PLAN and enjoy Unlimited access to all Examible features for 30 days.",
@@ -73,34 +75,34 @@ const Plans = () => {
               className="plan-title"
               style={{
                 backgroundColor:
-                  plan.title === "FREEMIUM"
+                  plan.title === "Freemium"
                     ? "#804BF2"
-                    : plan.title === "YEARLY"
+                    : plan.title === "Yearly"
                     ? "#fff"
-                    : plan.title === "MONTHLY"
+                    : plan.title === "Monthly"
                     ? "#804BF2"
                     : "",
                 color:
-                  plan.title === "FREEMIUM"
+                  plan.title === "Freemium"
                     ? "#fff"
-                    : plan.title === "YEARLY"
+                    : plan.title === "Yearly"
                     ? "#804BF2"
-                    : plan.title === "MONTHLY"
+                    : plan.title === "Monthly"
                     ? "#fff"
                     : "",
               }}
             >
-              {plan.title}
+              {plan.title.toUpperCase()}
             </div>
             <div
               className="plan-desc"
               style={{
                 color:
-                  plan.title === "FREEMIUM"
+                  plan.title === "Freemium"
                     ? "#1E1E1E"
-                    : plan.title === "YEARLY"
+                    : plan.title === "Yearly"
                     ? "#FFF"
-                    : plan.title === "MONTHLY"
+                    : plan.title === "Monthly"
                     ? "#1E1E1E"
                     : "",
               }}
@@ -113,27 +115,27 @@ const Plans = () => {
                 className="price"
                 style={{
                   color:
-                    plan.title === "FREEMIUM"
+                    plan.title === "Freemium"
                       ? "#fff"
-                      : plan.title === "YEARLY"
+                      : plan.title === "Yearly"
                       ? "#fff"
-                      : plan.title === "MONTHLY"
+                      : plan.title === "Monthly"
                       ? "#804BF2"
                       : "",
                 }}
               >
-                {plan.price}
+                {plan.displayPrice || plan.price}
               </span>
               {plan.sub && (
                 <span
                   className="sub"
                   style={{
                     color:
-                      plan.title === "FREEMIUM"
+                      plan.title === "Freemium"
                         ? "#1E1E1E"
-                        : plan.title === "YEARLY"
+                        : plan.title === "Yearly"
                         ? "#FFF"
-                        : plan.title === "MONTHLY"
+                        : plan.title === "Monthly"
                         ? "#1E1E1E"
                         : "",
                   }}
@@ -146,11 +148,11 @@ const Plans = () => {
               <span
                 style={{
                   color:
-                    plan.title === "FREEMIUM"
+                    plan.title === "Freemium"
                       ? "#1E1E1E"
-                      : plan.title === "YEARLY"
+                      : plan.title === "Yearly"
                       ? "#FFF"
-                      : plan.title === "MONTHLY"
+                      : plan.title === "Monthly"
                       ? "#1E1E1E"
                       : "",
                 }}
@@ -166,11 +168,11 @@ const Plans = () => {
                     className="checkmark"
                     style={{
                       color:
-                        plan.title === "FREEMIUM"
+                        plan.title === "Freemium"
                           ? "#804BF2"
-                          : plan.title === "YEARLY"
+                          : plan.title === "Yearly"
                           ? "#FFF"
-                          : plan.title === "MONTHLY"
+                          : plan.title === "Monthly"
                           ? "#804BF2"
                           : "",
                     }}
@@ -179,11 +181,11 @@ const Plans = () => {
                     className="benefit-text"
                     style={{
                       color:
-                        plan.title === "FREEMIUM"
+                        plan.title === "Freemium"
                           ? "#1E1E1E"
-                          : plan.title === "YEARLY"
+                          : plan.title === "Yearly"
                           ? "#FFF"
-                          : plan.title === "MONTHLY"
+                          : plan.title === "Monthly"
                           ? "#1E1E1E"
                           : "",
                     }}
@@ -195,7 +197,14 @@ const Plans = () => {
             </ul>
             <button
               className={`plan-btn ${plan.title.toLowerCase()}-btn`}
-              onClick={() => nav("/signup")}
+              onClick={() =>
+                nav("/login", {
+                  state: {
+                    selectedPlan: plan.title,
+                    amount: plan.price,
+                  },
+                })
+              }
             >
               {plan.button}
             </button>

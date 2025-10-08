@@ -16,11 +16,23 @@ const MakePayment = () => {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  const { amount, plan } = location.state || {};
+  const { amount, selectedPlan: plan } = location.state || {};
 
-  const koraPayPaymentIntegration = async (e, amount, email, name, plan) => {
+  const koraPayPaymentIntegration = async (
+    e,
+    amount,
+    email,
+    name,
+    selectedPlan
+  ) => {
     e.preventDefault();
     setLoading(true);
+    console.log("Payment params:", {
+      amount,
+      email: user?.email,
+      name: user?.fullName,
+      selectedPlan: plan,
+    });
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/initializeKoraPay`,

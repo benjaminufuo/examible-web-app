@@ -45,7 +45,9 @@ const Logout = () => {
       setLoading(false);
       if (
         error?.response?.data?.message ===
-        "Session timed-out: Please login to continue"
+          "Session timed-out: Please login to continue" ||
+        error?.response?.data?.message ===
+          "Authentication Failed: User is not logged in"
       ) {
         setTimeout(() => {
           nav("/");
