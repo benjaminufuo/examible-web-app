@@ -65,6 +65,7 @@ const Login = () => {
                   selectedPlan: location.state?.selectedPlan,
                   amount: location.state?.amount,
                 },
+                replace: true
               });
             } else {
               navigate("/dashboard/overview", { replace: true });
