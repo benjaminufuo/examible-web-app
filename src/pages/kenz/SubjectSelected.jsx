@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../global/slice";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useExamibleContext } from "../../context/ExamibleContext"
 
 const SubjectSelected = () => {
   const dispatch = useDispatch();
