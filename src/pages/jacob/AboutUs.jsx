@@ -73,7 +73,7 @@ const AboutUs = () => {
                 viewBox="0 0 3 144"
                 fill="none"
               >
-                <path d="M1.5 0V144" stroke="white" stroke-width="2" />
+                <path d="M1.5 0V144" stroke="white" strokeWidth="2" />
               </svg>
             </div>
             <span>
