@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/dashboardCss/leavingNow.css";
-import { setLeavingNow, setUser } from "../../global/slice";
+import { setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -10,15 +10,16 @@ import { useExamibleContext } from "../../context/ExamibleContext";
 const LeavingNow = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const { subject } = useParams();
   const examTimerMins = useSelector((state) => state.examTimerMins);
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
+  const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
 
-  const { handleShowUserFeedback } = useExamibleContext();
+  const { handleShowUserFeedback, showLeavingNow, setShowLeavingNow } =
+    useExamibleContext();
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
@@ -42,15 +43,17 @@ const LeavingNow = () => {
       const id = toast.loading("Please wait ...");
       const res = await axios.put(
         `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user._id}`,
-        { duration, completed, subject, performance }
+        { duration, completed, subject: mockSelectedSubject, performance }
       );
       if (res?.status === 200) {
         toast.dismiss(id);
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
-          dispatch(setLeavingNow());
+          setShowLeavingNow(false);
           setLoading(false);
-          nav("/dashboard/mock-exam/result", { state: { subject } });
+          nav("/dashboard/mock-exam/result", {
+            state: { subject: mockSelectedSubject },
+          });
           setTimeout(() => {
             handleShowUserFeedback();
           }, 20000);
@@ -62,8 +65,18 @@ const LeavingNow = () => {
         toast.error(error?.response?.data?.message);
         setLoading(false);
       }, 500);
+    } finally {
+      toast.dismiss(id);
     }
   };
+
+  useEffect(() => {
+    document.body.style.overflow = showLeavingNow ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showLeavingNow]);
 
   return (
     <div className="leavingNow">
@@ -89,7 +102,7 @@ const LeavingNow = () => {
             <button
               disabled={loading}
               style={{ background: "white", color: "#804BF2" }}
-              onClick={() => dispatch(setLeavingNow())}
+              onClick={() => setShowLeavingNow(false)}
             >
               Stay in Exam
             </button>

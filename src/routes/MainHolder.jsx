@@ -13,19 +13,11 @@ const MainHolder = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-
-    // setTimeout(() => {
-    //   if (userToken) {
-    //     nav("/dashboard/overview", { replace: true });
-    //   }
-    // }, 800);
   }, [userToken]);
 
   if (loading) {
     return <Loading />;
   }
-
-  console.log(userToken);
 
   if (userToken && !loading) {
     nav("/dashboard/overview", { replace: true });

@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import Logout from "./Logout";
 import hambuger from "../../assets/public/hambuger.svg";
 import LegacyBot from "../../components/LegacyBot";
-import { toast } from "react-toastify";
 import FeedbackForm from "../../components/FeedbackForm";
 import AiResponse from "../../components/AiResponse";
 import Sidebar from "../../components/Sidebar";
@@ -22,11 +21,12 @@ const Dashboard = () => {
     useExamibleContext();
 
   const showMyBot = () => {
-    if (user?.plan === "Freemium") {
-      toast.error("Please Subscribe before you can access this feature");
-    } else {
-      setShowBot(true);
-    }
+    setShowBot(true);
+    // if (user?.plan === "Freemium") {
+    //   toast.error("Please Subscribe before you can access this feature");
+    // } else {
+    //   setShowBot(true);
+    // }
   };
 
   return (

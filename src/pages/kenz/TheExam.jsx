@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import "../../styles/dashboardCss/examBody.css";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { LuClock2 } from "react-icons/lu";
@@ -8,10 +8,10 @@ import {
   nextQuestion,
   setExamTimeout,
   setFinishedExam,
-  setLeavingNow,
   setMockExamOption,
   theExamTimer,
 } from "../../global/slice";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const TheExam = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
@@ -20,20 +20,29 @@ const TheExam = () => {
   const examTimerMins = useSelector((state) => state.examTimerMins);
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
   const exam = useSelector((state) => state.exam);
+  const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
   const [isNext, setIsNext] = useState(false);
   const arrayOfNumbers = Array.from(
     { length: mockExamQuestions.length },
     (_, i) => i + 1
   );
-  // console.log(mockExamOptions,exam)
+
+  const { setShowLeavingNow } = useExamibleContext();
 
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { subject, subjectId } = useParams();
+  const { subjectId } = useParams();
   const num = Number(subjectId);
   const currentQuestion = mockExamQuestions?.find(
-    (item, index) => index === num - 1
+    (_, index) => index === num - 1
   );
+
+  useLayoutEffect(() => {
+    if (mockExamQuestions.length <= 0) {
+      location.href = "/dashboard/overview";
+    }
+  }, [mockExamQuestions]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(theExamTimer());
@@ -52,13 +61,13 @@ const TheExam = () => {
         answer: exam[num - 2]?.answer,
       })
     );
-    nav(`/mock-exam/${subject}/${num - 1}`);
+    nav(`/mock-exam/${num - 1}`);
     // dispatch(previousQuestion())
   };
 
   const nextExam = () => {
     dispatch(nextQuestion({ answer: currentQuestion?.answer, subjectId }));
-    nav(`/mock-exam/${subject}/${num + 1}`);
+    nav(`/mock-exam/${num + 1}`);
     if (exam.length > subjectId) {
       dispatch(
         setMockExamOption({
@@ -91,7 +100,7 @@ const TheExam = () => {
   return (
     <div className="examBody">
       <div className="examBody-mobile">
-        <button onClick={() => dispatch(setLeavingNow())}>x</button>
+        <button onClick={() => setShowLeavingNow(true)}>x</button>
         <h5>Jamb Mock Exam</h5>
         <article>
           <aside>
@@ -114,9 +123,9 @@ const TheExam = () => {
           <LuClock2 fontSize={30} />
           {examTimerMins}:{examTimerSecs}
         </section>
-        <button onClick={() => dispatch(setLeavingNow())}>x</button>
+        <button onClick={() => setShowLeavingNow(true)}>x</button>
       </div>
-      <h1>{subject} QUESTIONS</h1>
+      <h1>{mockSelectedSubject} QUESTIONS</h1>
       <div className="examBody-secondLayer">
         <div className="examBody-secondLayerHolder">
           <main>
@@ -160,7 +169,7 @@ const TheExam = () => {
                 />
               </nav>
             )}
-            {currentQuestion.options[1] && (
+            {currentQuestion?.options[1] && (
               <nav
                 style={{ cursor: "pointer" }}
                 onClick={() =>
@@ -176,7 +185,7 @@ const TheExam = () => {
                 <input type="radio" checked={mockExamOptions.optionB} />
               </nav>
             )}
-            {currentQuestion.options[2] && (
+            {currentQuestion?.options[2] && (
               <nav
                 style={{ cursor: "pointer" }}
                 onClick={() =>
@@ -192,7 +201,7 @@ const TheExam = () => {
                 <input type="radio" checked={mockExamOptions.optionC} />
               </nav>
             )}
-            {currentQuestion.options[3] && (
+            {currentQuestion?.options[3] && (
               <nav
                 style={{ cursor: "pointer" }}
                 onClick={() =>
@@ -284,7 +293,7 @@ const TheExam = () => {
                   dispatch(
                     nextQuestion({ answer: currentQuestion?.answer, subjectId })
                   );
-                  nav(`/mock-exam/${subject}/${index + 1}`);
+                  nav(`/mock-exam/${index + 1}`);
                   dispatch(
                     setMockExamOption({
                       option: exam[index]?.option,
