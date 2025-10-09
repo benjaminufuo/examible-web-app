@@ -12,6 +12,7 @@ import { GrStatusGood } from "react-icons/gr";
 import "../styles/dashboardCss/dashboard.css";
 import { useEffect } from "react";
 import { useExamibleContext } from "../context/ExamibleContext";
+import { toast } from "react-toastify";
 
 const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
   const location = useLocation();
@@ -75,7 +76,7 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                   {item.name}
                 </Link>
               ))}
-              <>
+              {/* <>
                 {user?.plan === "Freemium" ? (
                   <>
                     {location.pathname === "/dashboard/subscription" ? (
@@ -131,6 +132,22 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                     Subscription
                   </Link>
                 )}
+              </> */}
+              <>
+                <div className="dashboard-leftDropdown-subscription">
+                  <div className="dashboard-leftDropdown-markIcon">
+                    <GrStatusGood />
+                  </div>
+                  <h5>Unlimited Access</h5>
+                  <p>Explore more with a lifetime members</p>
+                  <button
+                    onClick={() => {
+                      toast.info("This feature is coming soon!");
+                    }}
+                  >
+                    Subscribe Now
+                  </button>
+                </div>
               </>
             </div>
             <div

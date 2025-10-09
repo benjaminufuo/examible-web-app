@@ -13,6 +13,8 @@ const examibleContext = createContext({
   setAIResponse: () => {},
   showSubjectSelected: false,
   setShowSubjectSelected: () => {},
+  showLeavingNow: false,
+  setShowLeavingNow: () => {},
 });
 
 export const useExamibleContext = () => {
@@ -26,6 +28,7 @@ const ExamibleContext = ({ children }) => {
   const [showAiResponseModal, setShowAiResponseModal] = useState(false);
   const [AIresponse, setAIResponse] = useState("");
   const [showSubjectSelected, setShowSubjectSelected] = useState(false);
+  const [showLeavingNow, setShowLeavingNow] = useState(false);
 
   const handleShowUserFeedback = () => {
     if (!user?.feedback) {
@@ -45,6 +48,8 @@ const ExamibleContext = ({ children }) => {
     setAIResponse,
     showSubjectSelected,
     setShowSubjectSelected,
+    showLeavingNow,
+    setShowLeavingNow,
   };
   return (
     <examibleContext.Provider value={defaultValue}>

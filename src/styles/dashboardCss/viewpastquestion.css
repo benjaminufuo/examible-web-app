@@ -9,6 +9,10 @@
   padding-left: 10px;
   padding-right: 10px;
   gap: 10px;
+
+  @media screen and (max-width: 550px) {
+    background-color: white;
+  }
 }
 
 .viewpastquestionheader {

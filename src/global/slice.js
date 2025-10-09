@@ -19,7 +19,6 @@ const initialState = {
   examMeter: 0,
   examTimerMins: 0,
   examTimerSecs: 0,
-  leavingNow: false,
   exam: [],
   notEnrolledSubjects: [],
   FinishedExam: false,
@@ -33,6 +32,7 @@ const initialState = {
     },
   ],
   mockYear: "",
+  mockSelectedSubject: "",
 };
 
 const slice = createSlice({
@@ -141,6 +141,7 @@ const slice = createSlice({
       state.mockExamOptions.optionD = false;
       state.mockExamOptions.optionE = false;
       state.exam = [];
+      state.mockExamQuestions = [];
     },
     previousQuestion: (state) => {
       state.examMeter = state.examMeter - 100 / state.mockExamQuestions.length;
@@ -208,16 +209,17 @@ const slice = createSlice({
     },
     setExamTimer: (state, { payload }) => {
       state.examMeter = 0;
-      if (payload === "Freemium") {
-        state.examTimerMins = 9;
-        state.examTimerSecs = 59;
-      } else {
-        state.examTimerMins = 29;
-        state.examTimerSecs = 59;
-      }
+      // if (payload === "Freemium") {
+      //   state.examTimerMins = 9;
+      //   state.examTimerSecs = 59;
+      // } else {
+      //   state.examTimerMins = 29;
+      //   state.examTimerSecs = 59;
+      // }
+      state.examTimerMins = 29;
+      state.examTimerSecs = 59;
       state.exam = [];
       state.FinishedExam = false;
-      state.leavingNow = false;
       state.timeOut = false;
     },
     theExamTimer: (state) => {
@@ -232,10 +234,9 @@ const slice = createSlice({
       state.user = {};
       state.userToken = "";
       state.mockSubject = "";
+      state.mockExamQuestions = [];
     },
-    setLeavingNow: (state) => {
-      state.leavingNow = !state.leavingNow;
-    },
+
     setNotEnrolledSubjects: (state, { payload }) => {
       state.notEnrolledSubjects = payload;
     },
@@ -257,6 +258,9 @@ const slice = createSlice({
       state.mockExamOptions.optionE = false;
       state.exam = [];
     },
+    setMockSelectedSubject: (state, { payload }) => {
+      state.mockSelectedSubject = payload;
+    },
   },
 });
 
@@ -268,7 +272,6 @@ export const {
   setExam,
   logoutTheUser,
   setYear,
-  setLeavingNow,
   theExamTimer,
   setUser,
   setMockSubject,
@@ -283,6 +286,7 @@ export const {
   setExamTimeout,
   setChatbotMessages,
   setMockYear,
+  setMockSelectedSubject,
 } = slice.actions;
 
 export default slice.reducer;

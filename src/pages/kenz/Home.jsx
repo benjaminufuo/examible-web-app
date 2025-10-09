@@ -36,49 +36,14 @@ const responsive = {
   },
 };
 
-const usersFeedback = [
-  {
-    feedback:
-      "I was unsure if I could get 250 or above in JAMB. Examibles’ quizzes, study guides, helped me a lot. My score of 265 exceeded my expectations.",
-    name: "Tolu",
-    school: "University of Ibadan",
-    image: home13,
-    ratings: 5,
-  },
-  {
-    feedback:
-      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
-    name: "Emeka",
-    school: "University of Lagos",
-    image: home12,
-    ratings: 4,
-  },
-  {
-    feedback:
-      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
-    name: "Miracle",
-    school: "University of Lagos",
-    image: home10,
-    ratings: 4.5,
-  },
-  {
-    feedback:
-      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
-    name: "Esther",
-    school: "University of Lagos",
-    image: home9,
-    ratings: 5,
-  },
-];
-
 const Home = () => {
   const nav = useNavigate();
   return (
     <div className="home">
+      <div className="home-firstLayerCircle">
+        <aside />
+      </div>
       <div className="home-firstLayer">
-        <div className="home-firstLayerCircle">
-          <aside />
-        </div>
         <div className="home-firstLayerSmallCircle"></div>
         <div className="home-firstLayerHolder">
           <main>
@@ -293,3 +258,38 @@ const Home = () => {
 };
 
 export default Home;
+
+const usersFeedback = [
+  {
+    feedback:
+      "I was unsure if I could get 250 or above in JAMB. Examibles’ quizzes, study guides, helped me a lot. My score of 265 exceeded my expectations.",
+    name: "Tolu",
+    school: "University of Ibadan",
+    image: home13,
+    ratings: 5,
+  },
+  {
+    feedback:
+      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
+    name: "Emeka",
+    school: "University of Lagos",
+    image: home12,
+    ratings: 4,
+  },
+  {
+    feedback:
+      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
+    name: "Miracle",
+    school: "University of Lagos",
+    image: home10,
+    ratings: 4.5,
+  },
+  {
+    feedback:
+      "I thought getting 250+ in JAMB was impossible for me. But Examible gave me the resources, mock tests, and motivation I needed. The practice quizzes helped me prepare and I scored 305.",
+    name: "Esther",
+    school: "University of Lagos",
+    image: home9,
+    ratings: 5,
+  },
+];

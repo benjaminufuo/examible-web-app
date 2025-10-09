@@ -5,12 +5,14 @@ import { MdDashboard } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import img2 from "../assets/public/pastquestion.svg";
 import img1 from "../assets/public/profile.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
 import { SiMoneygram } from "react-icons/si";
 import { GrStatusGood } from "react-icons/gr";
 import "../styles/dashboardCss/dashboard.css";
 import { useExamibleContext } from "../context/ExamibleContext";
+import { toast } from "react-toastify";
+import { setMockExamQuestion } from "../global/slice";
 
 const Sidebar = () => {
   const dashboardIcons = [
@@ -26,6 +28,8 @@ const Sidebar = () => {
 
   const location = useLocation();
   const { setIsLogout } = useExamibleContext();
+
+  const dispatch = useDispatch();
 
   const nav = useNavigate();
 
@@ -52,12 +56,29 @@ const Sidebar = () => {
             }}
             className="dashboard-navBar"
             key={item.id}
+            onClick={() => dispatch(setMockExamQuestion([]))}
           >
             {dashboardIcons[index]}
             {item.name}
           </Link>
         ))}
         <>
+          <div className="dashboard-subscription">
+            <div className="dashboard-markIcon">
+              <GrStatusGood />
+            </div>
+            <h5>Unlimited Access</h5>
+            <p>Explore more with a lifetime members</p>
+            <button
+              onClick={() => {
+                toast.info("This feature is coming soon!");
+              }}
+            >
+              Subscribe Now
+            </button>
+          </div>
+        </>
+        {/* <>
           {user?.plan === "Freemium" ? (
             <>
               {location.pathname === "/dashboard/subscription" ? (
@@ -83,7 +104,7 @@ const Sidebar = () => {
                   <p>Explore more with a lifetime members</p>
                   <button
                     onClick={() => {
-                      nav("/dashboard/subscription");
+                      toast.info("This feature is coming soon!");
                     }}
                   >
                     Subscribe Now
@@ -106,7 +127,7 @@ const Sidebar = () => {
               Subscription
             </Link>
           )}
-        </>
+        </> */}
       </div>
       <div
         className="dashboard-navBar"

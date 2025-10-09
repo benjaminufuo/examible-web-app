@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/kenz/Home";
 import Login from "../src/auth/Login";
@@ -80,7 +79,7 @@ const routes = createBrowserRouter([
               { path: "/dashboard/resultpage", element: <ResultPage /> },
             ],
           },
-          { path: "mock-exam/:subject/:subjectId", element: <ExamBody /> },
+          { path: "mock-exam/:subjectId", element: <ExamBody /> },
         ],
       },
       { path: "/data-deletion", element: <Facebookredirect /> },
