@@ -55,7 +55,9 @@ const Dashboard = () => {
                 .join(" ")}
             </h3>
           )}
-          <nav>
+          <nav
+            style={{ backgroundColor: user?.image ? "transparent" : "#804bf2" }}
+          >
             {user?.image ? (
               <img src={user?.image?.imageUrl} alt="user" />
             ) : (

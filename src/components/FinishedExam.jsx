@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Loading from "./Loading";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setFinishedExam, setUser } from "../global/slice";
 import { toast } from "react-toastify";

@@ -231,7 +231,10 @@ const Overview = () => {
                   <PiExamFill color="white" fontSize={35} />
                 </div>
                 <nav>
-                  <h6>{user?.plan === "Freemium" ? "10" : "30"}</h6>
+                  <h6>
+                    {/* {user?.plan === "Freemium" ? "10" : "30"} */}
+                    30
+                  </h6>
                   <p>Minutes Mock Exam</p>
                 </nav>
               </main>
@@ -240,7 +243,10 @@ const Overview = () => {
                   <FaBook color="#F2AE30" fontSize={35} />
                 </div>
                 <nav style={{ color: "white" }}>
-                  <h6>{user?.plan === "Freemium" ? "2" : "All"}</h6>
+                  <h6>
+                    {/* {user?.plan === "Freemium" ? "2" : "All"} */}
+                    All
+                  </h6>
                   <p>Years Pass Questions</p>
                 </nav>
               </main>
