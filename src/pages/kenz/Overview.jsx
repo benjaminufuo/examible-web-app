@@ -56,28 +56,45 @@ const Overview = () => {
   };
 
   const addMoreSubject = async () => {
-    if (user?.plan === "Freemium" && user?.enrolledSubjects?.length === 4) {
-      toast.error("Upgrade Plan to add more subject");
-    } else {
-      setLoading(true);
-      const id = toast.loading("Please wait ...");
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${
-            user?._id
-          }`
-        );
-        setLoading(false);
-        if (res?.status) {
-          dispatch(setNotEnrolledSubjects(res?.data?.data));
-          toast.dismiss(id);
-          setShowSubjectSelected(true);
-        }
-      } catch (error) {
-        setLoading(false);
-        toast.error(error?.response?.data?.message);
+    // if (user?.plan === "Freemium" && user?.enrolledSubjects?.length === 4) {
+    //   toast.error("Upgrade Plan to add more subject");
+    // } else {
+    //   setLoading(true);
+    //   const id = toast.loading("Please wait ...");
+    //   try {
+    //     const res = await axios.get(
+    //       `${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${
+    //         user?._id
+    //       }`
+    //     );
+    //     setLoading(false);
+    //     if (res?.status) {
+    //       dispatch(setNotEnrolledSubjects(res?.data?.data));
+    //       toast.dismiss(id);
+    //       setShowSubjectSelected(true);
+    //     }
+    //   } catch (error) {
+    //     setLoading(false);
+    //     toast.error(error?.response?.data?.message);
+    //     toast.dismiss(id);
+    //   }
+    // }
+    setLoading(true);
+    const id = toast.loading("Please wait ...");
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${user?._id}`
+      );
+      setLoading(false);
+      if (res?.status) {
+        dispatch(setNotEnrolledSubjects(res?.data?.data));
         toast.dismiss(id);
+        setShowSubjectSelected(true);
       }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error?.response?.data?.message);
+      toast.dismiss(id);
     }
   };
 

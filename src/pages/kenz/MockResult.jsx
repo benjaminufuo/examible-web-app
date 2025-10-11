@@ -84,8 +84,6 @@ const MockResult = () => {
     }
   };
 
-  console.log(loading);
-
   return (
     <div className="mockResult">
       <h2>

@@ -44,7 +44,6 @@ const FeedbackForm = () => {
         async () => {
           try {
             const res = await axios.put(url, {});
-            console.log(res);
             if (res.status === 200) {
               toast.success("Thanks for the feedback", {
                 autoClose: 2000,
@@ -57,9 +56,7 @@ const FeedbackForm = () => {
                 setLoading(false);
               }, 1000);
             }
-          } catch (error) {
-            console.log(error);
-          }
+          } catch (error) {}
         },
         (error) => {
           setLoading(false);

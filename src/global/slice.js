@@ -235,6 +235,14 @@ const slice = createSlice({
       state.userToken = "";
       state.mockSubject = "";
       state.mockExamQuestions = [];
+      state.chatbotMessages = [
+        {
+          message:
+            "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
+          sender: "ChatGPT",
+          direction: "Outgoing",
+        },
+      ];
     },
 
     setNotEnrolledSubjects: (state, { payload }) => {

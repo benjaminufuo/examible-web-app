@@ -8,6 +8,7 @@ import axios from "axios";
 import { setUser } from "../../global/slice";
 import { useLocation } from "react-router-dom";
 import { LiaSave } from "react-icons/lia";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -23,6 +24,17 @@ const Profile = () => {
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
+  const [passwordsVisiblity, setPasswordsVisibility] = useState({
+    currentPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
+  const [errorMessages, setErrorMessages] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const { pathname } = useLocation();
 
   const onchangeFile = (e) => {
     const file = e.target.files[0];
@@ -42,7 +54,6 @@ const Profile = () => {
         `${import.meta.env.VITE_BASE_URL}api/v1/studentUpdate/${user?._id}`,
         { fullName }
       );
-      console.log(res);
       toast.dismiss(id);
       setTimeout(() => {
         toast.success(res?.data?.message);
@@ -53,7 +64,6 @@ const Profile = () => {
       toast.dismiss(id);
       setNotEditing(true);
       toast.error(error?.response?.data?.message);
-      console.log(error);
     }
   };
 
@@ -79,7 +89,6 @@ const Profile = () => {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
-      console.log(error);
     } finally {
       toast.dismiss(toastId);
       setImage("");
@@ -123,7 +132,71 @@ const Profile = () => {
     }
   };
 
-  const { pathname } = useLocation();
+  const handleVisilibityChange = (field) => {
+    setPasswordsVisibility((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
+  function validatePassword(inputValue) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-]{8,}$/;
+    return passwordRegex.test(inputValue);
+  }
+
+  const validateField = (name, value) => {
+    let error = "";
+
+    if (name === "newPassword") {
+      if (!value.trim()) {
+        error = "Password is required";
+      } else if (value.length < 8 || value.length > 60) {
+        error = "Password should be between 8 and 60 characters";
+      } else if (!validatePassword(value)) {
+        error =
+          "Your password must contain an upper case, a lowercase, a special character and a number";
+      } else if (value === edittedPassword.confirmPassword) {
+        setErrorMessages({ ...errorMessages, confirmPassword: "" });
+      } else {
+        error = "";
+      }
+    }
+
+    if (name === "confirmPassword") {
+      if (value !== edittedPassword.newPassword) {
+        error = "Passwords do not match";
+      }
+    }
+
+    setErrorMessages((prev) => ({ ...prev, [name]: error }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEdittedPassword((prev) => ({ ...prev, [name]: value }));
+    if (name === "newPassword") {
+      setErrorMessages({ ...errorMessages, newPassword: "" });
+    }
+  };
+
+  const isDisabled = () => {
+    if (notPassword) {
+      return;
+    }
+    const { newPassword, confirmPassword } = edittedPassword;
+    if (
+      newPassword.trim() !== "" &&
+      newPassword.length >= 8 &&
+      newPassword.length <= 60 &&
+      confirmPassword.trim() !== "" &&
+      newPassword === confirmPassword
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -171,77 +244,125 @@ const Profile = () => {
       <form className="profile-thirdLayer" onSubmit={changePassword}>
         <main>
           <label>Full Name</label>
-          <input
-            disabled={notEditing}
-            type="text"
-            placeholder="Enter Fullname"
-            value={fullName}
-            onChange={(e) => setFullname(e.target.value)}
-            style={{ cursor: notEditing ? "not-allowed" : "pointer" }}
-          />
+          <div className="profile-inputWrapper">
+            <input
+              disabled={notEditing}
+              type="text"
+              placeholder="Enter Fullname"
+              value={fullName}
+              onChange={(e) => setFullname(e.target.value)}
+              style={{ cursor: notEditing ? "not-allowed" : "pointer" }}
+            />
+          </div>
         </main>
         <main>
           <label>Email</label>
-          <input
-            disabled={true}
-            type="email"
-            placeholder="Enter Email"
-            value={user?.email}
-            style={{ cursor: "not-allowed" }}
-          />
+          <div className="profile-inputWrapper">
+            <input
+              disabled={true}
+              type="email"
+              placeholder="Enter Email"
+              value={user?.email}
+              style={{ cursor: "not-allowed" }}
+            />
+          </div>
         </main>
         {!notPassword && (
           <>
             <main>
               <label>Old Password</label>
-              <input
-                disabled={notPassword}
-                value={edittedPassword.currentPassword}
-                required
-                onChange={(e) =>
-                  setEdittedPassword({
-                    ...edittedPassword,
-                    currentPassword: e.target.value,
-                  })
-                }
-                type="text"
-                placeholder="123*******"
-                style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-              />
+              <div className="profile-inputWrapper">
+                <input
+                  disabled={notPassword}
+                  value={edittedPassword.currentPassword}
+                  required
+                  onChange={(e) =>
+                    setEdittedPassword({
+                      ...edittedPassword,
+                      currentPassword: e.target.value,
+                    })
+                  }
+                  type={
+                    passwordsVisiblity.currentPassword ? "text" : "password"
+                  }
+                  placeholder="123*******"
+                  style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
+                />
+                <div
+                  className="profile-eyeIcon"
+                  onClick={handleVisilibityChange.bind(this, "currentPassword")}
+                >
+                  {passwordsVisiblity.currentPassword ? (
+                    <FaRegEye />
+                  ) : (
+                    <FaRegEyeSlash />
+                  )}
+                </div>
+              </div>
             </main>
             <main>
               <label>New Password</label>
-              <input
-                disabled={notPassword}
-                value={edittedPassword.newPassword}
-                required
-                onChange={(e) =>
-                  setEdittedPassword({
-                    ...edittedPassword,
-                    newPassword: e.target.value,
-                  })
-                }
-                type="text"
-                placeholder="abc******"
-                style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-              />
+              <div className="profile-inputWrapper">
+                <input
+                  disabled={notPassword}
+                  value={edittedPassword.newPassword}
+                  name="newPassword"
+                  required
+                  onChange={handleChange}
+                  type={passwordsVisiblity.newPassword ? "text" : "password"}
+                  placeholder="abc******"
+                  style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
+                  onBlur={(e) => validateField(e.target.name, e.target.value)}
+                />
+                <div
+                  className="profile-eyeIcon"
+                  onClick={handleVisilibityChange.bind(this, "newPassword")}
+                >
+                  {passwordsVisiblity.newPassword ? (
+                    <FaRegEye />
+                  ) : (
+                    <FaRegEyeSlash />
+                  )}
+                </div>
+              </div>
+              {errorMessages.newPassword && (
+                <small className="profile-error">
+                  {errorMessages.newPassword}
+                </small>
+              )}
             </main>
             <main>
               <label>Confirm Password</label>
-              <input
-                disabled={notPassword}
-                required
-                value={edittedPassword.confirmPassword}
-                onChange={(e) =>
-                  setEdittedPassword({
-                    ...edittedPassword,
-                    confirmPassword: e.target.value,
-                  })
-                }
-                type="text"
-                placeholder="abc******"
-                style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-              />
+              <div className="profile-inputWrapper">
+                <input
+                  disabled={notPassword}
+                  required
+                  value={edittedPassword.confirmPassword}
+                  name="confirmPassword"
+                  onChange={handleChange}
+                  type={
+                    passwordsVisiblity.confirmPassword ? "text" : "password"
+                  }
+                  placeholder="abc******"
+                  style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
+                  onBlur={(e) => validateField(e.target.name, e.target.value)}
+                />
+                <div
+                  className="profile-eyeIcon"
+                  onClick={handleVisilibityChange.bind(this, "confirmPassword")}
+                >
+                  {passwordsVisiblity.confirmPassword ? (
+                    <FaRegEye />
+                  ) : (
+                    <FaRegEyeSlash />
+                  )}
+                </div>
+              </div>
+              {errorMessages.confirmPassword && (
+                <small className="profile-error">
+                  {errorMessages.confirmPassword}
+                </small>
+              )}
             </main>
           </>
         )}
@@ -251,7 +372,7 @@ const Profile = () => {
               Change Password
             </button>
           ) : (
-            <button disabled={loading}>Update Password</button>
+            <button disabled={loading || isDisabled()}>Update Password</button>
           )}
         </>
       </form>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../global/slice";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useExamibleContext } from "../../context/ExamibleContext"
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const SubjectSelected = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,6 @@ const SubjectSelected = () => {
       setTimeout(() => {
         toast.error(error?.response?.data?.message);
       }, 500);
-      console.log(error);
     }
   };
 
