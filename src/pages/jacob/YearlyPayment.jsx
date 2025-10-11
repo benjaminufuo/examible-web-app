@@ -57,7 +57,7 @@ const YearlyPayment = () => {
             <div className="paymentsymboldiv">
               <img src={payment} />
             </div>
-            <h1>premium</h1>
+            <h1>Monthly</h1>
             <span>Get the best value for your money</span>
 
             <div className="premiumbofferdiv">
@@ -87,7 +87,8 @@ const YearlyPayment = () => {
                 <button
                   className="planbutton1"
                   onClick={() => handleChoosePlan(500, "Monthly")}
-                  disabled={currentPlan === "Monthly"}>
+                  disabled={currentPlan === "Monthly"}
+                >
                   {currentPlan === "Monthly" ? "Subcribed" : "Choose plan"}
                 </button>
               </div>
@@ -99,7 +100,7 @@ const YearlyPayment = () => {
             <div className="paymentsymboldiv">
               <img src={payment} />
             </div>
-            <h1 className="accessmodel">Premium</h1>
+            <h1 className="accessmodel">Yearly</h1>
             <span className="lifevalue">Get the best value for your money</span>
 
             <div className="offercontainer">
@@ -134,7 +135,8 @@ const YearlyPayment = () => {
               <button
                 className="planbutton1"
                 onClick={() => handleChoosePlan(5000, "Yearly")}
-                disabled={currentPlan === "Yearly"}>
+                disabled={currentPlan === "Yearly"}
+              >
                 {currentPlan === "Yearly" ? "Subcribed" : "Choose plan"}
               </button>
             </div>

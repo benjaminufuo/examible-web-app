@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/dashboardCss/viewpastquestion.css";
 import {
   IoIosArrowRoundBack,
@@ -9,13 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
-  setFeedbackModal,
-  setAiResponseModal,
-  setAIResponse,
 } from "../../global/slice";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { getAiResponse } from "../../config/Api";
 import { ClipLoader } from "react-spinners";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
@@ -36,7 +34,6 @@ const ViewPastQuestion = () => {
   const subject = useSelector((state) => state.exam);
   const questions = useSelector((state) => state.pastQuestions) || [];
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
-  const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(null);
 
@@ -49,6 +46,9 @@ const ViewPastQuestion = () => {
     indexOfFirstQuestion,
     indexOfLastQuestion
   );
+
+  const { handleShowUserFeedback, setShowAiResponseModal, setAIResponse } =
+    useExamibleContext();
 
   const getAnswerText = (answerLetter, options) => {
     if (
@@ -111,7 +111,7 @@ const ViewPastQuestion = () => {
   useEffect(() => {
     if (count === 1) {
       setTimeout(() => {
-        dispatch(setFeedbackModal());
+        handleShowUserFeedback();
       }, 20000);
     }
   }, [count]);
@@ -135,8 +135,8 @@ const ViewPastQuestion = () => {
       );
       if (res) {
         setLoading(null);
-        dispatch(setAIResponse(res.data.aiResponse));
-        dispatch(setAiResponseModal());
+        setAIResponse(res.data.aiResponse);
+        setShowAiResponseModal(true);
       }
     } catch (error) {
       setLoading(null);
@@ -167,6 +167,19 @@ const ViewPastQuestion = () => {
               <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
               <span>{item.question}</span>
             </h1>
+            {item?.subheadingA && (
+              <h1 className="subheading">{item?.subheadingA}</h1>
+            )}
+            {item?.diagramUrlA && (
+              <img src={item?.diagramUrlA} className="question-diagram" />
+            )}
+            {item?.subheadingB && (
+              <h1 className="subheading">{item?.subheadingB}</h1>
+            )}
+            {item?.diagramUrlB && (
+              <img src={item?.diagramUrlB} className="question-diagram" />
+            )}
+
             <ul className="answeroption">
               {item.options.map((option, optionindex) => {
                 const userAnswer =
@@ -195,7 +208,7 @@ const ViewPastQuestion = () => {
                         indexOfFirstQuestion + index,
                         option,
                         item.answer,
-                        item.options
+                        item.options || []
                       )
                     }
                     style={{

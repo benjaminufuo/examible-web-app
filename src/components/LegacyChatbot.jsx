@@ -34,7 +34,7 @@ const LegacyChatbot = () => {
     };
 
     const apiRequest = {
-      model: "deepseek/deepseek-chat-v3.1:free",
+      model: "deepseek/deepseek-chat-v3.1",
       messages: [systemMessage, ...apiMessages],
     };
 

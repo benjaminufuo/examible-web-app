@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/dashboardCss/profile.css";
 import { TbEdit } from "react-icons/tb";
 import { LuUserRound } from "react-icons/lu";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { setUser } from "../../global/slice";
 import { useLocation } from "react-router-dom";
+import { LiaSave } from "react-icons/lia";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -59,6 +60,7 @@ const Profile = () => {
   const setProfilePic = async () => {
     const formDatas = new FormData();
     formDatas.append("image", image);
+    const toastId = toast.loading("Please wait ...");
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/upload-profileImage/${
@@ -75,20 +77,17 @@ const Profile = () => {
         toast.success("Upload Successfully");
         dispatch(setUser(res?.data?.data));
       }
-      console.log(res);
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log(error);
+    } finally {
+      toast.dismiss(toastId);
+      setImage("");
     }
   };
 
-  useEffect(() => {
-    if (image.type) {
-      setProfilePic();
-    }
-  }, [image]);
-
-  const changePassword = async () => {
+  const changePassword = async (e) => {
+    e.preventDefault();
     setLoading(true);
     const id = toast.loading("Please wait ...");
     try {
@@ -124,11 +123,11 @@ const Profile = () => {
     }
   };
 
-    const {pathname} = useLocation()
-  
-    useEffect(()=>{
-        window.scrollTo(0,0)
-    },[pathname])
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="profile">
@@ -142,7 +141,10 @@ const Profile = () => {
             </nav>
           ) : (
             <nav
-              style={{ fontSize: 18 }}
+              style={{
+                fontSize: 18,
+                pointerEvents: fullName ? "auto" : "none",
+              }}
               onClick={() => changeFullname(fullName)}
             >
               Update
@@ -157,10 +159,16 @@ const Profile = () => {
           <LuUserRound fontSize={50} />
         )}
 
-        <label htmlFor="la"> + </label>
+        {image ? (
+          <label onClick={() => setProfilePic()}>
+            <LiaSave />
+          </label>
+        ) : (
+          <label htmlFor="la"> + </label>
+        )}
         <input type="file" id="la" hidden onChange={(e) => onchangeFile(e)} />
       </div>
-      <div className="profile-thirdLayer">
+      <form className="profile-thirdLayer" onSubmit={changePassword}>
         <main>
           <label>Full Name</label>
           <input
@@ -182,73 +190,71 @@ const Profile = () => {
             style={{ cursor: "not-allowed" }}
           />
         </main>
-        <main>
-          <label>Old Password</label>
-          <input
-            disabled={notPassword}
-            value={edittedPassword.currentPassword}
-            onChange={(e) =>
-              setEdittedPassword({
-                ...edittedPassword,
-                currentPassword: e.target.value,
-              })
-            }
-            type="text"
-            placeholder="123*******"
-            style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-          />
-        </main>
-        <main>
-          <label>New Password</label>
-          <input
-            disabled={notPassword}
-            value={edittedPassword.newPassword}
-            onChange={(e) =>
-              setEdittedPassword({
-                ...edittedPassword,
-                newPassword: e.target.value,
-              })
-            }
-            type="text"
-            placeholder="abc******"
-            style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-          />
-        </main>
-        <main>
-          <label>Confirm Password</label>
-          <input
-            disabled={notPassword}
-            value={edittedPassword.confirmPassword}
-            onChange={(e) =>
-              setEdittedPassword({
-                ...edittedPassword,
-                confirmPassword: e.target.value,
-              })
-            }
-            type="text"
-            placeholder="abc******"
-            style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-          />
-        </main>
+        {!notPassword && (
+          <>
+            <main>
+              <label>Old Password</label>
+              <input
+                disabled={notPassword}
+                value={edittedPassword.currentPassword}
+                required
+                onChange={(e) =>
+                  setEdittedPassword({
+                    ...edittedPassword,
+                    currentPassword: e.target.value,
+                  })
+                }
+                type="text"
+                placeholder="123*******"
+                style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
+              />
+            </main>
+            <main>
+              <label>New Password</label>
+              <input
+                disabled={notPassword}
+                value={edittedPassword.newPassword}
+                required
+                onChange={(e) =>
+                  setEdittedPassword({
+                    ...edittedPassword,
+                    newPassword: e.target.value,
+                  })
+                }
+                type="text"
+                placeholder="abc******"
+                style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
+              />
+            </main>
+            <main>
+              <label>Confirm Password</label>
+              <input
+                disabled={notPassword}
+                required
+                value={edittedPassword.confirmPassword}
+                onChange={(e) =>
+                  setEdittedPassword({
+                    ...edittedPassword,
+                    confirmPassword: e.target.value,
+                  })
+                }
+                type="text"
+                placeholder="abc******"
+                style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
+              />
+            </main>
+          </>
+        )}
         <>
           {notPassword ? (
             <button onClick={() => setNotPassword(false)}>
               Change Password
             </button>
           ) : (
-            <button
-              style={{
-                backgroundColor: loading ? "#804BF2CC" : "#804BF2",
-                cursor: loading ? "not-allowed" : "pointer",
-              }}
-              disabled={loading}
-              onClick={changePassword}
-            >
-              Update Password
-            </button>
+            <button disabled={loading}>Update Password</button>
           )}
         </>
-      </div>
+      </form>
     </div>
   );
 };

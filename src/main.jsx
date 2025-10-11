@@ -7,15 +7,18 @@ import { store } from "./global/store.js";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 import persistStore from "redux-persist/es/persistStore";
+import ExamibleContext from "./context/ExamibleContext.jsx";
 
-let persistor = persistStore(store)
+let persistor = persistStore(store);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <PersistGate loading={null} persistor={persistor}>
       <Provider store={store}>
-        <ToastContainer />
-        <App />
+        <ExamibleContext>
+          <ToastContainer />
+          <App />
+        </ExamibleContext>
       </Provider>
     </PersistGate>
   </StrictMode>

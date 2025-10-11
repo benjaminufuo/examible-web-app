@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../../styles/dashboardCss/mockExam.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setExamTimer,
   setMockExamQuestion,
+  setMockSelectedSubject,
   setMockSubject,
   setMockYear,
 } from "../../global/slice";
@@ -30,8 +31,9 @@ const Mockexam = () => {
         dispatch(setMockExamQuestion(res?.data?.data));
         dispatch(setMockYear(res?.data?.year));
         dispatch(setExamTimer(user?.plan));
+        dispatch(setMockSelectedSubject(subject));
         setTimeout(() => {
-          nav(`/mock-exam/${subject}/1`);
+          nav(`/mock-exam/1`);
         }, 500);
       }
       toast.dismiss(id);

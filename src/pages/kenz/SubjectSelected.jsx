@@ -3,9 +3,10 @@ import "../../styles/dashboardCss/subjectSelected.css";
 import image1 from "../../assets/public/home-firstlayer.png";
 import { FaArrowLeftLong, FaBook } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsOverview, setUser } from "../../global/slice";
+import { setUser } from "../../global/slice";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useExamibleContext } from "../../context/ExamibleContext"
 
 const SubjectSelected = () => {
   const dispatch = useDispatch();
@@ -13,85 +14,7 @@ const SubjectSelected = () => {
   const [loading, setLoading] = useState(false);
   const notEnrolledSubjects = useSelector((state) => state.notEnrolledSubjects);
 
-  const allSubjectsData = [
-    {
-      subject: "Mathematics",
-      cardColor: "#804BF266",
-      divColor: "#FFFFFF",
-      iconColor: "#804BF2",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "English",
-      cardColor: "#1E1E1E",
-      divColor: "#804BF2",
-      iconColor: "#FFFFFF",
-      textColor: "#FFFFFF",
-    },
-    {
-      subject: "Physics",
-      cardColor: "#F2AE30",
-      divColor: "#FFFFFF",
-      iconColor: "#F2AE30",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "Chemistry",
-      cardColor: "#88DDFF",
-      divColor: "#1E1E1E",
-      iconColor: "#FFFFFF",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "Biology",
-      cardColor: "#F2AE3099",
-      divColor: "#1E1E1E",
-      iconColor: "#FFFFFF",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "Literature in English",
-      cardColor: "#F2AE30",
-      divColor: "#804BF2CC",
-      iconColor: "#FFFFFF",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "Economics",
-      cardColor: "#00000040",
-      divColor: "#1E1E1E",
-      iconColor: "#FFFFFF",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "Geography",
-      cardColor: "#FFFFFF",
-      divColor: "#804BF266",
-      iconColor: "#1E1E1E",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "Government",
-      cardColor: "#88DDFF",
-      divColor: "#FFFFFF",
-      iconColor: "#1E1E1E",
-      textColor: "#1E1E1E",
-    },
-    {
-      subject: "History",
-      cardColor: "#17004D",
-      divColor: "#88DDFF",
-      iconColor: "#1E1E1E",
-      textColor: "#FFFFFF",
-    },
-    {
-      subject: "Commerce",
-      cardColor: "#FFFFFF",
-      divColor: "#1E1E1E",
-      iconColor: "#FFFFFF",
-      textColor: "#1E1E1E",
-    },
-  ];
+  const { setShowSubjectSelected } = useExamibleContext();
 
   const addSubject = async (subject) => {
     setLoading(true);
@@ -107,7 +30,7 @@ const SubjectSelected = () => {
         setTimeout(() => {
           toast.success(res?.data?.message);
           dispatch(setUser(res?.data?.data));
-          dispatch(setIsOverview());
+          setShowSubjectSelected(false);
         }, 500);
       }
     } catch (error) {
@@ -124,7 +47,7 @@ const SubjectSelected = () => {
     <div className="subjectSelected">
       <div className="subjectSelected-firstLayer">
         <aside>
-          <FaArrowLeftLong onClick={() => dispatch(setIsOverview())} />
+          <FaArrowLeftLong onClick={() => setShowSubjectSelected(false)} />
         </aside>
         <div className="subjectSelected-firstLayerHolder">
           <img src={image1} alt="" />
@@ -233,3 +156,83 @@ const SubjectSelected = () => {
 };
 
 export default SubjectSelected;
+
+const allSubjectsData = [
+  {
+    subject: "Mathematics",
+    cardColor: "#804BF266",
+    divColor: "#FFFFFF",
+    iconColor: "#804BF2",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "English",
+    cardColor: "#1E1E1E",
+    divColor: "#804BF2",
+    iconColor: "#FFFFFF",
+    textColor: "#FFFFFF",
+  },
+  {
+    subject: "Physics",
+    cardColor: "#F2AE30",
+    divColor: "#FFFFFF",
+    iconColor: "#F2AE30",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "Chemistry",
+    cardColor: "#88DDFF",
+    divColor: "#1E1E1E",
+    iconColor: "#FFFFFF",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "Biology",
+    cardColor: "#F2AE3099",
+    divColor: "#1E1E1E",
+    iconColor: "#FFFFFF",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "Literature in English",
+    cardColor: "#F2AE30",
+    divColor: "#804BF2CC",
+    iconColor: "#FFFFFF",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "Economics",
+    cardColor: "#00000040",
+    divColor: "#1E1E1E",
+    iconColor: "#FFFFFF",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "Geography",
+    cardColor: "#FFFFFF",
+    divColor: "#804BF266",
+    iconColor: "#1E1E1E",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "Government",
+    cardColor: "#88DDFF",
+    divColor: "#FFFFFF",
+    iconColor: "#1E1E1E",
+    textColor: "#1E1E1E",
+  },
+  {
+    subject: "History",
+    cardColor: "#17004D",
+    divColor: "#88DDFF",
+    iconColor: "#1E1E1E",
+    textColor: "#FFFFFF",
+  },
+  {
+    subject: "Commerce",
+    cardColor: "#FFFFFF",
+    divColor: "#1E1E1E",
+    iconColor: "#FFFFFF",
+    textColor: "#1E1E1E",
+  },
+];

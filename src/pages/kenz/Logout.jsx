@@ -2,16 +2,18 @@ import { useState } from "react";
 import "../../styles/dashboardCss/logout.css";
 import img1 from "../../assets/public/Log out.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutTheUser, setLogout } from "../../global/slice";
+import { logoutTheUser } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const Logout = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const userToken = useSelector((state) => state.userToken);
   const [loading, setLoading] = useState(false);
+  const { setIsLogout } = useExamibleContext();
   const logoutUser = async () => {
     const id = toast.loading("logging out ...");
     setLoading(true);
@@ -29,11 +31,12 @@ const Logout = () => {
       if (res?.status === 200) {
         setTimeout(() => {
           nav("/");
-          dispatch(setLogout());
+          setIsLogout(false);
         }, 500);
         setLoading(false);
         setTimeout(() => {
           dispatch(logoutTheUser());
+          setIsLogout(false);
         }, 550);
       }
       return;
@@ -42,13 +45,16 @@ const Logout = () => {
       setLoading(false);
       if (
         error?.response?.data?.message ===
-        "Session timed-out: Please login to continue"
+          "Session timed-out: Please login to continue" ||
+        error?.response?.data?.message ===
+          "Authentication Failed: User is not logged in"
       ) {
         setTimeout(() => {
           nav("/");
         }, 500);
         setTimeout(() => {
           dispatch(logoutTheUser());
+          setIsLogout(false);
         }, 1000);
       } else {
         setTimeout(() => {
@@ -58,7 +64,7 @@ const Logout = () => {
     }
   };
   return (
-    <div className="logout" onClick={() => dispatch(setLogout())}>
+    <div className="logout" onClick={() => setIsLogout(false)}>
       <div className="logoutHolder" onClick={(e) => e.stopPropagation()}>
         <img src={img1} alt="" />
         <main>
@@ -80,7 +86,7 @@ const Logout = () => {
               className="continue-btn"
               style={{ cursor: loading ? "not-allowed" : "pointer" }}
               disabled={loading}
-              onClick={() => dispatch(setLogout())}
+              onClick={() => setIsLogout(false)}
             >
               Continuing learning{" "}
             </button>

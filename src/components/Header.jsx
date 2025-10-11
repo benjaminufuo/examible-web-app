@@ -4,6 +4,7 @@ import menuBar from "../assets/navBar.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import HeaderLogo from "../assets/public/logo.png";
 import hambuger from "../assets/public/hambuger.svg";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const location = useLocation();
@@ -31,9 +32,13 @@ const Header = () => {
                     borderColor:
                       location.pathname === item.link ? "#804BF2" : "white",
                   }}
+                  onClick={() => {
+                    item.name === "PLANS" &&
+                      toast.info("Plans page is currently unavailable");
+                  }}
                 >
                   <Link
-                    to={item.link}
+                    to={item?.link}
                     style={{ color: "black", textDecoration: "none" }}
                   >
                     {item.name}
@@ -85,7 +90,11 @@ const Header = () => {
                       borderColor:
                         location.pathname === item.link ? "#804BF2" : "white",
                     }}
-                    onClick={() => setShowDropdown(!showDropdown)}
+                    onClick={() => {
+                      item.name === "PLANS" &&
+                        toast.info("Plans page is currently unavailable");
+                      setShowDropdown(!showDropdown);
+                    }}
                   >
                     <Link
                       to={item.link}

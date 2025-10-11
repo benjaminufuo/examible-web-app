@@ -3,7 +3,7 @@ import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import "../../styles/aboutus.css";
 import { FaFacebook, FaTwitter, FaSkype, FaYoutube } from "react-icons/fa";
-import heroImg from "../../assets/public/aboutHeroImage.png";
+import heroImg from "../../assets/public/heroimg1.png";
 import target from "../../assets/public/targget.png";
 import camera from "../../assets/public/sweemglasses.png";
 import hand from "../../assets/public/hands.png";
@@ -73,7 +73,7 @@ const AboutUs = () => {
                 viewBox="0 0 3 144"
                 fill="none"
               >
-                <path d="M1.5 0V144" stroke="white" stroke-width="2" />
+                <path d="M1.5 0V144" stroke="white" strokeWidth="2" />
               </svg>
             </div>
             <span>

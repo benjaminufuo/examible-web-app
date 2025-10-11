@@ -148,7 +148,7 @@ const ResetPassword = () => {
               </div>
             </div>
             {errorMessage.newPassword && (
-              <p className="error">{errorMessage.newPassword}</p>
+              <p className="reseterror">{errorMessage.newPassword}</p>
             )}
           </div>
           <div className="resetinput">
@@ -172,7 +172,7 @@ const ResetPassword = () => {
               </div>
             </div>
             {errorMessage.confirmPassword && (
-              <p className="error">{errorMessage.confirmPassword}</p>
+              <p className="reseterror">{errorMessage.confirmPassword}</p>
             )}
           </div>
           <button

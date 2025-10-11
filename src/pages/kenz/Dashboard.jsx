@@ -6,26 +6,27 @@ import { useSelector } from "react-redux";
 import Logout from "./Logout";
 import hambuger from "../../assets/public/hambuger.svg";
 import LegacyBot from "../../components/LegacyBot";
-import { toast } from "react-toastify";
 import FeedbackForm from "../../components/FeedbackForm";
 import AiResponse from "../../components/AiResponse";
 import Sidebar from "../../components/Sidebar";
 import ResponsiveSidebar from "../../components/ResponsiveSidebar";
+import { useExamibleContext } from "../../context/ExamibleContext";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
-  const logout = useSelector((state) => state.logout);
-  const feedbackModal = useSelector((state) => state.feedbackModal);
-  const aiResponseModal = useSelector((state) => state.aiResponseModal);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBot, setShowBot] = useState(false);
 
+  const { isLogout, showFeedbackModal, showAiResponseModal } =
+    useExamibleContext();
+
   const showMyBot = () => {
-    if (user?.plan === "Freemium") {
-      toast.error("Please Subscribe before you can access this feature");
-    } else {
-      setShowBot(true);
-    }
+    setShowBot(true);
+    // if (user?.plan === "Freemium") {
+    //   toast.error("Please Subscribe before you can access this feature");
+    // } else {
+    //   setShowBot(true);
+    // }
   };
 
   return (
@@ -54,7 +55,9 @@ const Dashboard = () => {
                 .join(" ")}
             </h3>
           )}
-          <nav>
+          <nav
+            style={{ backgroundColor: user?.image ? "transparent" : "#804bf2" }}
+          >
             {user?.image ? (
               <img src={user?.image?.imageUrl} alt="user" />
             ) : (
@@ -78,9 +81,9 @@ const Dashboard = () => {
         </div>
         <div className="dashboard-rightHolder">
           <Outlet />
-          {logout && <Logout />}
-          {feedbackModal && <FeedbackForm />}
-          {aiResponseModal && <AiResponse />}
+          {isLogout && <Logout />}
+          {showFeedbackModal && <FeedbackForm />}
+          {showAiResponseModal && <AiResponse />}
         </div>
       </div>
     </div>

@@ -7,6 +7,10 @@
   align-items: center;
   background: rgba(128, 75, 242, 0.2);
   padding: 30px;
+
+  @media screen and (max-width: 550px) {
+    background-color: white;
+  }
 }
 
 .sebcontainer {
