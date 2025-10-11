@@ -16,6 +16,7 @@ import PastQuestion from "./pages/jacob/PastQuestion";
 import Profile from "./pages/kenz/Profile";
 import Subscription from "./pages/jacob/Subscription";
 import AboutUs from "./pages/jacob/AboutUs";
+import ProctorPlus from "./pages/Ai/ProctorPlus";
 import Verify from "./auth/Verify";
 import ExamBody from "./pages/kenz/ExamBody";
 import MakePayment from "./pages/jacob/MakePayment";
@@ -43,6 +44,7 @@ const routes = createBrowserRouter([
           { path: "/learn-more", element: <LearnMore /> },
           { path: "about-us", element: <AboutUs /> },
           { path: "plans", element: <Plans /> },
+          { path: "/proctor-plus", element: <ProctorPlus /> },
         ],
       },
       { path: "/signup", element: <SignUp /> },
