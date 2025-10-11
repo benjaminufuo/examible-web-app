@@ -77,7 +77,6 @@ const LegacyChatbot = () => {
           },
         ])
       );
-      console.error("Chatbot error:", error);
     } finally {
       setTyping(false);
     }
