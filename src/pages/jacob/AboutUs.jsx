@@ -18,6 +18,8 @@ import team4 from "../../assets/public/team4.png";
 import team5 from "../../assets/public/team5.jpg";
 import team6 from "../../assets/public/team6.jpg";
 import team7 from "../../assets/public/team7.jpg";
+import { FaCheck } from "react-icons/fa6";
+import ProvenProcess from "../../components/ProvenProcess";
 
 const AboutUs = () => {
   const heroDescription = [
@@ -283,9 +285,57 @@ const AboutUs = () => {
             </SwiperSlide>
           </Swiper>
         </div>
+        <div className="smartpreparation">
+          <div className="smartheader">
+            <h1>
+              Faster & Smarter{" "}
+              <span style={{ color: "#804bf2" }}>Preparation</span>
+            </h1>
+            <p>No more aimless studying; focus on what truly matters.</p>
+          </div>
+
+          <div className="carddata">
+            {cardData.map((card, index) => (
+              <div className="card" key={index}>
+                {card.showCircle && (
+                  <div className="whitecircle">
+                    <div className="innerpurplecircle">
+                      <FaCheck className="checkicon" />
+                    </div>
+                  </div>
+                )}
+                <p>{card.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <ProvenProcess />
       </section>
     </main>
   );
 };
 
 export default AboutUs;
+
+const cardData = [
+  {
+    title:
+      "Exam-Style Practice – Real CBT simulations ensure you're fully prepared.",
+    showCircle: true,
+  },
+  {
+    title:
+      "Time Management Boost – Learn to answer questions under real exam conditions.",
+    showCircle: true,
+  },
+  {
+    title:
+      "Performance Insights – Track progress, identify weak topics, and improve.",
+    showCircle: true,
+  },
+  {
+    title:
+      "Stress-Free Learning – Reduce anxiety with structured practice and study tips.",
+    showCircle: true,
+  },
+];

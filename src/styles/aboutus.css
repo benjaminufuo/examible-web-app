@@ -439,7 +439,123 @@
   cursor: pointer;
 }
 
+.smartpreparation {
+  margin-top: 58px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1440px;
+  margin-inline: auto;
+
+  .smartheader {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+
+    & h1 {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Sora;
+      font-size: 48px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 45px; /* 93.75% */
+    }
+
+    & p {
+      color: #1e1e1e;
+      text-align: center;
+      font-family: Montserrat;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 45px; /* 150% */
+    }
+  }
+}
+
+.carddata {
+  display: flex;
+  flex-wrap: wrap;
+  width: 81%;
+  gap: 28px;
+  justify-content: space-between;
+}
+
+.card {
+  position: relative;
+  display: inline-flex;
+  width: 506px;
+  max-width: 45%;
+  height: 212px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2ae304d;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+
+  & p {
+    color: #1e1e1e;
+    font-family: Montserrat;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 38.3px;
+    width: 75%;
+    margin: 0 auto;
+    transition: color 0.3s ease-in-out;
+  }
+}
+.card:hover p {
+  color: #fff;
+}
+.card:hover {
+  background-color: #804bf2;
+
+  .innerpurplecircle {
+    background-color: #f2ae30;
+    transition: all 0.3s ease-in-out;
+  }
+}
+.whitecircle {
+  position: absolute;
+  width: 103.7px;
+  height: 103.7px;
+  flex-shrink: 0;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: -60.85px;
+
+  .checkicon {
+    font-size: 40px;
+    color: #fff;
+  }
+}
+.innerpurplecircle {
+  width: 75.792px;
+  height: 75.792px;
+  flex-shrink: 0;
+  background-color: #804bf2;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (max-width: 1280px) {
+  .carddata {
+    width: 87%;
+  }
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
   .teamcarousel {
     width: 100%;
     .teamdiv {
@@ -464,7 +580,7 @@
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 430px) {
+@media screen and (min-width: 0px) and (max-width: 550px) {
   .aboutcircle {
     display: none;
   }
@@ -804,9 +920,46 @@
       }
     }
   }
+  .smartpreparation {
+    margin-top: 20px;
+    & .smartheader {
+      & h1 {
+        font-size: 32px;
+        line-height: 40px;
+      }
+      & p {
+        font-size: 14px;
+        line-height: 24px;
+      }
+    }
+  }
+  .card {
+    width: 90%;
+    margin: 0 auto;
+    height: max-content;
+    padding: 28px 0px;
+
+    & h1 {
+      font-size: 20px;
+    }
+    & p {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+  .whitecircle {
+    width: 60px;
+    height: 60px;
+    left: -30px;
+  }
+
+  .innerpurplecircle {
+    height: 45px;
+    width: 45px;
+  }
 }
 
-@media screen and (min-width: 431px) and (max-width: 1024px) {
+@media screen and (min-width: 550px) and (max-width: 1024px) {
   .aboutcircle {
     display: none;
   }

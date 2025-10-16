@@ -11,7 +11,11 @@ const FormattedResponse = ({ response }) => {
               {item
                 .split("**")
                 .map((items, indexes) =>
-                  (indexes / 2) % 1 ? <b>{items}</b> : <span>{items}</span>
+                  (indexes / 2) % 1 ? (
+                    <b dangerouslySetInnerHTML={{ __html: items }}></b>
+                  ) : (
+                    <span dangerouslySetInnerHTML={{ __html: items }}></span>
+                  )
                 )}
             </div>
           )}
