@@ -26,7 +26,7 @@ const initialState = {
   chatbotMessages: [
     {
       message:
-        "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
+        "Hello, I am Examible bot, Feel free to ask me question based on O'level Subjects",
       sender: "ChatGPT",
       direction: "Outgoing",
     },
@@ -238,7 +238,7 @@ const slice = createSlice({
       state.chatbotMessages = [
         {
           message:
-            "Hello, I am Examible bot, Feel free to ask me ask me question based on O'level Subjects",
+            "Hello, I am Examible bot, Feel free to ask me question based on O'level Subjects",
           sender: "ChatGPT",
           direction: "Outgoing",
         },
