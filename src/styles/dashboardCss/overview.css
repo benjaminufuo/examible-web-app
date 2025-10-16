@@ -356,6 +356,36 @@
       }
     }
   }
+
+  @media screen and (max-width: 550px) {
+    .overview-firstLayerMiddle {
+      width: 95%;
+
+      main {
+        justify-content: flex-start;
+        gap: 20px;
+        padding-inline: 24px;
+
+        div {
+          min-height: 54.4px;
+          min-width: 54.4px;
+        }
+
+        nav {
+          display: flex;
+          width: fit-content;
+          align-items: center;
+          gap: 8px;
+
+          p {
+            font-size: 16px;
+            font-weight: 500;
+            font-family: "Montserrat", sans-serif;
+          }
+        }
+      }
+    }
+  }
 }
 
 .overview-firstLayerRight {
