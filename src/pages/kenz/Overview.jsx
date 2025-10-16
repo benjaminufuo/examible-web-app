@@ -12,6 +12,7 @@ import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import { allSubjectsData } from "../../constants/common";
 
 const Overview = () => {
   const user = useSelector((state) => state.user);
@@ -171,39 +172,19 @@ const Overview = () => {
                       onMouseEnter={() => onMouseEnterToShowBin(index)}
                       onMouseLeave={() => setShowBin("")}
                       key={index}
-                      style={{
-                        background: allSubjectsData.find(
-                          (items) => items.subject === item
-                        )?.cardColor,
-                      }}
                     >
-                      <aside>
-                        <section
-                          style={{
-                            background: allSubjectsData.find(
-                              (items) => items.subject === item
-                            )?.divColor,
-                          }}
-                        >
-                          <FaBook
-                            fontSize={35}
-                            color={
-                              allSubjectsData.find(
-                                (items) => items.subject === item
-                              )?.iconColor
-                            }
-                          />
-                        </section>
-                        <p
-                          style={{
-                            color: allSubjectsData.find(
-                              (items) => items.subject === item
-                            )?.textColor,
-                          }}
-                        >
-                          {item}
-                        </p>
-                      </aside>
+                      <img
+                        src={
+                          allSubjectsData.find(
+                            (items) => items.subject === item
+                          )?.img
+                        }
+                        alt={
+                          allSubjectsData.find(
+                            (items) => items.subject === item
+                          )?.subject
+                        }
+                      />
                       <TbTrashX
                         style={{
                           pointerEvents: loading ? "none" : "auto",
@@ -378,76 +359,3 @@ const Overview = () => {
 };
 
 export default Overview;
-
-const allSubjectsData = [
-  {
-    subject: "Mathematics",
-    cardColor: "#804BF266",
-    divColor: "#FFFFFF",
-    iconColor: "#804BF2",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "English",
-    cardColor: "#1E1E1E",
-    divColor: "#804BF2",
-    iconColor: "#FFFFFF",
-    textColor: "#FFFFFF",
-  },
-  {
-    subject: "Physics",
-    cardColor: "#F2AE30",
-    divColor: "#FFFFFF",
-    iconColor: "#F2AE30",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "Chemistry",
-    cardColor: "#88DDFF",
-    divColor: "#1E1E1E",
-    iconColor: "#FFFFFF",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "Biology",
-    cardColor: "#F2AE3099",
-    divColor: "#1E1E1E",
-    iconColor: "#FFFFFF",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "Literature in English",
-    cardColor: "#F2AE30",
-    divColor: "#804BF2CC",
-    iconColor: "#FFFFFF",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "Economics",
-    cardColor: "#00000040",
-    divColor: "#1E1E1E",
-    iconColor: "#FFFFFF",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "Geography",
-    cardColor: "#FFFFFF",
-    divColor: "#804BF266",
-    iconColor: "#1E1E1E",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "Government",
-    cardColor: "#88DDFF",
-    divColor: "#FFFFFF",
-    iconColor: "#1E1E1E",
-    textColor: "#1E1E1E",
-  },
-  {
-    subject: "History",
-    cardColor: "#17004D",
-    divColor: "#88DDFF",
-    iconColor: "#1E1E1E",
-    textColor: "#FFFFFF",
-  },
-];

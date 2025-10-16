@@ -104,7 +104,9 @@ const MockResult = () => {
               {item?.diagramUrlB && (
                 <img src={item?.diagramUrlB} alt="Diagram loading..." />
               )}
-              <header>{item?.question}</header>
+              <header
+                dangerouslySetInnerHTML={{ __html: item?.question }}
+              ></header>
               <ul>
                 <li>
                   {item?.options[0]?.startsWith("A.")

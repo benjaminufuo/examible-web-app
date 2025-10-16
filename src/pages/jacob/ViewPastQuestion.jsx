@@ -140,7 +140,7 @@ const ViewPastQuestion = () => {
       }
     } catch (error) {
       setLoading(null);
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "An error occurred");
     }
   };
 
@@ -164,7 +164,7 @@ const ViewPastQuestion = () => {
           <div className="answerquestiondiv" key={index}>
             <h1 className="questiontext">
               <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
-              <span>{item.question}</span>
+              <span dangerouslySetInnerHTML={{ __html: item?.question }}></span>
             </h1>
             {item?.subheadingA && (
               <h1 className="subheading">{item?.subheadingA}</h1>
@@ -216,9 +216,9 @@ const ViewPastQuestion = () => {
                     }}
                   >
                     <span className="letterdoption">
-                      {String.fromCharCode(65 + optionindex)}.
+                      {`${String.fromCharCode(65 + optionindex)}.`}
                     </span>
-                    {option}
+                    <span>{option}</span>
                   </li>
                 );
               })}

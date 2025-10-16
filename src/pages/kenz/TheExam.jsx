@@ -148,7 +148,9 @@ const TheExam = () => {
                 alt="Diagram loading..."
               />
             )}
-            <h5>{currentQuestion?.question}</h5>
+            <h5
+              dangerouslySetInnerHTML={{ __html: currentQuestion?.question }}
+            ></h5>
             {currentQuestion?.options[0] && (
               <nav
                 style={{ cursor: "pointer" }}
