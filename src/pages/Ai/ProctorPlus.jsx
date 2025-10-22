@@ -30,7 +30,7 @@ const ProctorPage = () => {
               intelligent, real-time monitoring.
             </p>
             <a
-              href="https://proctor-plus-murex.vercel.app/"
+              href="proctor-plus-seven.vercel.app"
               className="button animate-slide-in-left delay-200"
             >
               Visit ProctorPlus Website
@@ -123,7 +123,7 @@ const ProctorPage = () => {
                   seamlessly with existing learning management systems.
                 </p>
                 <a
-                  href="https://proctor-plus-murex.vercel.app/"
+                  href="proctor-plus-seven.vercel.app"
                   className="button-secondary"
                 >
                   Learn more for Education
@@ -150,7 +150,7 @@ const ProctorPage = () => {
                   ensuring fair hiring practices.
                 </p>
                 <a
-                  href="https://proctor-plus-murex.vercel.app/"
+                  href="proctor-plus-seven.vercel.app"
                   className="button-secondary"
                 >
                   Learn more for Business
@@ -179,7 +179,7 @@ const ProctorPage = () => {
               intelligent, reliable, and scalable proctoring solutions.
             </p>
             <a
-              href="https://proctor-plus-murex.vercel.app/"
+              href="proctor-plus-seven.vercel.app"
               className="button animate-fade-in-up delay-200"
             >
               Get Started with ProctorPlus
