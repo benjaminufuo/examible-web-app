@@ -7,7 +7,6 @@ import Congratulation from "./auth/welcomeback/Congratulation";
 import ForgetPassword from "./auth/ForgetPassword";
 import ResetLink from "./auth/ResetLink";
 import ResetPassword from "./auth/welcomeback/ResetPassword";
-import LearnMore from "./pages/jacob/LearnMore";
 import MainHolder from "./routes/MainHolder";
 import Dashboard from "./pages/kenz/Dashboard";
 import Overview from "./pages/kenz/Overview";
@@ -41,7 +40,6 @@ const routes = createBrowserRouter([
         element: <MainHolder />,
         children: [
           { path: "", element: <Home /> },
-          { path: "/learn-more", element: <LearnMore /> },
           { path: "about-us", element: <AboutUs /> },
           { path: "plans", element: <Plans /> },
           { path: "/proctor-plus", element: <ProctorPlus /> },

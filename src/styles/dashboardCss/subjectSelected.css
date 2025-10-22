@@ -230,52 +230,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: black;
 
-      aside {
-        min-width: 66.5px;
-        min-height: 101.9px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 18.4px;
-
-        div {
-          height: 75px;
-          width: 75px;
-          border-radius: 100%;
-          border: 1px solid black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-        }
-
-        p {
-          font-size: 15px;
-          font-weight: 500;
-          font-family: "Montserrat", sans-serif;
-          color: black;
-          text-align: center;
-        }
-
-        h6 {
-          font-size: 14px;
-          text-align: center;
-          font-weight: 500;
-          font-family: "Montserrat", sans-serif;
-          color: black;
-        }
-
-        section {
-          height: 66.5px;
-          width: 66.5px;
-          border-radius: 100%;
-          display: flex;
-          background-color: #804bf2;
-          justify-content: center;
-          align-items: center;
-        }
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
       }
     }
   }
@@ -296,60 +255,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: black;
       cursor: pointer;
       transform: scale(1);
       transition: transform 350ms ease-in-out;
 
-      aside {
-        min-width: 66.5px;
-        min-height: 101.9px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 18.4px;
-
-        div {
-          height: 75px;
-          width: 75px;
-          border-radius: 100%;
-          border: 1px solid black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-        }
-
-        p {
-          font-size: 15px;
-          font-weight: 500;
-          font-family: "Montserrat", sans-serif;
-          color: black;
-          text-align: center;
-        }
-
-        h6 {
-          font-size: 14px;
-          text-align: center;
-          font-weight: 500;
-          font-family: "Montserrat", sans-serif;
-          color: black;
-        }
-
-        section {
-          height: 66.5px;
-          width: 66.5px;
-          border-radius: 100%;
-          display: flex;
-          background-color: #804bf2;
-          justify-content: center;
-          align-items: center;
-        }
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
       }
     }
 
     nav:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
   }
   @media screen and (max-width: 340px) {

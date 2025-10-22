@@ -15,6 +15,7 @@
   @media screen and (max-width: 850px) {
     .dashboard-leftDropdown {
       display: flex;
+      z-index: 15;
     }
   }
 }
@@ -214,7 +215,7 @@
     position: sticky;
     top: 0;
     background-color: white;
-    z-index: 5;
+    z-index: 10;
 
     h3 {
       font-family: "sora", sans-serif;

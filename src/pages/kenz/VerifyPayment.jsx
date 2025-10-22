@@ -22,13 +22,11 @@ const VerifyPayment = () => {
           import.meta.env.VITE_BASE_URL
         }api/v1/verifyKoraPay?reference=${reference}`
       );
-      console.log(res?.data?.data?.student);
       if (res?.status === 200) {
         dispatch(setUser(res?.data?.data?.student));
         setPlan(res?.data?.data?.student?.plan);
         setIsVerifying(false);
       }
-      console.log(res);
     } catch (error) {
       toast.error(error?.response?.data?.message);
       setTimeout(() => {

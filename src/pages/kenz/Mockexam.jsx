@@ -44,7 +44,6 @@ const Mockexam = () => {
       setTimeout(() => {
         toast.error(error?.response?.data?.message);
       }, 500);
-      console.log(error);
     }
   };
 

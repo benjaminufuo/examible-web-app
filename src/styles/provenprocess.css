@@ -197,7 +197,22 @@
 }
 
 @media screen and (max-width: 550px) {
+  .createaccount {
+    width: fit-content;
+    .provenheader {
+      font-size: 10px;
+    }
+  }
   .provenmainprocess {
+    flex-direction: column;
+    justify-content: flex-start;
+    /* background-color: aqua; */
+    align-items: center;
+    width: 150px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+  .linecontainer {
     display: none;
   }
 }
