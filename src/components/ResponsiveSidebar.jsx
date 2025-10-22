@@ -153,7 +153,10 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
             <div
               className="dashboard-leftDropdown-navBar"
               style={{ backgroundColor: "white" }}
-              onClick={() => setIsLogout(true)}
+              onClick={() => {
+                setShowDropdown(!showDropdown);
+                setIsLogout(true);
+              }}
             >
               <AiOutlineLogout fontSize={35} color="red" />
               Logout
