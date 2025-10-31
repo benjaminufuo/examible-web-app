@@ -6,7 +6,11 @@ export const getAiResponse = async (
   number,
   question,
   passage,
-  options
+  options,
+  subheadingA,
+  subheadingB,
+  diagramUrlA,
+  diagramUrlB
 ) => {
   return axios.post(`${import.meta.env.VITE_BASE_URL}api/v1/generate`, {
     year,
@@ -15,5 +19,9 @@ export const getAiResponse = async (
     question,
     passage,
     options,
+    subheadingA,
+    subheadingB,
+    diagramUrlA,
+    diagramUrlB,
   });
 };

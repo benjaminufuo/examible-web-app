@@ -23,7 +23,7 @@ const TheExam = () => {
   const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
   const [isNext, setIsNext] = useState(false);
   const arrayOfNumbers = Array.from(
-    { length: mockExamQuestions.length },
+    { length: mockExamQuestions?.length },
     (_, i) => i + 1
   );
 
@@ -38,7 +38,7 @@ const TheExam = () => {
   );
 
   useLayoutEffect(() => {
-    if (mockExamQuestions.length <= 0) {
+    if (mockExamQuestions?.length <= 0 || !mockExamQuestions) {
       location.href = "/dashboard/overview";
     }
   }, [mockExamQuestions]);
@@ -68,7 +68,7 @@ const TheExam = () => {
   const nextExam = () => {
     dispatch(nextQuestion({ answer: currentQuestion?.answer, subjectId }));
     nav(`/mock-exam/${num + 1}`);
-    if (exam.length > subjectId) {
+    if (exam?.length > subjectId) {
       dispatch(
         setMockExamOption({
           option: exam[num]?.option,
@@ -159,11 +159,13 @@ const TheExam = () => {
                 }
               >
                 <h4>A.</h4>
-                <p>
-                  {currentQuestion?.options[0]?.startsWith("A.")
-                    ? currentQuestion?.options[0]?.slice(2)
-                    : currentQuestion?.options[0]}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: currentQuestion?.options[0]?.startsWith("A.")
+                      ? currentQuestion?.options[0]?.slice(2)
+                      : currentQuestion?.options[0],
+                  }}
+                ></p>
                 <input
                   type="radio"
                   checked={mockExamOptions.optionA}
@@ -179,11 +181,13 @@ const TheExam = () => {
                 }
               >
                 <h4>B.</h4>
-                <p>
-                  {currentQuestion?.options[1]?.startsWith("B.")
-                    ? currentQuestion?.options[1]?.slice(2)
-                    : currentQuestion?.options[1]}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: currentQuestion?.options[1]?.startsWith("B.")
+                      ? currentQuestion?.options[1]?.slice(2)
+                      : currentQuestion?.options[1],
+                  }}
+                ></p>
                 <input type="radio" checked={mockExamOptions.optionB} />
               </nav>
             )}
@@ -195,11 +199,13 @@ const TheExam = () => {
                 }
               >
                 <h4>C.</h4>
-                <p>
-                  {currentQuestion?.options[2]?.startsWith("C.")
-                    ? currentQuestion?.options[2]?.slice(2)
-                    : currentQuestion?.options[2]}{" "}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: currentQuestion?.options[2]?.startsWith("C.")
+                      ? currentQuestion?.options[2]?.slice(2)
+                      : currentQuestion?.options[2],
+                  }}
+                ></p>
                 <input type="radio" checked={mockExamOptions.optionC} />
               </nav>
             )}
@@ -211,11 +217,13 @@ const TheExam = () => {
                 }
               >
                 <h4>D.</h4>
-                <p>
-                  {currentQuestion?.options[3]?.startsWith("D.")
-                    ? currentQuestion?.options[3]?.slice(2)
-                    : currentQuestion?.options[3]}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: currentQuestion?.options[3]?.startsWith("D.")
+                      ? currentQuestion?.options[3]?.slice(2)
+                      : currentQuestion?.options[3],
+                  }}
+                ></p>
                 <input type="radio" checked={mockExamOptions.optionD} />
               </nav>
             )}
@@ -227,11 +235,13 @@ const TheExam = () => {
                 }
               >
                 <h4>E.</h4>
-                <p>
-                  {currentQuestion?.options[4]?.startsWith("E.")
-                    ? currentQuestion?.options[4]?.slice(2)
-                    : currentQuestion?.options[4]}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: currentQuestion?.options[4]?.startsWith("E.")
+                      ? currentQuestion?.options[4]?.slice(2)
+                      : currentQuestion?.options[4],
+                  }}
+                ></p>
                 <input type="radio" checked={mockExamOptions.optionE} />
               </nav>
             )}
@@ -250,7 +260,7 @@ const TheExam = () => {
           <button
             style={{
               display:
-                mockExamQuestions.length === parseInt(subjectId)
+                mockExamQuestions?.length === parseInt(subjectId)
                   ? "none"
                   : "flex",
             }}
@@ -264,7 +274,7 @@ const TheExam = () => {
           <button
             style={{
               display:
-                mockExamQuestions.length === parseInt(subjectId)
+                mockExamQuestions?.length === parseInt(subjectId)
                   ? "flex"
                   : "none",
               background: "#804BF2",

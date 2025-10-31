@@ -121,6 +121,10 @@ const ViewPastQuestion = () => {
     question,
     passage,
     options,
+    subheadingA,
+    subheadingB,
+    diagramUrlA,
+    diagramUrlB,
     id
   ) => {
     setLoading(id);
@@ -131,7 +135,11 @@ const ViewPastQuestion = () => {
         questionNum,
         question,
         passage,
-        options
+        options,
+        subheadingA,
+        subheadingB,
+        diagramUrlA,
+        diagramUrlB
       );
       if (res) {
         setLoading(null);
@@ -218,7 +226,7 @@ const ViewPastQuestion = () => {
                     <span className="letterdoption">
                       {`${String.fromCharCode(65 + optionindex)}.`}
                     </span>
-                    <span>{option}</span>
+                    <span dangerouslySetInnerHTML={{ __html: option }}></span>
                   </li>
                 );
               })}
@@ -253,6 +261,10 @@ const ViewPastQuestion = () => {
                         item.question,
                         item.passage,
                         item.options,
+                        item.subheadingA,
+                        item.subheadingB,
+                        item.diagramUrlA,
+                        item.diagramUrlB,
                         index
                       )
                     }
