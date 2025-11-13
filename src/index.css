@@ -5,3 +5,8 @@
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
+.katex-display,
+.katex-display > .katex,
+.katex-display > .katex > .katex-html {
+  display: inline !important;
+}
