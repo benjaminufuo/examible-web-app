@@ -65,7 +65,7 @@ const Login = () => {
                   selectedPlan: location.state?.selectedPlan,
                   amount: location.state?.amount,
                 },
-                replace: true
+                replace: true,
               });
             } else {
               navigate("/dashboard/overview", { replace: true });
@@ -188,7 +188,7 @@ const Login = () => {
             Forgot Password?
           </p>
           <p className="signuptext">
-            Don't have an account?
+            Don't have an account?{" "}
             <span className="signupLink" onClick={() => navigate("/signup")}>
               click here to create one now
             </span>

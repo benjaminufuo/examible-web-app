@@ -49,12 +49,9 @@ const Sidebar = () => {
         {dashboardNavBar.map((item, index) => (
           <Link
             to={item.link}
-            style={{
-              backgroundColor: location.pathname.startsWith(item.link)
-                ? "#804bf233"
-                : "white",
-            }}
-            className="dashboard-navBar"
+            className={`dashboard-navBar ${
+              location.pathname.startsWith(item.link) ? "navbar-active" : ""
+            }`}
             key={item.id}
             onClick={() => dispatch(setMockExamQuestion([]))}
           >

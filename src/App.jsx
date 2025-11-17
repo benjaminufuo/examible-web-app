@@ -74,7 +74,10 @@ const routes = createBrowserRouter([
                 path: "/dashboard/past-questions/view",
                 element: <ViewPastQuestion />,
               },
-              { path: "/dashboard/resultpage", element: <ResultPage /> },
+              {
+                path: "/dashboard/past-questions/result",
+                element: <ResultPage />,
+              },
             ],
           },
           { path: "mock-exam/:subjectId", element: <ExamBody /> },

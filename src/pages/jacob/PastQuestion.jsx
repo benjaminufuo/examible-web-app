@@ -35,7 +35,7 @@ const PastQuestion = () => {
   const [disabled, setDisabled] = useState(true);
 
   // Base URL for fetching subjects and years
-  const baseUrl = "https://questionapp-t8bu.onrender.com/subjects";
+  const baseUrl = "https://examiblequestionbank.onrender.com/subjects";
   const getYears = async () => {
     try {
       const response = await axios.get(baseUrl);
@@ -56,7 +56,7 @@ const PastQuestion = () => {
     }
     setLoading(true);
 
-    const toastId = toast.loading("fecthing questions....");
+    const toastId = toast.loading("Please wait....");
     try {
       const response = await axios.get(
         `${
