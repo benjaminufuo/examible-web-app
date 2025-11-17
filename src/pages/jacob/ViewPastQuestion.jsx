@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { getAiResponse } from "../../config/Api";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import Latex from "react-latex-next";
+import "katex/dist/katex.min.css";
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
@@ -170,23 +172,26 @@ const ViewPastQuestion = () => {
       {currentQuestions?.length > 0 ? (
         currentQuestions?.map((item, index) => (
           <div className="answerquestiondiv" key={index}>
-            <h1 className="questiontext">
-              <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
-              <span dangerouslySetInnerHTML={{ __html: item?.question }}></span>
-            </h1>
             {item?.subheadingA && (
-              <h1 className="subheading">{item?.subheadingA}</h1>
+              <h1 className="subheading">
+                <Latex>{item?.subheadingA}</Latex>
+              </h1>
             )}
             {item?.diagramUrlA && (
               <img src={item?.diagramUrlA} className="question-diagram" />
             )}
             {item?.subheadingB && (
-              <h1 className="subheading">{item?.subheadingB}</h1>
+              <h1 className="subheading">
+                <Latex>{item?.subheadingB}</Latex>
+              </h1>
             )}
             {item?.diagramUrlB && (
               <img src={item?.diagramUrlB} className="question-diagram" />
             )}
-
+            <h1 className="questiontext">
+              <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
+              <span>{<Latex>{item?.question}</Latex>}</span>
+            </h1>
             <ul className="answeroption">
               {item.options.map((option, optionindex) => {
                 const userAnswer =
@@ -226,7 +231,9 @@ const ViewPastQuestion = () => {
                     <span className="letterdoption">
                       {`${String.fromCharCode(65 + optionindex)}.`}
                     </span>
-                    <span dangerouslySetInnerHTML={{ __html: option }}></span>
+                    <span>
+                      <Latex>{option}</Latex>
+                    </span>
                   </li>
                 );
               })}
