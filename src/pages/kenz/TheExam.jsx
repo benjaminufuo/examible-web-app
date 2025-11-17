@@ -12,6 +12,7 @@ import {
   theExamTimer,
 } from "../../global/slice";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import Latex from "react-latex-next";
 
 const TheExam = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
@@ -105,7 +106,7 @@ const TheExam = () => {
         <article>
           <aside>
             <meter min={0} max={100} value={examMeter}></meter>
-            <p>{parseInt(examMeter).toFixed(2)}%</p>
+            <p>{examMeter.toFixed(2)}%</p>
           </aside>
           <section>
             <LuClock2 fontSize={30} />
@@ -117,7 +118,7 @@ const TheExam = () => {
         <h3>Jamb Mock Exam</h3>
         <aside>
           <meter min={0} max={100} value={examMeter}></meter>
-          <p>{parseInt(examMeter).toFixed(2)}%</p>
+          <p>{examMeter.toFixed(2)}%</p>
         </aside>
         <section>
           <LuClock2 fontSize={30} />
@@ -131,7 +132,9 @@ const TheExam = () => {
           <main>
             <h6>Question {subjectId}</h6>
             {currentQuestion?.subheadingA && (
-              <h2>{currentQuestion?.subheadingA}</h2>
+              <h2>
+                <Latex>{currentQuestion?.subheadingA}</Latex>
+              </h2>
             )}
             {currentQuestion?.diagramUrlA && (
               <img
@@ -140,7 +143,9 @@ const TheExam = () => {
               />
             )}
             {currentQuestion?.subheadingB && (
-              <h3>{currentQuestion?.subheadingB}</h3>
+              <h3>
+                <Latex>{currentQuestion?.subheadingB}</Latex>
+              </h3>
             )}
             {currentQuestion?.diagramUrlB && (
               <img
@@ -148,9 +153,9 @@ const TheExam = () => {
                 alt="Diagram loading..."
               />
             )}
-            <h5
-              dangerouslySetInnerHTML={{ __html: currentQuestion?.question }}
-            ></h5>
+            <h5>
+              <Latex>{currentQuestion?.question}</Latex>
+            </h5>
             {currentQuestion?.options[0] && (
               <nav
                 style={{ cursor: "pointer" }}
@@ -159,13 +164,13 @@ const TheExam = () => {
                 }
               >
                 <h4>A.</h4>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: currentQuestion?.options[0]?.startsWith("A.")
+                <p>
+                  <Latex>
+                    {currentQuestion?.options[0]?.startsWith("A.")
                       ? currentQuestion?.options[0]?.slice(2)
-                      : currentQuestion?.options[0],
-                  }}
-                ></p>
+                      : currentQuestion?.options[0]}
+                  </Latex>
+                </p>
                 <input
                   type="radio"
                   checked={mockExamOptions.optionA}
@@ -181,13 +186,13 @@ const TheExam = () => {
                 }
               >
                 <h4>B.</h4>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: currentQuestion?.options[1]?.startsWith("B.")
+                <p>
+                  <Latex>
+                    {currentQuestion?.options[1]?.startsWith("B.")
                       ? currentQuestion?.options[1]?.slice(2)
-                      : currentQuestion?.options[1],
-                  }}
-                ></p>
+                      : currentQuestion?.options[1]}
+                  </Latex>
+                </p>
                 <input type="radio" checked={mockExamOptions.optionB} />
               </nav>
             )}
@@ -199,13 +204,13 @@ const TheExam = () => {
                 }
               >
                 <h4>C.</h4>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: currentQuestion?.options[2]?.startsWith("C.")
+                <p>
+                  <Latex>
+                    {currentQuestion?.options[2]?.startsWith("C.")
                       ? currentQuestion?.options[2]?.slice(2)
-                      : currentQuestion?.options[2],
-                  }}
-                ></p>
+                      : currentQuestion?.options[2]}
+                  </Latex>
+                </p>
                 <input type="radio" checked={mockExamOptions.optionC} />
               </nav>
             )}
@@ -217,13 +222,13 @@ const TheExam = () => {
                 }
               >
                 <h4>D.</h4>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: currentQuestion?.options[3]?.startsWith("D.")
+                <p>
+                  <Latex>
+                    {currentQuestion?.options[3]?.startsWith("D.")
                       ? currentQuestion?.options[3]?.slice(2)
-                      : currentQuestion?.options[3],
-                  }}
-                ></p>
+                      : currentQuestion?.options[3]}
+                  </Latex>
+                </p>
                 <input type="radio" checked={mockExamOptions.optionD} />
               </nav>
             )}
@@ -235,13 +240,13 @@ const TheExam = () => {
                 }
               >
                 <h4>E.</h4>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: currentQuestion?.options[4]?.startsWith("E.")
+                <p>
+                  <Latex>
+                    {currentQuestion?.options[4]?.startsWith("E.")
                       ? currentQuestion?.options[4]?.slice(2)
-                      : currentQuestion?.options[4],
-                  }}
-                ></p>
+                      : currentQuestion?.options[4]}
+                  </Latex>
+                </p>
                 <input type="radio" checked={mockExamOptions.optionE} />
               </nav>
             )}
