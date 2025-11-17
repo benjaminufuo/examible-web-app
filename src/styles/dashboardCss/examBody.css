@@ -251,7 +251,7 @@
 
       img {
         height: max-content;
-        max-height: 400px;
+        max-height: 200px;
         margin-bottom: 19.5px;
         object-fit: contain;
       }
