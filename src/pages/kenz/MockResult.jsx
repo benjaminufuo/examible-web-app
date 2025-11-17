@@ -10,8 +10,6 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { getAiResponse } from "../../config/Api";
 import { useExamibleContext } from "../../context/ExamibleContext";
-import Latex from "react-latex-next";
-import "katex/dist/katex.min.css";
 
 const MockResult = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
@@ -61,25 +59,19 @@ const MockResult = () => {
     question,
     passage,
     options,
-    subheadingA,
-    subheadingB,
-    diagramUrlA,
-    diagramUrlB,
+    year,
+    subject,
     id
   ) => {
     setLoading(id);
     try {
       const res = await getAiResponse(
-        mockYear,
-        location.state.subject,
+        year,
+        subject,
         questionNum,
         question,
         passage,
-        options,
-        subheadingA,
-        subheadingB,
-        diagramUrlA,
-        diagramUrlB
+        options
       );
       if (res) {
         setLoading(null);
@@ -104,35 +96,27 @@ const MockResult = () => {
           ?.slice(intialCount, finalCount)
           .map((item, index) => (
             <main key={index}>
-              {item?.subheadingA && (
-                <h2>
-                  <Latex>{item?.subheadingA}</Latex>
-                </h2>
-              )}
+              {item?.subheadingA && <h2>{item?.subheadingA}</h2>}
               {item?.diagramUrlA && (
                 <img src={item?.diagramUrlA} alt="Diagram loading..." />
               )}
-              {item?.subheadingB && (
-                <h3>
-                  <Latex>{item?.subheadingB}</Latex>
-                </h3>
-              )}
+              {item?.subheadingB && <h3>{item?.subheadingB}</h3>}
               {item?.diagramUrlB && (
                 <img src={item?.diagramUrlB} alt="Diagram loading..." />
               )}
-              <header>
-                <Latex>{item?.question}</Latex>
-              </header>
+              <header
+                dangerouslySetInnerHTML={{ __html: item?.question }}
+              ></header>
               <ul>
                 {item?.options[0] && (
                   <li>
-                    <p>
-                      <Latex>
-                        {item?.options[0]?.startsWith("A.")
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: item?.options[0]?.startsWith("A.")
                           ? item?.options[0]
-                          : "A. " + item?.options[0]}
-                      </Latex>
-                    </p>
+                          : "A. " + item?.options[0],
+                      }}
+                    ></p>
                     <nav
                       style={{
                         display:
@@ -153,13 +137,13 @@ const MockResult = () => {
                 )}
                 {item?.options[1] && (
                   <li>
-                    <p>
-                      <Latex>
-                        {item?.options[1]?.startsWith("B.")
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: item?.options[1]?.startsWith("B.")
                           ? item?.options[1]
-                          : "B. " + item?.options[1]}
-                      </Latex>
-                    </p>
+                          : "B. " + item?.options[1],
+                      }}
+                    ></p>
                     <nav
                       style={{
                         display:
@@ -180,13 +164,13 @@ const MockResult = () => {
                 )}
                 {item?.options[2] && (
                   <li>
-                    <p>
-                      <Latex>
-                        {item?.options[2]?.startsWith("C.")
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: item?.options[2]?.startsWith("C.")
                           ? item?.options[2]
-                          : "C. " + item?.options[2]}
-                      </Latex>
-                    </p>
+                          : "C. " + item?.options[2],
+                      }}
+                    ></p>
                     <nav
                       style={{
                         display:
@@ -207,13 +191,13 @@ const MockResult = () => {
                 )}
                 {item?.options[3] && (
                   <li>
-                    <p>
-                      <Latex>
-                        {item?.options[3]?.startsWith("D.")
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: item?.options[3]?.startsWith("D.")
                           ? item?.options[3]
-                          : "D. " + item?.options[3]}
-                      </Latex>
-                    </p>
+                          : "D. " + item?.options[3],
+                      }}
+                    ></p>
                     <nav
                       style={{
                         display:
@@ -234,13 +218,13 @@ const MockResult = () => {
                 )}
                 {item?.options[4] && (
                   <li>
-                    <p>
-                      <Latex>
-                        {item?.options[4]?.startsWith("E.")
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: item?.options[4]?.startsWith("E.")
                           ? item?.options[3]
-                          : "E. " + item?.options[4]}
-                      </Latex>
-                    </p>
+                          : "E. " + item?.options[4],
+                      }}
+                    ></p>
                     <nav
                       style={{
                         display:
@@ -275,10 +259,8 @@ const MockResult = () => {
                         item.question,
                         item.passage,
                         item.options,
-                        item.subheadingA,
-                        item.subheadingB,
-                        item.diagramUrlA,
-                        item.diagramUrlB,
+                        mockYear,
+                        location.state.subject,
                         index
                       );
                     }}
