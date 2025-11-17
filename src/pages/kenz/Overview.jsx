@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import "../../styles/dashboardCss/overview.css";
 import image1 from "../../assets/public/home-firstlayer.png";
 import { FaBook } from "react-icons/fa6";
@@ -19,6 +19,12 @@ const Overview = () => {
   const [showBin, setShowBin] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  // build a fast lookup for subject -> img once
+  const subjectMap = useMemo(
+    () => Object.fromEntries(allSubjectsData.map((s) => [s.subject, s.img])),
+    []
+  );
 
   const { setShowSubjectSelected, showSubjectSelected } = useExamibleContext();
 
@@ -174,16 +180,11 @@ const Overview = () => {
                       key={index}
                     >
                       <img
-                        src={
-                          allSubjectsData.find(
-                            (items) => items.subject === item
-                          )?.img
-                        }
-                        alt={
-                          allSubjectsData.find(
-                            (items) => items.subject === item
-                          )?.subject
-                        }
+                        src={subjectMap[item]}
+                        alt={item}
+                        loading="eager"
+                        width={48}
+                        height={48}
                       />
                       <TbTrashX
                         style={{

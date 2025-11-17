@@ -302,7 +302,9 @@ const ViewPastQuestion = () => {
           <button
             onClick={() => {
               const result = calculateScore();
-              navigate("/dashboard/resultpage", { state: result });
+              navigate("/dashboard/past-questions/result", {
+                state: result,
+              });
             }}
             className="pagination-button1"
           >

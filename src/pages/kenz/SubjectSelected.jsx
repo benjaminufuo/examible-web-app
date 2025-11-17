@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import "../../styles/dashboardCss/subjectSelected.css";
 import image1 from "../../assets/public/home-firstlayer.png";
 import { FaArrowLeftLong, FaBook } from "react-icons/fa6";
@@ -43,6 +43,12 @@ const SubjectSelected = () => {
     }
   };
 
+  // build a fast lookup for subject -> img once
+  const subjectMap = useMemo(
+    () => Object.fromEntries(allSubjectsData.map((s) => [s.subject, s.img])),
+    []
+  );
+
   return (
     <div className="subjectSelected">
       <div className="subjectSelected-firstLayer">
@@ -73,13 +79,11 @@ const SubjectSelected = () => {
           {user?.enrolledSubjects.map((item, index) => (
             <nav key={index}>
               <img
-                src={
-                  allSubjectsData.find((items) => items.subject === item)?.img
-                }
-                alt={
-                  allSubjectsData.find((items) => items.subject === item)
-                    ?.subject
-                }
+                src={subjectMap[item]}
+                alt={item}
+                loading="eager"
+                width={48}
+                height={48}
               />
             </nav>
           ))}
@@ -95,13 +99,11 @@ const SubjectSelected = () => {
               }}
             >
               <img
-                src={
-                  allSubjectsData.find((items) => items.subject === item)?.img
-                }
-                alt={
-                  allSubjectsData.find((items) => items.subject === item)
-                    ?.subject
-                }
+                src={subjectMap[item]}
+                alt={item}
+                loading="lazy"
+                width={48}
+                height={48}
               />
             </nav>
           ))}
