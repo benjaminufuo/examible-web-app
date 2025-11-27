@@ -10,6 +10,9 @@ import {
 import { useState } from "react";
 import { setChatbotMessages } from "../global/slice";
 import { useDispatch, useSelector } from "react-redux";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
 
 const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
@@ -103,7 +106,20 @@ const LegacyChatbot = () => {
           }
         >
           {messages.map((message, index) => {
-            return <Message key={index} model={message} />;
+            return (
+              <Message key={index} model={message}>
+                <Message.CustomContent>
+                  <div className="chat-markdown">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeSanitize]}
+                    >
+                      {message.message}
+                    </ReactMarkdown>
+                  </div>
+                </Message.CustomContent>
+              </Message>
+            );
           })}
         </MessageList>
         <MessageInput

@@ -1,3 +1,7 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
+
 const FormattedResponse = ({ response }) => {
   const lineBreakRes = response?.split("\n");
   return (
@@ -7,16 +11,13 @@ const FormattedResponse = ({ response }) => {
           {item === "" ? (
             <br />
           ) : (
-            <div key={index}>
-              {item
-                .split("**")
-                .map((items, indexes) =>
-                  (indexes / 2) % 1 ? (
-                    <b dangerouslySetInnerHTML={{ __html: items }}></b>
-                  ) : (
-                    <span dangerouslySetInnerHTML={{ __html: items }}></span>
-                  )
-                )}
+            <div key={index} className="chat-markdown">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSanitize]}
+              >
+                {item}
+              </ReactMarkdown>
             </div>
           )}
         </div>
