@@ -30,7 +30,7 @@ const LegacyChatbot = () => {
     const systemMessage = {
       role: "system",
       content:
-        "Answer questions related to high school subject like biology, english, Literature in English, Physics, Economics, Geography, Government, history mathematics or other high school related subject. and if there is question not related to this field. please reply it is out of the scope",
+        "A Bot created by Examible tech to answer questions related to high school subject like biology, english, Literature in English, Physics, Economics, Geography, Government, history mathematics or other high school related subject. and if there is question not related to this field. please reply it is out of the scope",
     };
 
     const apiRequest = {
