@@ -13,6 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
+import Latex from "react-latex-next";
+import remarkMath from "remark-math";
+import "katex/dist/katex.min.css";
+import rehypeKatex from "rehype-katex";
 
 const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
@@ -22,32 +26,37 @@ const LegacyChatbot = () => {
   const processMessage = async (chatMessages) => {
     let apiMessages = chatMessages.map((message) => {
       let role = "";
-      if (message.sender === "ChatGPT") {
-        role = "assistant";
+      if (message.sender === "Gemini") {
+        role = "model";
       } else {
         role = "user";
       }
-      return { role: role, content: message.message };
+      return { role: role, parts: [{ text: message.message }] };
     });
 
     const systemMessage = {
-      role: "system",
-      content:
-        "A Bot created by Examible tech to answer questions related to high school subject like biology, english, Literature in English, Physics, Economics, Geography, Government, history mathematics or other high school related subject. and if there is question not related to this field. please reply it is out of the scope",
+      role: "model",
+      parts: [
+        {
+          text: `You are Examible bot, an AI assistant for students.
+          Your purpose is to help students with their academic questions and provide useful information about Examible's services.
+          Always respond in a helpful and friendly manner.
+          If you are unsure about an answer, it's better to admit it than to provide incorrect information.`,
+        },
+      ],
     };
 
     const apiRequest = {
-      model: "deepseek/deepseek-chat-v3.1",
-      messages: [systemMessage, ...apiMessages],
+      contents: [systemMessage, ...apiMessages],
     };
 
     try {
       const response = await fetch(
-        "https://openrouter.ai/api/v1/chat/completions",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+            "x-goog-api-key": import.meta.env.VITE_API_KEY,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(apiRequest),
@@ -63,8 +72,8 @@ const LegacyChatbot = () => {
         setChatbotMessages([
           ...chatMessages,
           {
-            message: data.choices[0].message.content,
-            sender: "ChatGPT",
+            message: data.candidates[0].content.parts[0].text,
+            sender: "Gemini",
             direction: "Outgoing",
           },
         ])
@@ -75,7 +84,7 @@ const LegacyChatbot = () => {
           ...chatMessages,
           {
             message: "Sorry, something went wrong. Please try again.",
-            sender: "ChatGPT",
+            sender: "Gemini",
             direction: "Outgoing",
           },
         ])
@@ -111,8 +120,17 @@ const LegacyChatbot = () => {
                 <Message.CustomContent>
                   <div className="chat-markdown">
                     <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeSanitize]}
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeSanitize, rehypeKatex]}
+                      components={{
+                        code({ children, ...props }) {
+                          return (
+                            <code {...props}>
+                              <Latex>{children}</Latex>
+                            </code>
+                          );
+                        },
+                      }}
                     >
                       {message.message}
                     </ReactMarkdown>

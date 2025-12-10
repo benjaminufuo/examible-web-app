@@ -11,6 +11,10 @@
   display: inline !important;
 }
 
+.chat-markdown {
+  padding: 4px 8px;
+}
+
 .chat-markdown table {
   border-collapse: collapse;
   width: 100%;
