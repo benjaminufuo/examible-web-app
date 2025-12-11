@@ -50,7 +50,7 @@ const Dashboard = () => {
             <h3>
               Welcome,{" "}
               {user?.fullName
-                .split(" ")
+                ?.split(" ")
                 .filter((_, index) => index <= 1)
                 .join(" ")}
             </h3>

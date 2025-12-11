@@ -119,7 +119,7 @@ const Overview = () => {
                     <h5>
                       <span style={{ color: "#F2AE30" }}>Hello,</span>{" "}
                       {user?.fullName
-                        .split(" ")
+                        ?.split(" ")
                         .filter((_, index) => index <= 1)
                         .join(" ")}
                     </h5>
@@ -265,7 +265,7 @@ const Overview = () => {
                 <nav></nav>
                 <CircularProgressbar
                   value={user?.totalRating}
-                  text={`${user?.totalRating.toFixed(1)}%`}
+                  text={`${user?.totalRating?.toFixed(1) || 0}%`}
                   styles={{
                     path: {
                       stroke: "#804bf2",
@@ -291,11 +291,11 @@ const Overview = () => {
                   <li>Duration</li>
                   <li>Completed</li>
                 </ul>
-                {user?.myRating.length <= 0 ? (
+                {user?.myRating?.length <= 0 || !user?.myRating ? (
                   <p className="overview-noPerformance">No Performance yet</p>
                 ) : (
                   <>
-                    {user?.myRating.map((item, index) => (
+                    {user?.myRating?.map((item, index) => (
                       <ol key={index}>
                         <li style={{ justifyContent: "left" }}>
                           {item?.subject}

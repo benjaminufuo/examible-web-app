@@ -35,7 +35,7 @@ const AiResponse = () => {
           />
           <div className="second-header">
             <span className="second-header-text">
-              Hi! Let help You with the explanation
+              Understand This Question Better
             </span>
             <img src={handwave} />
           </div>
