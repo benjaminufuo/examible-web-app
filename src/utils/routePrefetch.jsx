@@ -55,18 +55,36 @@ export function prefetchCommonRoutes() {
   ]);
 }
 
-let hasRefreshed = false;
+const RELOAD_FLAG = "__routePrefetchReloaded";
+
+function hasReloadedOnce() {
+  try {
+    return sessionStorage.getItem(RELOAD_FLAG) === "1";
+  } catch (error) {
+    return false;
+  }
+}
+
+function markReloaded() {
+  try {
+    sessionStorage.setItem(RELOAD_FLAG, "1");
+  } catch (error) {
+    // ignore storage errors
+  }
+}
 
 export function safeLazy(importFn) {
   return lazy(() =>
     importFn().catch((error) => {
-      if (!hasRefreshed) {
-        hasRefreshed = true;
+      console.error("Route chunk failed to load:", error);
+
+      if (typeof window !== "undefined" && !hasReloadedOnce()) {
+        markReloaded();
         window.location.reload();
       }
 
       return {
-        default: () => <div>Something went wrong.</div>,
+        default: () => <div>Something went wrong. Please refresh the page.</div>,
       };
     }),
   );

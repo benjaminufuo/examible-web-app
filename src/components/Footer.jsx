@@ -50,7 +50,7 @@ const Footer = () => {
           </div>
           <div className="footer-contactUs">
             <h3>Contact us</h3>
-            <p>12, Oshodi APAPA expressway, Umunze house, Coconut, Lagos</p>
+            <p>Flat 4, 6 Yusuf Olorinde Street Olodi Apapa Lagos</p>
             <h5>
               +234 913 1701630 <br />
               +234 815 8882242
