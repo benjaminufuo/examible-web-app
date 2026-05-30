@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/authCss/auth.css";
+import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { toast } from "react-toastify";
@@ -162,98 +162,126 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signupMain">
-      <div className="circle">
-        <div className="innercircle"></div>
-      </div>
-      <div className="circle1">
-        <div className="innercircle1"></div>
-      </div>
-      <div className="goldsmallcircle"></div>
-      <div className="goldsmallcircle1"></div>
-      <div className="closeicondiv">
-        <img src={logo} onClick={() => navigate("/")} />
-      </div>
-      <div className="signupForm">
-        <div className="signheader">
-          <h1>Sign Up for Examible</h1>
-          <p>Beat jamb with good grades at one sitting </p>
+    <div className="ex-scope auth-wrapper">
+      <div className="auth-side">
+        <div className="auth-side-content">
+          <div className="auth-side-title">Start Learning Today</div>
+          <p className="auth-side-text">
+            Join thousands of students acing their exams with AI-powered learning.
+          </p>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Ace JAMB, WAEC, NECO with confidence</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Get insights into your weaknesses</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Start free, scale as you grow</div>
+          </div>
         </div>
-        <Button
-          IconComponent={FcGoogle}
-          iconProps={{ className: "googleIcon" }}
-          variant="secondary"
-          fullWidth
-          onClick={googleIcon}
-          disabled={loading || googleLoading}
-          loading={googleLoading}
-        >
-          {googleLoading ? "please wait..." : "Continue with Google"}
-        </Button>
-        <span className="or-container">
-          <div className="line"></div>
-          <span className="or">or</span>
-          <div className="line"></div>
-        </span>
-        <form className="form" onSubmit={(e) => handleSubmit(e, inputValue)}>
-          <Input
-            label="Full Name"
-            name="fullName"
-            onChange={handleChange}
-            required
-            placeholder="Enter your full name"
-            value={inputValue.fullName}
-            error={errorMessage.fullName}
-            type="text"
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-          />
-          <Input
-            label="Email"
-            name="email"
-            onChange={handleChange}
-            required
-            placeholder="Enter your email"
-            value={inputValue.email}
-            error={errorMessage.email}
-            type="email"
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-          />
-          <Input
-            label="Password"
-            name="password"
-            onChange={handleChange}
-            required
-            placeholder="Enter your password"
-            value={inputValue.password}
-            error={errorMessage.password}
-            isPassword
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-          />
-          <Input
-            label="Confirm Password"
-            name="confirmPassword"
-            onChange={handleChange}
-            required
-            placeholder="Confirm your password"
-            value={inputValue.confirmPassword}
-            error={errorMessage.confirmPassword}
-            isPassword
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-          />
+      </div>
+
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="auth-header">
+            <div className="auth-logo">
+              <img src={logo} onClick={() => navigate("/")} alt="Examible" style={{ cursor: 'pointer' }} />
+            </div>
+            <h1 className="auth-title">Create Account</h1>
+            <p className="auth-subtitle">Get started with your exam prep today</p>
+          </div>
+
           <Button
-            loading={loading}
-            type="submit"
-            disabled={disabled || googleLoading}
+            IconComponent={FcGoogle}
+            iconProps={{ className: "googleIcon" }}
+            variant="secondary"
             fullWidth
+            onClick={googleIcon}
+            disabled={loading || googleLoading}
+            loading={googleLoading}
           >
-            {loading ? "loading..." : "Join For Free"}
+            {googleLoading ? "Connecting..." : "Sign up with Google"}
           </Button>
-        </form>
-        <div className="alreadyhaveaccount">
-          <h1>
+
+          <div className="auth-divider">Or sign up with email</div>
+
+          <form className="auth-form" onSubmit={(e) => handleSubmit(e, inputValue)}>
+            <div className="auth-form-group">
+              <Input
+                label="Full Name"
+                name="fullName"
+                onChange={handleChange}
+                required
+                placeholder="John Doe"
+                value={inputValue.fullName}
+                error={errorMessage.fullName}
+                type="text"
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+              />
+            </div>
+
+            <div className="auth-form-group">
+              <Input
+                label="Email"
+                name="email"
+                onChange={handleChange}
+                required
+                placeholder="your@email.com"
+                value={inputValue.email}
+                error={errorMessage.email}
+                type="email"
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+              />
+            </div>
+
+            <div className="auth-form-group">
+              <Input
+                label="Password"
+                name="password"
+                onChange={handleChange}
+                required
+                placeholder="Min 8 chars with upper, lower, number, special"
+                value={inputValue.password}
+                error={errorMessage.password}
+                isPassword
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+              />
+            </div>
+
+            <div className="auth-form-group">
+              <Input
+                label="Confirm Password"
+                name="confirmPassword"
+                onChange={handleChange}
+                required
+                placeholder="Confirm your password"
+                value={inputValue.confirmPassword}
+                error={errorMessage.confirmPassword}
+                isPassword
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+              />
+            </div>
+
+            <Button
+              loading={loading}
+              type="submit"
+              disabled={disabled || googleLoading}
+              fullWidth
+              className="auth-submit"
+            >
+              {loading ? "Creating account..." : "Create Account"}
+            </Button>
+          </form>
+
+          <p className="auth-footer">
             Already have an account?{" "}
-            <em onClick={() => navigate("/login")}>click here to login now</em>
-          </h1>
+            <a onClick={() => navigate("/login")} style={{ cursor: 'pointer' }}>
+              Log in here
+            </a>
+          </p>
         </div>
       </div>
     </div>

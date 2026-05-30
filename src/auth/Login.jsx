@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../styles/authCss/auth.css";
+import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { toast } from "react-toastify";
@@ -110,92 +110,109 @@ const Login = () => {
   };
 
   return (
-    <div className="signupMain">
-      <div className="circle">
-        <div className="innercircle"></div>
-      </div>
-      <div className="circle1">
-        <div className="innercircle1"></div>
-      </div>
-      <div className="goldsmallcircle"></div>
-      <div className="goldsmallcircle1"></div>
-      <div className="closeicondiv">
-        <img src={logo} onClick={() => navigate("/")} />
-      </div>
-      <div className="signupForm">
-        <div className="signheader">
-          <h1>Log in to Examible</h1>
-        </div>
-        <form className="form" onSubmit={(e) => handleSubmit(e, inputValue)}>
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            onChange={handleChange}
-            value={inputValue.email}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-            placeholder="Enter your email"
-            required
-            style={{ marginBottom: 8 }}
-          />
-          <Input
-            label="Password"
-            name="password"
-            onChange={handleChange}
-            value={inputValue.password}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-            placeholder="Enter your password"
-            required
-            isPassword
-            extraLabel={
-              <p
-                className="forgotpassword"
-                onClick={() => navigate("/forgetpassword")}
-              >
-                Forgot Password?
-              </p>
-            }
-          />
-          <div className="rememberme">
-            <div className="checkbox">
-              <input type="checkbox" className="checkboxtic" />
-            </div>
-            <label className="rememberlabel">Remember Me</label>
+    <div className="ex-scope auth-wrapper">
+      <div className="auth-side">
+        <div className="auth-side-content">
+          <div className="auth-side-title">Welcome Back</div>
+          <p className="auth-side-text">
+            Log in to continue preparing for your exams with AI-powered learning.
+          </p>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Personalized learning paths</div>
           </div>
-          <Button
-            type="submit"
-            loading={loading}
-            disabled={disabled || googleLoading}
-            fullWidth
-          >
-            {loading ? "logging in..." : "Login"}
-          </Button>
-        </form>
-        <span className="or-container">
-          <div className="line"></div>
-          <span className="or">Other login options</span>
-          <div className="line"></div>
-        </span>
-        <Button
-          IconComponent={FcGoogle}
-          iconProps={{ className: "googleIcon" }}
-          variant="secondary"
-          fullWidth
-          onClick={() => loginGoogleIcon()}
-          disabled={loading || googleLoading}
-          loading={googleLoading}
-        >
-          {googleLoading ? "please wait..." : "Continue with Google"}
-        </Button>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>AI-powered performance analytics</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Unlimited practice exams</div>
+          </div>
+        </div>
+      </div>
 
-        {/* <article className="forgotpassworddiv"> */}
-        <p className="signuptext">
-          Don't have an account?{" "}
-          <span className="signupLink" onClick={() => navigate("/signup")}>
-            click here to create one now
-          </span>
-        </p>
-        {/* </article> */}
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="auth-header">
+            <div className="auth-logo">
+              <img src={logo} onClick={() => navigate("/")} alt="Examible" style={{ cursor: 'pointer' }} />
+            </div>
+            <h1 className="auth-title">Log in</h1>
+            <p className="auth-subtitle">Continue your exam preparation journey</p>
+          </div>
+
+          <form className="auth-form" onSubmit={(e) => handleSubmit(e, inputValue)}>
+            <div className="auth-form-group">
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                onChange={handleChange}
+                value={inputValue.email}
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="auth-form-group">
+              <Input
+                label="Password"
+                name="password"
+                onChange={handleChange}
+                value={inputValue.password}
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+                placeholder="Enter your password"
+                required
+                isPassword
+              />
+            </div>
+
+            <div className="auth-checkbox-group">
+              <div className="auth-checkbox">
+                <input type="checkbox" id="remember" />
+                <label htmlFor="remember">Remember me</label>
+              </div>
+              <div className="auth-forgot-link">
+                <a onClick={() => navigate("/forgetpassword")} style={{ cursor: 'pointer' }}>
+                  Forgot password?
+                </a>
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              loading={loading}
+              disabled={disabled || googleLoading}
+              fullWidth
+              className="auth-submit"
+            >
+              {loading ? "Logging in..." : "Log in"}
+            </Button>
+          </form>
+
+          <div className="auth-divider">Or continue with</div>
+
+          <Button
+            IconComponent={FcGoogle}
+            iconProps={{ className: "googleIcon" }}
+            variant="secondary"
+            fullWidth
+            onClick={() => loginGoogleIcon()}
+            disabled={loading || googleLoading}
+            loading={googleLoading}
+          >
+            {googleLoading ? "Connecting..." : "Google"}
+          </Button>
+
+          <p className="auth-footer">
+            Don&apos;t have an account?{" "}
+            <a onClick={() => navigate("/signup")} style={{ cursor: 'pointer' }}>
+              Create one now
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

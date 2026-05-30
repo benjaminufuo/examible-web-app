@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/authCss/auth.css";
+import "../styles/auth.css";
 import { IoMdArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -76,47 +76,75 @@ const ForgetPassword = () => {
   }, [loading, setDisabled]);
 
   return (
-    <div className="signupMain">
-      <div className="circle">
-        <div className="innercircle"></div>
-      </div>
-      <div className="circle1">
-        <div className="innercircle1"></div>
-      </div>
-      <div className="goldsmallcircle"></div>
-      <div className="goldsmallcircle1"></div>
-      <div className="closeicondiv">
-        <IoMdArrowBack
-          className="closeIcon"
-          onClick={() => navigate("/login")}
-        />
-      </div>
-      <div className="signupForm">
-        <div className="signheader">
-          <h1>FORGET PASSWORD</h1>
+    <div className="ex-scope auth-wrapper">
+      <div className="auth-side">
+        <div className="auth-side-content">
+          <div className="auth-side-title">Forgot Your Password?</div>
+          <p className="auth-side-text">
+            No worries! We&apos;ll help you reset your password and get back to your exam prep in minutes.
+          </p>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Quick and secure reset</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Email verification for safety</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Back to learning in seconds</div>
+          </div>
         </div>
-        <form className="form" onSubmit={(e) => handleSubmit(e, inputValue)}>
-          <Input
-            label="Email"
-            name="email"
-            type="email"
-            value={inputValue.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-            error={errorMessage.email}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-          />
-          <Button
-            type="submit"
-            loading={loading}
-            disabled={disabled}
-            fullWidth
-            style={{ marginTop: 12 }}
-          >
-            {loading ? "Please wait..." : "Send password Reset Link"}
-          </Button>
-        </form>
+      </div>
+
+      <div className="auth-container">
+        <div className="auth-card">
+          <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <IoMdArrowBack
+              onClick={() => navigate("/login")}
+              style={{ cursor: 'pointer', fontSize: 24, color: 'var(--ex-text)' }}
+            />
+          </div>
+
+          <div className="auth-header" style={{ marginBottom: 32 }}>
+            <h1 className="auth-title">Reset Password</h1>
+            <p className="auth-subtitle">Enter your email to receive a reset link</p>
+          </div>
+
+          <form className="auth-form" onSubmit={(e) => handleSubmit(e, inputValue)}>
+            <div className="auth-form-group">
+              <Input
+                label="Email Address"
+                name="email"
+                type="email"
+                value={inputValue.email}
+                onChange={handleChange}
+                placeholder="your@email.com"
+                required
+                error={errorMessage.email}
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              loading={loading}
+              disabled={disabled}
+              fullWidth
+              className="auth-submit"
+            >
+              {loading ? "Sending reset link..." : "Send Reset Link"}
+            </Button>
+          </form>
+
+          <p className="auth-footer">
+            Back to{" "}
+            <a onClick={() => navigate("/login")} style={{ cursor: 'pointer' }}>
+              login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

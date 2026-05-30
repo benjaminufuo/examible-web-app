@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../styles/dashboardCss/dashboard.css";
+import "../../styles/dashboardCss/premium-dashboard.css";
 import { RiRobot2Line } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
