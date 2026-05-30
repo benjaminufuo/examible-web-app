@@ -1,6 +1,7 @@
 import "../../styles/plans.css";
 import { FaCircleCheck } from "react-icons/fa6";
 import wallet from "../../assets/public/wallet.png";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 
 const plans = [
@@ -69,8 +70,14 @@ const Plans = () => {
         </div>
       </div>
       <div className="plans-cards">
-        {plans.map((plan) => (
-          <div className={`plan-card ${plan.title.toLowerCase()}-card`}>
+        {plans.map((plan, index) => (
+          <motion.div
+            className={`plan-card ${plan.title.toLowerCase()}-card`}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.15 }}
+            viewport={{ once: true }}
+          >
             <div
               className="plan-title"
               style={{
@@ -208,7 +215,7 @@ const Plans = () => {
             >
               {plan.button}
             </button>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

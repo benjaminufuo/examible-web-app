@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import "../../styles/aboutus.css";
+import { motion } from "framer-motion";
 import { FaFacebook, FaTwitter, FaSkype, FaYoutube } from "react-icons/fa";
 import heroImg from "../../assets/public/heroimg1.png";
 import target from "../../assets/public/targget.png";
@@ -86,7 +87,14 @@ const AboutUs = () => {
         </div>
         <div className="aboutstatements">
           {heroDescription.map((aboutcard, index) => (
-            <div className="aboutcard" key={index}>
+            <motion.div
+              className="aboutcard"
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              viewport={{ once: true }}
+            >
               <h1>{aboutcard.title}</h1>
               <div className="innertext">
                 <p>{aboutcard.text1}</p>
@@ -95,7 +103,7 @@ const AboutUs = () => {
               <div className="statementImg">
                 <img className="" src={aboutcard.img} />
               </div>
-            </div>
+            </motion.div>
           ))}
           <div className="eclipse"></div>
         </div>
@@ -296,7 +304,14 @@ const AboutUs = () => {
 
           <div className="carddata">
             {cardData.map((card, index) => (
-              <div className="card" key={index}>
+              <motion.div
+                className="card"
+                key={index}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.12 }}
+                viewport={{ once: true }}
+              >
                 {card.showCircle && (
                   <div className="whitecircle">
                     <div className="innerpurplecircle">
@@ -305,11 +320,10 @@ const AboutUs = () => {
                   </div>
                 )}
                 <p>{card.title}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-        <ProvenProcess />
       </section>
     </main>
   );
