@@ -303,15 +303,15 @@
   flex-shrink: 0;
 }
 .ex-hero__floatCard--ai {
-  top: 24px;
-  left: -46px;
+  top: -32px;
+  left: -42px;
 }
 .ex-hero__floatCard--rank {
-  top: 42%;
+  top: 40%;
   right: -40px;
 }
 .ex-hero__floatCard--pass {
-  bottom: 26px;
+  bottom: -30px;
   left: -34px;
 }
 

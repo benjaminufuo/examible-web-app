@@ -25,7 +25,7 @@
 .label {
   font-size: 14px;
   font-weight: 500;
-  color: #727a86;
+  color: var(--ex-text-soft, #727a86);
   line-height: 1.4;
   margin: 0;
   cursor: pointer;
