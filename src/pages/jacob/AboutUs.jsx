@@ -4,7 +4,6 @@ import { Autoplay } from "swiper/modules";
 import "../../styles/aboutus.css";
 import { motion } from "framer-motion";
 import { FaFacebook, FaTwitter, FaSkype, FaYoutube } from "react-icons/fa";
-import FinalCTA from "../../components/landing/FinalCTA";
 import heroImg from "../../assets/public/heroimg1.png";
 import target from "../../assets/public/targget.png";
 import camera from "../../assets/public/sweemglasses.png";
@@ -109,7 +108,6 @@ const AboutUs = () => {
           <div className="eclipse"></div>
         </div>
       </section>
-      <FinalCTA />
     </main>
   );
 };

@@ -3,7 +3,6 @@ import { FaCircleCheck } from "react-icons/fa6";
 import wallet from "../../assets/public/wallet.png";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import FinalCTA from "../../components/landing/FinalCTA";
 
 const plans = [
   {
@@ -219,7 +218,6 @@ const Plans = () => {
           </motion.div>
         ))}
       </div>
-      <FinalCTA />
     </div>
   );
 };
