@@ -643,3 +643,14 @@
     height: 50px;
   }
 }
+
+@media screen and (max-width: 640px) {
+  /* Ensure CTA doesn't overlap carousel */
+  .smartsection {
+    margin-bottom: 80px;
+  }
+  
+  .aboutstatements {
+    margin-bottom: 60px;
+  }
+}

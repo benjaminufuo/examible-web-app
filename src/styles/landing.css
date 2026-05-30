@@ -1141,4 +1141,34 @@
   .ex-hero__dashStats {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* Mobile CTA fixes */
+  .ex-cta {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    clear: both;
+    position: relative;
+    z-index: 1;
+  }
+  .ex-cta__card {
+    padding: clamp(30px, 5vw, 50px);
+  }
+  .ex-cta__title {
+    font-size: 1.5rem;
+    margin: 14px 0 12px;
+  }
+  .ex-cta__sub {
+    font-size: 0.95rem;
+    margin: 0 auto 20px;
+  }
+  .ex-cta__actions {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .ex-btn-white,
+  .ex-btn-ghost-light {
+    font-size: 0.9rem;
+    padding: 10px 18px;
+    white-space: nowrap;
+  }
 }

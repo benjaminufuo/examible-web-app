@@ -360,4 +360,9 @@
   .plan-benefits li {
     font-size: 13px;
   }
+
+  /* Ensure CTA doesn't overlap plan cards */
+  .plans-wrapper {
+    margin-bottom: 80px;
+  }
 }
