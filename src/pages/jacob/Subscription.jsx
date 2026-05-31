@@ -1,7 +1,7 @@
 import "../../styles/dashboardCss/subscription.css";
 import { FaCircleCheck } from "react-icons/fa6";
 import wallet from "../../assets/public/wallet.png";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const plans = [
