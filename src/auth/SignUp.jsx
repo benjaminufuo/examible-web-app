@@ -165,21 +165,25 @@ const SignUp = () => {
     <div className="ex-scope auth-wrapper">
       <div className="auth-side">
         <div className="auth-side-content">
-          <div className="auth-side-title">Start Learning Today</div>
+          <div className="auth-side-title">Prepare Smarter. Perform Better.</div>
           <p className="auth-side-text">
-            Join thousands of students acing their exams with AI-powered learning.
+            Join 2,600+ students who are acing their exams with AI-powered learning and real CBT simulations.
           </p>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Ace JAMB, WAEC, NECO with confidence</div>
+            <div>Personalized AI tutor that understands you</div>
           </div>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Get insights into your weaknesses</div>
+            <div>Real exam simulation with timed practice</div>
           </div>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Start free, scale as you grow</div>
+            <div>No credit card required. Free forever plan</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>30% avg. score improvement in 4 weeks</div>
           </div>
         </div>
       </div>

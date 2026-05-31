@@ -81,19 +81,23 @@ const ForgetPassword = () => {
         <div className="auth-side-content">
           <div className="auth-side-title">Forgot Your Password?</div>
           <p className="auth-side-text">
-            No worries! We&apos;ll help you reset your password and get back to your exam prep in minutes.
+            No worries! We&apos;ll get you back on track in minutes so you can continue your exam prep.
           </p>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Quick and secure reset</div>
+            <div>Secure reset link sent to your email</div>
           </div>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Email verification for safety</div>
+            <div>Military-grade encryption protection</div>
           </div>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Back to learning in seconds</div>
+            <div>Back to studying in under 2 minutes</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>24/7 support if you need help</div>
           </div>
         </div>
       </div>

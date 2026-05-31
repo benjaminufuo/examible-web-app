@@ -115,19 +115,23 @@ const Login = () => {
         <div className="auth-side-content">
           <div className="auth-side-title">Welcome Back</div>
           <p className="auth-side-text">
-            Log in to continue preparing for your exams with AI-powered learning.
+            Ace your JAMB, WAEC, and NECO exams with AI-powered learning and real CBT practice.
           </p>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Personalized learning paths</div>
+            <div>AI Tutor that adapts to your learning style</div>
           </div>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>AI-powered performance analytics</div>
+            <div>Real CBT Mock Exams with live proctoring</div>
           </div>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
-            <div>Unlimited practice exams</div>
+            <div>Gamified learning with leaderboards & rewards</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Detailed performance analytics & insights</div>
           </div>
         </div>
       </div>
