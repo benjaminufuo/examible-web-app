@@ -52,38 +52,28 @@ const Login = () => {
           `${import.meta.env.VITE_BASE_URL}api/v1/student/login`,
           data,
         );
-        
-        setLoading(false);
-        
-        // Check if response has a token - if no token, it's an error response
-        if (!res?.data?.token) {
-          const errorMessage = res?.data?.message || "Login failed. Please check your credentials.";
-          toast.error(errorMessage);
-          return;
-        }
-        
-        // Login successful
         dispatch(setUserToken(res?.data?.token));
         dispatch(setUser(res?.data?.data));
-        toast.success("Login successful!");
-        
-        setTimeout(() => {
-          if (location.state?.selectedPlan) {
-            navigate("/subscription/make-payment", {
-              state: {
-                selectedPlan: location.state?.selectedPlan,
-                amount: location.state?.amount,
-              },
-              replace: true,
-            });
-          } else {
-            navigate("/overview", { replace: true });
-          }
-        }, 3000);
+        if (res?.status === 200) {
+          toast.success("Login successful!");
+          setLoading(false);
+          setTimeout(() => {
+            if (location.state?.selectedPlan) {
+              navigate("/subscription/make-payment", {
+                state: {
+                  selectedPlan: location.state?.selectedPlan,
+                  amount: location.state?.amount,
+                },
+                replace: true,
+              });
+            } else {
+              navigate("/overview", { replace: true });
+            }
+          }, 3000);
+        }
       } catch (error) {
         setLoading(false);
-        const errorMessage = error?.response?.data?.message || error?.message || "Login failed. Please try again.";
-        toast.error(errorMessage);
+        toast.error(error?.response?.data?.message);
       }
     }
   };
