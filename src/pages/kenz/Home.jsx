@@ -13,14 +13,22 @@ import FinalCTA from "../../components/landing/FinalCTA";
 const Home = () => {
   return (
     <div className="ex-landing">
-      <Hero />
+      <section id="home">
+        <Hero />
+      </section>
       <TrustBar />
-      <Features />
-      <ProductPreview />
-      <WhyExamible />
-      <HowItWorks />
+      <section id="user-prep">
+        <Features />
+        <ProductPreview />
+        <WhyExamible />
+      </section>
+      <section id="how-it-works">
+        <HowItWorks />
+      </section>
       <Testimonials />
-      <Pricing />
+      <section id="pricing">
+        <Pricing />
+      </section>
       <FAQ />
       <FinalCTA />
     </div>

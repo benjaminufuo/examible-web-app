@@ -15,7 +15,6 @@ const Mockexam = safeLazy(() => import("./pages/kenz/Mockexam"));
 const PastQuestion = safeLazy(() => import("./pages/jacob/PastQuestion"));
 const Profile = safeLazy(() => import("./pages/kenz/Profile"));
 const Subscription = safeLazy(() => import("./pages/jacob/Subscription"));
-const AboutUs = safeLazy(() => import("./pages/jacob/AboutUs"));
 const Verify = safeLazy(() => import("./auth/Verify"));
 const ExamBody = safeLazy(() => import("./pages/kenz/ExamBody"));
 const MakePayment = safeLazy(() => import("./pages/jacob/MakePayment"));
@@ -28,7 +27,6 @@ const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
 const ResultPage = safeLazy(() => import("./pages/jacob/ResultPage"));
-const Plans = safeLazy(() => import("./pages/jacob/Plans"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
 import MainHolder from "./routes/MainHolder";
@@ -59,14 +57,6 @@ const routes = createBrowserRouter([
                 <Home />
               </Suspense>
             ),
-          },
-          {
-            path: "about-us",
-            element: <AboutUs />,
-          },
-          {
-            path: "plans",
-            element: <Plans />,
           },
         ],
       },

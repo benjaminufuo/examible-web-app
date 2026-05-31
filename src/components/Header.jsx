@@ -12,6 +12,20 @@ const Header = () => {
   const nav = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+
+  const handleAnchorClick = (e, link) => {
+    if (link.startsWith("#")) {
+      e.preventDefault();
+      const sectionId = link.substring(1);
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setActiveSection(sectionId);
+        setShowDropdown(false);
+      }
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -43,9 +57,18 @@ const Header = () => {
             {menuBar.map((item) => (
               <li
                 key={item.id}
-                className={location.pathname === item.link ? "active" : ""}
+                className={activeSection === item.link.substring(1) ? "active" : ""}
               >
-                <Link to={item.link}>{item.name}</Link>
+                {item.isAnchor ? (
+                  <a
+                    href={item.link}
+                    onClick={(e) => handleAnchorClick(e, item.link)}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link to={item.link}>{item.name}</Link>
+                )}
               </li>
             ))}
           </ul>
@@ -106,10 +129,19 @@ const Header = () => {
                 {menuBar.map((item) => (
                   <li
                     key={item.id}
-                    className={location.pathname === item.link ? "active" : ""}
+                    className={activeSection === item.link.substring(1) ? "active" : ""}
                     onClick={() => setShowDropdown(false)}
                   >
-                    <Link to={item.link}>{item.name}</Link>
+                    {item.isAnchor ? (
+                      <a
+                        href={item.link}
+                        onClick={(e) => handleAnchorClick(e, item.link)}
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link to={item.link}>{item.name}</Link>
+                    )}
                   </li>
                 ))}
               </ul>
