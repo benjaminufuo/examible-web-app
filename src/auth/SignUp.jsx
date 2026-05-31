@@ -148,7 +148,8 @@ const SignUp = () => {
           setErrorMessage({ ...errorMessage, password: "" });
         }
         setLoading(false);
-        toast.error(error?.response?.data?.message);
+        const errorMsg = error?.response?.data?.message || error?.message || "Sign up failed. Please try again.";
+        toast.error(errorMsg);
       }
     }
   };

@@ -52,33 +52,38 @@ const Login = () => {
           `${import.meta.env.VITE_BASE_URL}api/v1/student/login`,
           data,
         );
+        
+        setLoading(false);
+        
+        // Check if response has a token - if no token, it's an error response
+        if (!res?.data?.token) {
+          const errorMessage = res?.data?.message || "Login failed. Please check your credentials.";
+          toast.error(errorMessage);
+          return;
+        }
+        
+        // Login successful
         dispatch(setUserToken(res?.data?.token));
         dispatch(setUser(res?.data?.data));
-        if (res?.status === 200) {
-          toast.success("Login successful!");
-          setLoading(false);
-          setTimeout(() => {
-            if (location.state?.selectedPlan) {
-              navigate("/subscription/make-payment", {
-                state: {
-                  selectedPlan: location.state?.selectedPlan,
-                  amount: location.state?.amount,
-                },
-                replace: true,
-              });
-            } else {
-              navigate("/overview", { replace: true });
-            }
-          }, 3000);
-        }
+        toast.success("Login successful!");
+        
+        setTimeout(() => {
+          if (location.state?.selectedPlan) {
+            navigate("/subscription/make-payment", {
+              state: {
+                selectedPlan: location.state?.selectedPlan,
+                amount: location.state?.amount,
+              },
+              replace: true,
+            });
+          } else {
+            navigate("/overview", { replace: true });
+          }
+        }, 3000);
       } catch (error) {
-        if (
-          error?.response?.data?.message ===
-          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-        ) {
-        }
         setLoading(false);
-        toast.error(error?.response?.data?.message);
+        const errorMessage = error?.response?.data?.message || error?.message || "Login failed. Please try again.";
+        toast.error(errorMessage);
       }
     }
   };
