@@ -13,7 +13,6 @@ import Button from "../shared/Button";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [inputValue, setInputValue] = useState({
@@ -21,80 +20,52 @@ const Login = () => {
     password: "",
   });
 
-  const validateField = (name, value) => {
-    let error = "";
-    if (name === "email") {
-      if (!value.trim()) {
-        error = "Email is required";
-      }
-    }
-
-    if (name === "password") {
-      if (!value.trim()) {
-        error = "Password is required";
-      }
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputValue((prev) => ({ ...prev, [name]: value }));
-    validateField(name, value);
   };
 
   const dispatch = useDispatch();
+  // Enable button when both email and password are filled
+  const hasEmail = inputValue.email && inputValue.email.trim().length > 0;
+  const hasPassword = inputValue.password && inputValue.password.trim().length > 0;
+  const isFormValid = hasEmail && hasPassword;
+  const isButtonDisabled = !isFormValid || loading || googleLoading;
+
   const handleSubmit = async (e, data) => {
-    if (!disabled && !googleLoading) {
-      e.preventDefault();
-      setLoading(true);
-      try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/student/login`,
-          data,
-        );
-        dispatch(setUserToken(res?.data?.token));
-        dispatch(setUser(res?.data?.data));
-        if (res?.status === 200) {
-          toast.success("Login successful!");
-          setLoading(false);
-          setTimeout(() => {
-            if (location.state?.selectedPlan) {
-              navigate("/subscription/make-payment", {
-                state: {
-                  selectedPlan: location.state?.selectedPlan,
-                  amount: location.state?.amount,
-                },
-                replace: true,
-              });
-            } else {
-              navigate("/overview", { replace: true });
-            }
-          }, 3000);
-        }
-      } catch (error) {
+    e.preventDefault();
+    if (isButtonDisabled) return;
+    
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}api/v1/student/login`,
+        data,
+      );
+      dispatch(setUserToken(res?.data?.token));
+      dispatch(setUser(res?.data?.data));
+      if (res?.status === 200) {
+        toast.success("Login successful!");
         setLoading(false);
-        toast.error(error?.response?.data?.message);
+        setTimeout(() => {
+          if (location.state?.selectedPlan) {
+            navigate("/subscription/make-payment", {
+              state: {
+                selectedPlan: location.state?.selectedPlan,
+                amount: location.state?.amount,
+              },
+              replace: true,
+            });
+          } else {
+            navigate("/overview", { replace: true });
+          }
+        }, 3000);
       }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error?.response?.data?.message);
     }
   };
-  useEffect(() => {
-    const { email, password } = inputValue;
-    if (email && password.trim() !== "") {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [inputValue]);
-
-  useEffect(() => {
-    const { email, password } = inputValue;
-    const isFormValid = email && password.trim() !== "";
-    if (loading || googleLoading) {
-      setDisabled(true);
-    } else {
-      setDisabled(!isFormValid);
-    }
-  }, [loading, googleLoading, inputValue]);
 
   const loginGoogleIcon = async () => {
     setGoogleLoading(true);
@@ -149,7 +120,6 @@ const Login = () => {
                 name="email"
                 onChange={handleChange}
                 value={inputValue.email}
-                onBlur={(e) => validateField(e.target.name, e.target.value)}
                 placeholder="Enter your email"
                 required
               />
@@ -161,7 +131,6 @@ const Login = () => {
                 name="password"
                 onChange={handleChange}
                 value={inputValue.password}
-                onBlur={(e) => validateField(e.target.name, e.target.value)}
                 placeholder="Enter your password"
                 required
                 isPassword
@@ -183,7 +152,7 @@ const Login = () => {
             <Button
               type="submit"
               loading={loading}
-              disabled={disabled || googleLoading}
+              disabled={isButtonDisabled}
               fullWidth
               className="auth-submit"
             >
