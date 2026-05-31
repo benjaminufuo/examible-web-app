@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import EmailVerify from "../components/EmailVerify";
 import { toast } from "react-toastify";

@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
 

@@ -4,9 +4,9 @@ import { Suspense } from "react";
 const Dashboard = safeLazy(() => import("./pages/kenz/Dashboard"));
 const Overview = safeLazy(() => import("./pages/kenz/Overview"));
 const Home = safeLazy(() => import("./pages/kenz/Home"));
-const Login = safeLazy(() => import("./auth/Login"));
-const SignUp = safeLazy(() => import("./auth/SignUp"));
-const ForgetPassword = safeLazy(() => import("./auth/ForgetPassword"));
+import Login from "./auth/Login";
+import SignUp from "./auth/SignUp";
+import ForgetPassword from "./auth/ForgetPassword";
 const ResetLink = safeLazy(() => import("./auth/ResetLink"));
 const ResetPassword = safeLazy(
   () => import("./auth/welcomeback/ResetPassword"),
@@ -74,19 +74,35 @@ const routes = createBrowserRouter([
       },
       {
         path: "/resetlink",
-        element: <ResetLink />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ResetLink />
+          </Suspense>
+        ),
       },
       {
         path: "/reset-password/:token",
-        element: <ResetPassword />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ResetPassword />
+          </Suspense>
+        ),
       },
       {
         path: "/verify/:token",
-        element: <Verify />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Verify />
+          </Suspense>
+        ),
       },
       {
         path: "/callback/:token/:userId",
-        element: <Callback />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Callback />
+          </Suspense>
+        ),
       },
       {
         element: <PrivateRoute />,
