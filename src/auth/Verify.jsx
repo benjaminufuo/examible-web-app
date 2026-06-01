@@ -12,7 +12,7 @@ const Verify = () => {
   const handleVerify = async () => {
     try {
       const res = await studentApi.verifyAccount(token);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         setIsVerify(true);
       }
     } catch (error) {

@@ -36,7 +36,7 @@ const Login = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
-    if (isButtonDisabled) return;
+    if (isButtonDisabled && !googleLoading) return;
 
     setLoading(true);
     try {

@@ -13,7 +13,7 @@ const Callback = () => {
   const createUser = async () => {
     try {
       const res = await studentApi.getStudentById(userId);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         dispatch(setUser(res?.data?.data));
         dispatch(setUserToken(token));
         setTimeout(() => {

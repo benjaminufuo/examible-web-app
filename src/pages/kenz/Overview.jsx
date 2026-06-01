@@ -51,7 +51,7 @@ const Overview = () => {
     try {
       const res = await studentApi.removeSubject({ subject });
       setLoading(false);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.dismiss(id);
         setTimeout(() => {
           toast.success(res?.data?.message);

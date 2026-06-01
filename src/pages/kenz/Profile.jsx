@@ -81,7 +81,7 @@ const Profile = () => {
     const toastId = toast.loading("Please wait ...");
     try {
       const res = await studentApi.uploadImage(formDatas);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.success("Upload Successfully");
         dispatch(setUser(res?.data?.data));
       }

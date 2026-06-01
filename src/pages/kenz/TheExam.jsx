@@ -7,7 +7,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Latex from "react-latex-next";
@@ -22,17 +22,20 @@ import {
   theExamTimer,
 } from "../../global/slice";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import { normalizeQuestion } from "../../utils/questionUtils";
 
 const TheExam = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { subjectId } = useParams();
+  const location = useLocation();
+  const subjectId = location.state?.subjectId || 1;
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const mockSelectedSubject =
     useSelector((state) => state.mockSelectedSubject) || "";
   const mockExamOptions = useSelector((state) => state.mockExamOptions) || {};
   const exam = mockExamQuestions || [];
-  const currentQuestion = exam[Number(subjectId) - 1] || {};
+  const num = Number(subjectId);
+  const currentQuestion = normalizeQuestion(exam[num - 1] || {});
   const userAnswers = useSelector((state) => state.exam) || [];
   const { setShowLeavingNow } = useExamibleContext();
   const examTimerMins = useSelector((state) => state.examTimerMins);
@@ -52,6 +55,12 @@ const TheExam = () => {
     { length: totalQuestions },
     (_, i) => i + 1,
   );
+
+  useLayoutEffect(() => {
+    if (!mockExamQuestions || mockExamQuestions.length <= 0) {
+      nav("/overview");
+    }
+  }, [mockExamQuestions]);
 
   const isCbtMode = mockSelectedSubject === "CBT Examination";
 
@@ -90,9 +99,9 @@ const TheExam = () => {
         subjectId,
       }),
     );
-    if (Number(subjectId) > 1) {
-      const prevIndex = Number(subjectId) - 2;
-      nav(`/mock-exam/${prevIndex + 1}`);
+    if (num > 1) {
+      const prevIndex = num - 2;
+      nav(location.pathname, { state: { subjectId: prevIndex + 1 } });
       dispatch(
         setMockExamOption({
           option: userAnswers[prevIndex]?.option,
@@ -109,9 +118,9 @@ const TheExam = () => {
         subjectId,
       }),
     );
-    if (Number(subjectId) < totalQuestions) {
-      const nextIndex = Number(subjectId);
-      nav(`/mock-exam/${nextIndex + 1}`);
+    if (num < totalQuestions) {
+      const nextIndex = num;
+      nav(location.pathname, { state: { subjectId: nextIndex + 1 } });
       dispatch(
         setMockExamOption({
           option: userAnswers[nextIndex]?.option,
@@ -157,6 +166,10 @@ const TheExam = () => {
       );
     }
   };
+
+  if (num > mockExamQuestions?.length || num < 1) {
+    return <ErrorPgae />;
+  }
 
   return (
     <div className="exam-premium-layout">
@@ -335,7 +348,7 @@ const TheExam = () => {
             <div className="exam-nav-grid">
               {arrayOfNumbers.map((item, index) => {
                 const isAnswered = userAnswers[index]?.option;
-                const isCurrent = item === Number(subjectId);
+                const isCurrent = item === num;
                 let chipClass = "exam-nav-chip";
                 if (isCurrent) chipClass += " current";
                 else if (isAnswered) chipClass += " answered";
@@ -351,7 +364,9 @@ const TheExam = () => {
                           subjectId,
                         }),
                       );
-                      nav(`/mock-exam/${index + 1}`);
+                      nav(location.pathname, {
+                        state: { subjectId: index + 1 },
+                      });
                       dispatch(
                         setMockExamOption({
                           option: userAnswers[index]?.option,

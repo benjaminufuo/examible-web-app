@@ -63,7 +63,7 @@ const PasswordResetPage = () => {
       try {
         const res = await studentApi.resetPassword(token, data);
         setLoading(false);
-        if (res?.status === 200) {
+        if (res?.data?.success) {
           toast.success(res?.data?.message);
           setTimeout(() => {
             navigate("/login");

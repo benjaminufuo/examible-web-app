@@ -81,8 +81,8 @@ class StudentApi {
     return this.#http.put("/myRating", data);
   }
 
-  submitFeedback(data) {
-    return this.#http.post("/submitFeedback", data);
+  submitFeedback() {
+    return this.#http.put("/students/feedback");
   }
 }
 

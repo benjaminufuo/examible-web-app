@@ -12,7 +12,7 @@ const ResetPassword = () => {
   const handleVerify = async () => {
     try {
       const res = await studentApi.verifyResetToken(token);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         setIsVerify(true);
       }
     } catch (error) {

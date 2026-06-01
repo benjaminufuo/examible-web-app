@@ -45,7 +45,7 @@ const ForgetPassword = () => {
       setLoading(true);
       try {
         const res = await studentApi.forgotPassword(data);
-        if (res?.status === 200) {
+        if (res?.data?.success) {
           toast.info("Password reset link sent to your email!");
         }
         setLoading(false);
@@ -77,7 +77,8 @@ const ForgetPassword = () => {
         <div className="auth-side-content">
           <div className="auth-side-title">Forgot Your Password?</div>
           <p className="auth-side-text">
-            No worries! We&apos;ll get you back on track in minutes so you can continue your exam prep.
+            No worries! We&apos;ll get you back on track in minutes so you can
+            continue your exam prep.
           </p>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
@@ -100,19 +101,35 @@ const ForgetPassword = () => {
 
       <div className="auth-container">
         <div className="auth-card">
-          <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div
+            style={{
+              marginBottom: 24,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
             <IoMdArrowBack
               onClick={() => navigate("/login")}
-              style={{ cursor: 'pointer', fontSize: 24, color: 'var(--ex-text)' }}
+              style={{
+                cursor: "pointer",
+                fontSize: 24,
+                color: "var(--ex-text)",
+              }}
             />
           </div>
 
           <div className="auth-header" style={{ marginBottom: 32 }}>
             <h1 className="auth-title">Reset Password</h1>
-            <p className="auth-subtitle">Enter your email to receive a reset link</p>
+            <p className="auth-subtitle">
+              Enter your email to receive a reset link
+            </p>
           </div>
 
-          <form className="auth-form" onSubmit={(e) => handleSubmit(e, inputValue)}>
+          <form
+            className="auth-form"
+            onSubmit={(e) => handleSubmit(e, inputValue)}
+          >
             <div className="auth-form-group">
               <Input
                 label="Email Address"
@@ -140,7 +157,7 @@ const ForgetPassword = () => {
 
           <p className="auth-footer">
             Back to{" "}
-            <a onClick={() => navigate("/login")} style={{ cursor: 'pointer' }}>
+            <a onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
               login
             </a>
           </p>

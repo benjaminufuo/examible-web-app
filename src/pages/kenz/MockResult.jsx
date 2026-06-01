@@ -1,14 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelExam, logoutTheUser } from "../../global/slice";
+import { cancelExam } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { getAiResponse } from "../../config/Api";
-import { useExamibleContext } from "../../context/ExamibleContext";
-import Latex from "react-latex-next";
-import "katex/dist/katex.min.css";
 import Calculator from "../../components/Calculator";
 import Pagination from "../../shared/Pagination";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +18,11 @@ import {
   FaBrain,
   FaRedo,
 } from "react-icons/fa";
+import Latex from "react-latex-next";
+import "katex/dist/katex.min.css";
+import QuestionMeta from "../../components/QuestionMeta";
+import { LETTERS, deduplicateQuestionMeta } from "../../utils/questionUtils";
+import useAiExplanation from "../../utils/useAiExplanation";
 
 const MockResult = () => {
   const location = useLocation();
@@ -46,21 +47,24 @@ const MockResult = () => {
     ? location.state?.year
     : mockYearFromRedux;
 
-  const [loading, setLoading] = useState(null);
   const [viewStep, setViewStep] = useState("loading"); // "loading" | "summary" | "details"
   const [loadingText, setLoadingText] = useState("Calculating your results...");
 
   const searchParams = new URLSearchParams(location.search);
   const [currentPage, setCurrentPage] = useState(1);
-  const page = searchParams.get("page") || currentPage || 1;
+
+  const page = location.state?.page || currentPage || 1;
   const questionsPerPage = 5;
-
-  const { setShowAiResponseModal, setAIResponse } = useExamibleContext();
-
   const indexOfLastQuestion = page * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
   const intialCount = indexOfFirstQuestion;
   const finalCount = indexOfLastQuestion;
+
+  const { loading, handleViewExplanation } = useAiExplanation(
+    mockYear,
+    location.state?.subject,
+    userToken,
+  );
 
   const validQuestionsLength = mockExamQuestions?.length || 1;
 
@@ -74,62 +78,12 @@ const MockResult = () => {
     exam?.reduce((acc, item) => acc + (item?.score || 0), 0) / 2 || 0;
 
   const retryExam = () => {
-    dispatch(cancelExam());
     if (isPastQuestionResult) {
       nav("/past-questions");
     } else {
       nav("/mock-exam");
     }
-  };
-
-  const handleViewExplanation = async (
-    questionNum,
-    question,
-    passage,
-    options,
-    subheadingA,
-    subheadingB,
-    diagramUrlA,
-    diagramUrlB,
-    id,
-  ) => {
-    setLoading(id);
-    try {
-      const res = await getAiResponse(
-        mockYear,
-        location.state.subject,
-        questionNum,
-        question,
-        passage,
-        options,
-        subheadingA,
-        subheadingB,
-        diagramUrlA,
-        diagramUrlB,
-        userToken,
-      );
-      if (res) {
-        setLoading(null);
-        setAIResponse(res.data.aiResponse);
-        setShowAiResponseModal(true);
-      }
-    } catch (error) {
-      setLoading(null);
-      toast.error(error?.response?.data?.message);
-      if (
-        error?.response?.data?.message ===
-        "Session timed-out: Please login to continue"
-      ) {
-        setTimeout(() => {
-          nav("/");
-        }, 500);
-        setTimeout(() => {
-          dispatch(logoutTheUser());
-        }, 550);
-      }
-    } finally {
-      setLoading(null);
-    }
+    dispatch(cancelExam());
   };
 
   let questionDetails;
@@ -183,6 +137,14 @@ const MockResult = () => {
       ...stats,
     }));
   }, [mockExamQuestions, exam, location.state]);
+
+  const processedQuestions = useMemo(
+    () =>
+      deduplicateQuestionMeta(
+        mockExamQuestions?.slice(intialCount, finalCount),
+      ),
+    [mockExamQuestions, intialCount, finalCount],
+  );
 
   if (viewStep === "loading") {
     return (
@@ -320,174 +282,129 @@ const MockResult = () => {
       </div>
 
       <div className="mr-question-list">
-        {mockExamQuestions
-          ?.slice(intialCount, finalCount)
-          .map((item, index) => {
-            let newItem = {
-              subheadingA: item?.subheadingA,
-              subheadingB: item?.subheadingB,
-              diagramUrlA: item?.diagramUrlA,
-              diagramUrlB: item?.diagramUrlB,
-            };
-            if (index === 0) {
-              questionDetails = item;
-            } else {
-              if (questionDetails.subheadingA === item.subheadingA)
-                newItem.subheadingA = "";
-              else newItem.subheadingA = item.subheadingA;
-              if (questionDetails.subheadingB === item.subheadingB)
-                newItem.subheadingB = "";
-              else newItem.subheadingB = item.subheadingB;
-              if (questionDetails.diagramUrlA === item.diagramUrlA)
-                newItem.diagramUrlA = "";
-              else newItem.diagramUrlA = item.diagramUrlA;
-              if (questionDetails.diagramUrlB === item.diagramUrlB)
-                newItem.diagramUrlB = "";
-              else newItem.diagramUrlB = item.diagramUrlB;
-              questionDetails = item;
-            }
+        {processedQuestions.map(({ item, newItem }, index) => {
+          const currentExamItem = exam.slice(intialCount, finalCount)?.[index];
+          const isCorrect = currentExamItem?.score > 0;
+          const selectedOptionLetter = currentExamItem?.option;
+          const correctOptionLetter = item?.answer;
 
-            const currentExamItem = exam.slice(intialCount, finalCount)?.[
-              index
-            ];
-            const isCorrect = currentExamItem?.score > 0;
-            const selectedOptionLetter = currentExamItem?.option;
-            const correctOptionLetter = item?.answer;
-
-            return (
-              <motion.div
-                key={index}
-                className="mr-question-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="mr-q-header">
-                  <span className="mr-q-number">
-                    Question {intialCount + index + 1}
-                  </span>
-                  {currentExamItem?.option ? (
-                    isCorrect ? (
-                      <span className="mr-q-badge correct">
-                        <FaCheckCircle /> Correct
-                      </span>
-                    ) : (
-                      <span className="mr-q-badge wrong">
-                        <FaTimesCircle /> Incorrect
-                      </span>
-                    )
+          return (
+            <motion.div
+              key={index}
+              className="mr-question-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="mr-q-header">
+                <span className="mr-q-number">
+                  Question {intialCount + index + 1}
+                </span>
+                {currentExamItem?.option ? (
+                  isCorrect ? (
+                    <span className="mr-q-badge correct">
+                      <FaCheckCircle /> Correct
+                    </span>
                   ) : (
-                    <span className="mr-q-badge skipped">Skipped</span>
-                  )}
-                </div>
+                    <span className="mr-q-badge wrong">
+                      <FaTimesCircle /> Incorrect
+                    </span>
+                  )
+                ) : (
+                  <span className="mr-q-badge skipped">Skipped</span>
+                )}
+              </div>
 
-                <div className="mr-q-body">
-                  {newItem?.subheadingA && (
-                    <h4 className="mr-subheading">
-                      <Latex>{newItem.subheadingA}</Latex>
-                    </h4>
-                  )}
-                  {newItem?.diagramUrlA && (
-                    <img
-                      src={newItem.diagramUrlA}
-                      className="mr-diagram"
-                      alt="Diagram"
-                    />
-                  )}
-                  {newItem?.subheadingB && (
-                    <h4 className="mr-subheading">
-                      <Latex>{newItem.subheadingB}</Latex>
-                    </h4>
-                  )}
-                  {newItem?.diagramUrlB && (
-                    <img
-                      src={newItem.diagramUrlB}
-                      className="mr-diagram"
-                      alt="Diagram"
-                    />
-                  )}
-                  <h3 className="mr-question-text">
-                    <Latex>{item?.question}</Latex>
-                  </h3>
-                </div>
+              <div className="mr-q-body">
+                <QuestionMeta
+                  item={item}
+                  newItem={newItem}
+                  subheadingClassName="mr-subheading"
+                  imageClassName="mr-diagram"
+                />
 
-                <div className="mr-options-grid">
-                  {item?.options.map((opt, oIdx) => {
-                    if (!opt) return null;
-                    const letter = String.fromCharCode(65 + oIdx);
-                    const isSelected = selectedOptionLetter === letter;
-                    const isActualAnswer = correctOptionLetter === letter;
+                <h3 className="mr-question-text">
+                  <Latex>{item?.question}</Latex>
+                </h3>
+              </div>
 
-                    let optClass = "mr-opt-default";
-                    if (isSelected && isCorrect)
-                      optClass = "mr-opt-correct-selected";
-                    else if (isSelected && !isCorrect)
-                      optClass = "mr-opt-wrong-selected";
-                    else if (!isSelected && isActualAnswer)
-                      optClass = "mr-opt-correct-revealed";
+              <div className="mr-options-grid">
+                {item?.options.map((opt, oIdx) => {
+                  if (!opt) return null;
+                  const letter = String.fromCharCode(65 + oIdx);
+                  const isSelected = selectedOptionLetter === letter;
+                  const isActualAnswer = correctOptionLetter === letter;
 
-                    const displayOpt = opt?.startsWith(letter + ".")
-                      ? opt.slice(2).trim()
-                      : opt;
+                  let optClass = "mr-opt-default";
+                  if (isSelected && isCorrect)
+                    optClass = "mr-opt-correct-selected";
+                  else if (isSelected && !isCorrect)
+                    optClass = "mr-opt-wrong-selected";
+                  else if (!isSelected && isActualAnswer)
+                    optClass = "mr-opt-correct-revealed";
 
-                    return (
-                      <div key={oIdx} className={`mr-opt-card ${optClass}`}>
-                        <div className="mr-opt-letter">{letter}</div>
-                        <div className="mr-opt-content">
-                          <Latex>{displayOpt}</Latex>
-                        </div>
-                        {optClass === "mr-opt-correct-selected" && (
-                          <FaCheckCircle className="mr-opt-icon success" />
-                        )}
-                        {optClass === "mr-opt-wrong-selected" && (
-                          <FaTimesCircle className="mr-opt-icon danger" />
-                        )}
-                        {optClass === "mr-opt-correct-revealed" && (
-                          <FaCheckCircle className="mr-opt-icon revealed" />
-                        )}
+                  const displayOpt = opt?.startsWith(letter + ".")
+                    ? opt.slice(2).trim()
+                    : opt;
+
+                  return (
+                    <div key={oIdx} className={`mr-opt-card ${optClass}`}>
+                      <div className="mr-opt-letter">{letter}</div>
+                      <div className="mr-opt-content">
+                        <Latex>{displayOpt}</Latex>
                       </div>
-                    );
-                  })}
-                </div>
+                      {optClass === "mr-opt-correct-selected" && (
+                        <FaCheckCircle className="mr-opt-icon success" />
+                      )}
+                      {optClass === "mr-opt-wrong-selected" && (
+                        <FaTimesCircle className="mr-opt-icon danger" />
+                      )}
+                      {optClass === "mr-opt-correct-revealed" && (
+                        <FaCheckCircle className="mr-opt-icon revealed" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
 
-                <div className="mr-explanation-section">
-                  <div
-                    className={`mr-feedback-banner ${isCorrect ? "success" : "error"}`}
-                  >
-                    {isCorrect
-                      ? "You got the answer right!"
-                      : `The correct answer is ${correctOptionLetter}`}
-                  </div>
-                  <button
-                    className="mr-ai-btn"
-                    onClick={() => {
-                      handleViewExplanation(
-                        item.number,
-                        item.question,
-                        item.passage,
-                        item.options,
-                        item.subheadingA,
-                        item.subheadingB,
-                        item.diagramUrlA,
-                        item.diagramUrlB,
-                        index,
-                      );
-                    }}
-                    disabled={loading}
-                  >
-                    {loading === index ? (
-                      <ClipLoader color="white" size={16} />
-                    ) : (
-                      <>
-                        <FaBrain /> View AI Explanation
-                      </>
-                    )}
-                  </button>
+              <div className="mr-explanation-section">
+                <div
+                  className={`mr-feedback-banner ${isCorrect ? "success" : "error"}`}
+                >
+                  {isCorrect
+                    ? "You got the answer right!"
+                    : `The correct answer is ${correctOptionLetter}`}
                 </div>
-              </motion.div>
-            );
-          })}
+                <button
+                  className="mr-ai-btn"
+                  onClick={() => {
+                    handleViewExplanation(
+                      item.number,
+                      item.question,
+                      item.passage,
+                      item.options,
+                      item.subheadingA,
+                      item.subheadingB,
+                      item.diagramUrlA,
+                      item.diagramUrlB,
+                      index,
+                    );
+                  }}
+                  disabled={loading}
+                >
+                  {loading === index ? (
+                    <ClipLoader color="white" size={16} />
+                  ) : (
+                    <>
+                      <FaBrain /> View AI Explanation
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       <div className="mr-footer-controls">
@@ -498,7 +415,9 @@ const MockResult = () => {
           <Pagination
             page={page}
             setPage={setCurrentPage}
-            totalPages={Math.ceil(mockExamQuestions.length / questionsPerPage)}
+            totalPages={Math.ceil(
+              (mockExamQuestions?.length || 0) / questionsPerPage,
+            )}
           />
         </div>
       </div>

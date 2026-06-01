@@ -29,11 +29,10 @@ const MockConfigModal = ({ subject, onClose }) => {
 
   const handleStartExam = async () => {
     setLoading(true);
-    const id = toast.loading("Preparing your exam...");
     try {
-      const res = await questionApi.fetchMockQuestions(subject, config.questions);
+      const res = await questionApi.fetchMockQuestions(subject);
 
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         // Enforce the exact number of questions selected in the modal
         const selectedQuestions =
           res?.data?.data?.slice(0, config.questions) || [];
@@ -42,14 +41,12 @@ const MockConfigModal = ({ subject, onClose }) => {
         dispatch(setExamTimer({ plan: user?.plan, duration: config.duration }));
         sessionStorage.setItem("mockExamDuration", config.duration);
         dispatch(setMockSelectedSubject(subject));
-        toast.dismiss(id);
         setTimeout(() => {
-          nav(`/mock-exam/1`);
+          nav(`/mock-exam/questions`, { state: { subjectId: 1 } });
         }, 500);
       }
     } catch (error) {
       setLoading(false);
-      toast.dismiss(id);
     }
   };
 

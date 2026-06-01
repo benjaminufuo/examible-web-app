@@ -28,9 +28,10 @@ const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
 const ResultPage = safeLazy(() => import("./pages/jacob/ResultPage"));
+const Plans = safeLazy(() => import("./pages/jacob/Plans"));
+const MainHolder = safeLazy(() => import("./routes/MainHolder"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
-import MainHolder from "./routes/MainHolder";
 import PrivateRoute from "./routes/PrivateRoute";
 import AppWrapper from "./components/AppWrapper";
 import InvisibleFallback from "./components/InvisibleFallback";
@@ -50,7 +51,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <MainHolder />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MainHolder />
+          </Suspense>
+        ),
         children: [
           {
             path: "",
@@ -164,7 +169,7 @@ const routes = createBrowserRouter([
             ],
           },
           {
-            path: "mock-exam/:subjectId",
+            path: "mock-exam/questions",
             element: <ExamBody />,
           },
         ],

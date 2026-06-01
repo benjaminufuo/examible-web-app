@@ -70,7 +70,7 @@ const CbtMode = () => {
       for (const subject of selected) {
         const limit = subject === englishSubj ? 60 : 40;
         try {
-          const res = await questionApi.fetchMockQuestions(subject, limit);
+          const res = await questionApi.fetchMockQuestions(subject);
           results.push({
             subject,
             data: res.data.data,
@@ -132,7 +132,7 @@ const CbtMode = () => {
 
       toast.dismiss(id);
       setTimeout(() => {
-        nav(`/mock-exam/1`);
+        nav(`/mock-exam/questions`);
       }, 500);
     } catch (error) {
       setLoading(false);

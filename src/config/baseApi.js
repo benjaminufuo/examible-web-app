@@ -39,7 +39,9 @@ export class BaseApi {
 
     if (status === 401) {
       toast.error(message);
-      localStorage.removeItem("token");
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("persist:root");
+
       setTimeout(() => {
         window.location.href = "/login";
       }, 3000);

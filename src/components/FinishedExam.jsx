@@ -65,7 +65,7 @@ const FinishedExam = () => {
         subject: apiSubject,
         performance,
       });
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
           nav("/mock-exam/result", {

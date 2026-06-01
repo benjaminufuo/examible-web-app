@@ -57,7 +57,6 @@ const LeavingNow = () => {
         : mockSelectedSubject || "Mock Exam";
 
     setLoading(true);
-    const id = toast.loading("Please wait ...");
     try {
       const res = await studentApi.updateRating({
         duration,
@@ -65,8 +64,7 @@ const LeavingNow = () => {
         subject: apiSubject,
         performance,
       });
-      if (res?.status === 200) {
-        toast.dismiss(id);
+      if (res?.data?.success) {
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
           setShowLeavingNow(false);
@@ -80,7 +78,6 @@ const LeavingNow = () => {
         }, 500);
       }
     } catch (error) {
-      toast.dismiss(id);
       setLoading(false);
     } finally {
       toast.dismiss(id);

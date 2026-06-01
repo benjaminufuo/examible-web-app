@@ -22,7 +22,7 @@ const VerifyPayment = () => {
           import.meta.env.VITE_BASE_URL
         }api/v1/verifyKoraPay?reference=${reference}`,
       );
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         dispatch(setUser(res?.data?.data?.student));
         setPlan(res?.data?.data?.student?.plan);
         setIsVerifying(false);

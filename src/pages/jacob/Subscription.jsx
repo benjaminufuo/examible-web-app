@@ -81,7 +81,7 @@ const Plans = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/cancelSubscription/${user?._id || user?.id}`,
       );
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.success(
           res?.data?.message || "Successfully downgraded to Freemium.",
         );
