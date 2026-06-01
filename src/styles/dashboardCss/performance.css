@@ -1,0 +1,264 @@
+/* Performance Center Premium Styling */
+.performance-premium {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px;
+  background: linear-gradient(135deg, #f8f7ff 0%, #fafbff 100%);
+
+  @media screen and (max-width: 768px) {
+    padding: 20px;
+  }
+}
+
+.performance-header {
+  margin-bottom: 40px;
+
+  h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+  }
+}
+
+.performance-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &::before {
+    content: "";
+    width: 4px;
+    height: 22px;
+    background: linear-gradient(135deg, #804bf2, #f2ae30);
+    border-radius: 2px;
+  }
+}
+
+/* Stats Section */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(128, 75, 242, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(128, 75, 242, 0.15);
+    transform: translateY(-4px);
+  }
+
+  .stat-icon {
+    font-size: 32px;
+    color: #804bf2;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-family: "Montserrat", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #804bf2;
+    margin: 0;
+  }
+}
+
+/* Performance Table */
+.performance-table {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(128, 75, 242, 0.1);
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Montserrat", sans-serif;
+
+    thead {
+      background: rgba(128, 75, 242, 0.08);
+
+      th {
+        padding: 16px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 700;
+        color: #1a1a1a;
+        border-bottom: 1px solid rgba(128, 75, 242, 0.1);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: rgba(128, 75, 242, 0.04);
+        }
+
+        td {
+          padding: 16px;
+          font-size: 14px;
+          color: rgba(0, 0, 0, 0.7);
+
+          &.subject-name {
+            font-weight: 600;
+            color: #1a1a1a;
+          }
+
+          .accuracy-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+
+            .bar-fill {
+              height: 6px;
+              background: linear-gradient(90deg, #804bf2, #f2ae30);
+              border-radius: 3px;
+              min-width: 100px;
+            }
+
+            + span {
+              font-weight: 600;
+              color: #804bf2;
+            }
+          }
+
+          &.positive {
+            color: #4caf50;
+            font-weight: 600;
+          }
+
+          &.negative {
+            color: #e91e63;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+
+    table {
+      thead th,
+      tbody td {
+        padding: 12px 8px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+/* Trend Section */
+.trend-card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(128, 75, 242, 0.1);
+
+  @media screen and (max-width: 768px) {
+    padding: 24px 16px;
+  }
+}
+
+.trend-bars {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 250px;
+  gap: 20px;
+
+  @media screen and (max-width: 768px) {
+    height: 200px;
+  }
+}
+
+.trend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+
+  .bar {
+    width: 40px;
+    background: linear-gradient(135deg, #804bf2, #7a3fe8);
+    border-radius: 6px 6px 0 0;
+    transition: all 0.3s ease;
+    position: relative;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(128, 75, 242, 0.3);
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 30px;
+    }
+  }
+
+  p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+    text-align: center;
+  }
+
+  span {
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    color: #804bf2;
+    font-weight: 700;
+  }
+}

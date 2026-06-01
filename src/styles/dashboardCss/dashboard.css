@@ -8,17 +8,429 @@
   align-items: flex-start;
   justify-content: flex-end;
 
-  .dashboard-leftDropdown {
+  .sidebar-mobile-overlay {
     display: none;
   }
 
   @media screen and (max-width: 850px) {
-    .dashboard-leftDropdown {
+    .sidebar-mobile-overlay {
       display: flex;
       z-index: 15;
     }
   }
 }
+
+/* ========== PREMIUM SIDEBAR STYLES ========== */
+
+.sidebar-premium {
+  width: 20%;
+  position: fixed;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+  display: flex;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid rgba(128, 75, 242, 0.1);
+  z-index: 20;
+
+  .sidebar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(128, 75, 242, 0.2) transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(128, 75, 242, 0.2);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba(128, 75, 242, 0.4);
+      }
+    }
+  }
+
+  .sidebar-logo {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(128, 75, 242, 0.1);
+
+    .logo-img {
+      height: 60px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 12px;
+  }
+
+  .sidebar-section {
+    margin-top: 24px;
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(0, 0, 0, 0.4);
+      padding: 0 16px 8px 16px;
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+  }
+
+  .sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.65);
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: linear-gradient(135deg, #804bf2, #f2ae30);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #804bf2;
+      transition: all 0.3s ease;
+
+      svg {
+        stroke-width: 2;
+      }
+    }
+
+    .nav-label {
+      flex: 1;
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      background-color: rgba(128, 75, 242, 0.08);
+      color: #804bf2;
+
+      &::before {
+        transform: scaleY(1);
+      }
+
+      .nav-icon {
+        color: #804bf2;
+        transform: translateX(2px);
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, rgba(128, 75, 242, 0.15), rgba(242, 174, 48, 0.08));
+      color: #804bf2;
+      font-weight: 600;
+
+      &::before {
+        transform: scaleY(1);
+      }
+
+      .nav-icon {
+        color: #804bf2;
+      }
+    }
+
+    &.logout-btn {
+      color: rgba(239, 68, 68, 0.7);
+      margin-top: auto;
+
+      &:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+
+        .logout-icon {
+          color: #ef4444;
+        }
+      }
+
+      .logout-icon {
+        color: #ef4444;
+      }
+    }
+  }
+
+  .sidebar-premium-card {
+    margin: 20px 12px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(128, 75, 242, 0.1), rgba(242, 174, 48, 0.08));
+    border: 1.5px solid rgba(128, 75, 242, 0.2);
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba(128, 75, 242, 0.4);
+      background: linear-gradient(135deg, rgba(128, 75, 242, 0.15), rgba(242, 174, 48, 0.12));
+    }
+
+    .premium-icon {
+      font-size: 28px;
+      display: flex;
+      justify-content: center;
+      color: #804bf2;
+    }
+
+    h5 {
+      font-family: "Montserrat", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    p {
+      font-family: "Montserrat", sans-serif;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      margin: 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #804bf2, #7a3fe8);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(128, 75, 242, 0.3);
+      }
+    }
+  }
+
+  .sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 12px;
+    border-top: 1px solid rgba(128, 75, 242, 0.1);
+    margin-top: auto;
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 25%;
+    .sidebar-nav-item .nav-label {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    display: none;
+  }
+}
+
+/* ========== MOBILE SIDEBAR STYLES ========== */
+
+.sidebar-mobile-overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  left: 0;
+  height: 100dvh;
+  overflow: hidden;
+
+  .sidebar-mobile-drawer {
+    width: 280px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+    border-right: 1px solid rgba(128, 75, 242, 0.1);
+    animation: slideInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+
+    .sidebar-mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(128, 75, 242, 0.1);
+
+      .logo-img {
+        height: 40px;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #804bf2;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: rgba(128, 75, 242, 0.1);
+        }
+      }
+    }
+
+    .sidebar-mobile-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 12px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(128, 75, 242, 0.2) transparent;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(128, 75, 242, 0.2);
+        border-radius: 3px;
+
+        &:hover {
+          background: rgba(128, 75, 242, 0.4);
+        }
+      }
+    }
+
+    .sidebar-mobile-premium {
+      margin: 16px 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(128, 75, 242, 0.1), rgba(242, 174, 48, 0.08));
+      border: 1.5px solid rgba(128, 75, 242, 0.2);
+      border-radius: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .premium-icon {
+        font-size: 28px;
+        display: flex;
+        justify-content: center;
+        color: #804bf2;
+      }
+
+      h5 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0;
+      }
+
+      p {
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+        margin: 0;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(135deg, #804bf2, #7a3fe8);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(128, 75, 242, 0.3);
+        }
+      }
+    }
+
+    .sidebar-mobile-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 12px;
+      border-top: 1px solid rgba(128, 75, 242, 0.1);
+    }
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* ========== DASHBOARD LAYOUT ========== */
 
 .legacyBot {
   position: fixed;
@@ -44,153 +456,6 @@
   }
   100% {
     transform: scale(1);
-  }
-}
-.dashboard-left {
-  width: 20%;
-  position: fixed;
-  height: 100vh;
-  background-color: white;
-  display: flex;
-  top: 0;
-  left: 0;
-  flex-direction: column;
-  overflow: hidden;
-  padding-bottom: 10px;
-  align-items: center;
-  justify-content: space-between;
-
-  .dashboard-leftNavbarHolder {
-    height: fit-content;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .dashboard-leftImg {
-    height: 100px;
-    width: 197px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-end;
-
-    img {
-      height: 70%;
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .dashboard-navBar {
-    width: 95%;
-    height: 45px;
-    padding-inline: 20px;
-    display: flex;
-    gap: 6px;
-    background-color: white;
-    align-items: center;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 400;
-    font-size: 21px;
-    cursor: pointer;
-    margin-bottom: 4px;
-    text-decoration: none;
-    color: black;
-
-    &:hover {
-      background-color: #804bf233;
-    }
-
-    nav {
-      height: 35px;
-      width: 35px;
-
-      img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-
-  .navbar-active {
-    background-color: #804bf233;
-  }
-
-  .dashboard-subscription {
-    width: 172.2px;
-    height: 145.4px;
-    border-radius: 15.3px;
-    margin-top: 20px;
-    background-color: #804bf233;
-    position: relative;
-    padding: 28px;
-    padding-top: 27px;
-    display: flex;
-    margin-bottom: 20px;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .dashboard-markIcon {
-      position: absolute;
-      left: 37%;
-      top: -25px;
-      height: 50px;
-      width: 50px;
-      border: 3px solid #804bf233;
-      background-color: white;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #804bf233;
-      font-size: 30px;
-    }
-
-    h5 {
-      font-family: "Montserrat", sans-serif;
-      font-weight: 700;
-      font-size: 11.5px;
-      text-align: center;
-    }
-
-    p {
-      font-family: "Montserrat", sans-serif;
-      font-weight: 400;
-      text-align: center;
-      font-size: 11.5px;
-      line-height: 15px;
-    }
-
-    button {
-      width: 111px;
-      height: 30.7px;
-      border-radius: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: "Montserrat", sans-serif;
-      font-weight: 500;
-      font-size: 11.5px;
-      outline: none;
-      border: none;
-      background-color: #804bf299;
-      color: white;
-      cursor: pointer;
-    }
-  }
-
-  @media screen and (max-width: 1024px) {
-    position: sticky;
-    top: 0;
-    .dashboard-navBar {
-      font-size: 16px;
-    }
-  }
-
-  @media screen and (max-width: 850px) {
-    display: none;
   }
 }
 
@@ -287,154 +552,7 @@
 
   .dashboard-rightHolder {
     width: 100%;
-    /* max-height: 85dvh; */
-    /* overflow-y: scroll; */
-    background-color: #804bf233;
-  }
-}
-
-.dashboard-leftDropdown {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
-  top: 0;
-  z-index: 10;
-  width: 100%;
-  left: 0;
-  height: 100dvh;
-  overflow: hidden;
-
-  .dashboard-leftDropdownHolder {
-    padding-top: 10px;
-    width: 253px;
-    padding-bottom: 10px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    animation-name: slideInLeft;
-    animation-duration: 1s;
-  }
-
-  .dashboard-leftDropdown-navbarHolder {
-    height: fit-content;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .dashboard-leftDropdown-leftImg {
-    height: 96px;
-    width: 138.5px;
-    margin-bottom: 20px;
-
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .dashboard-leftDropdown-navBar {
-    width: 95%;
-    height: 45px;
-    padding-inline: 20px;
-    display: flex;
-    gap: 6px;
-    background-color: #804bf233;
-    align-items: center;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 400;
-    font-size: 21px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    color: black;
-    text-decoration: none;
-
-    nav {
-      height: 35px;
-      width: 35px;
-
-      img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-
-  .dashboard-leftDropdown-subscription {
-    width: 172.2px;
-    height: 145.4px;
-    border-radius: 15.3px;
-    margin-top: 20px;
-    background-color: #804bf233;
-    position: relative;
-    padding: 28px;
-    padding-top: 27px;
-    display: flex;
-    margin-bottom: 20px;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .dashboard-leftDropdown-markIcon {
-      position: absolute;
-      left: 37%;
-      top: -25px;
-      height: 50px;
-      width: 50px;
-      border: 3px solid #804bf233;
-      background-color: white;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #804bf233;
-      font-size: 30px;
-    }
-
-    h5 {
-      font-family: "Montserrat", sans-serif;
-      font-weight: 700;
-      font-size: 11.5px;
-      text-align: center;
-    }
-
-    p {
-      font-family: "Montserrat", sans-serif;
-      font-weight: 400;
-      text-align: center;
-      font-size: 11.5px;
-      line-height: 15px;
-    }
-
-    button {
-      width: 111px;
-      height: 30.7px;
-      border-radius: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: "Montserrat", sans-serif;
-      font-weight: 500;
-      font-size: 11.5px;
-      outline: none;
-      border: none;
-      background-color: #804bf299;
-      color: white;
-      cursor: pointer;
-    }
-  }
-}
-
-@keyframes slideInLeft {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0%);
+    background-color: #f8f7ff;
   }
 }
 
@@ -447,13 +565,13 @@
 
 .icon-bg {
   fill: white;
-  stroke: #f2ae30; /* Gold */
+  stroke: #f2ae30;
   stroke-width: 3;
   transition: all 0.3s ease;
 }
 
 .line {
-  stroke: #f2ae30; /* Gold */
+  stroke: #f2ae30;
   stroke-width: 4;
   stroke-linecap: round;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

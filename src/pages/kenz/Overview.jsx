@@ -14,6 +14,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
 import { PlusIcon } from "../../assets/public/svg/common";
+import { FiTrendingUp, FiClock, FiAward } from "react-icons/fi";
 
 const Overview = () => {
   const user = useSelector((state) => state.user);
@@ -97,244 +98,219 @@ const Overview = () => {
       {showSubjectSelected ? (
         <SubjectSelected />
       ) : (
-        <div className="overview">
-          <div className="overview-firstLayer">
-            <div className="overview-firstLayerLeft">
-              <div className="overview-firstLayerLeftUP">
-                <main>
-                  <nav>
-                    <h5>
-                      <span style={{ color: "#F2AE30" }}>Hello,</span>{" "}
-                      {user?.fullName
-                        ?.split(" ")
-                        .filter((_, index) => index <= 1)
-                        .join(" ")}
-                    </h5>
-                    <p>
-                      Welcome to Examible — your ultimate companion for JAMB
-                      success. Let’s help you score 300+ and unlock your dream
-                      university!
-                    </p>
-                  </nav>
-                  <article></article>
-                  <section></section>
-                </main>
-                <img src={image1} alt="" />
+        <div className="overview-premium">
+          {/* Welcome Section */}
+          <section className="welcome-section">
+            <div className="welcome-content">
+              <div className="welcome-text">
+                <h1>Welcome back, {user?.fullName?.split(" ")[0]}</h1>
+                <p>You&apos;re making great progress towards your goals</p>
               </div>
-              <div className="overview-firstLayerMiddle">
-                <h5>My Performance Level</h5>
-                <main>
-                  <div>
-                    <FaBook color="#804BF2" fontSize={35} />
-                  </div>
-                  <nav>
-                    <h6>{user?.enrolledSubjects?.length}</h6>
-                    <p>Subject Selected</p>
-                  </nav>
-                </main>
-                <main style={{ backgroundColor: "#F2AE30" }}>
-                  <div style={{ backgroundColor: "black" }}>
-                    <PiExamFill color="white" fontSize={35} />
-                  </div>
-                  <nav>
-                    <h6>{user?.plan === "Freemium" ? "10" : "30"}</h6>
-                    <p>Minutes Mock Exam</p>
-                  </nav>
-                </main>
-                <main style={{ backgroundColor: "#804BF2" }}>
-                  <div style={{ backgroundColor: "white" }}>
-                    <FaBook color="#F2AE30" fontSize={35} />
-                  </div>
-                  <nav style={{ color: "white" }}>
-                    <h6>{user?.plan === "Freemium" ? "4" : "All"}</h6>
-                    <p>Years Pass Questions</p>
-                  </nav>
-                </main>
+              <img src={image1} alt="Welcome illustration" className="welcome-image" />
+            </div>
+          </section>
+
+          {/* Key Metrics Section */}
+          <section className="metrics-section">
+            <h2 className="section-title">Your Progress</h2>
+            <div className="metrics-grid">
+              <div className="metric-card">
+                <div className="metric-icon subjects">
+                  <FaBook />
+                </div>
+                <div className="metric-content">
+                  <h3>{user?.enrolledSubjects?.length}</h3>
+                  <p>Subjects</p>
+                </div>
               </div>
-              <div className="overview-firstLayerLeftDown">
-                <h4>Subject Selected</h4>
-                <main>
-                  {user?.enrolledSubjects?.map((item, index) => (
-                    <nav
-                      onMouseEnter={() => onMouseEnterToShowBin(index)}
-                      onMouseLeave={() => setShowBin("")}
-                      key={index}
-                    >
-                      {typeof subjectMap[item] === "function" ? (
-                        React.createElement(subjectMap[item])
-                      ) : (
-                        <img
-                          src={subjectMap[item]}
-                          alt={item}
-                          loading="eager"
-                          width={48}
-                          height={48}
-                        />
-                      )}
-                      <TbTrashX
-                        style={{
-                          pointerEvents: loading ? "none" : "auto",
-                          display: showBin === index ? "flex" : "none",
-                        }}
-                        className="overview-trashIcon"
-                        onClick={(e) => {
-                          (e.stopPropagation(), removeSubject(item));
-                        }}
+
+              <div className="metric-card">
+                <div className="metric-icon exams">
+                  <PiExamFill />
+                </div>
+                <div className="metric-content">
+                  <h3>{user?.plan === "Freemium" ? "10" : "Unlimited"}</h3>
+                  <p>Mock Exams</p>
+                </div>
+              </div>
+
+              <div className="metric-card">
+                <div className="metric-icon questions">
+                  <FiTrendingUp />
+                </div>
+                <div className="metric-content">
+                  <h3>{user?.plan === "Freemium" ? "4" : "All"}</h3>
+                  <p>Past Years</p>
+                </div>
+              </div>
+
+              <div className="metric-card">
+                <div className="metric-icon rating">
+                  <FiAward />
+                </div>
+                <div className="metric-content">
+                  <h3>{user?.totalRating?.toFixed(1) || "0"}%</h3>
+                  <p>Rating</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Subjects Section */}
+          <section className="subjects-section">
+            <h2 className="section-title">Your Subjects</h2>
+            <div className="subjects-grid">
+              {user?.enrolledSubjects?.map((item, index) => (
+                <div
+                  key={index}
+                  className="subject-card"
+                  onMouseEnter={() => onMouseEnterToShowBin(index)}
+                  onMouseLeave={() => setShowBin("")}
+                >
+                  <div className="subject-icon">
+                    {typeof subjectMap[item] === "function" ? (
+                      React.createElement(subjectMap[item])
+                    ) : (
+                      <img
+                        src={subjectMap[item]}
+                        alt={item}
+                        loading="eager"
+                        width={48}
+                        height={48}
                       />
-                    </nav>
-                  ))}
-                  <nav
-                    style={{
-                      pointerEvents: loading ? "none" : "auto",
-                      cursor: "pointer",
+                    )}
+                  </div>
+                  <p>{item}</p>
+                  {showBin === index && (
+                    <button
+                      className="remove-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeSubject(item);
+                      }}
+                      disabled={loading}
+                    >
+                      <TbTrashX size={20} />
+                    </button>
+                  )}
+                </div>
+              ))}
+
+              {user?.enrolledSubjects?.length < (user?.plan === "Freemium" ? 4 : 10) && (
+                <button
+                  className="subject-card add-subject-btn"
+                  onClick={() => addMoreSubject()}
+                  disabled={loading}
+                >
+                  <div className="add-icon">
+                    <PlusIcon />
+                  </div>
+                  <p>Add Subject</p>
+                </button>
+              )}
+            </div>
+          </section>
+
+          {/* Performance Rating Section */}
+          <section className="rating-section">
+            <h2 className="section-title">Performance Overview</h2>
+            <div className="rating-container">
+              <div className="rating-card current-rating">
+                <h3>Current Rating</h3>
+                <div className="rating-circle">
+                  <CircularProgressbar
+                    value={user?.totalRating || 0}
+                    text={`${user?.totalRating?.toFixed(1) || 0}%`}
+                    styles={{
+                      path: {
+                        stroke: "url(#gradient)",
+                        strokeLinecap: "round",
+                        transition: "stroke-dashoffset 0.5s ease 0s",
+                        transformOrigin: "50% 50%",
+                      },
+                      trail: {
+                        stroke: "rgba(128, 75, 242, 0.1)",
+                        strokeLinecap: "round",
+                      },
+                      text: {
+                        fontWeight: 700,
+                        fontSize: 24,
+                        fill: "#804bf2",
+                        fontFamily: '"Montserrat", sans-serif',
+                      },
                     }}
-                    onClick={() => addMoreSubject()}
-                  >
-                    <aside>
-                      <div className="plus-icon">
-                        <PlusIcon />
-                      </div>
-                      <h6>
-                        Click to <br /> Add Subject
-                      </h6>
-                    </aside>
-                  </nav>
-                </main>
+                  />
+                  <svg width="0" height="0">
+                    <defs>
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#804bf2" />
+                        <stop offset="100%" stopColor="#f2ae30" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
               </div>
-            </div>
-            <div className="overview-firstLayerRight">
-              <h5>My Performance Level</h5>
-              <main>
-                <div>
-                  <FaBook color="#804BF2" fontSize={35} />
-                </div>
-                <nav>
-                  <h6>{user?.enrolledSubjects?.length}</h6>
-                  <p>Subject Selected</p>
-                </nav>
-              </main>
-              <main style={{ backgroundColor: "#F2AE30" }}>
-                <div style={{ backgroundColor: "black" }}>
-                  <PiExamFill color="white" fontSize={35} />
-                </div>
-                <nav>
-                  <h6>{user?.plan === "Freemium" ? "10" : "30"}</h6>
-                  <p>Minutes Mock Exam</p>
-                </nav>
-              </main>
-              <main style={{ backgroundColor: "#804BF2" }}>
-                <div style={{ backgroundColor: "white" }}>
-                  <FaBook color="#F2AE30" fontSize={35} />
-                </div>
-                <nav style={{ color: "white" }}>
-                  <h6>{user?.plan === "Freemium" ? "4" : "All"}</h6>
-                  <p>Years Pass Questions</p>
-                </nav>
-              </main>
-            </div>
-          </div>
-          <h1>My Rating</h1>
-          <div className="overview-secondLayer">
-            <div className="overview-secondLayerLeft">
-              <header>
-                <p>Current Rating</p>
-                <aside>
-                  <h5>100</h5>
-                  <h6>Percent</h6>
-                </aside>
-              </header>
-              <footer>
-                <nav></nav>
-                <CircularProgressbar
-                  value={user?.totalRating}
-                  text={`${user?.totalRating?.toFixed(1) || 0}%`}
-                  styles={{
-                    path: {
-                      stroke: "#804bf2",
-                    },
-                    trail: {
-                      stroke: "#804BF233",
-                    },
-                    text: {
-                      fontWeight: 800,
-                      fontSize: 17,
-                      fill: "#000000",
-                      fontFamily: '"Montserrat", sans-serif',
-                    },
-                  }}
-                />
-              </footer>
-            </div>
-            <div className="overview-secondLayerRight">
-              <div className="overview-secondLayerRightHolder">
-                <ul>
-                  <li style={{ justifyContent: "left" }}>Subject</li>
-                  <li>Performance</li>
-                  <li>Duration</li>
-                  <li>Completed</li>
-                </ul>
+
+              <div className="performance-table">
+                <h3>Subject Performance</h3>
                 {user?.myRating?.length <= 0 || !user?.myRating ? (
-                  <p className="overview-noPerformance">No Performance yet</p>
+                  <p className="no-data">No performance data yet. Take your first mock exam!</p>
                 ) : (
-                  <>
-                    {user?.myRating?.map((item, index) => (
-                      <ol key={index}>
-                        <li style={{ justifyContent: "left" }}>
-                          {item?.subject}
-                        </li>
-                        <li>{item?.performance?.toFixed(2)} %</li>
-                        <li>
-                          {`${Math.floor(item?.duration / 60)} `}{" "}
-                          <em style={{ marginInline: "5px" }}> mins </em>
-                          {` ${item?.duration % 60} `}{" "}
-                          <em style={{ marginLeft: "5px" }}> secs</em>
-                        </li>
-                        <li>{item?.completed}</li>
-                      </ol>
-                    ))}
-                  </>
+                  <div className="table-wrapper">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Subject</th>
+                          <th>Score</th>
+                          <th>Duration</th>
+                          <th>Completed</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {user?.myRating?.slice(0, 5).map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.subject}</td>
+                            <td className="score">{item?.performance?.toFixed(1)}%</td>
+                            <td>
+                              {Math.floor(item?.duration / 60)}m {item?.duration % 60}s
+                            </td>
+                            <td className="completed">{item?.completed}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
             </div>
-          </div>
-          <div className="overview-thirdLayer">
-            <div className="overview-thirdLayerHolder">
-              <h6>How to Improve on your academic performance.</h6>
-              <ol>
-                <li>
-                  Set Clear Goals – Know what grades you’re aiming for and
-                  create a plan to reach them.
-                </li>
-                <li>
-                  Manage Your Time – Use a study schedule to balance school,
-                  revision, and rest.
-                </li>
-                <li>
-                  Stay Consistent – Study regularly, not just before exams.
-                </li>
-                <li>
-                  Practice with Past Questions – Especially for JAMB, this helps
-                  you understand the pattern.
-                </li>
-                <li>
-                  Take Mock Tests – Simulate real exam conditions to build
-                  confidence.
-                </li>
-                <li>
-                  Ask for Help – Don’t hesitate to ask teachers or peers if
-                  you’re stuck.
-                </li>
-                <li>
-                  Stay Healthy – Eat well, sleep enough, and take short breaks
-                  to stay sharp.
-                </li>
-                <li>
-                  Avoid Distractions – Stay focused during study time—put your
-                  phone away if needed.
-                </li>
-              </ol>
+          </section>
+
+          {/* Study Tips Section */}
+          <section className="tips-section">
+            <h2 className="section-title">Tips for Success</h2>
+            <div className="tips-grid">
+              <div className="tip-card">
+                <span className="tip-number">1</span>
+                <h4>Set Clear Goals</h4>
+                <p>Know what grades you&apos;re aiming for and create a plan to reach them</p>
+              </div>
+              <div className="tip-card">
+                <span className="tip-number">2</span>
+                <h4>Practice Consistently</h4>
+                <p>Use mock exams to practice and get comfortable with the exam format</p>
+              </div>
+              <div className="tip-card">
+                <span className="tip-number">3</span>
+                <h4>Review Past Questions</h4>
+                <p>Study previous years&apos; questions to understand patterns and common topics</p>
+              </div>
+              <div className="tip-card">
+                <span className="tip-number">4</span>
+                <h4>Manage Your Time</h4>
+                <p>Create a study schedule and stick to it for consistent progress</p>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
       )}
     </>

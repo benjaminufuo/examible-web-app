@@ -1,123 +1,190 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardNavBar from "../assets/dashboardNavBar.json";
 import dashboardIcon from "../assets/public/logo.png";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdTrendingUp } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
-import img2 from "../assets/public/pastquestion.svg";
-import img1 from "../assets/public/profile.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineLogout } from "react-icons/ai";
+import { FiBook, FiBrain, FiTarget, FiUser } from "react-icons/fi";
 import { SiMoneygram } from "react-icons/si";
 import { GrStatusGood } from "react-icons/gr";
+import { AiOutlineLogout } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
 import "../styles/dashboardCss/dashboard.css";
 import { useExamibleContext } from "../context/ExamibleContext";
-import { toast } from "react-toastify";
 import { setMockExamQuestion } from "../global/slice";
-import Button from "../shared/Button";
 
 const Sidebar = () => {
-  const dashboardIcons = [
-    <MdDashboard color="#804BF266" fontSize={35} />,
-    <PiExamFill color="#804BF266" fontSize={35} />,
-    <nav>
-      <img src={img2} alt="" />
-    </nav>,
-    <nav>
-      <img src={img1} alt="" />
-    </nav>,
-  ];
-
   const location = useLocation();
   const { setIsLogout } = useExamibleContext();
-
   const dispatch = useDispatch();
-
   const nav = useNavigate();
-
   const user = useSelector((state) => state.user);
 
+  const getIconForItem = (iconName) => {
+    const iconProps = { size: 24, className: "sidebar-icon" };
+    const iconMap = {
+      dashboard: <MdDashboard {...iconProps} />,
+      study: <FiBook {...iconProps} />,
+      ai: <FiBrain {...iconProps} />,
+      exam: <PiExamFill size={24} className="sidebar-icon" />,
+      questions: <FiBook {...iconProps} />,
+      analytics: <MdTrendingUp {...iconProps} />,
+      readiness: <FiTarget {...iconProps} />,
+      profile: <FiUser {...iconProps} />,
+    };
+    return iconMap[iconName] || <MdDashboard {...iconProps} />;
+  };
+
+  const groupedNavItems = {
+    main: [],
+    learning: [],
+    practice: [],
+    insights: [],
+    account: [],
+  };
+
+  dashboardNavBar.forEach((item) => {
+    if (groupedNavItems[item.category]) {
+      groupedNavItems[item.category].push(item);
+    }
+  });
+
   return (
-    <div className="dashboard-left">
-      <div className="dashboard-leftNavbarHolder">
-        <div className="dashboard-leftImg">
+    <div className="sidebar-premium">
+      <div className="sidebar-content">
+        <div className="sidebar-logo">
           <img
             src={dashboardIcon}
-            alt=""
+            alt="Examible"
             onClick={() => nav("/overview")}
-            style={{ cursor: "pointer" }}
+            className="logo-img"
           />
         </div>
-        {dashboardNavBar.map((item, index) => (
-          <Link
-            to={item.link}
-            className={`dashboard-navBar ${
-              location.pathname.startsWith(item.link) ? "navbar-active" : ""
-            }`}
-            key={item.id}
-            onClick={() => dispatch(setMockExamQuestion([]))}
-          >
-            {dashboardIcons[index]}
-            {item.name}
-          </Link>
-        ))}
-        <>
-          {user?.plan === "Freemium" ? (
-            <>
-              {location.pathname.startsWith("/subscription") ? (
-                <Link
-                  to="/subscription"
-                  className="dashboard-navBar"
-                  style={{
-                    backgroundColor: location.pathname.startsWith(
-                      "/subscription",
-                    )
-                      ? "#804BF233"
-                      : "white",
-                  }}
-                >
-                  <SiMoneygram color="#804BF266" fontSize={35} />
-                  Subscription
-                </Link>
-              ) : (
-                <div className="dashboard-subscription">
-                  <div className="dashboard-markIcon">
-                    <GrStatusGood />
-                  </div>
-                  <h5>Unlimited Access</h5>
-                  <p>Explore more with a lifetime members</p>
-                  <button
-                    onClick={() => {
-                      nav("/subscription");
-                    }}
-                  >
-                    Subscribe Now
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
+
+        <nav className="sidebar-nav">
+          {groupedNavItems.main.map((item) => (
             <Link
-              to="/subscription"
-              className="dashboard-navBar"
-              style={{
-                backgroundColor: location.pathname.startsWith("/subscription")
-                  ? "#804BF233"
-                  : "white",
-              }}
+              key={item.id}
+              to={item.link}
+              className={`sidebar-nav-item ${
+                location.pathname.startsWith(item.link) ? "active" : ""
+              }`}
+              onClick={() => dispatch(setMockExamQuestion([]))}
             >
-              <SiMoneygram color="#804BF266" fontSize={35} />
-              Subscription
+              <span className="nav-icon">{getIconForItem(item.icon)}</span>
+              <span className="nav-label">{item.name}</span>
             </Link>
+          ))}
+
+          {groupedNavItems.learning.length > 0 && (
+            <div className="sidebar-section">
+              <h4 className="section-title">Learning</h4>
+              {groupedNavItems.learning.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.link}
+                  className={`sidebar-nav-item ${
+                    location.pathname.startsWith(item.link) ? "active" : ""
+                  }`}
+                  onClick={() => dispatch(setMockExamQuestion([]))}
+                >
+                  <span className="nav-icon">{getIconForItem(item.icon)}</span>
+                  <span className="nav-label">{item.name}</span>
+                </Link>
+              ))}
+            </div>
           )}
-        </>
+
+          {groupedNavItems.practice.length > 0 && (
+            <div className="sidebar-section">
+              <h4 className="section-title">Practice</h4>
+              {groupedNavItems.practice.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.link}
+                  className={`sidebar-nav-item ${
+                    location.pathname.startsWith(item.link) ? "active" : ""
+                  }`}
+                  onClick={() => dispatch(setMockExamQuestion([]))}
+                >
+                  <span className="nav-icon">{getIconForItem(item.icon)}</span>
+                  <span className="nav-label">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {groupedNavItems.insights.length > 0 && (
+            <div className="sidebar-section">
+              <h4 className="section-title">Insights</h4>
+              {groupedNavItems.insights.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.link}
+                  className={`sidebar-nav-item ${
+                    location.pathname.startsWith(item.link) ? "active" : ""
+                  }`}
+                  onClick={() => dispatch(setMockExamQuestion([]))}
+                >
+                  <span className="nav-icon">{getIconForItem(item.icon)}</span>
+                  <span className="nav-label">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {groupedNavItems.account.length > 0 && (
+            <div className="sidebar-section">
+              <h4 className="section-title">Account</h4>
+              {groupedNavItems.account.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.link}
+                  className={`sidebar-nav-item ${
+                    location.pathname.startsWith(item.link) ? "active" : ""
+                  }`}
+                  onClick={() => dispatch(setMockExamQuestion([]))}
+                >
+                  <span className="nav-icon">{getIconForItem(item.icon)}</span>
+                  <span className="nav-label">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </nav>
+
+        {user?.plan === "Freemium" && !location.pathname.startsWith("/subscription") && (
+          <div className="sidebar-premium-card">
+            <div className="premium-icon">
+              <GrStatusGood />
+            </div>
+            <h5>Premium Access</h5>
+            <p>Unlock all features</p>
+            <button onClick={() => nav("/subscription")}>
+              Upgrade Now
+            </button>
+          </div>
+        )}
       </div>
-      <div
-        className="dashboard-navBar"
-        style={{ backgroundColor: "white" }}
-        onClick={() => setIsLogout(true)}
-      >
-        <AiOutlineLogout fontSize={35} color="red" />
-        Logout
+
+      <div className="sidebar-footer">
+        {user?.plan !== "Freemium" && (
+          <Link
+            to="/subscription"
+            className={`sidebar-nav-item ${
+              location.pathname.startsWith("/subscription") ? "active" : ""
+            }`}
+          >
+            <SiMoneygram size={24} className="sidebar-icon" />
+            <span className="nav-label">Subscription</span>
+          </Link>
+        )}
+        <div
+          className="sidebar-nav-item logout-btn"
+          onClick={() => setIsLogout(true)}
+        >
+          <AiOutlineLogout size={24} className="sidebar-icon logout-icon" />
+          <span className="nav-label">Logout</span>
+        </div>
       </div>
     </div>
   );

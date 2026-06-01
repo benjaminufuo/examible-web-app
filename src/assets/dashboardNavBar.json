@@ -1,22 +1,58 @@
 [
   {
-    "name": "Overview",
+    "name": "Dashboard",
     "link": "/overview",
-    "id": 1
+    "id": 1,
+    "icon": "dashboard",
+    "category": "main"
   },
   {
-    "name": "Mock Exam",
+    "name": "Study Plan",
+    "link": "/study-plan",
+    "id": 2,
+    "icon": "study",
+    "category": "learning"
+  },
+  {
+    "name": "AI Study Coach",
+    "link": "/ai-coach",
+    "id": 3,
+    "icon": "ai",
+    "category": "learning"
+  },
+  {
+    "name": "Mock Exams",
     "link": "/mock-exam",
-    "id": 2
+    "id": 4,
+    "icon": "exam",
+    "category": "practice"
   },
   {
-    "name": "Past Question",
+    "name": "Past Questions",
     "link": "/past-questions",
-    "id": 3
+    "id": 5,
+    "icon": "questions",
+    "category": "practice"
+  },
+  {
+    "name": "Performance",
+    "link": "/performance",
+    "id": 6,
+    "icon": "analytics",
+    "category": "insights"
+  },
+  {
+    "name": "Exam Readiness",
+    "link": "/exam-readiness",
+    "id": 7,
+    "icon": "readiness",
+    "category": "insights"
   },
   {
     "name": "Profile",
     "link": "/profile",
-    "id": 4
+    "id": 8,
+    "icon": "profile",
+    "category": "account"
   }
 ]

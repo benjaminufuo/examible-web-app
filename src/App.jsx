@@ -29,6 +29,10 @@ const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
 const ResultPage = safeLazy(() => import("./pages/jacob/ResultPage"));
 const Plans = safeLazy(() => import("./pages/jacob/Plans"));
 const MainHolder = safeLazy(() => import("./routes/MainHolder"));
+const StudyPlan = safeLazy(() => import("./pages/kenz/StudyPlan"));
+const AIStudyCoach = safeLazy(() => import("./pages/kenz/AIStudyCoach"));
+const PerformanceCenter = safeLazy(() => import("./pages/kenz/PerformanceCenter"));
+const ExamReadiness = safeLazy(() => import("./pages/kenz/ExamReadiness"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
 import PrivateRoute from "./routes/PrivateRoute";
@@ -138,6 +142,38 @@ const routes = createBrowserRouter([
               {
                 path: "/profile",
                 element: <Profile />,
+              },
+              {
+                path: "/study-plan",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <StudyPlan />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "/ai-coach",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <AIStudyCoach />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "/performance",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <PerformanceCenter />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "/exam-readiness",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <ExamReadiness />
+                  </Suspense>
+                ),
               },
               {
                 path: "/subscription",
