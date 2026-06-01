@@ -18,6 +18,10 @@ const routePrefetches = {
   "/subscription/make-payment": () => import("../pages/jacob/MakePayment"),
   "/about-us": () => import("../pages/jacob/AboutUs"),
   "/plans": () => import("../pages/jacob/Plans"),
+  "/study-plan": () => import("../pages/kenz/StudyPlan"),
+  "/ai-coach": () => import("../pages/kenz/AIStudyCoach"),
+  "/performance": () => import("../pages/kenz/PerformanceCenter"),
+  "/exam-readiness": () => import("../pages/kenz/ExamReadiness"),
 };
 
 /**
@@ -52,6 +56,10 @@ export function prefetchCommonRoutes() {
     "/past-questions",
     "/past-questions/view",
     "/profile",
+    "/study-plan",
+    "/ai-coach",
+    "/performance",
+    "/exam-readiness",
   ]);
 }
 
