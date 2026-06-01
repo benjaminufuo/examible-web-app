@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "../../styles/dashboardCss/profile.css";
+import "../../styles/dashboardCss/profile-premium.css";
+import "../../styles/dashboardCss/dashboard-components.css";
 import { TbEdit } from "react-icons/tb";
 import { LuUserRound } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +11,8 @@ import { setUser } from "../../global/slice";
 import { useLocation } from "react-router-dom";
 import { LiaSave } from "react-icons/lia";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import StatCard from "../../components/dashboard/StatCard";
+import AchievementBadge from "../../components/dashboard/AchievementBadge";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/dashboardCss/overview.css";
+import "../../styles/dashboardCss/dashboard-components.css";
 import image1 from "../../assets/public/home-firstlayer.webp";
 import { FaBook } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
@@ -14,6 +15,10 @@ import "react-circular-progressbar/dist/styles.css";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
 import { PlusIcon } from "../../assets/public/svg/common";
+import DashboardHeader from "../../components/dashboard/DashboardHeader";
+import StatCard from "../../components/dashboard/StatCard";
+import ProgressChart from "../../components/dashboard/ProgressChart";
+import AchievementBadge from "../../components/dashboard/AchievementBadge";
 
 const Overview = () => {
   const user = useSelector((state) => state.user);
@@ -97,242 +102,214 @@ const Overview = () => {
       {showSubjectSelected ? (
         <SubjectSelected />
       ) : (
-        <div className="overview">
-          <div className="overview-firstLayer">
-            <div className="overview-firstLayerLeft">
-              <div className="overview-firstLayerLeftUP">
-                <main>
-                  <nav>
-                    <h5>
-                      <span style={{ color: "#F2AE30" }}>Hello,</span>{" "}
-                      {user?.fullName
-                        ?.split(" ")
-                        .filter((_, index) => index <= 1)
-                        .join(" ")}
-                    </h5>
-                    <p>
-                      Welcome to Examible — your ultimate companion for JAMB
-                      success. Let’s help you score 300+ and unlock your dream
-                      university!
-                    </p>
-                  </nav>
-                  <article></article>
-                  <section></section>
-                </main>
-                <img src={image1} alt="" />
-              </div>
-              <div className="overview-firstLayerMiddle">
-                <h5>My Performance Level</h5>
-                <main>
-                  <div>
-                    <FaBook color="#804BF2" fontSize={35} />
-                  </div>
-                  <nav>
-                    <h6>{user?.enrolledSubjects?.length}</h6>
-                    <p>Subject Selected</p>
-                  </nav>
-                </main>
-                <main style={{ backgroundColor: "#F2AE30" }}>
-                  <div style={{ backgroundColor: "black" }}>
-                    <PiExamFill color="white" fontSize={35} />
-                  </div>
-                  <nav>
-                    <h6>{user?.plan === "Freemium" ? "10" : "30"}</h6>
-                    <p>Minutes Mock Exam</p>
-                  </nav>
-                </main>
-                <main style={{ backgroundColor: "#804BF2" }}>
-                  <div style={{ backgroundColor: "white" }}>
-                    <FaBook color="#F2AE30" fontSize={35} />
-                  </div>
-                  <nav style={{ color: "white" }}>
-                    <h6>{user?.plan === "Freemium" ? "4" : "All"}</h6>
-                    <p>Years Pass Questions</p>
-                  </nav>
-                </main>
-              </div>
-              <div className="overview-firstLayerLeftDown">
-                <h4>Subject Selected</h4>
-                <main>
-                  {user?.enrolledSubjects?.map((item, index) => (
-                    <nav
-                      onMouseEnter={() => onMouseEnterToShowBin(index)}
-                      onMouseLeave={() => setShowBin("")}
-                      key={index}
-                    >
-                      {typeof subjectMap[item] === "function" ? (
-                        React.createElement(subjectMap[item])
-                      ) : (
-                        <img
-                          src={subjectMap[item]}
-                          alt={item}
-                          loading="eager"
-                          width={48}
-                          height={48}
-                        />
-                      )}
-                      <TbTrashX
-                        style={{
-                          pointerEvents: loading ? "none" : "auto",
-                          display: showBin === index ? "flex" : "none",
-                        }}
-                        className="overview-trashIcon"
-                        onClick={(e) => {
-                          (e.stopPropagation(), removeSubject(item));
-                        }}
-                      />
-                    </nav>
-                  ))}
-                  <nav
-                    style={{
-                      pointerEvents: loading ? "none" : "auto",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => addMoreSubject()}
-                  >
-                    <aside>
-                      <div className="plus-icon">
-                        <PlusIcon />
-                      </div>
-                      <h6>
-                        Click to <br /> Add Subject
-                      </h6>
-                    </aside>
-                  </nav>
-                </main>
-              </div>
-            </div>
-            <div className="overview-firstLayerRight">
-              <h5>My Performance Level</h5>
-              <main>
-                <div>
-                  <FaBook color="#804BF2" fontSize={35} />
-                </div>
-                <nav>
-                  <h6>{user?.enrolledSubjects?.length}</h6>
-                  <p>Subject Selected</p>
-                </nav>
-              </main>
-              <main style={{ backgroundColor: "#F2AE30" }}>
-                <div style={{ backgroundColor: "black" }}>
-                  <PiExamFill color="white" fontSize={35} />
-                </div>
-                <nav>
-                  <h6>{user?.plan === "Freemium" ? "10" : "30"}</h6>
-                  <p>Minutes Mock Exam</p>
-                </nav>
-              </main>
-              <main style={{ backgroundColor: "#804BF2" }}>
-                <div style={{ backgroundColor: "white" }}>
-                  <FaBook color="#F2AE30" fontSize={35} />
-                </div>
-                <nav style={{ color: "white" }}>
-                  <h6>{user?.plan === "Freemium" ? "4" : "All"}</h6>
-                  <p>Years Pass Questions</p>
-                </nav>
-              </main>
+        <div className="overview" style={{ padding: "32px" }}>
+          <DashboardHeader
+            userName={user?.fullName?.split(" ")[0]}
+            subtitle="Welcome to Examible — your ultimate companion for JAMB success. Let's help you score 300+ and unlock your dream university!"
+            image={image1}
+            stats={[
+              {
+                value: user?.enrolledSubjects?.length,
+                label: "Subjects Selected",
+              },
+              { value: user?.plan === "Freemium" ? "10" : "30", label: "Mock Time (mins)" },
+            ]}
+          />
+
+          {/* Performance Stats Grid */}
+          <div style={{ marginBottom: "32px" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Learning Overview</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
+              <StatCard
+                icon="📚"
+                label="Subject Selected"
+                value={user?.enrolledSubjects?.length}
+                footer={`Out of ${allSubjectsData.length} available`}
+              />
+              <StatCard
+                icon="⏱️"
+                label="Mock Exam Duration"
+                value={user?.plan === "Freemium" ? "10" : "30"}
+                footer="minutes per session"
+                variant="gold"
+              />
+              <StatCard
+                icon="📖"
+                label="Past Questions Access"
+                value={user?.plan === "Freemium" ? "4" : "All"}
+                footer={`${user?.plan === "Freemium" ? "Limited" : "Unlimited"} years`}
+                variant="accent"
+              />
+              <StatCard
+                icon="⭐"
+                label="Current Rating"
+                value={`${user?.totalRating?.toFixed(1) || 0}%`}
+                footer="Overall Performance"
+              />
             </div>
           </div>
-          <h1>My Rating</h1>
-          <div className="overview-secondLayer">
-            <div className="overview-secondLayerLeft">
-              <header>
-                <p>Current Rating</p>
-                <aside>
-                  <h5>100</h5>
-                  <h6>Percent</h6>
-                </aside>
-              </header>
-              <footer>
-                <nav></nav>
+
+          {/* Subject Selection */}
+          <div style={{ marginBottom: "32px" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Your Subjects</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))", gap: "12px" }}>
+              {user?.enrolledSubjects?.map((item, index) => (
+                <div
+                  key={index}
+                  onMouseEnter={() => onMouseEnterToShowBin(index)}
+                  onMouseLeave={() => setShowBin("")}
+                  style={{
+                    position: "relative",
+                    padding: "16px",
+                    backgroundColor: "rgba(128, 75, 242, 0.08)",
+                    border: "1px solid rgba(128, 75, 242, 0.1)",
+                    borderRadius: "12px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                  }}
+                  onMouseEnterStyle={{
+                    backgroundColor: "rgba(128, 75, 242, 0.12)",
+                    borderColor: "rgba(128, 75, 242, 0.25)",
+                  }}
+                >
+                  {typeof subjectMap[item] === "function" ? (
+                    React.createElement(subjectMap[item])
+                  ) : (
+                    <img
+                      src={subjectMap[item]}
+                      alt={item}
+                      loading="eager"
+                      width={40}
+                      height={40}
+                      style={{ borderRadius: "8px" }}
+                    />
+                  )}
+                  <span style={{ fontSize: "11px", fontWeight: "500", color: "#4a4a4a", textAlign: "center" }}>{item}</span>
+                  {showBin === index && (
+                    <TbTrashX
+                      style={{
+                        position: "absolute",
+                        top: "4px",
+                        right: "4px",
+                        pointerEvents: loading ? "none" : "auto",
+                        cursor: "pointer",
+                        color: "#ff4757",
+                        transition: "all 0.2s ease",
+                      }}
+                      fontSize={16}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeSubject(item);
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
+              <div
+                style={{
+                  padding: "16px",
+                  backgroundColor: "rgba(128, 75, 242, 0.06)",
+                  border: "2px dashed rgba(128, 75, 242, 0.25)",
+                  borderRadius: "12px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+                onClick={() => addMoreSubject()}
+              >
+                <PlusIcon />
+                <span style={{ fontSize: "11px", fontWeight: "500", color: "#804bf2", textAlign: "center" }}>Add Subject</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Performance Section */}
+          <div style={{ marginBottom: "32px" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Performance Analysis</h2>
+            <div style={{ display: "grid", gridTemplateColumns: user?.myRating?.length > 0 ? "300px 1fr" : "1fr", gap: "24px" }}>
+              <ProgressChart title="Overall Rating">
                 <CircularProgressbar
                   value={user?.totalRating}
                   text={`${user?.totalRating?.toFixed(1) || 0}%`}
                   styles={{
                     path: {
                       stroke: "#804bf2",
+                      strokeWidth: 4,
                     },
                     trail: {
-                      stroke: "#804BF233",
+                      stroke: "#804BF211",
+                      strokeWidth: 4,
                     },
                     text: {
                       fontWeight: 800,
-                      fontSize: 17,
-                      fill: "#000000",
-                      fontFamily: '"Montserrat", sans-serif',
+                      fontSize: 20,
+                      fill: "#804bf2",
+                      fontFamily: '"Sora", sans-serif',
                     },
                   }}
                 />
-              </footer>
-            </div>
-            <div className="overview-secondLayerRight">
-              <div className="overview-secondLayerRightHolder">
-                <ul>
-                  <li style={{ justifyContent: "left" }}>Subject</li>
-                  <li>Performance</li>
-                  <li>Duration</li>
-                  <li>Completed</li>
-                </ul>
-                {user?.myRating?.length <= 0 || !user?.myRating ? (
-                  <p className="overview-noPerformance">No Performance yet</p>
-                ) : (
-                  <>
-                    {user?.myRating?.map((item, index) => (
-                      <ol key={index}>
-                        <li style={{ justifyContent: "left" }}>
-                          {item?.subject}
-                        </li>
-                        <li>{item?.performance?.toFixed(2)} %</li>
-                        <li>
-                          {`${Math.floor(item?.duration / 60)} `}{" "}
-                          <em style={{ marginInline: "5px" }}> mins </em>
-                          {` ${item?.duration % 60} `}{" "}
-                          <em style={{ marginLeft: "5px" }}> secs</em>
-                        </li>
-                        <li>{item?.completed}</li>
-                      </ol>
-                    ))}
-                  </>
-                )}
-              </div>
+              </ProgressChart>
+
+              {user?.myRating?.length > 0 ? (
+                <div style={{ borderRadius: "16px", overflow: "hidden" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead>
+                      <tr style={{ backgroundColor: "rgba(128, 75, 242, 0.05)", borderBottom: "1px solid rgba(128, 75, 242, 0.1)" }}>
+                        <th style={{ padding: "12px 16px", textAlign: "left", fontSize: "12px", fontWeight: "600", color: "#804bf2", textTransform: "uppercase" }}>Subject</th>
+                        <th style={{ padding: "12px 16px", textAlign: "center", fontSize: "12px", fontWeight: "600", color: "#804bf2", textTransform: "uppercase" }}>Performance</th>
+                        <th style={{ padding: "12px 16px", textAlign: "center", fontSize: "12px", fontWeight: "600", color: "#804bf2", textTransform: "uppercase" }}>Duration</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {user?.myRating?.map((item, index) => (
+                        <tr key={index} style={{ borderBottom: "1px solid rgba(128, 75, 242, 0.06)", transition: "all 0.2s ease" }}>
+                          <td style={{ padding: "12px 16px", fontSize: "14px", color: "#4a4a4a", fontWeight: "500" }}>{item?.subject}</td>
+                          <td style={{ padding: "12px 16px", textAlign: "center", fontSize: "14px", color: "#804bf2", fontWeight: "600" }}>{item?.performance?.toFixed(2)}%</td>
+                          <td style={{ padding: "12px 16px", textAlign: "center", fontSize: "14px", color: "#666" }}>
+                            {Math.floor(item?.duration / 60)}m {item?.duration % 60}s
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", backgroundColor: "rgba(128, 75, 242, 0.04)", borderRadius: "12px", border: "1px dashed rgba(128, 75, 242, 0.15)" }}>
+                  <p style={{ fontSize: "14px", color: "#999" }}>No performance data yet. Start a mock exam to see your progress!</p>
+                </div>
+              )}
             </div>
           </div>
-          <div className="overview-thirdLayer">
-            <div className="overview-thirdLayerHolder">
-              <h6>How to Improve on your academic performance.</h6>
-              <ol>
-                <li>
-                  Set Clear Goals – Know what grades you’re aiming for and
-                  create a plan to reach them.
-                </li>
-                <li>
-                  Manage Your Time – Use a study schedule to balance school,
-                  revision, and rest.
-                </li>
-                <li>
-                  Stay Consistent – Study regularly, not just before exams.
-                </li>
-                <li>
-                  Practice with Past Questions – Especially for JAMB, this helps
-                  you understand the pattern.
-                </li>
-                <li>
-                  Take Mock Tests – Simulate real exam conditions to build
-                  confidence.
-                </li>
-                <li>
-                  Ask for Help – Don’t hesitate to ask teachers or peers if
-                  you’re stuck.
-                </li>
-                <li>
-                  Stay Healthy – Eat well, sleep enough, and take short breaks
-                  to stay sharp.
-                </li>
-                <li>
-                  Avoid Distractions – Stay focused during study time—put your
-                  phone away if needed.
-                </li>
-              </ol>
+
+          {/* Tips Section */}
+          <div>
+            <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Study Tips</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
+              {[
+                { icon: "🎯", title: "Set Clear Goals", desc: "Know your target scores and create a realistic study plan." },
+                { icon: "⏰", title: "Manage Time", desc: "Balance study sessions with breaks and other activities." },
+                { icon: "📝", title: "Practice Regularly", desc: "Consistent practice with past questions is key to success." },
+                { icon: "🧠", title: "Stay Focused", desc: "Minimize distractions and maintain concentration during study." },
+                { icon: "💪", title: "Build Confidence", desc: "Take mock exams to simulate real test conditions." },
+                { icon: "🤝", title: "Ask for Help", desc: "Don't hesitate to reach out when you need clarification." },
+              ].map((tip, index) => (
+                <AchievementBadge
+                  key={index}
+                  icon={tip.icon}
+                  title={tip.title}
+                  description={tip.desc}
+                  isUnlocked={true}
+                />
+              ))}
             </div>
           </div>
         </div>
