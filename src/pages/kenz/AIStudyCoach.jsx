@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../styles/dashboardCss/ai-coach.css";
-import { FiMessageSquare, FiTrendingUp, FiAlertCircle, FiBrain } from "react-icons/fi";
+import { FiMessageSquare, FiTrendingUp, FiAlertCircle } from "react-icons/fi";
+import { BiLightbulb } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 const AIStudyCoach = () => {
@@ -39,7 +40,7 @@ const AIStudyCoach = () => {
           <p>Personalized guidance to optimize your learning</p>
         </div>
         <div className="header-icon">
-          <FiBrain size={40} />
+          <BiLightbulb size={40} />
         </div>
       </div>
 
