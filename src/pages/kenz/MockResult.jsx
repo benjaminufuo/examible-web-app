@@ -1,120 +1,138 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelExam, logoutTheUser } from "../../global/slice";
+import { cancelExam } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GrStatusGood } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
-import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { getAiResponse } from "../../config/Api";
-import { useExamibleContext } from "../../context/ExamibleContext";
-import Latex from "react-latex-next";
-import "katex/dist/katex.min.css";
 import Calculator from "../../components/Calculator";
 import Pagination from "../../shared/Pagination";
+import Latex from "react-latex-next";
+import "katex/dist/katex.min.css";
+import QuestionMeta from "../../components/QuestionMeta";
+import { LETTERS, deduplicateQuestionMeta } from "../../utils/questionUtils";
+import useAiExplanation from "../../utils/useAiExplanation";
+
+const ResultOptionItem = ({ option, letter, examEntry }) => {
+  if (!option) return null;
+  const prefix = `${letter}.`;
+  const text = option.startsWith(prefix) ? option : `${letter}. ${option}`;
+  const isSelected = examEntry?.option === letter;
+  return (
+    <li>
+      <p>
+        <Latex>{text}</Latex>
+      </p>
+      {isSelected && (
+        <nav style={{ display: "flex" }}>
+          {examEntry.score === 0 ? (
+            <GiCancel fontSize={25} color="red" />
+          ) : (
+            <GrStatusGood fontSize={25} color="green" />
+          )}
+        </nav>
+      )}
+    </li>
+  );
+};
+
+const ResultQuestionCard = ({
+  item,
+  newItem,
+  questionNumber,
+  examEntry,
+  loading,
+  itemIndex,
+  onViewExplanation,
+}) => (
+  <main>
+    <QuestionMeta item={item} newItem={newItem} />
+    <header>
+      <span>{questionNumber}</span>. <Latex>{item.question}</Latex>
+    </header>
+    <ul>
+      {LETTERS.map((letter, i) => (
+        <ResultOptionItem
+          key={letter}
+          option={item.options[i]}
+          letter={letter}
+          examEntry={examEntry}
+        />
+      ))}
+    </ul>
+    <div className="mockResult-scores">
+      <footer>
+        {item.answer === examEntry?.answer
+          ? "You got the answer"
+          : `The answer is ${item.answer}`}
+      </footer>
+      <button
+        disabled={loading !== null}
+        onClick={() =>
+          onViewExplanation(
+            item.number,
+            item.question,
+            item.passage,
+            item.options,
+            item.subheadingA,
+            item.subheadingB,
+            item.diagramUrlA,
+            item.diagramUrlB,
+            itemIndex,
+          )
+        }
+      >
+        {loading === itemIndex ? (
+          <ClipLoader color="black" size={16} />
+        ) : (
+          "view explanation"
+        )}
+      </button>
+    </div>
+  </main>
+);
 
 const MockResult = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const exam = useSelector((state) => state.exam);
   const mockYear = useSelector((state) => state.mockYear);
+  const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
   const userToken = useSelector((state) => state.userToken);
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const [loading, setLoading] = useState(null);
   const location = useLocation();
-
-  const searchParams = new URLSearchParams(location.search);
   const [currentPage, setCurrentPage] = useState(1);
-  const page = searchParams.get("page") || currentPage || 1;
+
+  const page = location.state?.page || currentPage || 1;
   const questionsPerPage = 5;
-
-  const { setShowAiResponseModal, setAIResponse } = useExamibleContext();
-
   const indexOfLastQuestion = page * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-  const intialCount = indexOfFirstQuestion;
-  const finalCount = indexOfLastQuestion;
 
-  const performance =
-    (exam?.reduce((acc, item, index) => {
-      if (!item?.score) {
-        acc = acc + 0;
-      } else {
-        acc = acc + item?.score;
-      }
-      return acc;
-    }, 0) /
-      2 /
-      mockExamQuestions?.length) *
-    100;
+  const { loading, handleViewExplanation } = useAiExplanation(
+    mockYear,
+    mockSelectedSubject,
+    userToken,
+  );
 
   const totalScore =
-    exam?.reduce((acc, item, index) => {
-      if (!item?.score) {
-        acc = acc + 0;
-      } else {
-        acc = acc + item?.score;
-      }
-      return acc;
-    }, 0) / 2;
+    exam?.reduce((acc, item) => acc + (item?.score || 0), 0) / 2;
 
-  const retryExam = () => {
-    dispatch(cancelExam());
-    nav("/mock-exam");
-  };
+  const performance =
+    ((totalScore * 2) / (mockExamQuestions?.length || 1)) * 50;
 
-  const handleViewExplanation = async (
-    questionNum,
-    question,
-    passage,
-    options,
-    subheadingA,
-    subheadingB,
-    diagramUrlA,
-    diagramUrlB,
-    id,
-  ) => {
-    setLoading(id);
-    try {
-      const res = await getAiResponse(
-        mockYear,
-        location.state.subject,
-        questionNum,
-        question,
-        passage,
-        options,
-        subheadingA,
-        subheadingB,
-        diagramUrlA,
-        diagramUrlB,
-        userToken,
-      );
-      if (res) {
-        setLoading(null);
-        setAIResponse(res.data.aiResponse);
-        setShowAiResponseModal(true);
-      }
-    } catch (error) {
-      setLoading(null);
-      toast.error(error?.response?.data?.message);
-      if (
-        error?.response?.data?.message ===
-        "Session timed-out: Please login to continue"
-      ) {
-        setTimeout(() => {
-          nav("/");
-        }, 500);
-        setTimeout(() => {
-          dispatch(logoutTheUser());
-        }, 550);
-      }
-    } finally {
-      setLoading(null);
-    }
-  };
+  const pageQuestions = useMemo(
+    () =>
+      deduplicateQuestionMeta(
+        mockExamQuestions?.slice(indexOfFirstQuestion, indexOfLastQuestion) || [],
+      ),
+    [mockExamQuestions, indexOfFirstQuestion, indexOfLastQuestion],
+  );
 
-  let questionDetails;
+  const pageExam = useMemo(
+    () => exam?.slice(indexOfFirstQuestion, indexOfLastQuestion) || [],
+    [exam, indexOfFirstQuestion, indexOfLastQuestion],
+  );
 
   return (
     <>
@@ -123,250 +141,39 @@ const MockResult = () => {
           <span style={{ color: "#804bf2" }}>Mock Exam</span> (Jamb CBT
           Practice)
         </h2>
-        <h2>Questions & Answers </h2>
+        <h2>Questions & Answers</h2>
         <h5>
-          {" "}
           You Scored {totalScore.toFixed(0)} out of {mockExamQuestions?.length}{" "}
           ({performance.toFixed(0)}%)
         </h5>
         <div className="mockResult-holder">
-          {mockExamQuestions
-            ?.slice(intialCount, finalCount)
-            .map((item, index) => {
-              let newItem = {
-                subheadingA: item?.subheadingA,
-                subheadingB: item?.subheadingB,
-                diagramUrlA: item?.diagramUrlA,
-                diagramUrlB: item?.diagramUrlB,
-              };
-              if (index === 0) {
-                questionDetails = item;
-              } else {
-                if (questionDetails.subheadingA === item.subheadingA) {
-                  newItem.subheadingA = "";
-                } else {
-                  newItem.subheadingA = item.subheadingA;
-                }
-                if (questionDetails.subheadingB === item.subheadingB) {
-                  newItem.subheadingB = "";
-                } else {
-                  newItem.subheadingB = item.subheadingB;
-                }
-                if (questionDetails.diagramUrlA === item.diagramUrlA) {
-                  newItem.diagramUrlA = "";
-                } else {
-                  newItem.diagramUrlA = item.diagramUrlA;
-                }
-                if (questionDetails.diagramUrlB === item.diagramUrlB) {
-                  newItem.diagramUrlB = "";
-                } else {
-                  newItem.diagramUrlB = item.diagramUrlB;
-                }
-                questionDetails = item;
-              }
-              return (
-                <main key={index}>
-                  {newItem?.subheadingA && (
-                    <h2>
-                      <Latex>{item?.subheadingA}</Latex>
-                    </h2>
-                  )}
-                  {newItem?.diagramUrlA && (
-                    <img src={item?.diagramUrlA} alt="Diagram loading..." />
-                  )}
-                  {newItem?.subheadingB && (
-                    <h3>
-                      <Latex>{item?.subheadingB}</Latex>
-                    </h3>
-                  )}
-                  {newItem?.diagramUrlB && (
-                    <img src={item?.diagramUrlB} alt="Diagram loading..." />
-                  )}
-                  <header>
-                    <span>{item?.number}</span>. <Latex>{item?.question}</Latex>
-                  </header>
-                  <ul>
-                    {item?.options[0] && (
-                      <li>
-                        <p>
-                          <Latex>
-                            {item?.options[0]?.startsWith("A.")
-                              ? item?.options[0]
-                              : "A. " + item?.options[0]}
-                          </Latex>
-                        </p>
-                        <nav
-                          style={{
-                            display:
-                              exam.slice(intialCount, finalCount)?.[index]
-                                ?.option === "A"
-                                ? "flex"
-                                : "none",
-                          }}
-                        >
-                          {exam.slice(intialCount, finalCount)?.[index]
-                            ?.score === 0 ? (
-                            <GiCancel fontSize={25} color="red" />
-                          ) : (
-                            <GrStatusGood fontSize={25} color="green" />
-                          )}
-                        </nav>
-                      </li>
-                    )}
-                    {item?.options[1] && (
-                      <li>
-                        <p>
-                          <Latex>
-                            {item?.options[1]?.startsWith("B.")
-                              ? item?.options[1]
-                              : "B. " + item?.options[1]}
-                          </Latex>
-                        </p>
-                        <nav
-                          style={{
-                            display:
-                              exam.slice(intialCount, finalCount)?.[index]
-                                ?.option === "B"
-                                ? "flex"
-                                : "none",
-                          }}
-                        >
-                          {exam.slice(intialCount, finalCount)?.[index]
-                            ?.score === 0 ? (
-                            <GiCancel fontSize={25} color="red" />
-                          ) : (
-                            <GrStatusGood fontSize={25} color="green" />
-                          )}
-                        </nav>
-                      </li>
-                    )}
-                    {item?.options[2] && (
-                      <li>
-                        <p>
-                          <Latex>
-                            {item?.options[2]?.startsWith("C.")
-                              ? item?.options[2]
-                              : "C. " + item?.options[2]}
-                          </Latex>
-                        </p>
-                        <nav
-                          style={{
-                            display:
-                              exam.slice(intialCount, finalCount)?.[index]
-                                ?.option === "C"
-                                ? "flex"
-                                : "none",
-                          }}
-                        >
-                          {exam.slice(intialCount, finalCount)?.[index]
-                            ?.score === 0 ? (
-                            <GiCancel fontSize={25} color="red" />
-                          ) : (
-                            <GrStatusGood fontSize={25} color="green" />
-                          )}
-                        </nav>
-                      </li>
-                    )}
-                    {item?.options[3] && (
-                      <li>
-                        <p>
-                          <Latex>
-                            {item?.options[3]?.startsWith("D.")
-                              ? item?.options[3]
-                              : "D. " + item?.options[3]}
-                          </Latex>
-                        </p>
-                        <nav
-                          style={{
-                            display:
-                              exam.slice(intialCount, finalCount)?.[index]
-                                ?.option === "D"
-                                ? "flex"
-                                : "none",
-                          }}
-                        >
-                          {exam.slice(intialCount, finalCount)?.[index]
-                            ?.score === 0 ? (
-                            <GiCancel fontSize={25} color="red" />
-                          ) : (
-                            <GrStatusGood fontSize={25} color="green" />
-                          )}
-                        </nav>
-                      </li>
-                    )}
-                    {item?.options[4] && (
-                      <li>
-                        <p>
-                          <Latex>
-                            {item?.options[4]?.startsWith("E.")
-                              ? item?.options[3]
-                              : "E. " + item?.options[4]}
-                          </Latex>
-                        </p>
-                        <nav
-                          style={{
-                            display:
-                              exam.slice(intialCount, finalCount)?.[index]
-                                ?.option === "E"
-                                ? "flex"
-                                : "none",
-                          }}
-                        >
-                          {exam.slice(intialCount, finalCount)?.[index]
-                            ?.score === 0 ? (
-                            <GiCancel fontSize={25} color="red" />
-                          ) : (
-                            <GrStatusGood fontSize={25} color="green" />
-                          )}
-                        </nav>
-                      </li>
-                    )}
-                  </ul>
-                  <>
-                    <div className="mockResult-scores">
-                      {item?.answer ===
-                      exam.slice(intialCount, finalCount)?.[index]?.answer ? (
-                        <footer>You got the answer</footer>
-                      ) : (
-                        <footer>The answer is {item?.answer}</footer>
-                      )}
-                      <button
-                        onClick={() => {
-                          handleViewExplanation(
-                            item.number,
-                            item.question,
-                            item.passage,
-                            item.options,
-                            item.subheadingA,
-                            item.subheadingB,
-                            item.diagramUrlA,
-                            item.diagramUrlB,
-                            index,
-                          );
-                        }}
-                        disabled={loading}
-                      >
-                        {loading === index ? (
-                          <ClipLoader color="black" size={16} />
-                        ) : (
-                          "view explanation"
-                        )}
-                      </button>
-                    </div>
-                  </>
-                </main>
-              );
-            })}
+          {pageQuestions.map(({ item, newItem }, index) => (
+            <ResultQuestionCard
+              key={item.id ?? item.number ?? index}
+              item={item}
+              newItem={newItem}
+              questionNumber={indexOfFirstQuestion + index + 1}
+              examEntry={pageExam[index]}
+              loading={loading}
+              itemIndex={index}
+              onViewExplanation={handleViewExplanation}
+            />
+          ))}
         </div>
         <div className="mock-result-navigator">
-          <button className="mockResult-retry" onClick={() => retryExam()}>
+          <button
+            className="mockResult-retry"
+            onClick={() => {
+              dispatch(cancelExam());
+              nav("/mock-exam");
+            }}
+          >
             Retry Quiz
           </button>
-
           <Pagination
             page={page}
             setPage={setCurrentPage}
-            totalPages={Math.ceil(mockExamQuestions.length / questionsPerPage)}
+            totalPages={Math.ceil((mockExamQuestions?.length || 0) / questionsPerPage)}
           />
         </div>
       </div>

@@ -217,6 +217,7 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
+      white-space: pre-line;
 
       h6 {
         font-size: 18px;

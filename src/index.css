@@ -28,6 +28,7 @@ html {
 
 .chat-markdown {
   padding: 4px 8px;
+  white-space: pre-line;
 }
 
 .chat-markdown table {
@@ -50,7 +51,6 @@ html {
 .chat-markdown tr:nth-child(even) td {
   background: rgba(0, 0, 0, 0.02);
 }
-
 
 .chat-markdown pre,
 .chat-markdown code {

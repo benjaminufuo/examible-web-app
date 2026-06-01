@@ -1,36 +1,131 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../../styles/dashboardCss/viewpastquestion.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setPastQuestionsOption,
   clearPastQuestionsOption,
-  logoutTheUser,
 } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getAiResponse } from "../../config/Api";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import Latex from "react-latex-next";
 import "katex/dist/katex.min.css";
 import Calculator from "../../components/Calculator";
 import Pagination from "../../shared/Pagination";
-import { toast } from "react-toastify";
+import QuestionMeta from "../../components/QuestionMeta";
+import { getAnswerText, deduplicateQuestionMeta } from "../../utils/questionUtils";
+import useAiExplanation from "../../utils/useAiExplanation";
+
+const QuestionCard = ({
+  item,
+  newItem,
+  questionNumber,
+  questionIndex,
+  itemIndex,
+  userAnswer,
+  loading,
+  onOptionClick,
+  onViewExplanation,
+}) => {
+  const correctAnswer = getAnswerText(item.answer, item.options);
+
+  return (
+    <div id={`question-${questionNumber}`} className="answerquestiondiv">
+      <QuestionMeta
+        item={item}
+        newItem={newItem}
+        subheadingClassName="subheading"
+        imageClassName="question-diagram"
+      />
+      <h1 className="questiontext">
+        <span>{questionNumber}</span>.{" "}
+        <span>
+          <Latex>{item.question}</Latex>
+        </span>
+      </h1>
+      <ul className="answeroption">
+        {item.options.map((option, optionIndex) => {
+          let optionClass = "";
+          if (userAnswer) {
+            if (option === userAnswer.selectedOption) {
+              optionClass = userAnswer.isCorrect ? "correct-option" : "wrong-option";
+            } else if (!userAnswer.isCorrect && option === correctAnswer) {
+              optionClass = "correct-answer";
+            }
+          }
+          return (
+            <li
+              key={optionIndex}
+              className={optionClass}
+              onClick={() =>
+                onOptionClick(questionIndex, option, item.answer, item.options)
+              }
+              style={{
+                pointerEvents: userAnswer ? "none" : "auto",
+                cursor: userAnswer ? "not-allowed" : "pointer",
+              }}
+            >
+              <span className="letterdoption">
+                {String.fromCharCode(65 + optionIndex)}.
+              </span>
+              <span>
+                <Latex>{option}</Latex>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="aswer-airesponse">
+        <p
+          className="pastanswer"
+          style={{
+            color: userAnswer?.isCorrect ? "green" : "red",
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+        >
+          {userAnswer
+            ? userAnswer.isCorrect
+              ? "✅ Correct!"
+              : "❌ Wrong! "
+            : ""}
+        </p>
+        {userAnswer && (
+          <button
+            className="viewmore-btn"
+            disabled={loading !== null}
+            onClick={() =>
+              onViewExplanation(
+                item.number,
+                item.question,
+                item.passage,
+                item.options,
+                item.subheadingA,
+                item.subheadingB,
+                item.diagramUrlA,
+                item.diagramUrlB,
+                itemIndex,
+              )
+            }
+          >
+            {loading === itemIndex ? (
+              <ClipLoader color="black" size={16} />
+            ) : (
+              "view explanation"
+            )}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ViewPastQuestion = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-
-  const calculateScore = () => {
-    const correctCount = Object.values(pastQuestionsOption).filter(
-      (entry) => entry?.isCorrect,
-    ).length;
-
-    const total = questions.length;
-    const percentage = Math.round((correctCount / total) * 100);
-    const passed = percentage >= 50;
-    return { correctCount, total, percentage, passed };
-  };
 
   const year = useSelector((state) => state.year);
   const subject = useSelector((state) => state.exam);
@@ -38,50 +133,29 @@ const ViewPastQuestion = () => {
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
   const userToken = useSelector((state) => state.userToken);
   const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(null);
 
-  const searchParams = new URLSearchParams(location.search);
   const [currentPage, setCurrentPage] = useState(1);
-  const page = searchParams.get("page") || currentPage || 1;
+  const page = location.state?.page || currentPage || 1;
   const questionsPerPage = 5;
 
   const indexOfLastQuestion = page * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-  const currentQuestions = questions.slice(
-    indexOfFirstQuestion,
-    indexOfLastQuestion,
-  );
 
-  const { handleShowUserFeedback, setShowAiResponseModal, setAIResponse } =
-    useExamibleContext();
+  const { handleShowUserFeedback } = useExamibleContext();
+  const { loading, handleViewExplanation } = useAiExplanation(year, subject, userToken);
 
-  const getAnswerText = (answerLetter, options) => {
-    if (
-      !options ||
-      !Array.isArray(options) ||
-      typeof answerLetter !== "string" ||
-      answerLetter.length === 0
-    ) {
-      return "";
-    }
-
-    const cleanedLetter = answerLetter.trim().toUpperCase().charAt(0); // <- sanitize input
-    const index = cleanedLetter.charCodeAt(0) - 65;
-
-    if (index < 0 || index >= options.length) return "";
-
-    const mappedAnswer = options[index];
-    return mappedAnswer;
+  const calculateScore = () => {
+    const correctCount = Object.values(pastQuestionsOption).filter(
+      (entry) => entry?.isCorrect,
+    ).length;
+    const total = questions.length;
+    const percentage = Math.round((correctCount / total) * 100);
+    const passed = percentage >= 50;
+    return { correctCount, total, percentage, passed };
   };
 
-  const handleOptionClick = (
-    questionIndex,
-    selectedOption,
-    correctAnswerLetter,
-    options,
-  ) => {
+  const handleOptionClick = (questionIndex, selectedOption, correctAnswerLetter, options) => {
     const correctAnswer = getAnswerText(correctAnswerLetter, options);
-
     dispatch(
       setPastQuestionsOption({
         questionIndex,
@@ -100,57 +174,10 @@ const ViewPastQuestion = () => {
     }
   }, [count]);
 
-  const handleViewExplanation = async (
-    questionNum,
-    question,
-    passage,
-    options,
-    subheadingA,
-    subheadingB,
-    diagramUrlA,
-    diagramUrlB,
-    id,
-  ) => {
-    setLoading(id);
-    try {
-      const res = await getAiResponse(
-        year,
-        subject,
-        questionNum,
-        question,
-        passage,
-        options,
-        subheadingA,
-        subheadingB,
-        diagramUrlA,
-        diagramUrlB,
-        userToken,
-      );
-      if (res) {
-        setLoading(null);
-        setAIResponse(res.data.aiResponse);
-        setShowAiResponseModal(true);
-      }
-    } catch (error) {
-      setLoading(null);
-      toast.error(error?.response?.data?.message || "An error occurred");
-      if (
-        error?.response?.data?.message ===
-        "Session timed-out: Please login to continue"
-      ) {
-        setTimeout(() => {
-          nav("/");
-        }, 500);
-        setTimeout(() => {
-          dispatch(logoutTheUser());
-        }, 550);
-      }
-    } finally {
-      setLoading(null);
-    }
-  };
-
-  let questionDetails;
+  const processedQuestions = useMemo(
+    () => deduplicateQuestionMeta(questions.slice(indexOfFirstQuestion, indexOfLastQuestion)),
+    [questions, indexOfFirstQuestion, indexOfLastQuestion],
+  );
 
   return (
     <main className="viewpastquestionmain">
@@ -168,162 +195,23 @@ const ViewPastQuestion = () => {
           {subject} <em>Past Question</em>({year})
         </h1>
       </div>
-      {currentQuestions?.length > 0 ? (
-        currentQuestions?.map((item, index) => {
-          let newItem = {
-            subheadingA: item?.subheadingA || "",
-            subheadingB: item?.subheadingB || "",
-            diagramUrlA: item?.diagramUrlA || "",
-            diagramUrlB: item?.diagramUrlB || "",
-          };
-          if (index === 0) {
-            questionDetails = item;
-          } else {
-            if (questionDetails.subheadingA === item.subheadingA) {
-              newItem.subheadingA = "";
-            } else {
-              newItem.subheadingA = item.subheadingA;
-            }
-            if (questionDetails.subheadingB === item.subheadingB) {
-              newItem.subheadingB = "";
-            } else {
-              newItem.subheadingB = item.subheadingB;
-            }
-            if (questionDetails.diagramUrlA === item.diagramUrlA) {
-              newItem.diagramUrlA = "";
-            } else {
-              newItem.diagramUrlA = item.diagramUrlA;
-            }
-            if (questionDetails.diagramUrlB === item.diagramUrlB) {
-              newItem.diagramUrlB = "";
-            } else {
-              newItem.diagramUrlB = item.diagramUrlB;
-            }
-            questionDetails = item;
-          }
-          return (
-            <div
-              id={`question-${indexOfFirstQuestion + index + 1}`}
-              className="answerquestiondiv"
-              key={index}
-            >
-              {newItem?.subheadingA && (
-                <h1 className="subheading">
-                  <Latex>{item?.subheadingA}</Latex>
-                </h1>
-              )}
-              {newItem?.diagramUrlA && (
-                <img src={item?.diagramUrlA} className="question-diagram" />
-              )}
-              {newItem?.subheadingB && (
-                <h1 className="subheading">
-                  <Latex>{item?.subheadingB}</Latex>
-                </h1>
-              )}
-              {newItem?.diagramUrlB && (
-                <img src={item?.diagramUrlB} className="question-diagram" />
-              )}
-              <h1 className="questiontext">
-                <span>{indexOfFirstQuestion + index + 1}</span>.{" "}
-                <span>{<Latex>{item?.question}</Latex>}</span>
-              </h1>
-              <ul className="answeroption">
-                {item.options.map((option, optionindex) => {
-                  const userAnswer =
-                    pastQuestionsOption[indexOfFirstQuestion + index];
-                  const correctAnswer = getAnswerText(
-                    item.answer,
-                    item.options,
-                  );
 
-                  let optionClass = "";
-                  if (userAnswer) {
-                    if (option === userAnswer.selectedOption) {
-                      optionClass = userAnswer.isCorrect
-                        ? "correct-option"
-                        : "wrong-option";
-                    } else if (
-                      !userAnswer.isCorrect &&
-                      option === correctAnswer
-                    ) {
-                      optionClass = "correct-answer";
-                    }
-                  }
-                  return (
-                    <li
-                      key={optionindex}
-                      className={optionClass}
-                      onClick={() =>
-                        handleOptionClick(
-                          indexOfFirstQuestion + index,
-                          option,
-                          item.answer,
-                          item.options || [],
-                        )
-                      }
-                      style={{
-                        pointerEvents: userAnswer ? "none" : "auto",
-                        cursor: userAnswer ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      <span className="letterdoption">
-                        {`${String.fromCharCode(65 + optionindex)}.`}
-                      </span>
-                      <span>
-                        <Latex>{option}</Latex>
-                      </span>
-                    </li>
-                  );
-                })}
-                <div className="aswer-airesponse">
-                  <p
-                    className="pastanswer"
-                    style={{
-                      color: pastQuestionsOption[indexOfFirstQuestion + index]
-                        ?.isCorrect
-                        ? "green"
-                        : "red",
-                      fontWeight: "bold",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {pastQuestionsOption[indexOfFirstQuestion + index]
-                      ? pastQuestionsOption[indexOfFirstQuestion + index]
-                          .isCorrect
-                        ? "✅ Correct!"
-                        : "❌ Wrong! "
-                      : ""}
-                  </p>
-                  {pastQuestionsOption[indexOfFirstQuestion + index] && (
-                    <button
-                      className="viewmore-btn"
-                      disabled={loading}
-                      onClick={() =>
-                        handleViewExplanation(
-                          item.number,
-                          item.question,
-                          item.passage,
-                          item.options,
-                          item.subheadingA,
-                          item.subheadingB,
-                          item.diagramUrlA,
-                          item.diagramUrlB,
-                          index,
-                        )
-                      }
-                    >
-                      {loading === index ? (
-                        <ClipLoader color="black" size={16} />
-                      ) : (
-                        "view explanation"
-                      )}
-                    </button>
-                  )}
-                </div>
-              </ul>
-            </div>
+      {processedQuestions.length > 0 ? (
+        processedQuestions.map(({ item, newItem }, index) => {
+          const questionIndex = indexOfFirstQuestion + index;
+          return (
+            <QuestionCard
+              key={item.id ?? item.number ?? index}
+              item={item}
+              newItem={newItem}
+              questionNumber={questionIndex + 1}
+              questionIndex={questionIndex}
+              itemIndex={index}
+              userAnswer={pastQuestionsOption[questionIndex]}
+              loading={loading}
+              onOptionClick={handleOptionClick}
+              onViewExplanation={handleViewExplanation}
+            />
           );
         })
       ) : (
@@ -347,9 +235,7 @@ const ViewPastQuestion = () => {
             onClick={() => {
               const result = calculateScore();
               dispatch(clearPastQuestionsOption());
-              navigate("/past-questions/result", {
-                state: result,
-              });
+              navigate("/past-questions/result", { state: result });
             }}
             className="finish-btn"
           >

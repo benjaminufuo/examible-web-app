@@ -3,7 +3,7 @@ import "../../styles/dashboardCss/makepayment.css";
 import payment from "../../assets/public/payment.png";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 

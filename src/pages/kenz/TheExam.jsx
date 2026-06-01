@@ -1,8 +1,8 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import "../../styles/dashboardCss/examBody.css";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { LuClock2 } from "react-icons/lu";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   nextQuestion,
@@ -13,8 +13,49 @@ import {
 } from "../../global/slice";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import Latex from "react-latex-next";
+import "katex/dist/katex.min.css";
 import Calculator from "../../components/Calculator";
 import ErrorPgae from "../jacob/ErrorPgae";
+import QuestionMeta from "../../components/QuestionMeta";
+import { normalizeQuestion, LETTERS, OPTION_KEYS } from "../../utils/questionUtils";
+
+const OptionItem = ({ option, letter, isChecked, onSelect }) => {
+  if (!option) return null;
+  const prefix = `${letter}.`;
+  const text = option.startsWith(prefix) ? option.slice(prefix.length) : option;
+  return (
+    <nav style={{ cursor: "pointer" }} onClick={onSelect}>
+      <h4>{letter}.</h4>
+      <p>
+        <Latex>{text}</Latex>
+      </p>
+      <input type="radio" checked={isChecked} readOnly />
+    </nav>
+  );
+};
+
+const QuestionDisplay = ({ question, subjectId, mockExamOptions, dispatch }) => (
+  <main>
+    <h6>Question {subjectId}</h6>
+    {question && <QuestionMeta item={question} />}
+    {question?.question && (
+      <h5>
+        <Latex>{question.question}</Latex>
+      </h5>
+    )}
+    {LETTERS.map((letter, i) => (
+      <OptionItem
+        key={letter}
+        option={question?.options?.[i]}
+        letter={letter}
+        isChecked={mockExamOptions[OPTION_KEYS[i]]}
+        onSelect={() =>
+          dispatch(setMockExamOption({ option: letter, answer: letter }))
+        }
+      />
+    ))}
+  </main>
+);
 
 const TheExam = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
@@ -24,25 +65,26 @@ const TheExam = () => {
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
   const exam = useSelector((state) => state.exam);
   const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
-  const [isNext, setIsNext] = useState(false);
+
+  const location = useLocation();
+  const nav = useNavigate();
+  const { setShowLeavingNow } = useExamibleContext();
+  const dispatch = useDispatch();
+
+  const subjectId = location.state?.subjectId || 1;
+  const num = Number(subjectId);
+  const currentQuestion = normalizeQuestion(mockExamQuestions?.[num - 1]);
+
+  const isNext = OPTION_KEYS.some((k) => !!mockExamOptions[k]);
+
   const arrayOfNumbers = Array.from(
     { length: mockExamQuestions?.length },
     (_, i) => i + 1,
   );
 
-  const { setShowLeavingNow } = useExamibleContext();
-
-  const dispatch = useDispatch();
-  const nav = useNavigate();
-  const { subjectId } = useParams();
-  const num = Number(subjectId);
-  const currentQuestion = mockExamQuestions?.find(
-    (_, index) => index === num - 1,
-  );
-
   useLayoutEffect(() => {
-    if (mockExamQuestions?.length <= 0 || !mockExamQuestions) {
-      location.href = "/overview";
+    if (!mockExamQuestions || mockExamQuestions.length <= 0) {
+      nav("/overview");
     }
   }, [mockExamQuestions]);
 
@@ -64,13 +106,18 @@ const TheExam = () => {
         answer: exam[num - 2]?.answer,
       }),
     );
-    nav(`/mock-exam/${num - 1}`);
-    // dispatch(previousQuestion())
+    nav(location.pathname, {
+      replace: true,
+      state: { subjectId: num - 1 },
+    });
   };
 
   const nextExam = () => {
     dispatch(nextQuestion({ answer: currentQuestion?.answer, subjectId }));
-    nav(`/mock-exam/${num + 1}`);
+    nav(location.pathname, {
+      replace: true,
+      state: { subjectId: num + 1 },
+    });
     if (exam?.length > subjectId) {
       dispatch(
         setMockExamOption({
@@ -88,22 +135,11 @@ const TheExam = () => {
     dispatch(setFinishedExam());
   };
 
-  useEffect(() => {
-    if (
-      mockExamOptions.optionA ||
-      mockExamOptions.optionB ||
-      mockExamOptions.optionC ||
-      mockExamOptions.optionD
-    ) {
-      setIsNext(true);
-    } else {
-      setIsNext(false);
-    }
-  }, [mockExamOptions]);
-
-  if (num > mockExamQuestions?.length) {
+  if (num > mockExamQuestions?.length || num < 1) {
     return <ErrorPgae />;
   }
+
+  const timer = `${String(examTimerMins).padStart(2, "0")}:${String(examTimerSecs).padStart(2, "0")}`;
 
   return (
     <div className="examBody">
@@ -117,8 +153,7 @@ const TheExam = () => {
           </aside>
           <section>
             <LuClock2 fontSize={30} />
-            {String(examTimerMins)?.padStart(2, "0")}:
-            {String(examTimerSecs)?.padStart(2, "0")}
+            {timer}
           </section>
         </article>
       </div>
@@ -130,155 +165,24 @@ const TheExam = () => {
         </aside>
         <section>
           <LuClock2 fontSize={30} />
-          {String(examTimerMins)?.padStart(2, "0")}:
-          {String(examTimerSecs)?.padStart(2, "0")}
+          {timer}
         </section>
         <button onClick={() => setShowLeavingNow(true)}>x</button>
       </div>
       <h1>{mockSelectedSubject} QUESTIONS</h1>
       <div className="examBody-secondLayer">
         <div className="examBody-secondLayerHolder">
-          <main>
-            <h6>Question {subjectId}</h6>
-            {currentQuestion?.subheadingA && (
-              <h2>
-                <Latex>{currentQuestion?.subheadingA}</Latex>
-              </h2>
-            )}
-            {currentQuestion?.diagramUrlA && (
-              <img
-                src={currentQuestion?.diagramUrlA}
-                alt="Diagram loading..."
-              />
-            )}
-            {currentQuestion?.subheadingB && (
-              <h3>
-                <Latex>{currentQuestion?.subheadingB}</Latex>
-              </h3>
-            )}
-            {currentQuestion?.diagramUrlB && (
-              <img
-                src={currentQuestion?.diagramUrlB}
-                alt="Diagram loading..."
-              />
-            )}
-            {currentQuestion?.question && (
-              <h5>
-                <Latex>{currentQuestion?.question}</Latex>
-              </h5>
-            )}
-            {currentQuestion?.options[0] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "A", answer: "A" }))
-                }
-              >
-                <h4>A.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[0]?.startsWith("A.")
-                      ? currentQuestion?.options[0]?.slice(2)
-                      : currentQuestion?.options[0]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionA}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[1] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "B", answer: "B" }))
-                }
-              >
-                <h4>B.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[1]?.startsWith("B.")
-                      ? currentQuestion?.options[1]?.slice(2)
-                      : currentQuestion?.options[1]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionB}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[2] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "C", answer: "C" }))
-                }
-              >
-                <h4>C.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[2]?.startsWith("C.")
-                      ? currentQuestion?.options[2]?.slice(2)
-                      : currentQuestion?.options[2]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionC}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[3] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "D", answer: "D" }))
-                }
-              >
-                <h4>D.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[3]?.startsWith("D.")
-                      ? currentQuestion?.options[3]?.slice(2)
-                      : currentQuestion?.options[3]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionD}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[4] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "E", answer: "E" }))
-                }
-              >
-                <h4>E.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[4]?.startsWith("E.")
-                      ? currentQuestion?.options[4]?.slice(2)
-                      : currentQuestion?.options[4]}
-                  </Latex>
-                </p>
-                <input type="radio" checked={mockExamOptions.optionE} />
-              </nav>
-            )}
-          </main>
+          <QuestionDisplay
+            question={currentQuestion}
+            subjectId={subjectId}
+            mockExamOptions={mockExamOptions}
+            dispatch={dispatch}
+          />
         </div>
         <div className="examBody-secondLayerButton">
           <button
-            style={{ display: parseInt(subjectId) === 1 ? "none" : "flex" }}
-            onClick={() => previousExam()}
+            style={{ display: num === 1 ? "none" : "flex" }}
+            onClick={previousExam}
           >
             <article>
               <FaArrowLeftLong />
@@ -287,12 +191,9 @@ const TheExam = () => {
           </button>
           <button
             style={{
-              display:
-                mockExamQuestions?.length === parseInt(subjectId)
-                  ? "none"
-                  : "flex",
+              display: mockExamQuestions?.length === num ? "none" : "flex",
             }}
-            onClick={() => nextExam()}
+            onClick={nextExam}
           >
             <h2>{isNext ? "Next" : "Skip"}</h2>
             <article>
@@ -301,15 +202,12 @@ const TheExam = () => {
           </button>
           <button
             style={{
-              display:
-                mockExamQuestions?.length === parseInt(subjectId)
-                  ? "flex"
-                  : "none",
+              display: mockExamQuestions?.length === num ? "flex" : "none",
               background: "#804BF2",
               color: "white",
               borderColor: "#804BF2",
             }}
-            onClick={() => handleFinishedExam()}
+            onClick={handleFinishedExam}
           >
             <h2>Finish</h2>
           </button>
@@ -318,25 +216,22 @@ const TheExam = () => {
           <div className="examBody-panelHolder">
             {arrayOfNumbers.map((item, index) => (
               <main
+                key={index}
                 style={{
                   cursor: "pointer",
                   backgroundColor:
-                    item === Number(subjectId) || exam[index]?.option
-                      ? "#804BF2"
-                      : "white",
+                    item === num || exam[index]?.option ? "#804BF2" : "white",
                   color:
-                    item === Number(subjectId) || exam[index]?.option
-                      ? "white"
-                      : "#804BF2",
+                    item === num || exam[index]?.option ? "white" : "#804BF2",
                 }}
                 onClick={() => {
                   dispatch(
-                    nextQuestion({
-                      answer: currentQuestion?.answer,
-                      subjectId,
-                    }),
+                    nextQuestion({ answer: currentQuestion?.answer, subjectId }),
                   );
-                  nav(`/mock-exam/${index + 1}`);
+                  nav(location.pathname, {
+                    replace: true,
+                    state: { subjectId: item },
+                  });
                   dispatch(
                     setMockExamOption({
                       option: exam[index]?.option,
@@ -344,7 +239,6 @@ const TheExam = () => {
                     }),
                   );
                 }}
-                key={index}
               >
                 {item}
               </main>

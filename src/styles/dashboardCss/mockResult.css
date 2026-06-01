@@ -40,7 +40,6 @@
   .mockResult-holder {
     height: fit-content;
     width: 100%;
-    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -50,6 +49,7 @@
       min-height: 210px;
       width: 100%;
       font-family: "Montserrat", sans-serif;
+      white-space: pre-line;
 
       h2 {
         line-height: 25px;

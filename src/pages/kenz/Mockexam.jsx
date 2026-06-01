@@ -33,7 +33,7 @@ const Mockexam = () => {
         dispatch(setExamTimer(user?.plan));
         dispatch(setMockSelectedSubject(subject));
         setTimeout(() => {
-          nav(`/mock-exam/1`);
+          nav(`/mock-exam/questions`, { state: { subjectId: 1 } });
         }, 500);
       }
       toast.dismiss(id);

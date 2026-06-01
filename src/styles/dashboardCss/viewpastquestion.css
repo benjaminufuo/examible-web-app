@@ -64,6 +64,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 8px;
+  white-space: pre-line;
 
   & .questiontext {
     color: #1e1e1e;

@@ -44,26 +44,29 @@ const getPagination = (currentPage, totalPages) => {
 
 const Pagination = ({ page, setPage, totalPages }) => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const currentPage = Number(searchParams.get("page")) || page || 1;
+  const currentPage = Number(location.state?.page) || page || 1;
   const pages = getPagination(currentPage, totalPages);
   const navigate = useNavigate();
 
   const handlePageChange = (newPage) => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set("page", newPage.toString());
-
-    navigate({
-      pathname: location.pathname,
-      search: `?${searchParams.toString()}`,
-    });
+    navigate(
+      {
+        pathname: location.pathname,
+      },
+      {
+        state: {
+          ...location.state,
+          page: newPage,
+        },
+      },
+    );
 
     setPage(newPage);
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (currentPage > totalPages) {
+  if (currentPage > totalPages || currentPage < 1) {
     return (
       <div className={styles.pageNotFound}>
         <ErrorPgae />

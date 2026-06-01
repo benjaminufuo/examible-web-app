@@ -1,6 +1,6 @@
 import mail from "../assets/public/mail.png";
 import "../styles/authCss/emailverify.css";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const EmailVerify = () => {
   const navigate = useNavigate();
