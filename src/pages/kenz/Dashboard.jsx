@@ -50,7 +50,7 @@ const Dashboard = () => {
             ""
           ) : (
             <h3>
-              Welcome,{" "}
+              Welcome home,{" "}
               {user?.fullName
                 ?.split(" ")
                 .filter((_, index) => index <= 1)
