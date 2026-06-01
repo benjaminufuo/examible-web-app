@@ -318,5 +318,3 @@ const Overview = () => {
 };
 
 export default Overview;
-
-export default Overview;
