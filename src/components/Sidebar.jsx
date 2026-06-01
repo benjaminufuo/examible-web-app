@@ -2,6 +2,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardNavBar from "../assets/dashboardNavBar.json";
 import dashboardIcon from "../assets/public/logo.png";
 import { MdDashboard, MdTrendingUp, MdLightbulb } from "react-icons/md";
+import { PiExamFill } from "react-icons/pi";
+import { FiBook, FiTarget, FiUser } from "react-icons/fi";
 import { SiMoneygram } from "react-icons/si";
 import { GrStatusGood } from "react-icons/gr";
 import { AiOutlineLogout } from "react-icons/ai";
