@@ -142,7 +142,7 @@ const ExamReadiness = () => {
           </div>
         </section>
 
-        {/* Timeline */
+        {/* Timeline */}
         <section className="timeline-section">
           <h2 className="section-title">Preparation Timeline</h2>
           <div className="timeline">
