@@ -558,3 +558,167 @@
     gap: 8px !important;
   }
 }
+
+/* Overview Page */
+.overview {
+  padding: 32px;
+}
+
+.learning-overview {
+  margin-bottom: 32px;
+}
+
+.overview-heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  font-family: "Sora", sans-serif;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* Subject Card */
+.subject-card {
+  position: relative;
+  padding: 8px;
+  background-color: rgba(128, 75, 242, 0.08);
+  border: 1px solid rgba(128, 75, 242, 0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 60px;
+}
+
+.subject-card:hover {
+  background-color: rgba(128, 75, 242, 0.12);
+  border-color: rgba(128, 75, 242, 0.25);
+}
+
+.subject-icon {
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+}
+
+.subject-trash-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  pointer-events: auto;
+  cursor: pointer;
+  color: #ff4757;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+/* Add Subject Card */
+.add-subject-card {
+  padding: 8px;
+  background-color: rgba(128, 75, 242, 0.06);
+  border: 2px dashed rgba(128, 75, 242, 0.25);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 60px;
+}
+
+.add-subject-card:hover {
+  background-color: rgba(128, 75, 242, 0.1);
+  border-color: rgba(128, 75, 242, 0.4);
+}
+
+.add-subject-text {
+  font-size: 10px;
+  font-weight: 500;
+  color: #804bf2;
+  text-align: center;
+}
+
+/* Performance Table */
+.performance-table-wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.performance-table-container {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.performance-table-head {
+  background-color: rgba(128, 75, 242, 0.05);
+  border-bottom: 1px solid rgba(128, 75, 242, 0.1);
+}
+
+.performance-table-header {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #804bf2;
+  text-transform: uppercase;
+}
+
+.performance-table-row {
+  border-bottom: 1px solid rgba(128, 75, 242, 0.06);
+  transition: all 0.2s ease;
+}
+
+.performance-table-row:hover {
+  background-color: rgba(128, 75, 242, 0.04);
+}
+
+.performance-table-cell {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #4a4a4a;
+  font-weight: 500;
+}
+
+.performance-table-cell-center {
+  text-align: center;
+  color: #804bf2;
+  font-weight: 600;
+}
+
+.performance-table-cell-duration {
+  text-align: center;
+  color: #666;
+}
+
+/* Empty State Message */
+.empty-performance-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background-color: rgba(128, 75, 242, 0.04);
+  border-radius: 12px;
+  border: 1px dashed rgba(128, 75, 242, 0.15);
+}
+
+.empty-performance-text {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+}
+
+/* Progress Chart Wrapper */
+.progress-chart-wrapper {
+  position: relative;
+  min-width: 0;
+}
