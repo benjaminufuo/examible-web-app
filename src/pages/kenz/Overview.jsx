@@ -152,7 +152,7 @@ const Overview = () => {
           {/* Subject Selection */}
           <div style={{ marginBottom: "32px" }}>
             <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Your Subjects</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))", gap: "12px" }}>
+            <div className="subjects-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))", gap: "16px" }}>
               {user?.enrolledSubjects?.map((item, index) => (
                 <div
                   key={index}
@@ -160,7 +160,7 @@ const Overview = () => {
                   onMouseLeave={() => setShowBin("")}
                   style={{
                     position: "relative",
-                    padding: "16px",
+                    padding: "12px",
                     backgroundColor: "rgba(128, 75, 242, 0.08)",
                     border: "1px solid rgba(128, 75, 242, 0.1)",
                     borderRadius: "12px",
@@ -171,6 +171,7 @@ const Overview = () => {
                     gap: "8px",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
+                    minHeight: "80px",
                   }}
                   onMouseEnterStyle={{
                     backgroundColor: "rgba(128, 75, 242, 0.12)",
@@ -189,7 +190,6 @@ const Overview = () => {
                       style={{ borderRadius: "8px" }}
                     />
                   )}
-                  <span style={{ fontSize: "11px", fontWeight: "500", color: "#4a4a4a", textAlign: "center" }}>{item}</span>
                   {showBin === index && (
                     <TbTrashX
                       style={{

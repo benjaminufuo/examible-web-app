@@ -537,3 +537,24 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Subjects Grid - Responsive */
+.subjects-grid {
+  display: grid !important;
+  gridTemplateColumns: repeat(auto-fill, minmax(100px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+@media (max-width: 768px) {
+  .subjects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .subjects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+    gap: 10px !important;
+  }
+}
