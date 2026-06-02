@@ -137,7 +137,7 @@
   gap: 32px;
   align-items: center;
   position: relative;
-  overflow: hidden;
+}
 
   &::before {
     content: '';
