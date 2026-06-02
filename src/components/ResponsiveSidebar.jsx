@@ -63,12 +63,11 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                 <Link
                   key={index}
                   to={item.link}
-                  style={{
-                    backgroundColor: location.pathname.startsWith(item.link)
-                      ? "#804bf233"
-                      : "white",
-                  }}
-                  className="dashboard-leftDropdown-navBar"
+                  className={`dashboard-leftDropdown-navBar ${
+                    location.pathname.startsWith(item.link)
+                      ? "navbar-active"
+                      : ""
+                  }`}
                   onClick={() => setShowDropdown(!showDropdown)}
                 >
                   {dashboardIcons[index]}
@@ -84,14 +83,11 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                         onClick={() => {
                           setShowDropdown(!showDropdown);
                         }}
-                        className="dashboard-leftDropdown-navBar"
-                        style={{
-                          backgroundColor: location.pathname.startsWith(
-                            "/subscription",
-                          )
-                            ? "#804BF233"
-                            : "white",
-                        }}
+                        className={`dashboard-leftDropdown-navBar ${
+                          location.pathname.startsWith("/subscription")
+                            ? "navbar-active"
+                            : ""
+                        }`}
                       >
                         <SiMoneygram color="#804BF266" fontSize={35} />
                         Subscription
@@ -120,14 +116,11 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
                     onClick={() => {
                       setShowDropdown(!showDropdown);
                     }}
-                    className="dashboard-leftDropdown-navBar"
-                    style={{
-                      backgroundColor: location.pathname.startsWith(
-                        "/subscription",
-                      )
-                        ? "#804BF233"
-                        : "white",
-                    }}
+                    className={`dashboard-leftDropdown-navBar ${
+                      location.pathname.startsWith("/subscription")
+                        ? "navbar-active"
+                        : ""
+                    }`}
                   >
                     <SiMoneygram color="#804BF266" fontSize={35} />
                     Subscription
@@ -137,7 +130,6 @@ const ResponsiveSidebar = ({ showDropdown, setShowDropdown }) => {
             </div>
             <div
               className="dashboard-leftDropdown-navBar"
-              style={{ backgroundColor: "white" }}
               onClick={() => {
                 setShowDropdown(!showDropdown);
                 setIsLogout(true);
