@@ -235,7 +235,7 @@ const Overview = () => {
           {/* Performance Section */}
           <div style={{ marginBottom: "32px" }}>
             <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Performance Analysis</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "24px", alignItems: "start" }}>
+            <div className="performance-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "24px", alignItems: "start" }}>
               <div style={{ position: "relative", minWidth: "0" }}>
                 <ProgressChart title="Overall Rating">
                   <CircularProgressbar
@@ -295,7 +295,7 @@ const Overview = () => {
           {/* Tips Section */}
           <div>
             <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Study Tips</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
+            <div className="study-tips-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
               {[
                 { icon: "🎯", title: "Set Clear Goals", desc: "Know your target scores and create a realistic study plan." },
                 { icon: "⏰", title: "Manage Time", desc: "Balance study sessions with breaks and other activities." },
