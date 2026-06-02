@@ -19,6 +19,7 @@ import DashboardHeader from "../../components/dashboard/DashboardHeader";
 import StatCard from "../../components/dashboard/StatCard";
 import ProgressChart from "../../components/dashboard/ProgressChart";
 import AchievementBadge from "../../components/dashboard/AchievementBadge";
+import { px } from "framer-motion";
 
 const Overview = () => {
   const user = useSelector((state) => state.user);
@@ -227,7 +228,7 @@ const Overview = () => {
                 }}
                 onClick={() => addMoreSubject()}
               >
-                <PlusIcon />
+                <PlusIcon style={{width: "10px", height: "10px"}}/>
                 <span style={{ fontSize: "10px", fontWeight: "500", color: "#804bf2", textAlign: "center" }}>Add</span>
               </div>
             </div>
