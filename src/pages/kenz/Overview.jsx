@@ -160,7 +160,7 @@ const Overview = () => {
                   onMouseLeave={() => setShowBin("")}
                   style={{
                     position: "relative",
-                    padding: "3px",
+                    padding: "8px",
                     backgroundColor: "rgba(128, 75, 242, 0.08)",
                     border: "1px solid rgba(128, 75, 242, 0.1)",
                     borderRadius: "10px",
