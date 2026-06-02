@@ -235,29 +235,31 @@ const Overview = () => {
           {/* Performance Section */}
           <div style={{ marginBottom: "32px" }}>
             <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Performance Analysis</h2>
-            <div style={{ display: "grid", gridTemplateColumns: user?.myRating?.length > 0 ? "300px 1fr" : "1fr", gap: "24px" }}>
-              <ProgressChart title="Overall Rating">
-                <CircularProgressbar
-                  value={user?.totalRating}
-                  text={`${user?.totalRating?.toFixed(1) || 0}%`}
-                  styles={{
-                    path: {
-                      stroke: "#804bf2",
-                      strokeWidth: 4,
-                    },
-                    trail: {
-                      stroke: "#804BF211",
-                      strokeWidth: 4,
-                    },
-                    text: {
-                      fontWeight: 800,
-                      fontSize: 20,
-                      fill: "#804bf2",
-                      fontFamily: '"Sora", sans-serif',
-                    },
-                  }}
-                />
-              </ProgressChart>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "24px", alignItems: "start" }}>
+              <div style={{ position: "relative", minWidth: "0" }}>
+                <ProgressChart title="Overall Rating">
+                  <CircularProgressbar
+                    value={user?.totalRating}
+                    text={`${user?.totalRating?.toFixed(1) || 0}%`}
+                    styles={{
+                      path: {
+                        stroke: "#804bf2",
+                        strokeWidth: 4,
+                      },
+                      trail: {
+                        stroke: "#804BF211",
+                        strokeWidth: 4,
+                      },
+                      text: {
+                        fontWeight: 800,
+                        fontSize: 20,
+                        fill: "#804bf2",
+                        fontFamily: '"Sora", sans-serif',
+                      },
+                    }}
+                  />
+                </ProgressChart>
+              </div>
 
               {user?.myRating?.length > 0 ? (
                 <div style={{ borderRadius: "16px", overflow: "hidden" }}>

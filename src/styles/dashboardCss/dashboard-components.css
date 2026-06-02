@@ -129,12 +129,12 @@
 /* Dashboard Header Component */
 .dashboard-hero-section {
   background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
-  padding: 48px 32px;
+  padding: 32px 24px;
   border-radius: 20px;
   margin-bottom: 32px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 32px;
   align-items: center;
   position: relative;
   overflow: hidden;
@@ -171,10 +171,10 @@
 
 .hero-greeting {
   font-family: "Sora", sans-serif;
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 800;
   color: #1a1a1a;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   line-height: 1.2;
 
   span {
@@ -187,11 +187,11 @@
 
 .hero-subtext {
   font-family: "Montserrat", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   color: #666;
-  line-height: 1.6;
-  margin-bottom: 24px;
+  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
 .hero-stats {
@@ -225,7 +225,7 @@
 .hero-image {
   position: relative;
   z-index: 1;
-  height: 300px;
+  height: 220px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 12px 40px rgba(128, 75, 242, 0.15);
@@ -277,8 +277,8 @@
 
 /* Achievement Badge */
 .achievement-badge {
-  background: linear-gradient(135deg, rgba(242, 174, 48, 0.1) 0%, rgba(242, 174, 48, 0.05) 100%);
-  border: 1px solid rgba(242, 174, 48, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 247, 255, 0.5) 100%);
+  border: 1px solid rgba(128, 75, 242, 0.1);
   border-radius: 12px;
   padding: 16px 20px;
   display: flex;
@@ -287,19 +287,19 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background: linear-gradient(135deg, rgba(242, 174, 48, 0.15) 0%, rgba(242, 174, 48, 0.08) 100%);
-    border-color: rgba(242, 174, 48, 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(249, 247, 255, 0.8) 100%);
+    border-color: rgba(128, 75, 242, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(242, 174, 48, 0.15);
+    box-shadow: 0 8px 20px rgba(128, 75, 242, 0.1);
   }
 
   &.achievement-badge--unlocked {
-    background: linear-gradient(135deg, #f2ae30 0%, #e89b1a 100%);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 247, 255, 0.5) 100%);
+    border-color: rgba(128, 75, 242, 0.15);
+    color: #1a1a1a;
 
     .achievement-icon {
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(128, 75, 242, 0.1);
     }
   }
 
@@ -314,7 +314,7 @@
   width: 48px;
   height: 48px;
   border-radius: 10px;
-  background: rgba(242, 174, 48, 0.2);
+  background: rgba(128, 75, 242, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -337,7 +337,7 @@
 .achievement-desc {
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
-  color: #999;
+  color: #666;
 }
 
 /* Performance Table */
