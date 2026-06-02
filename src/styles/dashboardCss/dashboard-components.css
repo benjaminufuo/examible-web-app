@@ -541,20 +541,20 @@
 /* Subjects Grid - Responsive */
 .subjects-grid {
   display: grid !important;
-  gridTemplateColumns: repeat(auto-fill, minmax(100px, 1fr)) !important;
-  gap: 16px !important;
+  gridTemplateColumns: repeat(auto-fill, minmax(70px, 1fr)) !important;
+  gap: 12px !important;
 }
 
 @media (max-width: 768px) {
   .subjects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
-    gap: 12px !important;
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)) !important;
+    gap: 10px !important;
   }
 }
 
 @media (max-width: 480px) {
   .subjects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)) !important;
+    gap: 8px !important;
   }
 }

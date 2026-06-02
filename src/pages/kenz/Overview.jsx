@@ -152,7 +152,7 @@ const Overview = () => {
           {/* Subject Selection */}
           <div style={{ marginBottom: "32px" }}>
             <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", fontFamily: '"Sora", sans-serif' }}>Your Subjects</h2>
-            <div className="subjects-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))", gap: "16px" }}>
+            <div className="subjects-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(70px, 1fr))", gap: "12px" }}>
               {user?.enrolledSubjects?.map((item, index) => (
                 <div
                   key={index}
@@ -160,18 +160,18 @@ const Overview = () => {
                   onMouseLeave={() => setShowBin("")}
                   style={{
                     position: "relative",
-                    padding: "12px",
+                    padding: "8px",
                     backgroundColor: "rgba(128, 75, 242, 0.08)",
                     border: "1px solid rgba(128, 75, 242, 0.1)",
-                    borderRadius: "12px",
+                    borderRadius: "10px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "8px",
+                    gap: "4px",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
-                    minHeight: "80px",
+                    minHeight: "60px",
                   }}
                   onMouseEnterStyle={{
                     backgroundColor: "rgba(128, 75, 242, 0.12)",
@@ -185,9 +185,9 @@ const Overview = () => {
                       src={subjectMap[item]}
                       alt={item}
                       loading="eager"
-                      width={40}
-                      height={40}
-                      style={{ borderRadius: "8px" }}
+                      width={32}
+                      height={32}
+                      style={{ borderRadius: "6px" }}
                     />
                   )}
                   {showBin === index && (
@@ -212,22 +212,23 @@ const Overview = () => {
               ))}
               <div
                 style={{
-                  padding: "16px",
+                  padding: "8px",
                   backgroundColor: "rgba(128, 75, 242, 0.06)",
                   border: "2px dashed rgba(128, 75, 242, 0.25)",
-                  borderRadius: "12px",
+                  borderRadius: "10px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "8px",
+                  gap: "4px",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
+                  minHeight: "60px",
                 }}
                 onClick={() => addMoreSubject()}
               >
                 <PlusIcon />
-                <span style={{ fontSize: "11px", fontWeight: "500", color: "#804bf2", textAlign: "center" }}>Add Subject</span>
+                <span style={{ fontSize: "10px", fontWeight: "500", color: "#804bf2", textAlign: "center" }}>Add</span>
               </div>
             </div>
           </div>
