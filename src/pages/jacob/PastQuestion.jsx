@@ -1,45 +1,38 @@
 import { useEffect, useState } from "react";
 import "../../styles/dashboardCss/pastquestion.css";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import {
+  FaBook,
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaInfoCircle,
+} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setExam,
-  setYear,
   setPastQuestions,
+  setYear,
   clearPastQuestionsOption,
 } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PastQuestion = () => {
   // Using useNavigate to programmatically navigate between routes
-  // Using useDispatch to dispatch actions to the Redux store
-  // Using useSelector to access the Redux store state
-  // Using useState to manage local component state
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const [selectedSubject, setSelectedSubject] = useState("All");
-  const [selectedYear, setSelectedYear] = useState("All");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [years, setYears] = useState([]); // State to hold the years fetched from the API
   const [subjectYearsMap, setSubjectYearsMap] = useState({}); // State to hold the mapping of subjects to years
-
-  // Function to toggle the dropdown
-  // This function checks if the dropdown is already active. If it is, it sets the activeDropdown to null, effectively closing it. If it is not active, it sets the activeDropdown to the dropdown that was clicked, opening it.
-  // This allows for only one dropdown to be open at a time.
-  const toggleDropdown = (dropdown) => {
-    if (activeDropdown === dropdown) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(dropdown);
-    }
-  };
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
-  // Base URL for fetching subjects and years
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+
+  const [selectedSubject, setSelectedSubject] = useState("All");
+  const [selectedYear, setSelectedYear] = useState("Year");
+
   const baseUrl = import.meta.env.VITE_QUESTION_URL;
   const getYears = async () => {
     try {
@@ -66,12 +59,12 @@ const PastQuestion = () => {
       const response = await axios.get(
         `${
           import.meta.env.VITE_BASE_URL
-        }api/v1/fetch-questions/${year}/${subject}/${user?._id || user?.id}`,
+        }api/v1/fetch-questions/${year}/${encodeURIComponent(subject)}/${user?._id || user?.id}`,
       );
       toast.dismiss(toastId);
       dispatch(setPastQuestions(response.data.data));
       dispatch(clearPastQuestionsOption());
-      navigate("/past-questions/view");
+      nav("/past-questions/view");
       setLoading(false);
       setDisabled(true);
     } catch (error) {
@@ -100,11 +93,8 @@ const PastQuestion = () => {
     dispatch(setYear(year));
   };
 
-  // Effect to enable or disable the button based on loading state and selected values
-  // This effect checks if the loading state is false and both selectedYear and selectedSubject are not "All". If these conditions are met, it enables the button by setting disabled to false. Otherwise, it disables the button.
-  // This ensures that the button is only enabled when both a year and a subject are selected
   useEffect(() => {
-    if (!loading && selectedYear !== "All" && selectedSubject !== "All") {
+    if (selectedSubject !== "All" && selectedYear !== "Year") {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -112,130 +102,137 @@ const PastQuestion = () => {
   }, [loading, selectedYear, selectedSubject]);
 
   return (
-    <div className="pastquestionmain">
-      <div className="pastcontainer">
-        <span>Jamb UTME Question</span>
-
-        <h1 className="pastquestionheader">Select any subject & Answer</h1>
-
-        <div className="selectpastquestion">
-          <div className="pastleftdiv">
-            <span>Exam</span>
-            <div>Jamb</div>
-          </div>
-          <div className="pastrightdiv">
-            <span>Select Subject</span>
-
-            <div
-              onClick={() => toggleDropdown("subject")}
-              style={{ cursor: "pointer" }}
-            >
-              {selectedSubject}
-              {activeDropdown === "subject" ? (
-                <FaChevronUp
-                  className="pastdropdown"
-                  style={{ cursor: "pointer" }}
-                />
-              ) : (
-                <FaChevronDown
-                  className="pastdropdown"
-                  style={{ cursor: "pointer" }}
-                />
-              )}
-              {activeDropdown === "subject" && (
-                <ul className="dropdownmenu">
-                  {user?.enrolledSubjects.map((subject, index) => (
-                    <li
-                      key={index}
-                      className="dropdownitem"
-                      onClick={() => handleSubjectClick(subject)}
-                    >
-                      {subject}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-
-          <div className="pastrightdiv">
-            <span>Select Year</span>
-            <div
-              onClick={() => {
-                if (selectedSubject !== "All") toggleDropdown("year");
-              }}
-              style={{
-                cursor: "pointer",
-                opacity: selectedSubject === "All" ? 0.5 : 1,
-              }}
-            >
-              {selectedYear}
-              {activeDropdown === "year" ? (
-                <FaChevronUp
-                  className="pastdropdown"
-                  style={{ cursor: "pointer" }}
-                />
-              ) : (
-                <FaChevronDown
-                  className="pastdropdown"
-                  style={{ cursor: "pointer" }}
-                />
-              )}
-              {activeDropdown === "year" && (
-                <ul className="dropdownmenu">
-                  {years.map((year, index) => (
-                    <li
-                      key={index}
-                      className="dropdownitem"
-                      onClick={() => handleYearClick(year)}
-                    >
-                      {year}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
+    <div className="pq-premium-main">
+      <motion.div
+        className="pq-hero-section"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="pq-hero-content">
+          <span className="pq-hero-badge">JAMB UTME Questions</span>
+          <h1 className="pq-hero-title">Master Past Questions</h1>
+          <p className="pq-hero-desc">
+            Practice real exam questions and improve your readiness with guided
+            learning and analytics.
+          </p>
         </div>
-        <div className="viewpastquestiondiv">
-          <button
-            className="viewpastbutton"
-            onClick={() =>
-              getPastQuestionForYearSubject(selectedYear, selectedSubject)
-            }
-            disabled={disabled || loading}
-            style={{
-              opacity: disabled || loading ? 0.3 : 1,
-              cursor: disabled || loading ? "not-allowed" : "pointer",
-            }}
+      </motion.div>
+
+      <div className="pq-content-layout">
+        <div className="pq-selection-panel">
+          <motion.div
+            className="pq-selection-card"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            {loading ? "Loading" : "View Past question"}
-          </button>
-        </div>
-        <div className="pastinstruction1">
-          <h1>How to Select a JAMB Past Question</h1>
-          <span>
-            Choosing the right past question is key to studying smarter and
-            scoring higher. Here’s how to do it:
-          </span>
-        </div>
-        <div className="pastinstruction2">
-          <h1>Know Your Subjects</h1>
-          <span>
-            Before selecting any past question, confirm the four JAMB subjects
-            you're sitting for. For example:
-          </span>
+            <div className="pq-card-header">
+              <FaBook className="pq-card-icon" />
+              <h3>1. Select Subject</h3>
+            </div>
+            <div className="pq-chip-grid">
+              {user?.enrolledSubjects?.map((subject, index) => (
+                <button
+                  key={index}
+                  className={`pq-chip ${selectedSubject === subject ? "active" : ""}`}
+                  onClick={() => handleSubjectClick(subject)}
+                >
+                  {selectedSubject === subject && (
+                    <FaCheckCircle className="pq-chip-icon" />
+                  )}
+                  {subject}
+                </button>
+              ))}
+            </div>
+          </motion.div>
 
-          <ul>
-            <li>
-              Science Student → English, Physics, Chemistry, Biology/Mathematics
-            </li>
-            <li>Art Student → English, Literature, Government, CRS/History</li>
-            <li>
-              Commercial Student → English, Economics, Commerce, Accounting
-            </li>
-          </ul>
+          <AnimatePresence>
+            {selectedSubject !== "All" && (
+              <motion.div
+                className="pq-selection-card"
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: "auto", marginTop: 24 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="pq-card-header">
+                  <FaCalendarAlt className="pq-card-icon" />
+                  <h3>2. Select Year</h3>
+                </div>
+                <div className="pq-chip-grid">
+                  {years.length > 0 ? (
+                    years.map((year, index) => (
+                      <button
+                        key={index}
+                        className={`pq-chip year-chip ${selectedYear === year ? "active" : ""}`}
+                        onClick={() => handleYearClick(year)}
+                      >
+                        {year}
+                      </button>
+                    ))
+                  ) : (
+                    <p className="pq-empty-state">
+                      No years available for this subject.
+                    </p>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="pq-action-container">
+            <button
+              className={`pq-action-btn ${disabled || loading ? "disabled" : ""}`}
+              onClick={() =>
+                getPastQuestionForYearSubject(selectedYear, selectedSubject)
+              }
+              disabled={disabled || loading}
+            >
+              {loading ? "Preparing Questions..." : "Start Practice Session"}
+            </button>
+          </div>
         </div>
+
+        <motion.div
+          className="pq-info-panel"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <div className="pq-info-card">
+            <div className="pq-info-header">
+              <FaInfoCircle className="pq-info-icon" />
+              <h3>Smart Practice Guide</h3>
+            </div>
+            <div className="pq-info-body">
+              <h4>How to prepare effectively</h4>
+              <p>
+                Choosing the right past question is key to studying smarter and
+                scoring higher.
+              </p>
+
+              <h4>Know Your Subjects</h4>
+              <p>
+                Confirm the four JAMB subjects you're sitting for. For example:
+              </p>
+              <ul className="pq-info-list">
+                <li>
+                  <strong>Science:</strong> English, Physics, Chemistry,
+                  Biology/Math
+                </li>
+                <li>
+                  <strong>Arts:</strong> English, Literature, Government,
+                  CRS/History
+                </li>
+                <li>
+                  <strong>Commercial:</strong> English, Economics, Commerce,
+                  Accounting
+                </li>
+              </ul>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

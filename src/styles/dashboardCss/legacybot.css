@@ -6,7 +6,7 @@
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 16px;
+  padding: 16px 0;
   animation: fadeIn 0.3s ease-in-out;
   bottom: 20px;
   right: 20px;
@@ -22,6 +22,7 @@
   justify-content: space-between;
   align-items: center;
   font-family: "Montserrat", sans-serif;
+  padding: 0 16px;
 }
 
 .chatbot-body {
@@ -33,10 +34,14 @@
 
 .messagecontainer {
   position: relative;
-  width: 90;
-  min-height: 15vh;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 100%;
+  min-height: 60px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(128, 75, 242, 0.08);
+  border: 1px solid rgba(128, 75, 242, 0.15);
+  background-color: #ffffff;
+  margin-top: 12px;
+  box-sizing: border-box;
 }
 
 .textarea {
@@ -45,7 +50,11 @@
   border: none;
   outline: none;
   padding: 15px;
+  padding-right: 45px;
   font-family: "Montserrat", sans-serif;
+  background-color: transparent;
+  color: #1a1a1a;
+  box-sizing: border-box;
 }
 .textarea::-webkit-scrollbar {
   width: 8px;
@@ -62,9 +71,17 @@
   font-size: 30px;
   color: #804bf2;
   position: absolute;
-  right: 5px;
-  bottom: 15px;
+  right: 12px;
+  bottom: 12px;
   cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.legacysendicon:hover {
+  transform: scale(1.1);
+  color: #6834d8;
 }
 
 @keyframes fadeIn {

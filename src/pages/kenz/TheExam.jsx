@@ -1,360 +1,375 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState, useMemo } from "react";
 import "../../styles/dashboardCss/examBody.css";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { LuClock2 } from "react-icons/lu";
+import {
+  FiLogOut,
+  FiCheck,
+  FiChevronLeft,
+  FiChevronRight,
+} from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+import Latex from "react-latex-next";
+import "katex/dist/katex.min.css"; // Required for math symbols to format correctly
+import Calculator from "../../components/Calculator";
+import ErrorPgae from "../jacob/ErrorPgae";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  nextQuestion,
-  setExamTimeout,
-  setFinishedExam,
   setMockExamOption,
+  nextQuestion,
+  setFinishedExam,
   theExamTimer,
 } from "../../global/slice";
 import { useExamibleContext } from "../../context/ExamibleContext";
-import Latex from "react-latex-next";
-import Calculator from "../../components/Calculator";
-import ErrorPgae from "../jacob/ErrorPgae";
 
 const TheExam = () => {
-  const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
-  const mockExamOptions = useSelector((state) => state.mockExamOptions);
-  const examMeter = useSelector((state) => state.examMeter);
-  const examTimerMins = useSelector((state) => state.examTimerMins);
-  const examTimerSecs = useSelector((state) => state.examTimerSecs);
-  const exam = useSelector((state) => state.exam);
-  const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
-  const [isNext, setIsNext] = useState(false);
-  const arrayOfNumbers = Array.from(
-    { length: mockExamQuestions?.length },
-    (_, i) => i + 1,
-  );
-
-  const { setShowLeavingNow } = useExamibleContext();
-
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { subjectId } = useParams();
-  const num = Number(subjectId);
-  const currentQuestion = mockExamQuestions?.find(
-    (_, index) => index === num - 1,
+  const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
+  const mockSelectedSubject =
+    useSelector((state) => state.mockSelectedSubject) || "";
+  const mockExamOptions = useSelector((state) => state.mockExamOptions) || {};
+  const exam = mockExamQuestions || [];
+  const currentQuestion = exam[Number(subjectId) - 1] || {};
+  const userAnswers = useSelector((state) => state.exam) || [];
+  const { setShowLeavingNow } = useExamibleContext();
+  const examTimerMins = useSelector((state) => state.examTimerMins);
+  const examTimerSecs = useSelector((state) => state.examTimerSecs);
+  const isNext =
+    mockExamOptions?.optionA ||
+    mockExamOptions?.optionB ||
+    mockExamOptions?.optionC ||
+    mockExamOptions?.optionD ||
+    mockExamOptions?.optionE;
+  const totalQuestions = mockExamQuestions?.length || 0;
+  const answeredQuestions = userAnswers.filter((item) => item?.option).length;
+  const examMeter = totalQuestions
+    ? Math.round((answeredQuestions / totalQuestions) * 100)
+    : 0;
+  const arrayOfNumbers = Array.from(
+    { length: totalQuestions },
+    (_, i) => i + 1,
   );
 
-  useLayoutEffect(() => {
-    if (mockExamQuestions?.length <= 0 || !mockExamQuestions) {
-      location.href = "/overview";
-    }
-  }, [mockExamQuestions]);
+  const isCbtMode = mockSelectedSubject === "CBT Examination";
 
+  const examSubjects = useMemo(() => {
+    if (!isCbtMode || !exam || exam.length === 0) {
+      return [];
+    }
+    const subjects = exam.map((q) => q.subject).filter(Boolean);
+    return [...new Set(subjects)];
+  }, [isCbtMode, exam]);
+
+  // Dynamic Timer States
+  const timerClass =
+    examTimerMins < 5 ? "critical" : examTimerMins < 15 ? "warning" : "normal";
+
+  // 1. Setup the countdown interval
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timerId = setInterval(() => {
       dispatch(theExamTimer());
     }, 1000);
 
+    return () => clearInterval(timerId); // Cleanup interval on unmount
+  }, [dispatch]);
+
+  // 2. Auto-submit when time is up
+  useEffect(() => {
     if (examTimerMins === 0 && examTimerSecs === 0) {
-      dispatch(setExamTimeout());
+      handleFinishedExam();
     }
-    return () => clearInterval(interval);
-  }, [examTimerSecs]);
+  }, [examTimerMins, examTimerSecs]);
 
   const previousExam = () => {
     dispatch(
-      setMockExamOption({
-        option: exam[num - 2]?.option,
-        answer: exam[num - 2]?.answer,
+      nextQuestion({
+        answer: currentQuestion?.answer,
+        subjectId,
       }),
     );
-    nav(`/mock-exam/${num - 1}`);
-    // dispatch(previousQuestion())
+    if (Number(subjectId) > 1) {
+      const prevIndex = Number(subjectId) - 2;
+      nav(`/mock-exam/${prevIndex + 1}`);
+      dispatch(
+        setMockExamOption({
+          option: userAnswers[prevIndex]?.option,
+          answer: userAnswers[prevIndex]?.option,
+        }),
+      );
+    }
   };
 
   const nextExam = () => {
-    dispatch(nextQuestion({ answer: currentQuestion?.answer, subjectId }));
-    nav(`/mock-exam/${num + 1}`);
-    if (exam?.length > subjectId) {
+    dispatch(
+      nextQuestion({
+        answer: currentQuestion?.answer,
+        subjectId,
+      }),
+    );
+    if (Number(subjectId) < totalQuestions) {
+      const nextIndex = Number(subjectId);
+      nav(`/mock-exam/${nextIndex + 1}`);
       dispatch(
         setMockExamOption({
-          option: exam[num]?.option,
-          answer: exam[num]?.answer,
+          option: userAnswers[nextIndex]?.option,
+          answer: userAnswers[nextIndex]?.option,
         }),
       );
-    } else {
-      dispatch(setMockExamOption("F"));
     }
   };
 
   const handleFinishedExam = () => {
-    dispatch(nextQuestion({ answer: currentQuestion?.answer, subjectId }));
+    dispatch(
+      nextQuestion({
+        answer: currentQuestion?.answer,
+        subjectId,
+      }),
+    );
+    // Open the Finished Exam modal
     dispatch(setFinishedExam());
   };
 
-  useEffect(() => {
-    if (
-      mockExamOptions.optionA ||
-      mockExamOptions.optionB ||
-      mockExamOptions.optionC ||
-      mockExamOptions.optionD
-    ) {
-      setIsNext(true);
-    } else {
-      setIsNext(false);
-    }
-  }, [mockExamOptions]);
+  const handleSubjectSwitch = (targetSubject) => {
+    // 1. Save current question progress before switching
+    dispatch(
+      nextQuestion({
+        answer: currentQuestion?.answer,
+        subjectId,
+      }),
+    );
 
-  if (num > mockExamQuestions?.length) {
-    return <ErrorPgae />;
-  }
+    // 2. Find the first question of the target subject
+    const targetIndex = exam.findIndex((q) => q.subject === targetSubject);
+
+    if (targetIndex !== -1) {
+      // 3. Navigate to that question
+      nav(`/mock-exam/${targetIndex + 1}`);
+
+      // 4. Load the state for the new question
+      dispatch(
+        setMockExamOption({
+          option: userAnswers[targetIndex]?.option,
+          answer: userAnswers[targetIndex]?.option,
+        }),
+      );
+    }
+  };
 
   return (
-    <div className="examBody">
-      <div className="examBody-mobile">
-        <button onClick={() => setShowLeavingNow(true)}>x</button>
-        <h5>Jamb Mock Exam</h5>
-        <article>
-          <aside>
-            <meter min={0} max={100} value={examMeter}></meter>
-            <p>{examMeter.toFixed(0)}%</p>
-          </aside>
-          <section>
+    <div className="exam-premium-layout">
+      {/* PREMIUM HEADER */}
+      <header
+        className={`exam-header ${isCbtMode && examSubjects.length > 1 ? "cbt-active" : ""}`}
+      >
+        <div className="exam-header-left">
+          <h1>{mockSelectedSubject} CBT</h1>
+          <span className="exam-progress-text">
+            Question {subjectId} of {totalQuestions}
+          </span>
+        </div>
+        <div className="exam-header-right">
+          <div className={`exam-timer ${timerClass}`}>
             <LuClock2 fontSize={30} />
-            {String(examTimerMins)?.padStart(2, "0")}:
-            {String(examTimerSecs)?.padStart(2, "0")}
-          </section>
-        </article>
-      </div>
-      <div className="examBody-firstLayer">
-        <h3>Jamb Mock Exam</h3>
-        <aside>
-          <meter min={0} max={100} value={examMeter}></meter>
-          <p>{examMeter.toFixed(0)}%</p>
-        </aside>
-        <section>
-          <LuClock2 fontSize={30} />
-          {String(examTimerMins)?.padStart(2, "0")}:
-          {String(examTimerSecs)?.padStart(2, "0")}
-        </section>
-        <button onClick={() => setShowLeavingNow(true)}>x</button>
-      </div>
-      <h1>{mockSelectedSubject} QUESTIONS</h1>
-      <div className="examBody-secondLayer">
-        <div className="examBody-secondLayerHolder">
-          <main>
-            <h6>Question {subjectId}</h6>
+            <span>
+              {String(examTimerMins).padStart(2, "0")}:
+              {String(examTimerSecs).padStart(2, "0")}
+            </span>
+          </div>
+          <button
+            className="exam-exit-btn"
+            onClick={() => setShowLeavingNow(true)}
+          >
+            <FiLogOut /> Exit Exam
+          </button>
+        </div>
+      </header>
+
+      {/* DYNAMIC SUBJECT SWITCHER FOR CBT MODE */}
+      <AnimatePresence>
+        {isCbtMode && examSubjects.length > 1 && (
+          <motion.div
+            className="exam-subject-switcher"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+          >
+            {examSubjects.map((subject) => (
+              <button
+                key={subject}
+                className={`exam-subject-tab ${currentQuestion?.subject === subject ? "active" : ""}`}
+                onClick={() => handleSubjectSwitch(subject)}
+              >
+                {subject}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="exam-workspace">
+        {/* MAIN QUESTION AREA */}
+        <main className="exam-main-content">
+          <motion.div
+            key={subjectId}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className="exam-question-card"
+          >
+            <div className="exam-q-meta">
+              <span className="exam-q-number">Question {subjectId}</span>
+            </div>
+
             {currentQuestion?.subheadingA && (
-              <h2>
+              <h4>
                 <Latex>{currentQuestion?.subheadingA}</Latex>
-              </h2>
+              </h4>
             )}
             {currentQuestion?.diagramUrlA && (
               <img
                 src={currentQuestion?.diagramUrlA}
-                alt="Diagram loading..."
+                alt="Diagram"
+                className="exam-diagram"
               />
             )}
             {currentQuestion?.subheadingB && (
-              <h3>
+              <h4>
                 <Latex>{currentQuestion?.subheadingB}</Latex>
-              </h3>
+              </h4>
             )}
             {currentQuestion?.diagramUrlB && (
               <img
                 src={currentQuestion?.diagramUrlB}
-                alt="Diagram loading..."
+                alt="Diagram"
+                className="exam-diagram"
               />
             )}
             {currentQuestion?.question && (
-              <h5>
+              <h3 className="exam-q-text">
                 <Latex>{currentQuestion?.question}</Latex>
-              </h5>
+              </h3>
             )}
-            {currentQuestion?.options[0] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "A", answer: "A" }))
-                }
+
+            {/* DYNAMIC ANSWER CARDS */}
+            <div className="exam-options-grid">
+              {["A", "B", "C", "D", "E"].map((optLetter, idx) => {
+                const optText = currentQuestion?.options[idx];
+                if (!optText) return null;
+
+                const isSelected = mockExamOptions[`option${optLetter}`];
+
+                return (
+                  <div
+                    key={optLetter}
+                    className={`exam-opt-card ${isSelected ? "selected" : ""}`}
+                    onClick={() =>
+                      dispatch(
+                        setMockExamOption({
+                          option: optLetter,
+                          answer: optLetter,
+                        }),
+                      )
+                    }
+                  >
+                    <div className="exam-opt-letter">{optLetter}</div>
+                    <div className="exam-opt-text">
+                      <Latex>
+                        {optText.startsWith(`${optLetter}.`)
+                          ? optText.slice(2).trim()
+                          : optText}
+                      </Latex>
+                    </div>
+                    {isSelected && <FiCheck className="exam-opt-check" />}
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* QUICK ACTIONS BAR */}
+          <div className="exam-actions-bar">
+            <button
+              className="exam-action-btn secondary"
+              disabled={parseInt(subjectId) === 1}
+              onClick={previousExam}
+            >
+              <FiChevronLeft /> Previous
+            </button>
+
+            {totalQuestions === parseInt(subjectId) ? (
+              <button
+                className="exam-action-btn submit"
+                onClick={handleFinishedExam}
               >
-                <h4>A.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[0]?.startsWith("A.")
-                      ? currentQuestion?.options[0]?.slice(2)
-                      : currentQuestion?.options[0]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionA}
-                  readOnly
-                />
-              </nav>
+                Submit Exam <FiCheck />
+              </button>
+            ) : (
+              <button className="exam-action-btn primary" onClick={nextExam}>
+                {isNext ? "Next" : "Skip"} <FiChevronRight />
+              </button>
             )}
-            {currentQuestion?.options[1] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "B", answer: "B" }))
-                }
-              >
-                <h4>B.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[1]?.startsWith("B.")
-                      ? currentQuestion?.options[1]?.slice(2)
-                      : currentQuestion?.options[1]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionB}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[2] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "C", answer: "C" }))
-                }
-              >
-                <h4>C.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[2]?.startsWith("C.")
-                      ? currentQuestion?.options[2]?.slice(2)
-                      : currentQuestion?.options[2]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionC}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[3] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "D", answer: "D" }))
-                }
-              >
-                <h4>D.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[3]?.startsWith("D.")
-                      ? currentQuestion?.options[3]?.slice(2)
-                      : currentQuestion?.options[3]}
-                  </Latex>
-                </p>
-                <input
-                  type="radio"
-                  checked={mockExamOptions.optionD}
-                  readOnly
-                />
-              </nav>
-            )}
-            {currentQuestion?.options[4] && (
-              <nav
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch(setMockExamOption({ option: "E", answer: "E" }))
-                }
-              >
-                <h4>E.</h4>
-                <p>
-                  <Latex>
-                    {currentQuestion?.options[4]?.startsWith("E.")
-                      ? currentQuestion?.options[4]?.slice(2)
-                      : currentQuestion?.options[4]}
-                  </Latex>
-                </p>
-                <input type="radio" checked={mockExamOptions.optionE} />
-              </nav>
-            )}
-          </main>
-        </div>
-        <div className="examBody-secondLayerButton">
-          <button
-            style={{ display: parseInt(subjectId) === 1 ? "none" : "flex" }}
-            onClick={() => previousExam()}
-          >
-            <article>
-              <FaArrowLeftLong />
-            </article>
-            <h2>Previous</h2>
-          </button>
-          <button
-            style={{
-              display:
-                mockExamQuestions?.length === parseInt(subjectId)
-                  ? "none"
-                  : "flex",
-            }}
-            onClick={() => nextExam()}
-          >
-            <h2>{isNext ? "Next" : "Skip"}</h2>
-            <article>
-              <FaArrowRightLong />
-            </article>
-          </button>
-          <button
-            style={{
-              display:
-                mockExamQuestions?.length === parseInt(subjectId)
-                  ? "flex"
-                  : "none",
-              background: "#804BF2",
-              color: "white",
-              borderColor: "#804BF2",
-            }}
-            onClick={() => handleFinishedExam()}
-          >
-            <h2>Finish</h2>
-          </button>
-        </div>
-        <div className="examBody-panel">
-          <div className="examBody-panelHolder">
-            {arrayOfNumbers.map((item, index) => (
-              <main
-                style={{
-                  cursor: "pointer",
-                  backgroundColor:
-                    item === Number(subjectId) || exam[index]?.option
-                      ? "#804BF2"
-                      : "white",
-                  color:
-                    item === Number(subjectId) || exam[index]?.option
-                      ? "white"
-                      : "#804BF2",
-                }}
-                onClick={() => {
-                  dispatch(
-                    nextQuestion({
-                      answer: currentQuestion?.answer,
-                      subjectId,
-                    }),
-                  );
-                  nav(`/mock-exam/${index + 1}`);
-                  dispatch(
-                    setMockExamOption({
-                      option: exam[index]?.option,
-                      answer: exam[index]?.answer,
-                    }),
-                  );
-                }}
-                key={index}
-              >
-                {item}
-              </main>
-            ))}
           </div>
-        </div>
+        </main>
+
+        {/* SIDEBAR: PROGRESS & NAVIGATOR */}
+        <aside className="exam-sidebar">
+          <div className="exam-sidebar-card">
+            <h3>Exam Progress</h3>
+            <div className="exam-progress-bar">
+              <div
+                className="exam-progress-fill"
+                style={{ width: `${examMeter}%` }}
+              ></div>
+            </div>
+            <div className="exam-progress-stats">
+              <span>{answeredQuestions} Answered</span>
+              <span>{totalQuestions - answeredQuestions} Remaining</span>
+            </div>
+          </div>
+
+          <div className="exam-sidebar-card">
+            <h3>Question Navigator</h3>
+            <div className="exam-nav-grid">
+              {arrayOfNumbers.map((item, index) => {
+                const isAnswered = userAnswers[index]?.option;
+                const isCurrent = item === Number(subjectId);
+                let chipClass = "exam-nav-chip";
+                if (isCurrent) chipClass += " current";
+                else if (isAnswered) chipClass += " answered";
+
+                return (
+                  <button
+                    key={index}
+                    className={chipClass}
+                    onClick={() => {
+                      dispatch(
+                        nextQuestion({
+                          answer: currentQuestion?.answer,
+                          subjectId,
+                        }),
+                      );
+                      nav(`/mock-exam/${index + 1}`);
+                      dispatch(
+                        setMockExamOption({
+                          option: userAnswers[index]?.option,
+                          answer: userAnswers[index]?.option,
+                        }),
+                      );
+                    }}
+                  >
+                    {item}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
       </div>
       <Calculator />
     </div>
   );
 };
-
 export default TheExam;

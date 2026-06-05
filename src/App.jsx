@@ -11,6 +11,7 @@ const ResetLink = safeLazy(() => import("./auth/ResetLink"));
 const ResetPassword = safeLazy(
   () => import("./auth/welcomeback/ResetPassword"),
 );
+const CbtMode = safeLazy(() => import("./pages/kenz/CbtMode"));
 const Mockexam = safeLazy(() => import("./pages/kenz/Mockexam"));
 const PastQuestion = safeLazy(() => import("./pages/jacob/PastQuestion"));
 const Profile = safeLazy(() => import("./pages/kenz/Profile"));
@@ -37,6 +38,7 @@ import { prefetchCommonRoutes, safeLazy } from "./utils/routePrefetch";
 import Loading from "./components/Loading";
 import GenericError from "./components/GenericError";
 import { GlobalErrorBoundary } from "./utils";
+import ThemeToggle from "./components/ThemeToggle";
 
 // Prefetch common routes on app load
 prefetchCommonRoutes();
@@ -126,6 +128,11 @@ const routes = createBrowserRouter([
                 path: "/mock-exam",
                 element: <Mockexam />,
               },
+              // JAMB CBT Simulator Route
+              {
+                path: "/cbt-mode",
+                element: <CbtMode />,
+              },
               {
                 path: "/past-questions",
                 element: <PastQuestion />,
@@ -152,7 +159,7 @@ const routes = createBrowserRouter([
               },
               {
                 path: "/past-questions/result",
-                element: <ResultPage />,
+                element: <MockResult />,
               },
             ],
           },

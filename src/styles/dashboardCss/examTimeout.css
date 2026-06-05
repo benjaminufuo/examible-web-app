@@ -1,111 +1,105 @@
-.examTimeout{
-    width: 100%;
-    height: 100dvh;
-    background: url('../../assets/public/timeUp.svg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 3;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+/* Premium Exam Timeout Modal Styles using Theme Tokens */
 
-    .examTimeout-holder{
-        height: 70%;
-        width: 43%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
+.examTimeout-overlay-premium {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ex-glass-blur));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
 
-        .examTimeout-holderImg{
-            width: 300px;
-            height: 250px;
-            background: url('../../assets/public/doubleZero.svg');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+.examTimeout-modal-premium {
+  background: var(--ex-surface);
+  border-radius: var(--ex-radius-lg);
+  padding: 40px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: var(--ex-shadow-lg);
+  border: 1px solid var(--ex-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  font-family: var(--ex-font-body);
+}
 
-        .examTimeout-holderText{
-            width: 100%;
-            height: 35%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
+.examTimeout-icon-wrapper {
+  background: var(--ex-brand-soft);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ex-brand);
+  border: 4px solid var(--ex-surface);
+  box-shadow: 0 0 0 4px var(--ex-brand-soft);
+}
 
-            h2{
-                font-family: "sora", sans-serif;
-                font-weight: 700;
-                font-size: 80px;
-                color: #804BF233;
-            }
+.examTimeout-title {
+  margin: 0;
+  font-family: var(--ex-font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ex-text);
+}
 
-            h5{
-                font-family: "Montserrat", sans-serif;
-                font-weight: 600;
-                font-size: 35px;
-            }
+.examTimeout-message {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ex-text-soft);
+  line-height: 1.6;
+  max-width: 380px;
+}
 
-            p{
-                font-family: "Montserrat", sans-serif;
-                font-weight: 400;
-                font-size: 25px;
-            }
-        }
+.examTimeout-action-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--ex-radius-sm);
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand, #ffffff);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  box-shadow: var(--ex-shadow-glow);
+}
 
-        button{
-            font-family: "Montserrat", sans-serif;
-            font-weight: 600;
-            font-size: 28.5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            background-color: #804BF2;
-            border-radius: 10px;
-            height: 63px;
-            width: 285px;
-            border: none;
-            outline: none;
-            cursor: pointer;
-        }
+.examTimeout-action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--ex-shadow-glow-strong);
+}
 
-        @media screen and (max-width:1024px) {
-            width: 70%;
-        }
+.examTimeout-action-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--ex-shadow-glow);
+}
 
-        @media screen and (max-width:768px) {
-            width: 70%;
-            height: 80%;
-        }
-        
-        @media screen and (max-width:768px) {
-            width: 70%;
-            height: 70%;
+.examTimeout-action-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
-            .examTimeout-holderImg{
-                height: 180px;
-            }
-
-            .examTimeout-holderText{
-                h2{
-                    font-size: 55px;
-                }
-
-                h5{
-                    font-size: 18px;
-                }
-
-                p{
-                    font-size: 16px;
-                }
-            }
-        }
-    }
+@media (max-width: 600px) {
+  .examTimeout-modal-premium {
+    padding: 32px 24px;
+  }
+  .examTimeout-title {
+    font-size: 24px;
+  }
+  .examTimeout-message {
+    font-size: 15px;
+  }
 }

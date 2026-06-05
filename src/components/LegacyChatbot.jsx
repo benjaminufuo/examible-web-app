@@ -60,7 +60,7 @@ const LegacyChatbot = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(apiRequest),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -76,7 +76,7 @@ const LegacyChatbot = () => {
             sender: "Gemini",
             direction: "Outgoing",
           },
-        ])
+        ]),
       );
     } catch (error) {
       dispatch(
@@ -87,7 +87,7 @@ const LegacyChatbot = () => {
             sender: "Gemini",
             direction: "Outgoing",
           },
-        ])
+        ]),
       );
     } finally {
       setTyping(false);
@@ -108,7 +108,7 @@ const LegacyChatbot = () => {
     <MainContainer>
       <ChatContainer>
         <MessageList
-          style={{ padding: 10 }}
+          style={{ paddingBlockStart: "10px" }}
           scrollBehavior="smooth"
           typingIndicator={
             typing ? <TypingIndicator content="Examible bot is typing" /> : null

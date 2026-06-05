@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userToken: "",
   user: {},
-  exam: "",
   year: "",
   pastQuestions: [],
   pastQuestionsOption: {},
@@ -44,10 +43,6 @@ const slice = createSlice({
     },
     setUser: (state, { payload }) => {
       state.user = payload;
-    },
-
-    setMockSubject: (state, { payload }) => {
-      state.mockSubject = payload;
     },
     setExam: (state, { payload }) => {
       state.exam = payload;
@@ -209,7 +204,10 @@ const slice = createSlice({
     },
     setExamTimer: (state, { payload }) => {
       state.examMeter = 0;
-      if (payload === "Freemium") {
+      if (typeof payload === "object" && payload.duration) {
+        state.examTimerMins = payload.duration - 1;
+        state.examTimerSecs = 59;
+      } else if (payload === "Freemium") {
         state.examTimerMins = 9;
         state.examTimerSecs = 59;
       } else {

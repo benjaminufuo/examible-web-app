@@ -2,7 +2,7 @@ import "../../styles/plans.css";
 import { FaCircleCheck } from "react-icons/fa6";
 import wallet from "../../assets/public/wallet.png";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const plans = [
   {
@@ -85,18 +85,18 @@ const Plans = () => {
                   plan.title === "Freemium"
                     ? "#804BF2"
                     : plan.title === "Yearly"
-                    ? "#fff"
-                    : plan.title === "Monthly"
-                    ? "#804BF2"
-                    : "",
+                      ? "#fff"
+                      : plan.title === "Monthly"
+                        ? "#804BF2"
+                        : "",
                 color:
                   plan.title === "Freemium"
                     ? "#fff"
                     : plan.title === "Yearly"
-                    ? "#804BF2"
-                    : plan.title === "Monthly"
-                    ? "#fff"
-                    : "",
+                      ? "#804BF2"
+                      : plan.title === "Monthly"
+                        ? "#fff"
+                        : "",
               }}
             >
               {plan.title.toUpperCase()}
@@ -108,10 +108,10 @@ const Plans = () => {
                   plan.title === "Freemium"
                     ? "#1E1E1E"
                     : plan.title === "Yearly"
-                    ? "#FFF"
-                    : plan.title === "Monthly"
-                    ? "#1E1E1E"
-                    : "",
+                      ? "#FFF"
+                      : plan.title === "Monthly"
+                        ? "#1E1E1E"
+                        : "",
               }}
             >
               {plan.description}
@@ -125,10 +125,10 @@ const Plans = () => {
                     plan.title === "Freemium"
                       ? "#fff"
                       : plan.title === "Yearly"
-                      ? "#fff"
-                      : plan.title === "Monthly"
-                      ? "#804BF2"
-                      : "",
+                        ? "#fff"
+                        : plan.title === "Monthly"
+                          ? "#804BF2"
+                          : "",
                 }}
               >
                 {plan.displayPrice || plan.price}
@@ -141,10 +141,10 @@ const Plans = () => {
                       plan.title === "Freemium"
                         ? "#1E1E1E"
                         : plan.title === "Yearly"
-                        ? "#FFF"
-                        : plan.title === "Monthly"
-                        ? "#1E1E1E"
-                        : "",
+                          ? "#FFF"
+                          : plan.title === "Monthly"
+                            ? "#1E1E1E"
+                            : "",
                   }}
                 >
                   {plan.sub}
@@ -158,10 +158,10 @@ const Plans = () => {
                     plan.title === "Freemium"
                       ? "#1E1E1E"
                       : plan.title === "Yearly"
-                      ? "#FFF"
-                      : plan.title === "Monthly"
-                      ? "#1E1E1E"
-                      : "",
+                        ? "#FFF"
+                        : plan.title === "Monthly"
+                          ? "#1E1E1E"
+                          : "",
                 }}
               >
                 Benefits
@@ -178,10 +178,10 @@ const Plans = () => {
                         plan.title === "Freemium"
                           ? "#804BF2"
                           : plan.title === "Yearly"
-                          ? "#FFF"
-                          : plan.title === "Monthly"
-                          ? "#804BF2"
-                          : "",
+                            ? "#FFF"
+                            : plan.title === "Monthly"
+                              ? "#804BF2"
+                              : "",
                     }}
                   />
                   <span
@@ -191,10 +191,10 @@ const Plans = () => {
                         plan.title === "Freemium"
                           ? "#1E1E1E"
                           : plan.title === "Yearly"
-                          ? "#FFF"
-                          : plan.title === "Monthly"
-                          ? "#1E1E1E"
-                          : "",
+                            ? "#FFF"
+                            : plan.title === "Monthly"
+                              ? "#1E1E1E"
+                              : "",
                     }}
                   >
                     {benefit}

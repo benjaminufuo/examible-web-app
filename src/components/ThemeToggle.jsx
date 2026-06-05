@@ -3,14 +3,28 @@ import { FiMoon, FiSun } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import "../styles/themeToggle.css";
 
-const ThemeToggle = ({ className = "" }) => {
+const ThemeToggle = ({ className = "", floating = false }) => {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
+
+  // Styles to make the toggle float persistently on the screen
+  const floatingStyles = floating
+    ? {
+        position: "fixed",
+        bottom: "32px",
+        right: "32px",
+        zIndex: 9999,
+        background: "var(--ex-surface)",
+        border: "1px solid var(--ex-border)",
+        boxShadow: "var(--ex-shadow-lg)",
+      }
+    : {};
 
   return (
     <button
       type="button"
       className={`ex-theme-toggle ${className}`}
+      style={floatingStyles}
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}

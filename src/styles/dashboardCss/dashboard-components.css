@@ -2,14 +2,10 @@
 
 /* Stat Card Component */
 .stat-card {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(249, 247, 255, 0.5) 100%
-  );
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(128, 75, 242, 0.1);
+  background: var(--ex-glass-bg);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ex-glass-blur));
+  border: 1px solid var(--ex-border);
   border-radius: 16px;
   padding: 16px;
   display: flex;
@@ -18,7 +14,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--ex-shadow-sm);
 
   &::before {
     content: "";
@@ -29,7 +25,7 @@
     height: 120px;
     background: radial-gradient(
       circle,
-      rgba(128, 75, 242, 0.1) 0%,
+      var(--ex-brand-soft) 0%,
       transparent 70%
     );
     border-radius: 50%;
@@ -37,24 +33,20 @@
   }
 
   &:hover {
-    border-color: rgba(128, 75, 242, 0.25);
-    box-shadow: 0 12px 32px rgba(128, 75, 242, 0.12);
+    border-color: var(--ex-brand);
+    box-shadow: var(--ex-shadow-md);
     transform: translateY(-6px);
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(249, 247, 255, 0.8) 100%
-    );
+    background: var(--ex-surface);
   }
 
   &.stat-card--accent {
-    background: linear-gradient(135deg, #804bf2a3 0%, #6834d8 100%);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: var(--ex-gradient-brand);
+    border-color: var(--ex-brand);
+    color: var(--ex-text-onbrand, #ffffff);
 
     .stat-label,
     .stat-value {
-      color: white;
+      color: var(--ex-text-onbrand, #ffffff);
     }
 
     .stat-icon {
@@ -62,19 +54,19 @@
     }
 
     &:hover {
-      box-shadow: 0 12px 32px rgba(128, 75, 242, 0.25);
-      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: var(--ex-shadow-glow);
+      border-color: var(--ex-brand-strong);
     }
   }
 
   &.stat-card--gold {
-    background: linear-gradient(135deg, #ffc04b 0%, #f9a920 100%);
+    background: var(--ex-accent-2);
     border-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    color: var(--ex-text-onbrand, #ffffff);
 
     .stat-label,
     .stat-value {
-      color: white;
+      color: var(--ex-text-onbrand, #ffffff);
     }
 
     .stat-icon {
@@ -82,8 +74,8 @@
     }
 
     &:hover {
-      box-shadow: 0 12px 32px rgba(242, 174, 48, 0.25);
-      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: var(--ex-shadow-sm);
+      border-color: var(--ex-accent-2);
     }
   }
 }
@@ -100,7 +92,7 @@
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: rgba(128, 75, 242, 0.1);
+  background: var(--ex-brand-soft);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,7 +104,7 @@
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
   font-weight: 500;
-  color: #999;
+  color: var(--ex-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
@@ -122,7 +114,7 @@
   font-family: "Sora", sans-serif;
   font-size: 26px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: var(--ex-text);
   line-height: 1;
   position: relative;
   z-index: 1;
@@ -130,7 +122,7 @@
 
 .stat-footer {
   font-size: 11px;
-  color: #999;
+  color: var(--ex-text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -140,7 +132,7 @@
 
 /* Dashboard Header Component */
 .dashboard-hero-section {
-  background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+  background: var(--ex-surface);
   padding: 32px 24px;
   border-radius: 20px;
   margin-bottom: 32px;
@@ -161,7 +153,7 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(128, 75, 242, 0.08) 0%,
+      var(--ex-brand-soft) 0%,
       transparent 70%
     );
     filter: blur(60px);
@@ -177,7 +169,7 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(128, 75, 242, 0.06) 0%,
+      var(--ex-brand-soft) 0%,
       transparent 70%
     );
     filter: blur(60px);
@@ -193,12 +185,12 @@
   font-family: "Sora", sans-serif;
   font-size: 28px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: var(--ex-text);
   margin-bottom: 12px;
   line-height: 1.2;
 
   span {
-    background: linear-gradient(135deg, #804bf2 0%, #6834d8 100%);
+    background: var(--ex-gradient-brand);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -209,7 +201,7 @@
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #666;
+  color: var(--ex-text-muted);
   line-height: 1.5;
   margin-bottom: 16px;
 }
@@ -221,24 +213,24 @@
 }
 
 .hero-stat-item {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
+  background: var(--ex-glass-bg);
+  backdrop-filter: blur(var(--ex-glass-blur));
   padding: 20px 24px;
   border-radius: 12px;
-  border: 1px solid rgba(128, 75, 242, 0.1);
+  border: 1px solid var(--ex-border);
 
   .stat-number {
     font-family: "Sora", sans-serif;
     font-size: 28px;
     font-weight: 700;
-    color: #804bf2;
+    color: var(--ex-brand);
     margin-bottom: 6px;
   }
 
   .stat-desc {
     font-family: "Montserrat", sans-serif;
     font-size: 12px;
-    color: #999;
+    color: var(--ex-text-muted);
   }
 }
 
@@ -248,7 +240,7 @@
   height: 290px;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(128, 75, 242, 0.15);
+  box-shadow: var(--ex-shadow-md);
 
   img {
     width: 100%;
@@ -259,13 +251,9 @@
 
 /* Progress Chart Component */
 .progress-chart {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(249, 247, 255, 0.5) 100%
-  );
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(128, 75, 242, 0.1);
+  background: var(--ex-glass-bg);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  border: 1px solid var(--ex-border);
   border-radius: 16px;
   padding: 28px;
   position: relative;
@@ -281,7 +269,7 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(128, 75, 242, 0.08) 0%,
+      var(--ex-brand-soft) 0%,
       transparent 70%
     );
     filter: blur(40px);
@@ -292,7 +280,7 @@
   font-family: "Sora", sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--ex-text);
   margin-bottom: 24px;
   position: relative;
   z-index: 1;
@@ -305,12 +293,8 @@
 
 /* Achievement Badge */
 .achievement-badge {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(249, 247, 255, 0.5) 100%
-  );
-  border: 1px solid rgba(128, 75, 242, 0.1);
+  background: var(--ex-glass-bg);
+  border: 1px solid var(--ex-border);
   border-radius: 12px;
   padding: 16px 20px;
   display: flex;
@@ -319,38 +303,26 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(249, 247, 255, 0.8) 100%
-    );
-    border-color: rgba(128, 75, 242, 0.3);
+    background: var(--ex-surface);
+    border-color: var(--ex-brand);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(128, 75, 242, 0.1);
+    box-shadow: var(--ex-shadow-sm);
   }
 
   &.achievement-badge--unlocked {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(249, 247, 255, 0.5) 100%
-    );
-    border-color: rgba(128, 75, 242, 0.15);
-    color: #1a1a1a;
+    background: var(--ex-surface);
+    border-color: var(--ex-border);
+    color: var(--ex-text);
 
     .achievement-icon {
-      background: rgba(128, 75, 242, 0.1);
+      background: var(--ex-brand-soft);
     }
   }
 
   &.achievement-badge--locked {
     opacity: 0.6;
-    background: linear-gradient(
-      135deg,
-      rgba(200, 200, 200, 0.1) 0%,
-      rgba(200, 200, 200, 0.05) 100%
-    );
-    border-color: rgba(200, 200, 200, 0.2);
+    background: var(--ex-surface-2);
+    border-color: var(--ex-border);
   }
 }
 
@@ -358,7 +330,7 @@
   width: 48px;
   height: 48px;
   border-radius: 10px;
-  background: rgba(128, 75, 242, 0.1);
+  background: var(--ex-brand-soft);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -374,25 +346,21 @@
   font-family: "Sora", sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--ex-text);
   margin-bottom: 4px;
 }
 
 .achievement-desc {
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
-  color: #666;
+  color: var(--ex-text-muted);
 }
 
 /* Performance Table */
 .performance-table {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(249, 247, 255, 0.5) 100%
-  );
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(128, 75, 242, 0.1);
+  background: var(--ex-glass-bg);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  border: 1px solid var(--ex-border);
   border-radius: 16px;
   overflow: hidden;
 
@@ -402,15 +370,15 @@
   }
 
   thead {
-    background: rgba(128, 75, 242, 0.05);
-    border-bottom: 1px solid rgba(128, 75, 242, 0.1);
+    background: var(--ex-surface-2);
+    border-bottom: 1px solid var(--ex-border-strong);
   }
 
   th {
     font-family: "Montserrat", sans-serif;
     font-size: 12px;
     font-weight: 600;
-    color: #804bf2;
+    color: var(--ex-brand);
     text-align: left;
     padding: 16px 20px;
     text-transform: uppercase;
@@ -420,16 +388,16 @@
   td {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
-    color: #4a4a4a;
+    color: var(--ex-text);
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(128, 75, 242, 0.06);
+    border-bottom: 1px solid var(--ex-border);
   }
 
   tbody tr {
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: rgba(128, 75, 242, 0.04);
+      background-color: var(--ex-surface-3);
     }
   }
 
@@ -440,12 +408,8 @@
 
 /* Empty State */
 .empty-state {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(249, 247, 255, 0.5) 100%
-  );
-  border: 1px dashed rgba(128, 75, 242, 0.2);
+  background: var(--ex-glass-bg);
+  border: 1px dashed var(--ex-brand-soft);
   border-radius: 16px;
   padding: 48px 32px;
   text-align: center;
@@ -457,19 +421,20 @@
   .empty-icon {
     font-size: 48px;
     opacity: 0.5;
+    color: var(--ex-text-muted);
   }
 
   .empty-title {
     font-family: "Sora", sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--ex-text);
   }
 
   .empty-desc {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
-    color: #999;
+    color: var(--ex-text-muted);
     max-width: 300px;
   }
 }
@@ -588,4 +553,174 @@
   .study-tips-grid {
     grid-template-columns: 1fr !important;
   }
+}
+
+/* Premium Subscription Cards */
+.sub-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.sub-pricing-card {
+  background: var(--ex-glass-bg);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--ex-shadow-sm);
+  overflow: hidden;
+}
+
+.sub-pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--ex-shadow-md);
+  border-color: var(--ex-brand-soft);
+}
+
+.sub-pricing-card.is-featured {
+  background: var(--ex-surface);
+  border-color: var(--ex-brand);
+  box-shadow: var(--ex-shadow-md);
+}
+.sub-pricing-card.is-featured:hover {
+  box-shadow: var(--ex-shadow-glow);
+}
+
+.sub-pricing-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.sub-pricing-tag.active-plan {
+  background: var(--ex-success);
+  color: var(--ex-text-onbrand, #ffffff);
+}
+
+.sub-pricing-name {
+  font-family: "Sora", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ex-text);
+  margin-bottom: 12px;
+}
+
+.sub-pricing-price {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.sub-pricing-price strong {
+  font-family: "Montserrat", sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--ex-text);
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.sub-pricing-price small {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ex-text-muted);
+}
+
+.sub-pricing-desc {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: var(--ex-text-muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.sub-pricing-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sub-pricing-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: var(--ex-text);
+  line-height: 1.5;
+}
+
+.sub-pricing-benefits li svg {
+  color: var(--ex-brand);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sub-pricing-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-family: "Sora", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.sub-pricing-btn.primary {
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand, #ffffff);
+  box-shadow: var(--ex-shadow-sm);
+}
+.sub-pricing-btn.primary:hover:not(:disabled) {
+  box-shadow: var(--ex-shadow-glow);
+  transform: translateY(-2px);
+}
+
+.sub-pricing-btn.outline {
+  background: transparent;
+  color: var(--ex-text);
+  border-color: var(--ex-border-strong);
+}
+.sub-pricing-btn.outline:hover:not(:disabled) {
+  border-color: var(--ex-brand);
+  color: var(--ex-brand);
+  background: var(--ex-surface-2);
+}
+
+.sub-pricing-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.sub-pricing-btn.active-btn {
+  background: var(--ex-surface-3);
+  color: var(--ex-text-muted);
+  border-color: var(--ex-border);
+  opacity: 1;
 }

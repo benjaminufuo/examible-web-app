@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
+import { FiArrowLeft } from "react-icons/fi";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -148,7 +149,10 @@ const SignUp = () => {
           setErrorMessage({ ...errorMessage, password: "" });
         }
         setLoading(false);
-        const errorMsg = error?.response?.data?.message || error?.message || "Sign up failed. Please try again.";
+        const errorMsg =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Sign up failed. Please try again.";
         toast.error(errorMsg);
       }
     }
@@ -166,9 +170,12 @@ const SignUp = () => {
     <div className="ex-scope auth-wrapper">
       <div className="auth-side">
         <div className="auth-side-content">
-          <div className="auth-side-title">Prepare Smarter. Perform Better.</div>
+          <div className="auth-side-title">
+            Prepare Smarter. Perform Better.
+          </div>
           <p className="auth-side-text">
-            Join 2,600+ students who are acing their exams with AI-powered learning and real CBT simulations.
+            Join 2,600+ students who are acing their exams with AI-powered
+            learning and real CBT simulations.
           </p>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
@@ -191,12 +198,21 @@ const SignUp = () => {
 
       <div className="auth-container">
         <div className="auth-card">
+          <button
+            className="auth-back-btn"
+            onClick={() => navigate("/")}
+            aria-label="Go to homepage"
+          >
+            <FiArrowLeft />
+          </button>
           <div className="auth-header">
             <div className="auth-logo">
-              <img src={logo} onClick={() => navigate("/")} alt="Examible" style={{ cursor: 'pointer' }} />
+              <img src={logo} alt="Examible" />
             </div>
             <h1 className="auth-title">Create Account</h1>
-            <p className="auth-subtitle">Get started with your exam prep today</p>
+            <p className="auth-subtitle">
+              Get started with your exam prep today
+            </p>
           </div>
 
           <Button
@@ -213,7 +229,10 @@ const SignUp = () => {
 
           <div className="auth-divider">Or sign up with email</div>
 
-          <form className="auth-form" onSubmit={(e) => handleSubmit(e, inputValue)}>
+          <form
+            className="auth-form"
+            onSubmit={(e) => handleSubmit(e, inputValue)}
+          >
             <div className="auth-form-group">
               <Input
                 label="Full Name"
@@ -283,7 +302,7 @@ const SignUp = () => {
 
           <p className="auth-footer">
             Already have an account?{" "}
-            <a onClick={() => navigate("/login")} style={{ cursor: 'pointer' }}>
+            <a onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
               Log in here
             </a>
           </p>

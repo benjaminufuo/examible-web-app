@@ -21,37 +21,53 @@ const FinishedExam = () => {
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
-    let duration = 0;
-    let completed = "";
-    for (let element of exam) {
-      if (!element?.option || exam.length < mockExamQuestions.length) {
-        completed = "no";
-        break;
-      } else {
-        completed = "yes";
+
+    let completed = "no";
+    if (exam && mockExamQuestions && exam.length === mockExamQuestions.length) {
+      completed = "yes";
+      for (let element of exam) {
+        if (!element || !element.option) {
+          completed = "no";
+          break;
+        }
       }
     }
-    if (user?.plan === "Freemium") {
-      duration = 600 - timeLeft;
-    } else {
-      duration = 1800 - timeLeft;
-    }
-    const performance =
-      (exam?.reduce((acc, item, index) => {
-        if (item?.score) {
-          acc = acc + item.score;
-          return acc;
-        } else {
-          return acc;
-        }
-      }, 0) /
+
+    const initialDuration =
+      parseInt(sessionStorage.getItem("mockExamDuration")) ||
+      (user?.plan === "Freemium" ? 10 : 30);
+
+    const duration = Math.min(
+      1800,
+      Math.max(1, initialDuration * 60 - timeLeft),
+    ); // Cap at 1800 to prevent backend max validation
+    const validQuestionsLength = mockExamQuestions?.length || 1;
+
+    const rawPerformance =
+      (exam?.reduce((acc, item) => acc + (item?.score || 0), 0) /
         2 /
-        mockExamQuestions.length) *
+        validQuestionsLength) *
       100;
+
+    const performance = Math.min(
+      100,
+      Math.max(0, Math.round(rawPerformance) || 0),
+    ); // Ensure between 0 and 100
+
+    const apiSubject =
+      mockSelectedSubject === "CBT Examination"
+        ? "English Language"
+        : mockSelectedSubject || "Mock Exam";
+
     try {
       const res = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user._id || user.id}`,
-        { duration, completed, subject: mockSelectedSubject, performance },
+        `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user?._id || user?.id}`,
+        {
+          duration,
+          completed,
+          subject: apiSubject,
+          performance,
+        },
       );
       if (res?.status === 200) {
         setTimeout(() => {

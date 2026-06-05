@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/dashboardCss/dashboard.css";
-import "../../styles/dashboardCss/premium-dashboard.css";
+// import "../../styles/dashboardCss/premium-dashboard.css";
 import { RiRobot2Line } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import ResponsiveSidebar from "../../components/ResponsiveSidebar";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { HamburgerIcon } from "../../assets/public/svg/common";
 import { toast } from "react-toastify";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
@@ -57,6 +58,7 @@ const Dashboard = () => {
                 .join(" ")}
             </h3>
           )}
+          <ThemeToggle />
           <nav
             style={{ backgroundColor: user?.image ? "transparent" : "#804bf2" }}
           >

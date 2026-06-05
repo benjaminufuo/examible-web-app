@@ -4,7 +4,7 @@
   width: 100%;
   display: flex;
   overflow: hidden;
-  background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+  background: var(--ex-bg);
   align-items: flex-start;
   justify-content: flex-end;
 
@@ -30,7 +30,7 @@
   border-radius: 50%;
   cursor: pointer;
   padding: 16px;
-  animation: pulse-modern 2s infinite;
+  animation: heartbeat-pulse 2s infinite ease-in-out;
   z-index: 1;
   box-shadow: 0 8px 24px rgba(128, 75, 242, 0.3);
   border: none;
@@ -47,14 +47,29 @@
   }
 }
 
-@keyframes pulse-modern {
+@keyframes heartbeat-pulse {
   0% {
+    transform: scale(1);
     box-shadow: 0 8px 24px rgba(128, 75, 242, 0.3);
   }
-  50% {
+  15% {
+    transform: scale(1.15);
     box-shadow: 0 12px 32px rgba(128, 75, 242, 0.5);
   }
+  30% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(128, 75, 242, 0.3);
+  }
+  45% {
+    transform: scale(1.15);
+    box-shadow: 0 12px 32px rgba(128, 75, 242, 0.5);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(128, 75, 242, 0.3);
+  }
   100% {
+    transform: scale(1);
     box-shadow: 0 8px 24px rgba(128, 75, 242, 0.3);
   }
 }
@@ -62,7 +77,7 @@
   width: 20%;
   position: fixed;
   height: 100vh;
-  background: linear-gradient(180deg, #ffffff 0%, #f9f7ff 100%);
+  background: var(--ex-surface);
   display: flex;
   top: 0;
   left: 0;
@@ -72,6 +87,7 @@
   align-items: center;
   justify-content: space-between;
   border-right: 1px solid rgba(128, 75, 242, 0.08);
+  border-right: 1px solid var(--ex-border);
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.04);
 
   .dashboard-leftNavbarHolder {
@@ -110,14 +126,14 @@
     cursor: pointer;
     margin-bottom: 6px;
     text-decoration: none;
-    color: #4a4a4a;
+    color: var(--ex-text-soft);
     border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 
     &:hover {
-      background-color: rgba(128, 75, 242, 0.08);
-      color: #804bf2;
+      background-color: var(--ex-surface-2);
+      color: var(--ex-brand);
       transform: translateX(4px);
     }
 
@@ -137,13 +153,13 @@
   }
 
   .navbar-active {
-    background: linear-gradient(135deg, rgba(128, 75, 242, 0.12) 0%, rgba(128, 75, 242, 0.06) 100%);
-    color: #804bf2;
+    background: var(--ex-brand-soft);
+    color: var(--ex-brand);
     font-weight: 600;
     box-shadow: 0 4px 12px rgba(128, 75, 242, 0.1);
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 50%;
@@ -159,14 +175,14 @@
     width: 180px;
     border-radius: 16px;
     margin-top: 24px;
-    background: linear-gradient(135deg, rgba(128, 75, 242, 0.08) 0%, rgba(128, 75, 242, 0.04) 100%);
+    background: var(--ex-brand-soft);
     position: relative;
     padding: 24px 20px;
     display: flex;
     margin-bottom: 24px;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid rgba(128, 75, 242, 0.15);
+    border: 1px solid var(--ex-border);
     box-shadow: 0 8px 24px rgba(128, 75, 242, 0.08);
     transition: all 0.3s ease;
 
@@ -183,8 +199,8 @@
       transform: translateX(-50%);
       height: 48px;
       width: 48px;
-      border: 3px solid #804bf2;
-      background: linear-gradient(135deg, #804bf2 0%, #6834d8 100%);
+      border: 3px solid var(--ex-brand);
+      background: var(--ex-gradient-brand);
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -199,7 +215,7 @@
       font-weight: 700;
       font-size: 13px;
       text-align: center;
-      color: #1a1a1a;
+      color: var(--ex-text);
       margin-top: 8px;
     }
 
@@ -209,7 +225,7 @@
       text-align: center;
       font-size: 12px;
       line-height: 1.5;
-      color: #666;
+      color: var(--ex-text-muted);
     }
 
     button {
@@ -224,7 +240,7 @@
       font-size: 12px;
       outline: none;
       border: none;
-      background: linear-gradient(135deg, #804bf2 0%, #6834d8 100%);
+      background: var(--ex-gradient-brand);
       color: white;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -278,8 +294,8 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 247, 255, 0.95) 100%);
-    backdrop-filter: blur(12px);
+    background: var(--ex-glass-bg);
+    backdrop-filter: blur(var(--ex-glass-blur));
     -webkit-backdrop-filter: blur(12px);
     z-index: 10;
     border-bottom: 1px solid rgba(128, 75, 242, 0.08);
@@ -289,7 +305,7 @@
       font-family: "Sora", sans-serif;
       font-weight: 700;
       font-size: 28px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #804bf2 100%);
+      background: var(--ex-gradient-text);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -364,7 +380,7 @@
     width: 100%;
     /* max-height: 85dvh; */
     /* overflow-y: scroll; */
-    background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+    background: var(--ex-bg);
     min-height: 100vh;
   }
 }
@@ -389,8 +405,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(180deg, #ffffff 0%, #f9f7ff 100%);
-    border-right: 1px solid rgba(128, 75, 242, 0.08);
+    background: var(--ex-surface);
+    border-right: 1px solid var(--ex-border);
     box-shadow: 8px 0 28px rgba(0, 0, 0, 0.12);
     animation-name: slideInLeft;
     animation-duration: 0.35s;
@@ -432,25 +448,21 @@
     font-size: 15px;
     cursor: pointer;
     margin-bottom: 6px;
-    color: #4a4a4a;
+    color: var(--ex-text-soft);
     text-decoration: none;
     border-radius: 12px;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      background-color: rgba(128, 75, 242, 0.08);
-      color: #804bf2;
+      background-color: var(--ex-surface-2);
+      color: var(--ex-brand);
       transform: translateX(4px);
     }
 
     &.navbar-active {
-      background: linear-gradient(
-        135deg,
-        rgba(128, 75, 242, 0.12) 0%,
-        rgba(128, 75, 242, 0.06) 100%
-      );
-      color: #804bf2;
+      background: var(--ex-brand-soft);
+      color: var(--ex-brand);
       font-weight: 600;
       box-shadow: 0 4px 12px rgba(128, 75, 242, 0.1);
 
@@ -487,18 +499,14 @@
     min-height: 145px;
     border-radius: 16px;
     margin-top: 24px;
-    background: linear-gradient(
-      135deg,
-      rgba(128, 75, 242, 0.08) 0%,
-      rgba(128, 75, 242, 0.04) 100%
-    );
+    background: var(--ex-brand-soft);
     position: relative;
     padding: 24px 20px;
     display: flex;
     margin-bottom: 24px;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid rgba(128, 75, 242, 0.15);
+    border: 1px solid var(--ex-border);
     box-shadow: 0 8px 24px rgba(128, 75, 242, 0.08);
     transition: all 0.3s ease;
 
@@ -515,8 +523,8 @@
       transform: translateX(-50%);
       height: 48px;
       width: 48px;
-      border: 3px solid #804bf2;
-      background: linear-gradient(135deg, #804bf2 0%, #6834d8 100%);
+      border: 3px solid var(--ex-brand);
+      background: var(--ex-gradient-brand);
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -531,7 +539,7 @@
       font-weight: 700;
       font-size: 13px;
       text-align: center;
-      color: #1a1a1a;
+      color: var(--ex-text);
       margin-top: 8px;
     }
 
@@ -541,7 +549,7 @@
       text-align: center;
       font-size: 12px;
       line-height: 1.5;
-      color: #666;
+      color: var(--ex-text-muted);
     }
 
     button {
@@ -556,7 +564,7 @@
       font-size: 12px;
       outline: none;
       border: none;
-      background: linear-gradient(135deg, #804bf2 0%, #6834d8 100%);
+      background: var(--ex-gradient-brand);
       color: white;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -620,4 +628,103 @@
 
 .menu-button:hover .line.middle {
   animation: expandLine 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Sidenav Subroute Styles */
+.sidenav-subroute-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-navBar.sidenav-subroute-trigger,
+.dashboard-leftDropdown-navBar.sidenav-subroute-trigger {
+  justify-content: space-between;
+}
+
+.sidenav-subroute-label,
+.sidenav-subroute-icon {
+  display: flex;
+  align-items: center;
+}
+
+.sidenav-subroute-label {
+  gap: 12px;
+}
+
+.sidenav-subroute-dropdown {
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.dashboard-navBar.sidenav-subroute-item,
+.dashboard-leftDropdown-navBar.sidenav-subroute-item {
+  width: 85%;
+  margin-bottom: 4px;
+  height: 40px;
+}
+
+.sidenav-subroute-bullet {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* Chatbot Theme Overrides */
+.chatbot-body .cs-message--outgoing .cs-message__content {
+  background-color: #804bf2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(128, 75, 242, 0.15) !important;
+}
+
+.chatbot-body .cs-message--incoming .cs-message__content,
+.chatbot-body .cs-message:not(.cs-message--outgoing) .cs-message__content {
+  background-color: #f9f7ff !important;
+  color: #1a1a1a !important;
+  border: 1px solid rgba(128, 75, 242, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+.chatbot-body .cs-main-container {
+  border: none !important;
+}
+
+.chatbot-body .cs-message-input {
+  border: 1px solid rgba(128, 75, 242, 0.15) !important;
+  background-color: #f9f7ff !important;
+  border-radius: 24px !important;
+  margin: 12px 16px 0 16px !important;
+  box-shadow: 0 4px 12px rgba(128, 75, 242, 0.05) !important;
+  padding: 4px 8px !important;
+}
+
+.chatbot-body .cs-message-input__content-editor-container,
+.chatbot-body .cs-message-input__content-editor-wrapper,
+.chatbot-body .cs-message-input__content-editor {
+  background-color: transparent !important;
+  font-family: "Montserrat", sans-serif !important;
+  color: #1a1a1a !important;
+  font-size: 14px !important;
+}
+
+.chatbot-body .cs-button--send svg,
+.chatbot-body .cs-button--send path {
+  fill: #804bf2 !important;
+}
+
+.chatbot-body .cs-typing-indicator__dot {
+  background-color: #804bf2 !important;
+}
+
+.chatbot-body .cs-message-list {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.chatbot-body .cs-message {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }

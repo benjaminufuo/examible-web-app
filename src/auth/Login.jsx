@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,14 +29,15 @@ const Login = () => {
   const dispatch = useDispatch();
   // Enable button when both email and password are filled
   const hasEmail = inputValue.email && inputValue.email.trim().length > 0;
-  const hasPassword = inputValue.password && inputValue.password.trim().length > 0;
+  const hasPassword =
+    inputValue.password && inputValue.password.trim().length > 0;
   const isFormValid = hasEmail && hasPassword;
   const isButtonDisabled = !isFormValid || loading || googleLoading;
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
     if (isButtonDisabled) return;
-    
+
     setLoading(true);
     try {
       const res = await axios.post(
@@ -81,7 +83,8 @@ const Login = () => {
         <div className="auth-side-content">
           <div className="auth-side-title">Welcome Back</div>
           <p className="auth-side-text">
-            Ace your JAMB, WAEC, and NECO exams with AI-powered learning and real CBT practice.
+            Ace your JAMB, WAEC, and NECO exams with AI-powered learning and
+            real CBT practice.
           </p>
           <div className="auth-side-feature">
             <div className="auth-side-feature-icon">✓</div>
@@ -104,15 +107,27 @@ const Login = () => {
 
       <div className="auth-container">
         <div className="auth-card">
+          <button
+            className="auth-back-btn"
+            onClick={() => navigate("/")}
+            aria-label="Go to homepage"
+          >
+            <FiArrowLeft />
+          </button>
           <div className="auth-header">
             <div className="auth-logo">
-              <img src={logo} onClick={() => navigate("/")} alt="Examible" style={{ cursor: 'pointer' }} />
+              <img src={logo} alt="Examible" />
             </div>
             <h1 className="auth-title">Log in</h1>
-            <p className="auth-subtitle">Continue your exam preparation journey</p>
+            <p className="auth-subtitle">
+              Continue your exam preparation journey
+            </p>
           </div>
 
-          <form className="auth-form" onSubmit={(e) => handleSubmit(e, inputValue)}>
+          <form
+            className="auth-form"
+            onSubmit={(e) => handleSubmit(e, inputValue)}
+          >
             <div className="auth-form-group">
               <Input
                 label="Email"
@@ -143,7 +158,10 @@ const Login = () => {
                 <label htmlFor="remember">Remember me</label>
               </div>
               <div className="auth-forgot-link">
-                <a onClick={() => navigate("/forgetpassword")} style={{ cursor: 'pointer' }}>
+                <a
+                  onClick={() => navigate("/forgetpassword")}
+                  style={{ cursor: "pointer" }}
+                >
                   Forgot password?
                 </a>
               </div>
@@ -176,7 +194,10 @@ const Login = () => {
 
           <p className="auth-footer">
             Don&apos;t have an account?{" "}
-            <a onClick={() => navigate("/signup")} style={{ cursor: 'pointer' }}>
+            <a
+              onClick={() => navigate("/signup")}
+              style={{ cursor: "pointer" }}
+            >
               Create one now
             </a>
           </p>
