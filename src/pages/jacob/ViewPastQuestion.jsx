@@ -372,7 +372,7 @@ const ViewPastQuestion = () => {
                       </div>
                       <button
                         className="vpq-ai-btn"
-                        disabled={loading === index}
+                        disabled={loading}
                         onClick={() =>
                           handleViewExplanation(
                             item.number,

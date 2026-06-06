@@ -3,8 +3,7 @@ import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setFinishedExam, setUser } from "../global/slice";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
 import { useExamibleContext } from "../context/ExamibleContext";
 
 const FinishedExam = () => {
@@ -60,15 +59,12 @@ const FinishedExam = () => {
         : mockSelectedSubject || "Mock Exam";
 
     try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user?._id || user?.id}`,
-        {
-          duration,
-          completed,
-          subject: apiSubject,
-          performance,
-        },
-      );
+      const res = await studentApi.updateRating({
+        duration,
+        completed,
+        subject: apiSubject,
+        performance,
+      });
       if (res?.status === 200) {
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
@@ -84,9 +80,7 @@ const FinishedExam = () => {
         }, 550);
       }
     } catch (error) {
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
+      // baseApi handles error toast
     }
   };
 

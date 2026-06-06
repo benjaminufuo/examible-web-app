@@ -3,7 +3,7 @@ import "../styles/auth.css";
 import { IoMdArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
 
@@ -44,16 +44,12 @@ const ForgetPassword = () => {
     if (!disabled) {
       setLoading(true);
       try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/forgot_password/student`,
-          data,
-        );
+        const res = await studentApi.forgotPassword(data);
         if (res?.status === 200) {
           toast.info("Password reset link sent to your email!");
         }
         setLoading(false);
       } catch (error) {
-        toast.error(error?.response?.data?.message);
         setLoading(false);
       }
     }

@@ -3,7 +3,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { questionApi } from "../config/questionApi";
 import {
   setExamTimer,
   setMockExamQuestion,
@@ -31,11 +31,7 @@ const MockConfigModal = ({ subject, onClose }) => {
     setLoading(true);
     const id = toast.loading("Preparing your exam...");
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}api/v1/mock-questions/${encodeURIComponent(subject)}/${
-          user?._id || user?.id
-        }?questions=${config.questions}`,
-      );
+      const res = await questionApi.fetchMockQuestions(subject, config.questions);
 
       if (res?.status === 200) {
         // Enforce the exact number of questions selected in the modal
@@ -54,9 +50,6 @@ const MockConfigModal = ({ subject, onClose }) => {
     } catch (error) {
       setLoading(false);
       toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message || "Failed to start exam.");
-      }, 500);
     }
   };
 

@@ -4,7 +4,7 @@ import { TbEdit } from "react-icons/tb";
 import { LuUserRound } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { setUser } from "../../global/slice";
 import { useLocation } from "react-router-dom";
 import { LiaSave } from "react-icons/lia";
@@ -62,10 +62,7 @@ const Profile = () => {
   const changeFullname = async (fullName) => {
     const id = toast.loading("Updating");
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/studentUpdate/${user?._id}`,
-        { fullName },
-      );
+      const res = await studentApi.updateProfile({ fullName });
       toast.dismiss(id);
       setTimeout(() => {
         toast.success(res?.data?.message);
@@ -75,7 +72,6 @@ const Profile = () => {
     } catch (error) {
       toast.dismiss(id);
       setNotEditing(true);
-      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -84,23 +80,13 @@ const Profile = () => {
     formDatas.append("image", image);
     const toastId = toast.loading("Please wait ...");
     try {
-      const res = await axios.post(
-        `https://examible-technologies-backend.onrender.com/api/v1/upload-profileImage/${
-          user?._id || user?.id
-        }`,
-        formDatas,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
+      const res = await studentApi.uploadImage(formDatas);
       if (res?.status === 200) {
         toast.success("Upload Successfully");
         dispatch(setUser(res?.data?.data));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // baseApi handles error toast
     } finally {
       toast.dismiss(toastId);
       setImage("");
@@ -112,12 +98,7 @@ const Profile = () => {
     setLoading(true);
     const id = toast.loading("Please wait ...");
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/change/password/student/${
-          user?._id || user?.id
-        }`,
-        edittedPassword,
-      );
+      const res = await studentApi.changePassword(edittedPassword);
       setLoading(false);
       toast.dismiss(id);
       setTimeout(() => {
@@ -132,9 +113,6 @@ const Profile = () => {
     } catch (error) {
       setLoading(false);
       toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
       setEdittedPassword({
         currentPassword: "",
         newPassword: "",

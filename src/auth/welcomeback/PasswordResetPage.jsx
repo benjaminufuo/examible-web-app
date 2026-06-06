@@ -4,7 +4,7 @@ import lock from "../../assets/public/uim_padlock.svg";
 import logo from "../../assets/public/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import Input from "../../shared/Input";
 import Button from "../../shared/Button";
 
@@ -61,12 +61,7 @@ const PasswordResetPage = () => {
     setLoading(true);
     if (!disabled) {
       try {
-        const res = await axios.post(
-          `${
-            import.meta.env.VITE_BASE_URL
-          }api/v1/reset_password/student/${token}`,
-          data,
-        );
+        const res = await studentApi.resetPassword(token, data);
         setLoading(false);
         if (res?.status === 200) {
           toast.success(res?.data?.message);
@@ -75,7 +70,6 @@ const PasswordResetPage = () => {
           }, 3000);
         }
       } catch (error) {
-        toast.error(error?.response?.data?.message);
         setLoading(false);
       }
     }

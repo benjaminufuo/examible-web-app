@@ -4,7 +4,7 @@ import image1 from "../../assets/public/home-firstlayer.webp";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../global/slice";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { toast } from "react-toastify";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
@@ -21,10 +21,7 @@ const SubjectSelected = () => {
     setLoading(true);
     const id = toast.loading("Adding Subject ...");
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/addSubject/${user?._id || user?.id}`,
-        { subject },
-      );
+      const res = await studentApi.addSubject({ subject });
       setLoading(false);
       if (res?.status === 200) {
         toast.dismiss(id);
@@ -37,9 +34,6 @@ const SubjectSelected = () => {
     } catch (error) {
       toast.dismiss(id);
       setLoading(false);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
     }
   };
 

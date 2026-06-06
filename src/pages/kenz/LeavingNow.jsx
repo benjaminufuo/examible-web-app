@@ -3,7 +3,7 @@ import "../../styles/dashboardCss/leavingNow.css";
 import { setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { toast } from "react-toastify";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
@@ -59,15 +59,12 @@ const LeavingNow = () => {
     setLoading(true);
     const id = toast.loading("Please wait ...");
     try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user?._id || user?.id}`,
-        {
-          duration,
-          completed,
-          subject: apiSubject,
-          performance,
-        },
-      );
+      const res = await studentApi.updateRating({
+        duration,
+        completed,
+        subject: apiSubject,
+        performance,
+      });
       if (res?.status === 200) {
         toast.dismiss(id);
         setTimeout(() => {
@@ -84,10 +81,7 @@ const LeavingNow = () => {
       }
     } catch (error) {
       toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-        setLoading(false);
-      }, 500);
+      setLoading(false);
     } finally {
       toast.dismiss(id);
     }

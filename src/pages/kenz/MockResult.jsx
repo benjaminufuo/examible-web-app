@@ -474,7 +474,7 @@ const MockResult = () => {
                         index,
                       );
                     }}
-                    disabled={loading === index}
+                    disabled={loading}
                   >
                     {loading === index ? (
                       <ClipLoader color="white" size={16} />
