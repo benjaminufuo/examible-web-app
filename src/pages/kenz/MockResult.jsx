@@ -218,8 +218,16 @@ const MockResult = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="mr-summary-header">
-          <h1>Examination Result Summary</h1>
-          <p>A complete breakdown of your CBT performance.</p>
+          <div>
+            <h1>Examination Result Summary</h1>
+            <p>A complete breakdown of your CBT performance.</p>
+          </div>
+          <button
+            className="mr-review-btn"
+            onClick={() => setViewStep("details")}
+          >
+            Review Answers <FaArrowRight />
+          </button>
         </div>
         <div className="mr-stats-grid">
           <div className="mr-stat-card">
@@ -293,14 +301,6 @@ const MockResult = () => {
               </tbody>
             </table>
           </div>
-        </div>
-        <div className="mr-summary-actions">
-          <button
-            className="mr-review-btn"
-            onClick={() => setViewStep("details")}
-          >
-            Review Detailed Answers <FaArrowRight />
-          </button>
         </div>
       </motion.div>
     );

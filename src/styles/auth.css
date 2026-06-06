@@ -243,6 +243,7 @@ html[data-theme="dark"] .auth-form-group input:-webkit-autofill:active {
   background: rgba(128, 75, 242, 0.5);
   cursor: not-allowed;
   box-shadow: none;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .auth-divider {

@@ -11,9 +11,9 @@ import AiResponse from "../../components/AiResponse";
 import Sidebar from "../../components/Sidebar";
 import ResponsiveSidebar from "../../components/ResponsiveSidebar";
 import { useExamibleContext } from "../../context/ExamibleContext";
-import { HamburgerIcon } from "../../assets/public/svg/common";
 import { toast } from "react-toastify";
 import ThemeToggle from "../../components/ThemeToggle";
+import { FiMenu } from "react-icons/fi";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
@@ -58,31 +58,43 @@ const Dashboard = () => {
                 .join(" ")}
             </h3>
           )}
-          <ThemeToggle />
-          <nav
-            style={{ backgroundColor: user?.image ? "transparent" : "#804bf2" }}
+          <div
+            className="header-actions-container"
+            style={{ display: "flex", alignItems: "center", gap: "16px" }}
           >
-            {user?.image ? (
-              <img src={user?.image?.imageUrl} alt="user" />
-            ) : (
-              <h1>
-                {user?.fullName
-                  ?.split(" ")
-                  .map((item) => item.charAt(0))
-                  .join(" ")
-                  .split(" ")
-                  .filter((_, index) => index <= 1)
-                  .join("")}
-              </h1>
-            )}
-          </nav>
-          <button
-            className="menu-button"
-            aria-label="Open Menu"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <HamburgerIcon />
-          </button>
+            <ThemeToggle />
+            <nav
+              style={{
+                backgroundColor: user?.image ? "transparent" : "#804bf2",
+              }}
+            >
+              {user?.image ? (
+                <img src={user?.image?.imageUrl} alt="user" />
+              ) : (
+                <h1>
+                  {user?.fullName
+                    ?.split(" ")
+                    .map((item) => item.charAt(0))
+                    .join(" ")
+                    .split(" ")
+                    .filter((_, index) => index <= 1)
+                    .join("")}
+                </h1>
+              )}
+            </nav>
+            <button
+              className="menu-button"
+              aria-label="Open Menu"
+              onClick={() => setShowDropdown(!showDropdown)}
+              style={{
+                color: "var(--ex-text)",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <FiMenu size={28} />
+            </button>
+          </div>
         </div>
         <div className="dashboard-rightHolder">
           <Outlet />

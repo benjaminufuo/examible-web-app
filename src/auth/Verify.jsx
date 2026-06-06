@@ -13,7 +13,7 @@ const Verify = () => {
   const handleVerify = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}api/v1/verify/student/${token}`
+        `${import.meta.env.VITE_BASE_URL}api/v1/verify/student/${token}`,
       );
       if (res?.status === 200) {
         setIsVerify(true);

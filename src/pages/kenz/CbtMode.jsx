@@ -37,6 +37,14 @@ const CbtMode = () => {
     [],
   );
 
+  // Only display subjects the user has enrolled in, ensuring English is always included
+  const availableSubjects = useMemo(() => {
+    const enrolled = user?.enrolledSubjects || [];
+    return allSubjectsData.filter(
+      (s) => enrolled.includes(s.subject) || s.subject === englishSubj,
+    );
+  }, [user?.enrolledSubjects, englishSubj]);
+
   const handleSelect = (subject) => {
     if (subject === englishSubj) {
       toast.info(`${englishSubj} is compulsory for the CBT Examination.`);
@@ -175,8 +183,26 @@ const CbtMode = () => {
             combination.
           </p>
 
+          {availableSubjects.length < 4 && (
+            <div
+              style={{
+                color: "var(--ex-danger)",
+                marginBottom: "16px",
+                fontSize: "14px",
+                fontWeight: "600",
+                padding: "12px",
+                backgroundColor: "rgba(239, 68, 68, 0.1)",
+                borderRadius: "8px",
+              }}
+            >
+              You need to enroll in at least {4 - availableSubjects.length} more
+              subject(s) to take a CBT exam. Please add more subjects from your
+              Learning Hub (Dashboard).
+            </div>
+          )}
+
           <div className="cbt-subjects-grid">
-            {allSubjectsData.map((item, idx) => {
+            {availableSubjects.map((item, idx) => {
               const isEnglish = item.subject === englishSubj;
               const isSelected = selected.includes(item.subject);
 

@@ -37,6 +37,11 @@
 
 .mr-summary-header {
   margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .mr-summary-header h1 {
