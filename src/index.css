@@ -20,21 +20,45 @@ body {
 html {
   scroll-behavior: smooth;
 }
-.katex-display,
-.katex-display > .katex,
-.katex-display > .katex > .katex-html {
-  display: inline !important;
+/* Force content wrapper and bubble to fill message bounds */
+.cs-message .cs-message__content-wrapper {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.cs-message .cs-message__content {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+}
+
+/* KaTeX display math scrollable container */
+.chat-markdown .katex-display,
+.chat-markdown .math.math-display {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  box-sizing: border-box !important;
+  padding-bottom: 2px;
 }
 
 .chat-markdown {
   padding: 4px 8px;
   white-space: pre-line;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .chat-markdown table {
   border-collapse: collapse;
   width: 100%;
+  max-width: 100%;
   margin: 8px 0;
+  display: block;
+  overflow-x: auto;
 }
 .chat-markdown th,
 .chat-markdown td {
@@ -57,11 +81,10 @@ html {
   background: rgba(0, 0, 0, 0.04);
   padding: 4px 6px;
   border-radius: 4px;
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-width: 100%;
 }
 .chat-markdown img {
   max-width: 100%;
