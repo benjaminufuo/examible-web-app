@@ -273,6 +273,54 @@
   }
 }
 
+/* Premium Locked State Styles */
+.pq-locked-icon {
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.pq-chip.locked {
+  background-color: var(--ex-surface-3);
+  color: var(--ex-text-muted);
+  border-color: var(--ex-border);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pq-chip.locked:hover {
+  background-color: var(--ex-surface-3);
+  color: var(--ex-text-muted);
+  transform: none;
+}
+
+.pq-premium-warning {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ex-text-muted);
+  text-align: center;
+  background: var(--ex-surface-2);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ex-border);
+}
+
+.pq-premium-warning-icon {
+  display: inline;
+  margin-right: 6px;
+  color: var(--ex-text-muted);
+  margin-bottom: -2px;
+}
+
+.pq-premium-upgrade-link {
+  color: var(--ex-brand);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.pq-premium-upgrade-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 600px) {
   .pq-premium-main {
     padding: 16px;

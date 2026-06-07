@@ -195,6 +195,11 @@
 
 .vpq-diagram {
   max-width: 100%;
+  max-height: 300px;
+  width: auto;
+  object-fit: contain;
+  background-color: #ffffff;
+  padding: 8px;
   border-radius: 12px;
   margin: 16px 0;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
@@ -375,18 +380,64 @@
 @media (max-width: 600px) {
   .vpq-header-content {
     flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
+    width: 95%;
   }
   .vpq-back-btn {
     align-self: flex-start;
+    padding-left: 0;
+  }
+  .vpq-title-group {
+    text-align: left;
+  }
+  .vpq-content-wrapper {
+    width: 95%;
+    margin: 24px auto;
+    gap: 20px;
   }
   .vpq-question-card {
-    padding: 20px;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .vpq-question-text {
+    font-size: 16px;
+  }
+  .vpq-diagram {
+    max-height: 200px;
   }
   .vpq-option-card {
-    padding: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+  }
+  .vpq-option-letter {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    font-size: 14px;
+  }
+  .vpq-option-content {
+    font-size: 14px;
   }
   .vpq-status-icon {
     display: none;
+  }
+  .vpq-ai-btn {
+    padding: 14px;
+    font-size: 14px;
+  }
+  .vpq-finish-btn {
+    padding: 16px;
+    font-size: 16px;
+  }
+  .vpq-exit-modal {
+    padding: 24px;
+  }
+  .vpq-modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .vpq-modal-btn {
+    width: 100%;
   }
 }

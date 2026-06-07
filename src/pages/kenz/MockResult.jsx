@@ -37,6 +37,7 @@ const MockResult = () => {
   const examFromRedux = useSelector((state) => state.exam);
   const mockYearFromRedux = useSelector((state) => state.mockYear);
   const userToken = useSelector((state) => state.userToken);
+  const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
 
   const mockExamQuestions = isPastQuestionResult
     ? location.state?.questions
@@ -72,6 +73,9 @@ const MockResult = () => {
 
   const totalScore =
     exam?.reduce((acc, item) => acc + (item?.score || 0), 0) / 2 || 0;
+
+  const isCbtMode =
+    mockSelectedSubject === "CBT Examination" && !isPastQuestionResult;
 
   const retryExam = () => {
     dispatch(cancelExam());
@@ -220,7 +224,15 @@ const MockResult = () => {
         <div className="mr-summary-header">
           <div>
             <h1>Examination Result Summary</h1>
-            <p>A complete breakdown of your CBT performance.</p>
+            <p>
+              A complete breakdown of your{" "}
+              {isPastQuestionResult
+                ? "Past Question"
+                : isCbtMode
+                  ? "CBT"
+                  : "Mock Exam"}{" "}
+              performance.
+            </p>
           </div>
           <button
             className="mr-review-btn"
@@ -267,41 +279,43 @@ const MockResult = () => {
             </div>
           </div>
         </div>
-        <div className="mr-breakdown-section">
-          <h3>Subject Breakdown</h3>
-          <div className="mr-table-container">
-            <table className="mr-breakdown-table">
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Total Questions</th>
-                  <th>Correct</th>
-                  <th>Incorrect</th>
-                  <th>Accuracy</th>
-                </tr>
-              </thead>
-              <tbody>
-                {subjectBreakdown.map((subj, idx) => (
-                  <tr key={idx}>
-                    <td>
-                      <strong>{subj.name}</strong>
-                    </td>
-                    <td>{subj.total}</td>
-                    <td className="text-success">{subj.correct}</td>
-                    <td className="text-danger">{subj.incorrect}</td>
-                    <td>
-                      <span
-                        className={`mr-accuracy-badge ${(subj.correct / subj.total) * 100 >= 50 ? "pass" : "fail"}`}
-                      >
-                        {((subj.correct / subj.total) * 100).toFixed(0)}%
-                      </span>
-                    </td>
+        {isCbtMode && (
+          <div className="mr-breakdown-section">
+            <h3>Subject Breakdown</h3>
+            <div className="mr-table-container">
+              <table className="mr-breakdown-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Total Questions</th>
+                    <th>Correct</th>
+                    <th>Incorrect</th>
+                    <th>Accuracy</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {subjectBreakdown.map((subj, idx) => (
+                    <tr key={idx}>
+                      <td>
+                        <strong>{subj.name}</strong>
+                      </td>
+                      <td>{subj.total}</td>
+                      <td className="text-success">{subj.correct}</td>
+                      <td className="text-danger">{subj.incorrect}</td>
+                      <td>
+                        <span
+                          className={`mr-accuracy-badge ${(subj.correct / subj.total) * 100 >= 50 ? "pass" : "fail"}`}
+                        >
+                          {((subj.correct / subj.total) * 100).toFixed(0)}%
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
       </motion.div>
     );
   }

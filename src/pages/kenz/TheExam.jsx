@@ -7,6 +7,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
+import { FaLock } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -34,6 +35,7 @@ const TheExam = () => {
   const exam = mockExamQuestions || [];
   const currentQuestion = exam[Number(subjectId) - 1] || {};
   const userAnswers = useSelector((state) => state.exam) || [];
+  const user = useSelector((state) => state.user);
   const { setShowLeavingNow } = useExamibleContext();
   const examTimerMins = useSelector((state) => state.examTimerMins);
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
@@ -48,10 +50,13 @@ const TheExam = () => {
   const examMeter = totalQuestions
     ? Math.round((answeredQuestions / totalQuestions) * 100)
     : 0;
-  const arrayOfNumbers = Array.from(
-    { length: totalQuestions },
-    (_, i) => i + 1,
-  );
+
+  // Premium Logic
+  const isFreemium = !user?.plan || user?.plan === "Freemium";
+  const getFreeLimit = (subj) => {
+    return subj?.toLowerCase().includes("english") ? 20 : 10;
+  };
+  const currentFreeLimit = getFreeLimit(currentQuestion?.subject);
 
   const isCbtMode = mockSelectedSubject === "CBT Examination";
 
@@ -65,6 +70,8 @@ const TheExam = () => {
 
   let displayQuestionNum = subjectId;
   let displayTotalNum = totalQuestions;
+  let navStart = 0;
+  let navLength = totalQuestions;
 
   if (isCbtMode && currentQuestion?.subject) {
     const firstIndexOfSubject = exam.findIndex(
@@ -75,6 +82,21 @@ const TheExam = () => {
     ).length;
     displayQuestionNum = Number(subjectId) - firstIndexOfSubject;
     displayTotalNum = totalInSubject;
+    navStart = firstIndexOfSubject;
+    navLength = totalInSubject;
+  }
+
+  const navArray = Array.from({ length: navLength }, (_, i) => i);
+
+  let isLastAvailableQuestion = Number(subjectId) === totalQuestions;
+  if (isCbtMode && isFreemium && displayQuestionNum === currentFreeLimit) {
+    const hasMoreSubjects = exam.some(
+      (q, i) =>
+        i > Number(subjectId) - 1 && q.subject !== currentQuestion.subject,
+    );
+    if (!hasMoreSubjects) {
+      isLastAvailableQuestion = true;
+    }
   }
 
   // Dynamic Timer States
@@ -105,7 +127,26 @@ const TheExam = () => {
       }),
     );
     if (Number(subjectId) > 1) {
-      const prevIndex = Number(subjectId) - 2;
+      let prevIndex = Number(subjectId) - 2;
+
+      // If skipping back to a previous subject on Freemium, jump straight to the last *unlocked* question
+      if (isCbtMode && isFreemium) {
+        const prevQ = exam[prevIndex];
+        if (prevQ && prevQ.subject !== currentQuestion.subject) {
+          const prevSubjStart = exam.findIndex(
+            (q) => q.subject === prevQ.subject,
+          );
+          const prevSubjTotal = exam.filter(
+            (q) => q.subject === prevQ.subject,
+          ).length;
+          const availableInPrev = Math.min(
+            prevSubjTotal,
+            getFreeLimit(prevQ.subject),
+          );
+          prevIndex = prevSubjStart + availableInPrev - 1;
+        }
+      }
+
       nav(`/mock-exam/${prevIndex + 1}`);
       dispatch(
         setMockExamOption({
@@ -123,8 +164,26 @@ const TheExam = () => {
         subjectId,
       }),
     );
-    if (Number(subjectId) < totalQuestions) {
-      const nextIndex = Number(subjectId);
+
+    let nextIndex = Number(subjectId);
+
+    // If reaching the limit of a subject on Freemium, skip straight to the next subject block
+    if (isCbtMode && isFreemium) {
+      const nextQ = exam[nextIndex];
+      if (
+        nextQ &&
+        nextQ.subject === currentQuestion.subject &&
+        displayQuestionNum >= currentFreeLimit
+      ) {
+        const nextSubjIndex = exam.findIndex(
+          (q, i) =>
+            i > Number(subjectId) - 1 && q.subject !== currentQuestion.subject,
+        );
+        nextIndex = nextSubjIndex !== -1 ? nextSubjIndex : totalQuestions;
+      }
+    }
+
+    if (nextIndex < totalQuestions) {
       nav(`/mock-exam/${nextIndex + 1}`);
       dispatch(
         setMockExamOption({
@@ -132,6 +191,8 @@ const TheExam = () => {
           answer: userAnswers[nextIndex]?.option,
         }),
       );
+    } else {
+      handleFinishedExam();
     }
   };
 
@@ -313,7 +374,7 @@ const TheExam = () => {
               <FiChevronLeft /> Previous
             </button>
 
-            {totalQuestions === parseInt(subjectId) ? (
+            {isLastAvailableQuestion ? (
               <button
                 className="exam-action-btn submit"
                 onClick={handleFinishedExam}
@@ -347,38 +408,64 @@ const TheExam = () => {
           <div className="exam-sidebar-card">
             <h3>Question Navigator</h3>
             <div className="exam-nav-grid">
-              {arrayOfNumbers.map((item, index) => {
-                const isAnswered = userAnswers[index]?.option;
-                const isCurrent = item === Number(subjectId);
+              {navArray.map((relativeIndex) => {
+                const globalIndex = navStart + relativeIndex;
+                const displayNum = relativeIndex + 1;
+                const isAnswered = userAnswers[globalIndex]?.option;
+                const isCurrent = globalIndex + 1 === Number(subjectId);
+                const isLocked =
+                  isCbtMode && isFreemium && displayNum > currentFreeLimit;
+
                 let chipClass = "exam-nav-chip";
                 if (isCurrent) chipClass += " current";
                 else if (isAnswered) chipClass += " answered";
+                if (isLocked) chipClass += " locked";
 
                 return (
                   <button
-                    key={index}
+                    key={globalIndex}
                     className={chipClass}
                     onClick={() => {
+                      if (isLocked) return;
                       dispatch(
                         nextQuestion({
                           answer: currentQuestion?.answer,
                           subjectId,
                         }),
                       );
-                      nav(`/mock-exam/${index + 1}`);
+                      nav(`/mock-exam/${globalIndex + 1}`);
                       dispatch(
                         setMockExamOption({
-                          option: userAnswers[index]?.option,
-                          answer: userAnswers[index]?.option,
+                          option: userAnswers[globalIndex]?.option,
+                          answer: userAnswers[globalIndex]?.option,
                         }),
                       );
                     }}
+                    disabled={isLocked}
                   >
-                    {item}
+                    {isLocked ? (
+                      <FaLock style={{ fontSize: "12px" }} />
+                    ) : (
+                      displayNum
+                    )}
                   </button>
                 );
               })}
             </div>
+
+            {isCbtMode && isFreemium && navLength > currentFreeLimit && (
+              <div className="exam-premium-warning">
+                <FaLock className="exam-premium-warning-icon" />
+                Freemium users are limited to {currentFreeLimit} questions for
+                this subject.{" "}
+                <span
+                  onClick={() => nav("/subscription")}
+                  className="exam-premium-upgrade-link"
+                >
+                  Upgrade to Premium
+                </span>
+              </div>
+            )}
           </div>
         </aside>
       </div>
