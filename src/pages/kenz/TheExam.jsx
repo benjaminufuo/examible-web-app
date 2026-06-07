@@ -72,6 +72,20 @@ const TheExam = () => {
     return [...new Set(subjects)];
   }, [isCbtMode, exam]);
 
+  let displayQuestionNum = subjectId;
+  let displayTotalNum = totalQuestions;
+
+  if (isCbtMode && currentQuestion?.subject) {
+    const firstIndexOfSubject = exam.findIndex(
+      (q) => q.subject === currentQuestion.subject,
+    );
+    const totalInSubject = exam.filter(
+      (q) => q.subject === currentQuestion.subject,
+    ).length;
+    displayQuestionNum = Number(subjectId) - firstIndexOfSubject;
+    displayTotalNum = totalInSubject;
+  }
+
   // Dynamic Timer States
   const timerClass =
     examTimerMins < 5 ? "critical" : examTimerMins < 15 ? "warning" : "normal";
@@ -155,7 +169,7 @@ const TheExam = () => {
 
     if (targetIndex !== -1) {
       // 3. Navigate to that question
-      nav(`/mock-exam/${targetIndex + 1}`);
+      nav(location.pathname, { state: { subjectId: targetIndex + 1 } });
 
       // 4. Load the state for the new question
       dispatch(
@@ -180,7 +194,7 @@ const TheExam = () => {
         <div className="exam-header-left">
           <h1>{mockSelectedSubject} CBT</h1>
           <span className="exam-progress-text">
-            Question {subjectId} of {totalQuestions}
+            Question {displayQuestionNum} of {displayTotalNum}
           </span>
         </div>
         <div className="exam-header-right">

@@ -46,7 +46,7 @@ const ForgetPassword = () => {
       try {
         const res = await studentApi.forgotPassword(data);
         if (res?.data?.success) {
-          toast.info("Password reset link sent to your email!");
+          toast.info(res?.data?.message);
         }
         setLoading(false);
       } catch (error) {

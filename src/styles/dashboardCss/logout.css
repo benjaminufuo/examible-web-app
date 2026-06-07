@@ -141,6 +141,7 @@
 .logout-btn-primary:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .logout-btn-danger {
@@ -175,4 +176,5 @@
 .logout-btn-danger:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  color: rgba(239, 68, 68, 0.7);
 }
