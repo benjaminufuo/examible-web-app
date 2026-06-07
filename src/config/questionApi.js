@@ -1,4 +1,4 @@
-import { baseApi } from "./baseApi.JS";
+import { baseApi } from "./baseApi";
 
 class QuestionApi {
   #http = baseApi.instance;
