@@ -16,7 +16,6 @@ const routePrefetches = {
   "/past-questions": () => import("../pages/jacob/PastQuestion"),
   "/subscription": () => import("../pages/jacob/Subscription"),
   "/subscription/make-payment": () => import("../pages/jacob/MakePayment"),
-  "/about-us": () => import("../pages/jacob/AboutUs"),
   "/plans": () => import("../pages/jacob/Plans"),
 };
 
@@ -84,7 +83,9 @@ export function safeLazy(importFn) {
       }
 
       return {
-        default: () => <div>Something went wrong. Please refresh the page.</div>,
+        default: () => (
+          <div>Something went wrong. Please refresh the page.</div>
+        ),
       };
     }),
   );
