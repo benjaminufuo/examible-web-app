@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { questionApi } from "../../config/questionApi";
@@ -30,10 +30,7 @@ const CbtMode = () => {
   const [selected, setSelected] = useState([englishSubj]);
 
   const subjectMap = useMemo(
-    () =>
-      Object.fromEntries(
-        allSubjectsData.map((s) => [s.subject, s.svg || s.img]),
-      ),
+    () => Object.fromEntries(allSubjectsData.map((s) => [s.subject, s.img])),
     [],
   );
 
@@ -76,7 +73,6 @@ const CbtMode = () => {
 
       // Fetch questions sequentially to prevent overwhelming the backend or hitting rate limits
       for (const subject of selected) {
-        const limit = subject === englishSubj ? 60 : 40;
         try {
           const res = await questionApi.fetchMockQuestions(subject);
           results.push({
@@ -142,7 +138,7 @@ const CbtMode = () => {
       setTimeout(() => {
         nav(`/mock-exam/questions`);
       }, 500);
-    } catch (error) {
+    } catch {
       setLoading(false);
       toast.dismiss(id);
     }
@@ -206,11 +202,7 @@ const CbtMode = () => {
                   onClick={() => handleSelect(item.subject)}
                 >
                   <div className="cbt-card-icon">
-                    {typeof subjectMap[item.subject] === "function" ? (
-                      React.createElement(subjectMap[item.subject])
-                    ) : (
-                      <img src={subjectMap[item.subject]} alt={item.subject} />
-                    )}
+                    <img src={subjectMap[item.subject]} alt={item.subject} />
                   </div>
                   <span className="cbt-card-name">{item.subject}</span>
                   <div className="cbt-card-status">

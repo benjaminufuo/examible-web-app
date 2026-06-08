@@ -49,7 +49,7 @@ const ForgetPassword = () => {
           toast.info(res?.data?.message);
         }
         setLoading(false);
-      } catch (error) {
+      } catch {
         setLoading(false);
       }
     }

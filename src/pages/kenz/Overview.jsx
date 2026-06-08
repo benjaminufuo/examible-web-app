@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import "../../styles/dashboardCss/overview.css";
 import "../../styles/dashboardCss/dashboard-components.css";
 import image1 from "../../assets/public/home-firstlayer.webp";
@@ -33,12 +33,8 @@ const Overview = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  // build a fast lookup for subject -> svg component OR img once
   const subjectMap = useMemo(
-    () =>
-      Object.fromEntries(
-        allSubjectsData.map((s) => [s.subject, s.svg || s.img]),
-      ),
+    () => Object.fromEntries(allSubjectsData.map((s) => [s.subject, s.img])),
     [],
   );
 
@@ -58,7 +54,7 @@ const Overview = () => {
           dispatch(setUser(res?.data?.data));
         }, 500);
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
       toast.dismiss(id);
     }
@@ -87,7 +83,7 @@ const Overview = () => {
           toast.dismiss(id);
           setShowSubjectSelected(true);
         }
-      } catch (error) {
+      } catch {
         setLoading(false);
         toast.dismiss(id);
       }
@@ -289,15 +285,11 @@ const Overview = () => {
                     onMouseLeave={() => setShowBin("")}
                     className="ov-subject-pill"
                   >
-                    {typeof subjectMap[item] === "function" ? (
-                      React.createElement(subjectMap[item])
-                    ) : (
-                      <img
+                    <img
                         src={subjectMap[item]}
                         alt={item}
                         className="ov-subject-img"
                       />
-                    )}
                     <span className="ov-subject-name">{item}</span>
                     {showBin === index && (
                       <button

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutTheUser } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
 import { studentApi } from "../../config/studentApi";
-import { toast } from "react-toastify";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { motion } from "framer-motion";
 import { FiLogOut } from "react-icons/fi";

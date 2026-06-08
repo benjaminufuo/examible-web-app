@@ -4,7 +4,6 @@ import { setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { studentApi } from "../../config/studentApi";
-import { toast } from "react-toastify";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
@@ -77,10 +76,8 @@ const LeavingNow = () => {
           }, 20000);
         }, 500);
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
-    } finally {
-      toast.dismiss(id);
     }
   };
 

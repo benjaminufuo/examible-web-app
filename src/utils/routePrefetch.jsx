@@ -16,7 +16,6 @@ const routePrefetches = {
   "/past-questions": () => import("../pages/jacob/PastQuestion"),
   "/subscription": () => import("../pages/jacob/Subscription"),
   "/subscription/make-payment": () => import("../pages/jacob/MakePayment"),
-  "/plans": () => import("../pages/jacob/Plans"),
 };
 
 /**
@@ -59,7 +58,7 @@ const RELOAD_FLAG = "__routePrefetchReloaded";
 function hasReloadedOnce() {
   try {
     return sessionStorage.getItem(RELOAD_FLAG) === "1";
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -67,7 +66,7 @@ function hasReloadedOnce() {
 function markReloaded() {
   try {
     sessionStorage.setItem(RELOAD_FLAG, "1");
-  } catch (error) {
+  } catch {
     // ignore storage errors
   }
 }

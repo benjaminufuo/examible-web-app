@@ -20,7 +20,7 @@ const Callback = () => {
           nav("/overview", { replace: true });
         }, 3000);
       }
-    } catch (error) {
+    } catch {
       setTimeout(() => {
         nav("/login");
       }, 3000);

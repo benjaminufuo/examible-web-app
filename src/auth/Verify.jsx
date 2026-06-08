@@ -15,7 +15,7 @@ const Verify = () => {
       if (res?.data?.success) {
         setIsVerify(true);
       }
-    } catch (error) {
+    } catch {
       setTimeout(() => {
         nav("/login");
       }, 3000);

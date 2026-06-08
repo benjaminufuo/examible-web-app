@@ -7,7 +7,6 @@ const Home = safeLazy(() => import("./pages/kenz/Home"));
 import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import ForgetPassword from "./auth/ForgetPassword";
-const ResetLink = safeLazy(() => import("./auth/ResetLink"));
 const ResetPassword = safeLazy(
   () => import("./auth/welcomeback/ResetPassword"),
 );
@@ -27,8 +26,6 @@ const VerifyPayment = safeLazy(() => import("./pages/kenz/VerifyPayment"));
 const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
-const ResultPage = safeLazy(() => import("./pages/jacob/ResultPage"));
-const Plans = safeLazy(() => import("./pages/jacob/Plans"));
 const MainHolder = safeLazy(() => import("./routes/MainHolder"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
@@ -78,14 +75,6 @@ const routes = createBrowserRouter([
       {
         path: "/forgetpassword",
         element: <ForgetPassword />,
-      },
-      {
-        path: "/resetlink",
-        element: (
-          <Suspense fallback={<Loading />}>
-            <ResetLink />
-          </Suspense>
-        ),
       },
       {
         path: "/reset-password/:token",

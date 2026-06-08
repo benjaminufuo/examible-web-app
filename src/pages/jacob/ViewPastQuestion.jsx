@@ -9,7 +9,6 @@ import {
 } from "react-icons/io5";
 import {
   setPastQuestionsOption,
-  clearPastQuestionsOption,
 } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
@@ -36,8 +35,6 @@ const QuestionCard = ({
   onOptionClick,
   onViewExplanation,
 }) => {
-  const correctAnswer = getAnswerText(item.answer, item.options);
-
   return (
     <motion.div
       id={`question-${item.number}`}
@@ -211,8 +208,6 @@ const ViewPastQuestion = () => {
 
   const indexOfLastQuestion = page * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-  const totalPages = Math.ceil(questions.length / questionsPerPage);
-
   const { handleShowUserFeedback } = useExamibleContext();
   const { loading: aiLoading, handleViewExplanation } = useAiExplanation(
     year,

@@ -3,7 +3,6 @@ import "../../styles/dashboardCss/mockResult.css";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelExam } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import Calculator from "../../components/Calculator";
 import Pagination from "../../shared/Pagination";
@@ -51,7 +50,6 @@ const MockResult = () => {
   const [viewStep, setViewStep] = useState("loading"); // "loading" | "summary" | "details"
   const [loadingText, setLoadingText] = useState("Calculating your results...");
 
-  const searchParams = new URLSearchParams(location.search);
   const [currentPage, setCurrentPage] = useState(1);
 
   const page = location.state?.page || currentPage || 1;
@@ -89,8 +87,6 @@ const MockResult = () => {
       nav("/mock-exam");
     }
   };
-
-  let questionDetails;
 
   // Premium Loading Sequence
   useEffect(() => {

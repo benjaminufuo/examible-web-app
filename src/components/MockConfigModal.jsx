@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { questionApi } from "../config/questionApi";
 import {
   setExamTimer,
@@ -46,7 +45,7 @@ const MockConfigModal = ({ subject, onClose }) => {
           nav(`/mock-exam/questions`, { state: { subjectId: 1 } });
         }, 500);
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
     }
   };

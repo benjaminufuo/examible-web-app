@@ -7,7 +7,7 @@ import {
   MessageInput,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { setChatbotMessages } from "../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
@@ -147,12 +147,14 @@ const LegacyChatbot = () => {
                 ]),
               );
             }
-          } catch {}
+          } catch (_e) {
+            // ignore
+          }
         }
       }
 
       if (!accumulated) throw new Error("No content received");
-    } catch (error) {
+    } catch {
       dispatch(
         setChatbotMessages([
           ...chatMessages,

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo } from "react";
 import "../../styles/dashboardCss/examBody.css";
 import { LuClock2 } from "react-icons/lu";
 import {
@@ -8,7 +8,7 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Latex from "react-latex-next";

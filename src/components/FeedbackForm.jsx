@@ -1,4 +1,3 @@
-import { Rate } from "antd";
 import "../styles/dashboardCss/feedbackForm.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,11 +5,76 @@ import { toast } from "react-toastify";
 import { setUser } from "../global/slice";
 import emailjs from "@emailjs/browser";
 import { ClipLoader } from "react-spinners";
-import axios from "axios";
 import { useExamibleContext } from "../context/ExamibleContext";
 import { studentApi } from "../config/studentApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiMessageSquare, FiStar } from "react-icons/fi";
+
+const StarIcon = ({ fill }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="44"
+    height="44"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id={`half-${fill}`} x1="0" x2="1" y1="0" y2="0">
+        <stop offset="50%" stopColor="#F2AE30" />
+        <stop offset="50%" stopColor="var(--star-empty-color)" />
+      </linearGradient>
+    </defs>
+    <polygon
+      points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+      fill={
+        fill === "full"
+          ? "#F2AE30"
+          : fill === "half"
+            ? `url(#half-${fill})`
+            : "var(--star-empty-color)"
+      }
+      stroke="#F2AE30"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const StarRating = ({ value, onChange }) => {
+  const [hovered, setHovered] = useState(null);
+
+  const effective = hovered ?? value;
+
+  const getFill = (i) => {
+    if (effective >= i) return "full";
+    if (effective >= i - 0.5) return "half";
+    return "empty";
+  };
+
+  const getValueFromEvent = (e, i) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    return e.clientX - rect.left < rect.width / 2 ? i - 0.5 : i;
+  };
+
+  return (
+    <div className="star-rating" role="group" aria-label="Star rating">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <button
+          key={i}
+          type="button"
+          className={`star-btn star-${getFill(i)}`}
+          aria-label={`${i} star${i > 1 ? "s" : ""}`}
+          onMouseMove={(e) => setHovered(getValueFromEvent(e, i))}
+          onMouseLeave={() => setHovered(null)}
+          onClick={(e) => onChange(getValueFromEvent(e, i))}
+        >
+          <StarIcon fill={getFill(i)} />
+        </button>
+      ))}
+    </div>
+  );
+};
 
 const FeedbackForm = () => {
   const [showRatings, setShowRatings] = useState(true);
@@ -20,10 +84,6 @@ const FeedbackForm = () => {
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const url = `${import.meta.env.VITE_BASE_URL}api/v1/students/${
-    user._id || user.id
-  }/feedback`;
-
   const { setShowFeedbackModal } = useExamibleContext();
 
   const handleRateUs = () => {
@@ -127,11 +187,10 @@ const FeedbackForm = () => {
                 className="feedback-step-container"
               >
                 <div className="feedback-rate-wrapper">
-                  <Rate
-                    allowHalf
-                    style={{ color: "#F2AE30", fontSize: 44 }}
-                    onChange={(value) => setStarRatings(value)}
+                  {/* Native star rating — antd Rate commented out above */}
+                  <StarRating
                     value={starRatings}
+                    onChange={(value) => setStarRatings(value)}
                   />
                 </div>
                 <button

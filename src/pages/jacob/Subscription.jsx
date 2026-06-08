@@ -5,12 +5,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import wallet from "../../assets/public/wallet.png";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { setUser } from "../../global/slice";
 
 const plans = [
   {
@@ -62,39 +58,11 @@ const plans = [
 
 const Plans = () => {
   const nav = useNavigate();
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const currentPlan = user?.plan || "Freemium"; // Default fallback with optional chaining
-  const [loading, setLoading] = useState(false);
-
   const handleChoosePlan = (e, amount, plan) => {
     e.preventDefault();
     nav("/subscription/make-payment", { state: { amount, plan } });
-  };
-
-  const handleDowngrade = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const toastId = toast.loading("Canceling subscription...");
-    try {
-      // Adjust this endpoint string to match your actual backend route!
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/cancelSubscription/${user?._id || user?.id}`,
-      );
-      if (res?.data?.success) {
-        toast.success(
-          res?.data?.message || "Successfully downgraded to Freemium.",
-        );
-        dispatch(setUser(res?.data?.data)); // Updates the active plan in the UI instantly
-      }
-    } catch (error) {
-      toast.error(
-        error?.response?.data?.message || "Failed to cancel subscription.",
-      );
-    } finally {
-      setLoading(false);
-      toast.dismiss(toastId);
-    }
   };
 
   const containerVariants = {
