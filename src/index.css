@@ -33,6 +33,17 @@ html {
   overflow-x: auto !important;
 }
 
+.katex-display,
+.katex-display > .katex,
+.katex-display > .katex > .katex-html {
+  display: inline !important;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* KaTeX display math scrollable container */
 .chat-markdown .katex-display,
 .chat-markdown .math.math-display {

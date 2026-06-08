@@ -136,7 +136,7 @@ const TheExam = () => {
       }),
     );
     if (num > 1) {
-      const prevIndex = num - 2;
+      let prevIndex = num - 2;
 
       // If skipping back to a previous subject on Freemium, jump straight to the last *unlocked* question
       if (isCbtMode && isFreemium) {

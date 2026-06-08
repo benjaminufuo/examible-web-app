@@ -82,12 +82,12 @@ const MockResult = () => {
     mockSelectedSubject === "CBT Examination" && !isPastQuestionResult;
 
   const retryExam = () => {
+    dispatch(cancelExam());
     if (isPastQuestionResult) {
       nav("/past-questions");
     } else {
       nav("/mock-exam");
     }
-    dispatch(cancelExam());
   };
 
   let questionDetails;

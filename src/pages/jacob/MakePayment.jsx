@@ -8,13 +8,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { FiLock, FiCheckCircle, FiShield, FiCreditCard } from "react-icons/fi";
+import { paymentApi } from "../../config/paymentApi";
 
 const MakePayment = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-
   const location = useLocation();
   const { amount, plan } = location.state || {};
 
@@ -22,17 +22,16 @@ const MakePayment = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/initializeKoraPay`,
-        { amount, email, name, plan },
-      );
-      if (response?.status === 200) {
+      const response = await paymentApi.initializePayment({
+        amount: amount,
+        plan,
+      });
+      if (response?.data?.success) {
         setTimeout(() => {
           window.location.href = response?.data?.data?.checkout_url;
         }, 500);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
       setLoading(false);
     }
   };

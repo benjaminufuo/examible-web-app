@@ -9,7 +9,7 @@ const plans = [
     sub: "Forever",
     description: "Explore core Examible features without paying a dime.",
     benefits: [
-      "Limited past JAMB questions (2015–2019)",
+      "Limited past JAMB questions (2015–2018)",
       "10-minute free mock exam",
       "Core dashboard access",
     ],

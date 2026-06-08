@@ -24,7 +24,8 @@ const MockConfigModal = ({ subject, onClose }) => {
     duration: 10,
   });
 
-  const questionOptions = [15, 30, 40, 50];
+  const questionOptions =
+    subject === "English" ? [15, 30, 45, 60] : [10, 20, 30, 40];
   const durationOptions = [10, 20, 30, 40];
 
   const handleStartExam = async () => {

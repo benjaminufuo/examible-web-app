@@ -56,7 +56,7 @@ const Dashboard = () => {
             <ThemeToggle />
             <nav
               style={{
-                backgroundColor: user?.image ? "transparent" : "#804bf2",
+                background: user?.image ? "transparent" : "#804bf2",
               }}
             >
               {user?.image ? (
