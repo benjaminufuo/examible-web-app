@@ -12,7 +12,6 @@ import { setChatbotMessages } from "../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import rehypeSanitize from "rehype-sanitize";
 import Latex from "react-latex-next";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
@@ -23,22 +22,26 @@ const normalizeLatexDelimiters = (text) =>
     .replace(/\\{1,2}\[[\s]*(?![\d.]+[a-z]{2}\])/g, "\n$$\n")
     .replace(/[\s]*\\{1,2}\]/g, "\n$$\n")
     .replace(/\\{1,2}\(/g, "$")
-    .replace(/\\{1,2}\)/g, "$");
+    .replace(/\\{1,2}\)/g, "$")
+    // remark-math needs $$ on its own line — insert newlines when missing
+    .replace(/\$\$([^\n$])/g, "$$\n$1")
+    .replace(/([^\n$])\$\$/g, "$1\n$$");
 
 const CONTENT_BLOCK_RE =
   /\[\s*\{\s*['"]type['"]\s*:\s*['"]text['"]\s*,\s*['"]text['"]\s*:\s*(["'])([\s\S]*)/;
+const unescapeBackslashes = (text) =>
+  text
+    .replace(/\\\\(?!\n)/g, "\\") // \\ → \ except before newline (LaTeX \\ line break)
+    .replace(/\\n(?![a-z])/g, "\n"); // \n → newline (skip \nabla, \newline etc.)
+
 const cleanBotMessage = (text) => {
   const m = text.match(CONTENT_BLOCK_RE);
-  if (!m) return text;
+  if (!m) return unescapeBackslashes(text); // no wrapper — still normalize backslashes
   const quote = m[1];
   let inner = m[2];
   const lastIdx = inner.lastIndexOf(`${quote}}]`);
   if (lastIdx !== -1) inner = inner.slice(0, lastIdx);
-  inner = inner
-    .replace(/\\\\(?=[a-zA-Z()])/g, "\\") // \\cmd, \\(, \\) → single backslash
-    .replace(/\\n(?![a-z])/g, "\n") // \n → newline (skip \nabla, \newline etc.)
-    .replace(/\\t(?![a-z])/g, "\t"); // \t → tab (skip \text, \theta etc.)
-  return cleanBotMessage(inner);
+  return cleanBotMessage(unescapeBackslashes(inner));
 };
 
 const mdComponents = {
@@ -176,6 +179,7 @@ const LegacyChatbot = () => {
     setTyping(true);
     processMessage(newMessages);
   };
+
   return (
     <MainContainer>
       <ChatContainer>
@@ -193,7 +197,7 @@ const LegacyChatbot = () => {
                   <div className="chat-markdown">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[rehypeSanitize, rehypeKatex]}
+                      rehypePlugins={[[rehypeKatex, { throwOnError: false, errorColor: "#cc0000" }]]}
                       components={mdComponents}
                     >
                       {message.sender === "ChatGPT"
