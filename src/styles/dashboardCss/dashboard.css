@@ -20,9 +20,9 @@
   }
 }
 
-.legacyBot {
+.ExamibleBot {
   position: fixed;
-  bottom: 28px;
+  bottom: 15px;
   right: 28px;
   font-size: 28px;
   color: white;
@@ -44,6 +44,16 @@
   &:hover {
     box-shadow: 0 12px 32px rgba(128, 75, 242, 0.4);
     transform: scale(1.08);
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 600px) {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+    right: 16px;
+    bottom: 80px; /* Moves it safely above the pagination right arrow */
+    padding: 0;
   }
 }
 
@@ -359,7 +369,24 @@
         display: none;
       }
       .menu-button {
-        display: flex;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        border: 1px solid var(--ex-border-strong);
+        background: var(--ex-surface-2);
+        color: var(--ex-text);
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .menu-button:hover {
+        background: var(--ex-surface-3);
+        color: var(--ex-brand);
+        border-color: var(--ex-brand);
       }
       .header-menuIcon {
         display: flex;
@@ -591,13 +618,6 @@
   }
 }
 
-.menu-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
 .icon-bg {
   fill: white;
   stroke: #f2ae30; /* Gold */
@@ -613,8 +633,8 @@
 }
 
 .menu-button:hover .icon-bg {
-  fill: #fff9ed;
-  transform: scale(1.02);
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
 }
 
 @keyframes expandLine {
@@ -625,10 +645,10 @@
     transform: scaleX(1.4);
   }
 }
-
+/* 
 .menu-button:hover .line.middle {
   animation: expandLine 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+} */
 
 /* Sidenav Subroute Styles */
 .sidenav-subroute-container {
@@ -731,4 +751,34 @@
 
 .ps__thumb-y {
   background-color: #804bf2 !important;
+}
+
+/* --- Dashboard Header Responsive Layout --- */
+.header-actions-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-welcome-text {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .header-actions-container {
+    gap: 10px; /* Shrinks the gap so icons fit cleanly */
+  }
+  .dashboard-welcome-text {
+    font-size: 18px !important; /* Scales down text to fit mobile */
+  }
+}
+
+@media (max-width: 360px) {
+  .header-actions-container {
+    gap: 8px; /* Extremely tight screens */
+  }
 }

@@ -414,6 +414,52 @@
   transform: scale(1.05);
 }
 
+.exam-nav-chip.locked {
+  background-color: var(--ex-surface-3);
+  color: var(--ex-text-muted);
+  border-color: var(--ex-border);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.exam-nav-chip.locked:hover {
+  background-color: var(--ex-surface-3);
+  color: var(--ex-text-muted);
+  border-color: var(--ex-border);
+  transform: none;
+  box-shadow: none;
+}
+
+.exam-premium-warning {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--ex-text-muted);
+  text-align: center;
+  background: var(--ex-surface-2);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ex-border);
+  line-height: 1.5;
+}
+
+.exam-premium-warning-icon {
+  display: inline;
+  margin-right: 6px;
+  color: var(--ex-text-muted);
+  margin-bottom: -2px;
+}
+
+.exam-premium-upgrade-link {
+  color: var(--ex-brand);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.exam-premium-upgrade-link:hover {
+  text-decoration: underline;
+}
+
 /* --- Styles for CBT Subject Switcher --- */
 .exam-subject-switcher {
   display: flex;

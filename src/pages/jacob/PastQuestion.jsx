@@ -5,6 +5,7 @@ import {
   FaCalendarAlt,
   FaCheckCircle,
   FaInfoCircle,
+  FaLock,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,6 +34,15 @@ const PastQuestion = () => {
 
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("Year");
+
+  const isFreemium = !user?.plan || user?.plan === "Freemium";
+  const FREE_YEARS_LIMIT = 4; // Allow free users to access the 4 oldest years
+
+  const freeYears = years.slice(Math.max(0, years.length - FREE_YEARS_LIMIT));
+  const freeYearsText =
+    freeYears.length > 1
+      ? `${freeYears[freeYears.length - 1]} - ${freeYears[0]}`
+      : freeYears[0];
 
   const baseUrl = import.meta.env.VITE_QUESTION_URL;
   const getYears = async () => {
@@ -156,21 +166,46 @@ const PastQuestion = () => {
                 </div>
                 <div className="pq-chip-grid">
                   {years.length > 0 ? (
-                    years.map((year, index) => (
-                      <button
-                        key={index}
-                        className={`pq-chip year-chip ${selectedYear === year ? "active" : ""}`}
-                        onClick={() => handleYearClick(year)}
-                      >
-                        {year}
-                      </button>
-                    ))
+                    years.map((year, index) => {
+                      const isLocked =
+                        isFreemium && index < years.length - FREE_YEARS_LIMIT;
+                      return (
+                        <button
+                          key={index}
+                          className={`pq-chip year-chip ${selectedYear === year ? "active" : ""} ${isLocked ? "locked" : ""}`}
+                          onClick={() => !isLocked && handleYearClick(year)}
+                          disabled={isLocked}
+                        >
+                          {isLocked && (
+                            <span className="pq-chip-icon pq-locked-icon">
+                              🔒
+                            </span>
+                          )}
+                          {year}
+                        </button>
+                      );
+                    })
                   ) : (
                     <p className="pq-empty-state">
                       No years available for this subject.
                     </p>
                   )}
                 </div>
+                {isFreemium && years.length > FREE_YEARS_LIMIT && (
+                  <div className="pq-premium-warning">
+                    <FaLock className="pq-premium-warning-icon" />
+                    Freemium users are limited to the years {
+                      freeYearsText
+                    }.{" "}
+                    <span
+                      onClick={() => nav("/subscription")}
+                      className="pq-premium-upgrade-link"
+                    >
+                      Upgrade to Premium
+                    </span>{" "}
+                    to unlock all past questions.
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>

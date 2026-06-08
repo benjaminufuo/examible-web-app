@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../../styles/dashboardCss/dashboard.css";
-// import "../../styles/dashboardCss/premium-dashboard.css";
 import { RiRobot2Line } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -14,6 +13,7 @@ import { useExamibleContext } from "../../context/ExamibleContext";
 import { toast } from "react-toastify";
 import ThemeToggle from "../../components/ThemeToggle";
 import { FiMenu } from "react-icons/fi";
+import { HiMenuAlt4 } from "react-icons/hi";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
@@ -37,7 +37,7 @@ const Dashboard = () => {
       {showBot ? (
         <LegacyBot closeBot={() => setShowBot(false)} />
       ) : (
-        <RiRobot2Line onClick={() => showMyBot()} className="legacyBot" />
+        <RiRobot2Line onClick={() => showMyBot()} className="ExamibleBot" />
       )}
 
       <Sidebar />
@@ -50,18 +50,9 @@ const Dashboard = () => {
           {showDropdown ? (
             ""
           ) : (
-            <h3>
-              Welcome home,{" "}
-              {user?.fullName
-                ?.split(" ")
-                .filter((_, index) => index <= 1)
-                .join(" ")}
-            </h3>
+            <h3 className="dashboard-welcome-text">Welcome home</h3>
           )}
-          <div
-            className="header-actions-container"
-            style={{ display: "flex", alignItems: "center", gap: "16px" }}
-          >
+          <div className="header-actions-container">
             <ThemeToggle />
             <nav
               style={{
@@ -86,13 +77,8 @@ const Dashboard = () => {
               className="menu-button"
               aria-label="Open Menu"
               onClick={() => setShowDropdown(!showDropdown)}
-              style={{
-                color: "var(--ex-text)",
-                display: "flex",
-                alignItems: "center",
-              }}
             >
-              <FiMenu size={28} />
+              <HiMenuAlt4 size={24} />
             </button>
           </div>
         </div>

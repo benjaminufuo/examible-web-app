@@ -127,3 +127,42 @@
 .calc-btn.backspace:hover {
   background: #ffe0e0;
 }
+
+/* --- Mobile Responsiveness for Calculator --- */
+@media (max-width: 600px) {
+  .calculator-wrapper {
+    bottom: 140px;
+    right: 16px;
+  }
+
+  .calc-toggle-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .calculator-container {
+    width: 280px;
+    max-width: 90vw;
+  }
+
+  .calculator-header {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .calculator-display {
+    font-size: 1.5rem;
+    padding: 15px;
+  }
+
+  .calc-btn {
+    padding: 15px 0;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .calculator-container {
+    width: 250px;
+  }
+}
