@@ -307,7 +307,9 @@ const TheExam = () => {
             className="exam-question-card"
           >
             <div className="exam-q-meta">
-              <span className="exam-q-number">Question {subjectId}</span>
+              <span className="exam-q-number">
+                Question {displayQuestionNum}
+              </span>
             </div>
 
             {currentQuestion?.subheadingA && (
@@ -471,13 +473,7 @@ const TheExam = () => {
               <div className="exam-premium-warning">
                 <FaLock className="exam-premium-warning-icon" />
                 Freemium users are limited to {currentFreeLimit} questions for
-                this subject.{" "}
-                <span
-                  onClick={() => nav("/subscription")}
-                  className="exam-premium-upgrade-link"
-                >
-                  Upgrade to Premium
-                </span>
+                this subject.
               </div>
             )}
           </div>

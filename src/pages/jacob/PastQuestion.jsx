@@ -36,7 +36,7 @@ const PastQuestion = () => {
   const [selectedYear, setSelectedYear] = useState("Year");
 
   const isFreemium = !user?.plan || user?.plan === "Freemium";
-  const FREE_YEARS_LIMIT = 4; // Allow free users to access the 4 oldest years
+  const FREE_YEARS_LIMIT = 3; // Allow free users to access the 4 oldest years
 
   const freeYears = years.slice(Math.max(0, years.length - FREE_YEARS_LIMIT));
   const freeYearsText =
