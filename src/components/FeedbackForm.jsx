@@ -8,6 +8,7 @@ import emailjs from "@emailjs/browser";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { useExamibleContext } from "../context/ExamibleContext";
+import { studentApi } from "../config/studentApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiMessageSquare, FiStar } from "react-icons/fi";
 
@@ -40,25 +41,23 @@ const FeedbackForm = () => {
     setLoading(true);
     emailjs
       .send("service_5ou2b5r", "template_q90lk1j", formFilled, {
-        publicKey: "wnutFCM-U192Bh14E",
+        publicKey: "_oCvAF9TWmBZ6RXt-",
       })
       .then(
         async () => {
-          try {
-            const res = await axios.put(url, {});
-            if (res.status === 200) {
-              toast.success("Thanks for the feedback", {
-                autoClose: 2000,
-              });
+          const res = await studentApi.submitFeedback();
+          if (res.data.success) {
+            toast.success("Thanks for the feedback", {
+              autoClose: 2000,
+            });
+            setTimeout(() => {
+              setShowFeedbackModal(false);
               setTimeout(() => {
-                setShowFeedbackModal(false);
-                setTimeout(() => {
-                  dispatch(setUser(res?.data?.data));
-                }, 500);
-                setLoading(false);
-              }, 1000);
-            }
-          } catch (error) {}
+                dispatch(setUser(res?.data?.data));
+              }, 500);
+              setLoading(false);
+            }, 1000);
+          }
         },
         (error) => {
           setLoading(false);

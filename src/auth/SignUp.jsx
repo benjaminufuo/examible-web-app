@@ -3,7 +3,7 @@ import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
 import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
@@ -130,10 +130,7 @@ const SignUp = () => {
     if (!disabled && !googleLoading) {
       setLoading(true);
       try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/student`,
-          data,
-        );
+        const res = await studentApi.register(data);
         if (res?.status === 201) {
           toast.success("Signup Successful, Please check your email to verify");
           setLoading(false);
@@ -149,11 +146,6 @@ const SignUp = () => {
           setErrorMessage({ ...errorMessage, password: "" });
         }
         setLoading(false);
-        const errorMsg =
-          error?.response?.data?.message ||
-          error?.message ||
-          "Sign up failed. Please try again.";
-        toast.error(errorMsg);
       }
     }
   };

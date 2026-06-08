@@ -3,7 +3,7 @@ import "../../styles/authCss/resetpassword.css";
 import logo from "../../assets/public/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import Input from "../../shared/Input";
 import Button from "../../shared/Button";
 import { FiArrowLeft } from "react-icons/fi";
@@ -61,21 +61,15 @@ const PasswordResetPage = () => {
     setLoading(true);
     if (!disabled) {
       try {
-        const res = await axios.post(
-          `${
-            import.meta.env.VITE_BASE_URL
-          }api/v1/reset_password/student/${token}`,
-          data,
-        );
+        const res = await studentApi.resetPassword(token, data);
         setLoading(false);
-        if (res?.status === 200) {
+        if (res?.data?.success) {
           toast.success(res?.data?.message);
           setTimeout(() => {
             navigate("/login");
           }, 3000);
         }
       } catch (error) {
-        toast.error(error?.response?.data?.message);
         setLoading(false);
       }
     }

@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
 import Input from "../shared/Input";
@@ -36,17 +36,15 @@ const Login = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
-    if (isButtonDisabled) return;
+    if (isButtonDisabled && !googleLoading) return;
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/student/login`,
-        data,
-      );
+      const res = await studentApi.login(data);
+      localStorage.setItem("userToken", res?.data?.token);
       dispatch(setUserToken(res?.data?.token));
       dispatch(setUser(res?.data?.data));
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.success("Login successful!");
         setLoading(false);
         setTimeout(() => {
@@ -65,7 +63,6 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
-      toast.error(error?.response?.data?.message);
     }
   };
 

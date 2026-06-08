@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotEnrolledSubjects, setUser } from "../../global/slice";
 import { TbTrashX } from "react-icons/tb";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -49,12 +49,9 @@ const Overview = () => {
     const id = toast.loading("Removing Subject ...");
     setLoading(true);
     try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}api/v1/removeSubject/${user?._id || user?.id}`,
-        { subject },
-      );
+      const res = await studentApi.removeSubject({ subject });
       setLoading(false);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.dismiss(id);
         setTimeout(() => {
           toast.success(res?.data?.message);
@@ -64,9 +61,6 @@ const Overview = () => {
     } catch (error) {
       setLoading(false);
       toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
     }
   };
 
@@ -86,11 +80,7 @@ const Overview = () => {
       setLoading(true);
       const id = toast.loading("Please wait ...");
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${
-            user?._id
-          }`,
-        );
+        const res = await studentApi.getNotEnrolledSubjects();
         setLoading(false);
         if (res?.status) {
           dispatch(setNotEnrolledSubjects(res?.data?.data));
@@ -99,7 +89,6 @@ const Overview = () => {
         }
       } catch (error) {
         setLoading(false);
-        toast.error(error?.response?.data?.message);
         toast.dismiss(id);
       }
     }

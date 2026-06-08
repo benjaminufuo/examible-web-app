@@ -8,7 +8,7 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Latex from "react-latex-next";
@@ -23,17 +23,20 @@ import {
   theExamTimer,
 } from "../../global/slice";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import { normalizeQuestion } from "../../utils/questionUtils";
 
 const TheExam = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { subjectId } = useParams();
+  const location = useLocation();
+  const subjectId = location.state?.subjectId || 1;
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const mockSelectedSubject =
     useSelector((state) => state.mockSelectedSubject) || "";
   const mockExamOptions = useSelector((state) => state.mockExamOptions) || {};
   const exam = mockExamQuestions || [];
-  const currentQuestion = exam[Number(subjectId) - 1] || {};
+  const num = Number(subjectId);
+  const currentQuestion = normalizeQuestion(exam[num - 1] || {});
   const userAnswers = useSelector((state) => state.exam) || [];
   const user = useSelector((state) => state.user);
   const { setShowLeavingNow } = useExamibleContext();
@@ -57,6 +60,12 @@ const TheExam = () => {
     return subj?.toLowerCase().includes("english") ? 20 : 10;
   };
   const currentFreeLimit = getFreeLimit(currentQuestion?.subject);
+
+  useLayoutEffect(() => {
+    if (!mockExamQuestions || mockExamQuestions.length <= 0) {
+      nav("/overview");
+    }
+  }, [mockExamQuestions]);
 
   const isCbtMode = mockSelectedSubject === "CBT Examination";
 
@@ -126,8 +135,8 @@ const TheExam = () => {
         subjectId,
       }),
     );
-    if (Number(subjectId) > 1) {
-      let prevIndex = Number(subjectId) - 2;
+    if (num > 1) {
+      let prevIndex = num - 2;
 
       // If skipping back to a previous subject on Freemium, jump straight to the last *unlocked* question
       if (isCbtMode && isFreemium) {
@@ -146,8 +155,7 @@ const TheExam = () => {
           prevIndex = prevSubjStart + availableInPrev - 1;
         }
       }
-
-      nav(`/mock-exam/${prevIndex + 1}`);
+      nav(location.pathname, { state: { subjectId: prevIndex + 1 } });
       dispatch(
         setMockExamOption({
           option: userAnswers[prevIndex]?.option,
@@ -165,7 +173,7 @@ const TheExam = () => {
       }),
     );
 
-    let nextIndex = Number(subjectId);
+    let nextIndex = num;
 
     // If reaching the limit of a subject on Freemium, skip straight to the next subject block
     if (isCbtMode && isFreemium) {
@@ -184,7 +192,7 @@ const TheExam = () => {
     }
 
     if (nextIndex < totalQuestions) {
-      nav(`/mock-exam/${nextIndex + 1}`);
+      nav(location.pathname, { state: { subjectId: nextIndex + 1 } });
       dispatch(
         setMockExamOption({
           option: userAnswers[nextIndex]?.option,
@@ -221,7 +229,7 @@ const TheExam = () => {
 
     if (targetIndex !== -1) {
       // 3. Navigate to that question
-      nav(`/mock-exam/${targetIndex + 1}`);
+      nav(location.pathname, { state: { subjectId: targetIndex + 1 } });
 
       // 4. Load the state for the new question
       dispatch(
@@ -232,6 +240,10 @@ const TheExam = () => {
       );
     }
   };
+
+  if (num > mockExamQuestions?.length || num < 1) {
+    return <ErrorPgae />;
+  }
 
   return (
     <div className="exam-premium-layout">
@@ -295,7 +307,9 @@ const TheExam = () => {
             className="exam-question-card"
           >
             <div className="exam-q-meta">
-              <span className="exam-q-number">Question {subjectId}</span>
+              <span className="exam-q-number">
+                Question {displayQuestionNum}
+              </span>
             </div>
 
             {currentQuestion?.subheadingA && (
@@ -433,7 +447,9 @@ const TheExam = () => {
                           subjectId,
                         }),
                       );
-                      nav(`/mock-exam/${globalIndex + 1}`);
+                      nav(location.pathname, {
+                        state: { subjectId: globalIndex + 1 },
+                      });
                       dispatch(
                         setMockExamOption({
                           option: userAnswers[globalIndex]?.option,
@@ -457,13 +473,7 @@ const TheExam = () => {
               <div className="exam-premium-warning">
                 <FaLock className="exam-premium-warning-icon" />
                 Freemium users are limited to {currentFreeLimit} questions for
-                this subject.{" "}
-                <span
-                  onClick={() => nav("/subscription")}
-                  className="exam-premium-upgrade-link"
-                >
-                  Upgrade to Premium
-                </span>
+                this subject.
               </div>
             )}
           </div>

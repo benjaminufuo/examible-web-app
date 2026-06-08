@@ -81,7 +81,7 @@ const Plans = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}api/v1/cancelSubscription/${user?._id || user?.id}`,
       );
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.success(
           res?.data?.message || "Successfully downgraded to Freemium.",
         );
@@ -171,31 +171,21 @@ const Plans = () => {
                 ))}
               </ul>
 
-              <button
-                className={`sub-pricing-btn ${
-                  isActive
-                    ? "active-btn"
-                    : plan.featured
-                      ? "primary"
-                      : "outline"
-                }`}
-                onClick={(e) => {
-                  if (plan.title === "Freemium") {
-                    handleDowngrade(e);
-                  } else {
-                    handleChoosePlan(e, plan.price, plan.title);
-                  }
-                }}
-                disabled={isActive || (plan.title === "Freemium" && loading)}
-              >
-                {loading && plan.title === "Freemium"
-                  ? "Downgrading..."
-                  : isActive
-                    ? "Current Plan"
-                    : plan.title === "Freemium"
-                      ? "Downgrade to Free"
-                      : `Upgrade to ${plan.title}`}
-              </button>
+              {
+                // Render the "Downgrade" button for Freemium
+                plan.title !== "Freemium" && (
+                  <button
+                    className={`sub-pricing-btn ${
+                      plan.featured ? "primary" : "outline"
+                    }`}
+                    onClick={(e) => {
+                      handleChoosePlan(e, plan.price, plan.title);
+                    }}
+                  >
+                    {`Upgrade to ${plan.title}`}
+                  </button>
+                )
+              }
             </motion.div>
           );
         })}

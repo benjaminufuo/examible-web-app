@@ -107,8 +107,25 @@
   background: #6a3add;
 }
 
-.calc-btn.zero {
-  grid-column: span 2;
+.calc-btn.scientific {
+  background: #f9f9f9;
+  color: #804bf2;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.calc-btn.scientific:hover {
+  background: #ede5ff;
+}
+
+.calc-btn.backspace {
+  background: #fff5f5;
+  color: #cc3333;
+  font-weight: bold;
+}
+
+.calc-btn.backspace:hover {
+  background: #ffe0e0;
 }
 
 /* --- Mobile Responsiveness for Calculator --- */

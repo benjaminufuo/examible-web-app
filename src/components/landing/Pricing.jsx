@@ -9,8 +9,8 @@ const plans = [
     sub: "Forever",
     description: "Explore core Examible features without paying a dime.",
     benefits: [
-      "Limited past JAMB questions (2022–2023)",
-      "25-minute free mock exam",
+      "Limited past JAMB questions (2015–2018)",
+      "10-minute free mock exam",
       "Core dashboard access",
     ],
     featured: false,
@@ -21,7 +21,8 @@ const plans = [
     title: "Yearly",
     price: "₦5,000",
     sub: "/ year / student",
-    description: "Unlimited access to everything Examible offers for 12 months.",
+    description:
+      "Unlimited access to everything Examible offers for 12 months.",
     benefits: [
       "Full access to JAMB past questions",
       "Unlimited CBT mock exams",
@@ -59,11 +60,12 @@ const Pricing = () => {
         <div className="ex-section-head">
           <span className="ex-eyebrow">Simple pricing</span>
           <h2 className="ex-h2">
-            Affordable plans for <span className="ex-gradient-text">every student</span>
+            Affordable plans for{" "}
+            <span className="ex-gradient-text">every student</span>
           </h2>
           <p className="ex-lead">
-            Start free and upgrade whenever you&apos;re ready. No hidden fees — just
-            the tools you need to score higher.
+            Start free and upgrade whenever you&apos;re ready. No hidden fees —
+            just the tools you need to score higher.
           </p>
         </div>
 
@@ -74,7 +76,9 @@ const Pricing = () => {
               className={`ex-pricing__card ex-card ${p.featured ? "is-featured" : ""}`}
               delay={i * 0.1}
             >
-              {p.featured && <span className="ex-pricing__tag">Most popular</span>}
+              {p.featured && (
+                <span className="ex-pricing__tag">Most popular</span>
+              )}
               <h3 className="ex-pricing__name">{p.title}</h3>
               <div className="ex-pricing__price">
                 <strong>{p.price}</strong>

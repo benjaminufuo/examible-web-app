@@ -3,7 +3,7 @@ import "../../styles/dashboardCss/logout.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutTheUser } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { toast } from "react-toastify";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { motion } from "framer-motion";
@@ -13,7 +13,6 @@ import { LuUserRound } from "react-icons/lu";
 const Logout = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const userToken = useSelector((state) => state.userToken);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const { setIsLogout } = useExamibleContext();
@@ -30,33 +29,23 @@ const Logout = () => {
   }, [setIsLogout]);
 
   const logoutUser = async () => {
-    const id = toast.loading("logging out ...");
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        },
-      );
-      toast.dismiss(id);
-      if (res?.status === 200) {
+      const res = await studentApi.logout();
+      if (res?.data?.success) {
         setTimeout(() => {
           nav("/");
           setIsLogout(false);
         }, 500);
         setLoading(false);
         setTimeout(() => {
+          localStorage.removeItem("userToken");
           dispatch(logoutTheUser());
           setIsLogout(false);
         }, 550);
       }
       return;
     } catch (error) {
-      toast.dismiss(id);
       setLoading(false);
       if (
         error?.response?.data?.message ===
@@ -71,10 +60,6 @@ const Logout = () => {
           dispatch(logoutTheUser());
           setIsLogout(false);
         }, 1000);
-      } else {
-        setTimeout(() => {
-          toast.error(error?.response?.data?.message);
-        }, 500);
       }
     }
   };

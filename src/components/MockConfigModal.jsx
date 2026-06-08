@@ -3,7 +3,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { questionApi } from "../config/questionApi";
 import {
   setExamTimer,
   setMockExamQuestion,
@@ -24,20 +24,16 @@ const MockConfigModal = ({ subject, onClose }) => {
     duration: 10,
   });
 
-  const questionOptions = [15, 30, 40, 50];
+  const questionOptions =
+    subject === "English" ? [15, 30, 45, 60] : [10, 20, 30, 40];
   const durationOptions = [10, 20, 30, 40];
 
   const handleStartExam = async () => {
     setLoading(true);
-    const id = toast.loading("Preparing your exam...");
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}api/v1/mock-questions/${encodeURIComponent(subject)}/${
-          user?._id || user?.id
-        }?questions=${config.questions}`,
-      );
+      const res = await questionApi.fetchMockQuestions(subject);
 
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         // Enforce the exact number of questions selected in the modal
         const selectedQuestions =
           res?.data?.data?.slice(0, config.questions) || [];
@@ -46,17 +42,12 @@ const MockConfigModal = ({ subject, onClose }) => {
         dispatch(setExamTimer({ plan: user?.plan, duration: config.duration }));
         sessionStorage.setItem("mockExamDuration", config.duration);
         dispatch(setMockSelectedSubject(subject));
-        toast.dismiss(id);
         setTimeout(() => {
-          nav(`/mock-exam/1`);
+          nav(`/mock-exam/questions`, { state: { subjectId: 1 } });
         }, 500);
       }
     } catch (error) {
       setLoading(false);
-      toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message || "Failed to start exam.");
-      }, 500);
     }
   };
 

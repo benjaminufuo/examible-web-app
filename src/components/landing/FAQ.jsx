@@ -16,10 +16,10 @@ const faqs = [
     q: "How does the AI tutor work?",
     a: "The AI tutor explains any question in clear, step-by-step language, answers follow-up questions, and can generate similar practice problems.",
   },
-  {
-    q: "Can I use Examible offline?",
-    a: "Examible supports offline learning so you can keep practicing even with an unstable connection, then sync your progress when you're back online.",
-  },
+  // {
+  //   q: "Can I use Examible offline?",
+  //   a: "Examible supports offline learning so you can keep practicing even with an unstable connection, then sync your progress when you're back online.",
+  // },
   {
     q: "Is there a free plan?",
     a: "Absolutely. The Freemium plan lets you explore core features for free, and you can upgrade to a monthly or yearly plan anytime.",
@@ -35,11 +35,12 @@ const FAQ = () => {
         <Reveal className="ex-faq__intro" direction="right">
           <span className="ex-eyebrow">FAQ</span>
           <h2 className="ex-h2">
-            Questions? <span className="ex-gradient-text">We&apos;ve got answers</span>
+            Questions?{" "}
+            <span className="ex-gradient-text">We&apos;ve got answers</span>
           </h2>
           <p className="ex-lead">
-            Everything you need to know about preparing with Examible. Still curious?
-            Reach out to our team anytime.
+            Everything you need to know about preparing with Examible. Still
+            curious? Reach out to our team anytime.
           </p>
         </Reveal>
 

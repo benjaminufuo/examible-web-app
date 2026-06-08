@@ -25,7 +25,10 @@ const FinalCTA = () => {
               </button>
               <button
                 className="ex-btn ex-btn-ghost-light ex-btn-lg"
-                onClick={() => nav("/plans")}
+                onClick={() => {
+                  const el = document.getElementById("pricing");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 View plans
               </button>

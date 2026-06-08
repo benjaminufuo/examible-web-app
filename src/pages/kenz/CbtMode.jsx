@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { questionApi } from "../../config/questionApi";
 import { toast } from "react-toastify";
 import { allSubjectsData } from "../../constants/common";
 import {
@@ -78,11 +78,7 @@ const CbtMode = () => {
       for (const subject of selected) {
         const limit = subject === englishSubj ? 60 : 40;
         try {
-          const res = await axios.get(
-            `${import.meta.env.VITE_BASE_URL}api/v1/mock-questions/${encodeURIComponent(subject)}/${
-              user?._id || user?.id
-            }?questions=${limit}`,
-          );
+          const res = await questionApi.fetchMockQuestions(subject);
           results.push({
             subject,
             data: res.data.data,
@@ -144,14 +140,11 @@ const CbtMode = () => {
 
       toast.dismiss(id);
       setTimeout(() => {
-        nav(`/mock-exam/1`);
+        nav(`/mock-exam/questions`);
       }, 500);
     } catch (error) {
       setLoading(false);
       toast.dismiss(id);
-      toast.error(
-        error?.response?.data?.message || "Failed to initiate CBT Mode.",
-      );
     }
   };
 

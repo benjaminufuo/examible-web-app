@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { questionApi } from "../../config/questionApi";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PastQuestion = () => {
@@ -35,7 +36,7 @@ const PastQuestion = () => {
   const [selectedYear, setSelectedYear] = useState("Year");
 
   const isFreemium = !user?.plan || user?.plan === "Freemium";
-  const FREE_YEARS_LIMIT = 4; // Allow free users to access the 4 oldest years
+  const FREE_YEARS_LIMIT = 3; // Allow free users to access the 4 oldest years
 
   const freeYears = years.slice(Math.max(0, years.length - FREE_YEARS_LIMIT));
   const freeYearsText =
@@ -66,11 +67,7 @@ const PastQuestion = () => {
 
     const toastId = toast.loading("Please wait....");
     try {
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_BASE_URL
-        }api/v1/fetch-questions/${year}/${encodeURIComponent(subject)}/${user?._id || user?.id}`,
-      );
+      const response = await questionApi.fetchQuestions(year, subject);
       toast.dismiss(toastId);
       dispatch(setPastQuestions(response.data.data));
       dispatch(clearPastQuestionsOption());
@@ -79,9 +76,6 @@ const PastQuestion = () => {
       setDisabled(true);
     } catch (error) {
       toast.dismiss(toastId);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
       setDisabled(false);
       setLoading(false);
     }
