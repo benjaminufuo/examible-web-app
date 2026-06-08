@@ -286,10 +286,10 @@ const Overview = () => {
                     className="ov-subject-pill"
                   >
                     <img
-                        src={subjectMap[item]}
-                        alt={item}
-                        className="ov-subject-img"
-                      />
+                      src={subjectMap[item]}
+                      alt={item}
+                      className="ov-subject-img"
+                    />
                     <span className="ov-subject-name">{item}</span>
                     {showBin === index && (
                       <button
@@ -305,7 +305,11 @@ const Overview = () => {
                     )}
                   </div>
                 ))}
-                <div className="ov-add-subject" onClick={addMoreSubject}>
+                <div
+                  className="ov-add-subject"
+                  onClick={addMoreSubject}
+                  style={{ pointerEvents: loading ? "none" : "auto" }}
+                >
                   <FaPlus className="ov-add-icon" />
                   <span>Add Subject</span>
                 </div>

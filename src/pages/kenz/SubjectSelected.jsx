@@ -40,13 +40,13 @@ const getSubjectDescription = (subject) => {
 const SubjectSelected = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
   const notEnrolledSubjects = useSelector((state) => state.notEnrolledSubjects);
 
   const { setShowSubjectSelected } = useExamibleContext();
 
   const addSubject = async (subject) => {
-    setLoading(true);
+    setLoading(subject);
     const id = toast.loading("Adding Subject ...");
     try {
       const res = await studentApi.addSubject({ subject });
@@ -67,10 +67,7 @@ const SubjectSelected = () => {
 
   // build a fast lookup for subject -> img once
   const subjectMap = useMemo(
-    () =>
-      Object.fromEntries(
-        allSubjectsData.map((s) => [s.subject, s.svg || s.img]),
-      ),
+    () => Object.fromEntries(allSubjectsData.map((s) => [s.subject, s.img])),
     [],
   );
 
@@ -211,7 +208,7 @@ const SubjectSelected = () => {
                       onClick={() => addSubject(item)}
                       disabled={loading}
                     >
-                      {loading ? (
+                      {loading === item ? (
                         <ClipLoader size={16} color="#ffffff" />
                       ) : (
                         <>

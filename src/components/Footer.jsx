@@ -8,7 +8,7 @@ const productLinks = [
   { label: "Mock Exam", to: "/mock-exam" },
   { label: "Past Questions", to: "/past-questions" },
   { label: "Examible Bot", to: "/login" },
-  { label: "Pricing", to: "/plans" },
+  { label: "Pricing", to: "/subscription" },
 ];
 
 const companyLinks = [

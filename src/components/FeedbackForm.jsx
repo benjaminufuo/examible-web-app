@@ -91,7 +91,7 @@ const FeedbackForm = () => {
     setShowRatings(false);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const formFilled = {
       fullName: user?.fullName,
       email: user?.email,
@@ -99,33 +99,24 @@ const FeedbackForm = () => {
       message,
     };
     setLoading(true);
-    emailjs
-      .send("service_5ou2b5r", "template_q90lk1j", formFilled, {
+    try {
+      const res = await studentApi.submitFeedback();
+      if (!res?.data?.success) throw new Error("Feedback submission failed");
+      await emailjs.send("service_5ou2b5r", "template_q90lk1j", formFilled, {
         publicKey: "_oCvAF9TWmBZ6RXt-",
-      })
-      .then(
-        async () => {
-          const res = await studentApi.submitFeedback();
-          if (res.data.success) {
-            toast.success("Thanks for the feedback", {
-              autoClose: 2000,
-            });
-            setTimeout(() => {
-              setShowFeedbackModal(false);
-              setTimeout(() => {
-                dispatch(setUser(res?.data?.data));
-              }, 500);
-              setLoading(false);
-            }, 1000);
-          }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.text, {
-            autoClose: 2000,
-          });
-        },
-      );
+      });
+      toast.success("Thanks for the feedback", { autoClose: 2000 });
+      setTimeout(() => {
+        setShowFeedbackModal(false);
+        setTimeout(() => dispatch(setUser(res.data.data)), 500);
+      }, 1000);
+    } catch (err) {
+      toast.error(err?.text || "Something went wrong. Please try again.", {
+        autoClose: 2000,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

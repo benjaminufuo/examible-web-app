@@ -4,9 +4,9 @@ import { Suspense } from "react";
 const Dashboard = safeLazy(() => import("./pages/kenz/Dashboard"));
 const Overview = safeLazy(() => import("./pages/kenz/Overview"));
 const Home = safeLazy(() => import("./pages/kenz/Home"));
-import Login from "./auth/Login";
-import SignUp from "./auth/SignUp";
-import ForgetPassword from "./auth/ForgetPassword";
+const Login = safeLazy(() => import("./auth/Login"));
+const SignUp = safeLazy(() => import("./auth/SignUp"));
+const ForgetPassword = safeLazy(() => import("./auth/ForgetPassword"));
 const ResetPassword = safeLazy(
   () => import("./auth/welcomeback/ResetPassword"),
 );
