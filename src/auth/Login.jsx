@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import "../styles/authCss/auth.css";
+import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [inputValue, setInputValue] = useState({
@@ -21,85 +21,50 @@ const Login = () => {
     password: "",
   });
 
-  const validateField = (name, value) => {
-    let error = "";
-    if (name === "email") {
-      if (!value.trim()) {
-        error = "Email is required";
-      }
-    }
-
-    if (name === "password") {
-      if (!value.trim()) {
-        error = "Password is required";
-      }
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputValue((prev) => ({ ...prev, [name]: value }));
-    validateField(name, value);
   };
 
   const dispatch = useDispatch();
+  // Enable button when both email and password are filled
+  const hasEmail = inputValue.email && inputValue.email.trim().length > 0;
+  const hasPassword =
+    inputValue.password && inputValue.password.trim().length > 0;
+  const isFormValid = hasEmail && hasPassword;
+  const isButtonDisabled = !isFormValid || loading || googleLoading;
+
   const handleSubmit = async (e, data) => {
-    if (!disabled && !googleLoading) {
-      e.preventDefault();
-      setLoading(true);
-      try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/student/login`,
-          data,
-        );
-        dispatch(setUserToken(res?.data?.token));
-        dispatch(setUser(res?.data?.data));
-        if (res?.status === 200) {
-          toast.success("Login successful!");
-          setLoading(false);
-          setTimeout(() => {
-            if (location.state?.selectedPlan) {
-              navigate("/subscription/make-payment", {
-                state: {
-                  selectedPlan: location.state?.selectedPlan,
-                  amount: location.state?.amount,
-                },
-                replace: true,
-              });
-            } else {
-              navigate("/overview", { replace: true });
-            }
-          }, 3000);
-        }
-      } catch (error) {
-        if (
-          error?.response?.data?.message ===
-          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-        ) {
-        }
+    e.preventDefault();
+    if (isButtonDisabled && !googleLoading) return;
+
+    setLoading(true);
+    try {
+      const res = await studentApi.login(data);
+      localStorage.setItem("userToken", res?.data?.token);
+      dispatch(setUserToken(res?.data?.token));
+      dispatch(setUser(res?.data?.data));
+      if (res?.data?.success) {
+        toast.success("Login successful!");
         setLoading(false);
-        toast.error(error?.response?.data?.message);
+        setTimeout(() => {
+          if (location.state?.selectedPlan) {
+            navigate("/subscription/make-payment", {
+              state: {
+                selectedPlan: location.state?.selectedPlan,
+                amount: location.state?.amount,
+              },
+              replace: true,
+            });
+          } else {
+            navigate("/overview", { replace: true });
+          }
+        }, 3000);
       }
+    } catch (error) {
+      setLoading(false);
     }
   };
-  useEffect(() => {
-    const { email, password } = inputValue;
-    if (email && password.trim() !== "") {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [inputValue]);
-
-  useEffect(() => {
-    const { email, password } = inputValue;
-    const isFormValid = email && password.trim() !== "";
-    if (loading || googleLoading) {
-      setDisabled(true);
-    } else {
-      setDisabled(!isFormValid);
-    }
-  }, [loading, googleLoading, inputValue]);
 
   const loginGoogleIcon = async () => {
     setGoogleLoading(true);
@@ -110,92 +75,130 @@ const Login = () => {
   };
 
   return (
-    <div className="signupMain">
-      <div className="circle">
-        <div className="innercircle"></div>
-      </div>
-      <div className="circle1">
-        <div className="innercircle1"></div>
-      </div>
-      <div className="goldsmallcircle"></div>
-      <div className="goldsmallcircle1"></div>
-      <div className="closeicondiv">
-        <img src={logo} onClick={() => navigate("/")} />
-      </div>
-      <div className="signupForm">
-        <div className="signheader">
-          <h1>Log in to Examible</h1>
-        </div>
-        <form className="form" onSubmit={(e) => handleSubmit(e, inputValue)}>
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            onChange={handleChange}
-            value={inputValue.email}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-            placeholder="Enter your email"
-            required
-            style={{ marginBottom: 8 }}
-          />
-          <Input
-            label="Password"
-            name="password"
-            onChange={handleChange}
-            value={inputValue.password}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-            placeholder="Enter your password"
-            required
-            isPassword
-            extraLabel={
-              <p
-                className="forgotpassword"
-                onClick={() => navigate("/forgetpassword")}
-              >
-                Forgot Password?
-              </p>
-            }
-          />
-          <div className="rememberme">
-            <div className="checkbox">
-              <input type="checkbox" className="checkboxtic" />
-            </div>
-            <label className="rememberlabel">Remember Me</label>
+    <div className="ex-scope auth-wrapper">
+      <div className="auth-side">
+        <div className="auth-side-content">
+          <div className="auth-side-title">Welcome Back</div>
+          <p className="auth-side-text">
+            Ace your JAMB, WAEC, and NECO exams with AI-powered learning and
+            real CBT practice.
+          </p>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>AI Tutor that adapts to your learning style</div>
           </div>
-          <Button
-            type="submit"
-            loading={loading}
-            disabled={disabled || googleLoading}
-            fullWidth
-          >
-            {loading ? "logging in..." : "Login"}
-          </Button>
-        </form>
-        <span className="or-container">
-          <div className="line"></div>
-          <span className="or">Other login options</span>
-          <div className="line"></div>
-        </span>
-        <Button
-          IconComponent={FcGoogle}
-          iconProps={{ className: "googleIcon" }}
-          variant="secondary"
-          fullWidth
-          onClick={() => loginGoogleIcon()}
-          disabled={loading || googleLoading}
-          loading={googleLoading}
-        >
-          {googleLoading ? "please wait..." : "Continue with Google"}
-        </Button>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Real CBT Mock Exams with live proctoring</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Gamified learning with leaderboards & rewards</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Detailed performance analytics & insights</div>
+          </div>
+        </div>
+      </div>
 
-        {/* <article className="forgotpassworddiv"> */}
-        <p className="signuptext">
-          Don't have an account?{" "}
-          <span className="signupLink" onClick={() => navigate("/signup")}>
-            click here to create one now
-          </span>
-        </p>
-        {/* </article> */}
+      <div className="auth-container">
+        <div className="auth-card">
+          <button
+            className="auth-back-btn"
+            onClick={() => navigate("/")}
+            aria-label="Go to homepage"
+          >
+            <FiArrowLeft />
+          </button>
+          <div className="auth-header">
+            <div className="auth-logo">
+              <img src={logo} alt="Examible" />
+            </div>
+            <h1 className="auth-title">Log in</h1>
+            <p className="auth-subtitle">
+              Continue your exam preparation journey
+            </p>
+          </div>
+
+          <form
+            className="auth-form"
+            onSubmit={(e) => handleSubmit(e, inputValue)}
+          >
+            <div className="auth-form-group">
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                onChange={handleChange}
+                value={inputValue.email}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="auth-form-group">
+              <Input
+                label="Password"
+                name="password"
+                onChange={handleChange}
+                value={inputValue.password}
+                placeholder="Enter your password"
+                required
+                isPassword
+              />
+            </div>
+
+            <div className="auth-checkbox-group">
+              <div className="auth-checkbox">
+                <input type="checkbox" id="remember" />
+                <label htmlFor="remember">Remember me</label>
+              </div>
+              <div className="auth-forgot-link">
+                <a
+                  onClick={() => navigate("/forgetpassword")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Forgot password?
+                </a>
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              loading={loading}
+              disabled={isButtonDisabled}
+              fullWidth
+              className="auth-submit"
+            >
+              {loading ? "Logging in..." : "Log in"}
+            </Button>
+          </form>
+
+          <div className="auth-divider">Or continue with</div>
+
+          <Button
+            IconComponent={FcGoogle}
+            iconProps={{ className: "googleIcon" }}
+            variant="secondary"
+            fullWidth
+            onClick={() => loginGoogleIcon()}
+            disabled={loading || googleLoading}
+            loading={googleLoading}
+          >
+            {googleLoading ? "Connecting..." : "Google"}
+          </Button>
+
+          <p className="auth-footer">
+            Don&apos;t have an account?{" "}
+            <a
+              onClick={() => navigate("/signup")}
+              style={{ cursor: "pointer" }}
+            >
+              Create one now
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

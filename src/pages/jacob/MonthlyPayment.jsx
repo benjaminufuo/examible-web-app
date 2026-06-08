@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../../styles/dashboardCss/subscription.css";
 import payment from "../../assets/public/paymentsymbol.svg";
 import { FiCheckCircle } from "react-icons/fi";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const MonthlyPayment = () => {

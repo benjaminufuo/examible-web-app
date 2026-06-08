@@ -1,27 +1,37 @@
 import "../../styles/dashboardCss/subscription.css";
-import { FaCircleCheck } from "react-icons/fa6";
+import "../../styles/dashboardCss/dashboard-components.css";
+import { FiCheck } from "react-icons/fi";
+import { FaCheckCircle } from "react-icons/fa";
 import wallet from "../../assets/public/wallet.png";
-import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { setUser } from "../../global/slice";
 
 const plans = [
   {
     title: "Freemium",
     price: null,
+    displayPrice: "Free",
+    sub: "Forever",
     description:
       "Start for free: explore Examible core features without PAYING A DIME. Upgrade anytime for full access.",
-    link: "FREEMIUM PLAN HERE",
     benefits: [
       "Limited access to past Jamb Questions (e.g. 2015 - 2017 past questions)",
       "10 minutes free mock exam",
       "Can't remove chosen subject",
     ],
+    featured: false,
   },
   {
     title: "Yearly",
     price: 5000,
     displayPrice: "₦5,000",
-    sub: "/ Year / Student",
+    sub: "/ year / student",
     description:
       "Subscribe to the YEARLY PLAN and enjoy unlimited access to all Examible features for FULL 12 MONTHS.",
     benefits: [
@@ -31,13 +41,13 @@ const plans = [
       "Access to Examible Bot",
       "Study Recommendations",
     ],
-    button: "Monthly →",
+    featured: true,
   },
   {
     title: "Monthly",
     price: 500,
     displayPrice: "₦500",
-    sub: "/ Monthly / Student",
+    sub: "/ month / student",
     description:
       "Subscribe to the MONTHLY PLAN and enjoy Unlimited access to all Examible features for 30 days.",
     benefits: [
@@ -46,173 +56,140 @@ const plans = [
       "Access to choose and remove subject",
       "Study recommendation",
     ],
-    button: "Yearly →",
+    featured: false,
   },
 ];
 
 const Plans = () => {
   const nav = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const currentPlan = user.plan;
+  const currentPlan = user?.plan || "Freemium"; // Default fallback with optional chaining
+  const [loading, setLoading] = useState(false);
 
-  const handleChoosePlan = (amount, plan) => {
+  const handleChoosePlan = (e, amount, plan) => {
+    e.preventDefault();
     nav("/subscription/make-payment", { state: { amount, plan } });
   };
+
+  const handleDowngrade = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const toastId = toast.loading("Canceling subscription...");
+    try {
+      // Adjust this endpoint string to match your actual backend route!
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}api/v1/cancelSubscription/${user?._id || user?.id}`,
+      );
+      if (res?.data?.success) {
+        toast.success(
+          res?.data?.message || "Successfully downgraded to Freemium.",
+        );
+        dispatch(setUser(res?.data?.data)); // Updates the active plan in the UI instantly
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Failed to cancel subscription.",
+      );
+    } finally {
+      setLoading(false);
+      toast.dismiss(toastId);
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
-    <div className="sub-plans-main">
-      <div className="sub-plans-header-bg">
-        <div className="sub-plans-header-content">
-          <div className="sub-plans-header-text">
-            <h2>
-              Choose the <span className="sub-highlight">Perfect Plan</span>
-              <br /> to Elevate Your Performance <br />
-              and Achieve Your Goals.
-            </h2>
-          </div>
-          <div className="sub-wallet-container">
-            <img src={wallet} alt="wallet" className="sub-plans-wallet-img" />
-          </div>
+    <div
+      className="sub-premium-main"
+      style={{ width: "100%", padding: "32px", boxSizing: "border-box" }}
+    >
+      <motion.div
+        className="dashboard-hero-section fade-in"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="hero-content">
+          <h1 className="hero-greeting">
+            Choose the <span>Perfect Plan</span>
+          </h1>
+          <p className="hero-subtext">
+            Elevate your performance and achieve your goals with full access to
+            all Examible premium features.
+          </p>
         </div>
-      </div>
-      <div className="sub-plans-cards">
-        {plans.map((plan) => (
-          <div className={`sub-plan-card sub-${plan.title.toLowerCase()}-card`}>
-            <div
-              className="sub-plan-title"
-              style={{
-                backgroundColor:
-                  plan.title === "Freemium"
-                    ? "#804BF2"
-                    : plan.title === "Yearly"
-                      ? "#fff"
-                      : plan.title === "Monthly"
-                        ? "#804BF2"
-                        : "",
-                color:
-                  plan.title === "Freemium"
-                    ? "#fff"
-                    : plan.title === "Yearly"
-                      ? "#804BF2"
-                      : plan.title === "Monthly"
-                        ? "#fff"
-                        : "",
-              }}
+        <div className="hero-image">
+          <img src={wallet} alt="Wallet" style={{ maxHeight: "250px" }} />
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="sub-pricing-grid"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {plans.map((plan) => {
+          const isActive = currentPlan === plan.title;
+
+          return (
+            <motion.div
+              key={plan.title}
+              className={`sub-pricing-card ${plan.featured ? "is-featured" : ""}`}
+              variants={itemVariants}
             >
-              {plan.title.toUpperCase()}
-            </div>
-            <div
-              className="sub-plan-desc"
-              style={{
-                color:
-                  plan.title === "Freemium"
-                    ? "#1E1E1E"
-                    : plan.title === "Yearly"
-                      ? "#FFF"
-                      : plan.title === "Monthly"
-                        ? "#1E1E1E"
-                        : "",
-              }}
-            >
-              {plan.description}
-            </div>
-            {plan.link && <span className="sub-plan-link">{plan.link}</span>}
-            <div className="sub-plan-price">
-              <span
-                className="sub-price"
-                style={{
-                  color:
-                    plan.title === "Freemium"
-                      ? "#fff"
-                      : plan.title === "Yearly"
-                        ? "#fff"
-                        : plan.title === "Monthly"
-                          ? "#804BF2"
-                          : "",
-                }}
-              >
-                {plan.displayPrice || plan.price}
-              </span>
-              {plan.sub && (
-                <span
-                  className="sub-plan-sub"
-                  style={{
-                    color:
-                      plan.title === "Freemium"
-                        ? "#1E1E1E"
-                        : plan.title === "Yearly"
-                          ? "#FFF"
-                          : plan.title === "Monthly"
-                            ? "#1E1E1E"
-                            : "",
-                  }}
-                >
-                  {plan.sub}
+              {isActive ? (
+                <span className="sub-pricing-tag active-plan">
+                  <FaCheckCircle style={{ marginRight: "6px" }} /> Active Plan
                 </span>
-              )}
-            </div>
-            <div className="sub-benefit">
-              <span
-                style={{
-                  color:
-                    plan.title === "Freemium"
-                      ? "#1E1E1E"
-                      : plan.title === "Yearly"
-                        ? "#FFF"
-                        : plan.title === "Monthly"
-                          ? "#1E1E1E"
-                          : "",
-                }}
-              >
-                Benefits
-              </span>
-            </div>
-            <ul className="sub-plan-benefits">
-              {plan.benefits.map((benefit, i) => (
-                <li key={i}>
-                  <FaCircleCheck
-                    size={15}
-                    className="sub-checkmark"
-                    style={{
-                      color:
-                        plan.title === "Freemium"
-                          ? "#804BF2"
-                          : plan.title === "Yearly"
-                            ? "#FFF"
-                            : plan.title === "Monthly"
-                              ? "#804BF2"
-                              : "",
-                    }}
-                  />
-                  <span
-                    className="sub-benefit-text"
-                    style={{
-                      color:
-                        plan.title === "Freemium"
-                          ? "#1E1E1E"
-                          : plan.title === "Yearly"
-                            ? "#FFF"
-                            : plan.title === "Monthly"
-                              ? "#1E1E1E"
-                              : "",
+              ) : plan.featured ? (
+                <span className="sub-pricing-tag">Most popular</span>
+              ) : null}
+
+              <h3 className="sub-pricing-name">{plan.title}</h3>
+              <div className="sub-pricing-price">
+                <strong>{plan.displayPrice}</strong>
+                {plan.sub && <small>{plan.sub}</small>}
+              </div>
+              <p className="sub-pricing-desc">{plan.description}</p>
+
+              <ul className="sub-pricing-benefits">
+                {plan.benefits.map((benefit, i) => (
+                  <li key={i}>
+                    <FiCheck size={18} />
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+
+              {
+                // Render the "Downgrade" button for Freemium
+                plan.title !== "Freemium" && (
+                  <button
+                    className={`sub-pricing-btn ${
+                      plan.featured ? "primary" : "outline"
+                    }`}
+                    onClick={(e) => {
+                      handleChoosePlan(e, plan.price, plan.title);
                     }}
                   >
-                    {benefit}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            {plan.button && (
-              <button
-                className={`sub-plan-btn sub-${plan.title.toLowerCase()}-btn`}
-                onClick={() => handleChoosePlan(plan.price, plan.title)}
-                disabled={currentPlan === plan.title}
-              >
-                {plan.button}
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
+                    {`Upgrade to ${plan.title}`}
+                  </button>
+                )
+              }
+            </motion.div>
+          );
+        })}
+      </motion.div>
     </div>
   );
 };

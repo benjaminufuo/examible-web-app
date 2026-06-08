@@ -1,5 +1,5 @@
 import "../../styles/errorpage.css";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 const ErrorPgae = () => {
   const navigate = useNavigate();
   return (

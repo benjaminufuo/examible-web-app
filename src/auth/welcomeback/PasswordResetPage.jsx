@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import "../../styles/authCss/resetpassword.css";
-import lock from "../../assets/public/uim_padlock.svg";
 import logo from "../../assets/public/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import Input from "../../shared/Input";
 import Button from "../../shared/Button";
+import { FiArrowLeft } from "react-icons/fi";
 
 const PasswordResetPage = () => {
   const { token } = useParams();
@@ -61,21 +61,15 @@ const PasswordResetPage = () => {
     setLoading(true);
     if (!disabled) {
       try {
-        const res = await axios.post(
-          `${
-            import.meta.env.VITE_BASE_URL
-          }api/v1/reset_password/student/${token}`,
-          data,
-        );
+        const res = await studentApi.resetPassword(token, data);
         setLoading(false);
-        if (res?.status === 200) {
+        if (res?.data?.success) {
           toast.success(res?.data?.message);
           setTimeout(() => {
             navigate("/login");
           }, 3000);
         }
       } catch (error) {
-        toast.error(error?.response?.data?.message);
         setLoading(false);
       }
     }
@@ -98,60 +92,97 @@ const PasswordResetPage = () => {
   }, [inputValue]);
 
   return (
-    <main className="ResetPasswordmain">
-      <div className="ResetPasswordcircle">
-        <div className="ResetPasswordinnercircle"></div>
-      </div>
-      <div className="ResetPasswordcircle1">
-        <div className="ResetPasswordinnercircle1"></div>
-      </div>
-      <div className="ResetPasswordgoldsmallcircle"></div>
-      <div className="ResetPasswordgoldsmallcircle1"></div>
-      <div className="closeicondiv">
-        <img src={logo} onClick={() => navigate("/")} />
-      </div>
-      <section className="ResetPasswordcontainer">
-        <div className="ResetPasswordlogocontainer">
-          <img src={lock} alt="" className="ResetPasswordplogo" />
-        </div>
-        <div className="ResetPasswordheader">
-          <h1>Create a new password</h1>
-          <p>
-            Your new password must be different from previously used password
+    <div className="ex-scope reset-wrapper">
+      {/* LEFT SIDE: Brand Experience */}
+      <div className="reset-side">
+        <div className="reset-side-content">
+          <div className="reset-side-title">Secure Your Account</div>
+          <p className="reset-side-text">
+            You're one step away from getting back to your learning journey.
+            Create a strong password to continue preparing for success.
           </p>
+          <div className="reset-side-feature">
+            <div className="reset-side-feature-icon">✓</div>
+            <div>Use at least 8 characters</div>
+          </div>
+          <div className="reset-side-feature">
+            <div className="reset-side-feature-icon">✓</div>
+            <div>Include uppercase & lowercase letters</div>
+          </div>
+          <div className="reset-side-feature">
+            <div className="reset-side-feature-icon">✓</div>
+            <div>Add numbers and special characters</div>
+          </div>
         </div>
-        <form
-          className="resetinputdiv"
-          onSubmit={(e) => handleSubmit(e, inputValue)}
-        >
-          <Input
-            name="newPassword"
-            label="Password"
-            onChange={handleChange}
-            value={inputValue.newPassword}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-            placeholder="Enter new password"
-            required
-            isPassword
-            error={errorMessage.newPassword}
-          />
-          <Input
-            label="Confirm Password"
-            name="confirmPassword"
-            onChange={handleChange}
-            value={inputValue.confirmPassword}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-            placeholder="Confirm your password"
-            required
-            isPassword
-            error={errorMessage.confirmPassword}
-          />
-          <Button type="submit" disabled={disabled} loading={loading} fullWidth>
-            {loading ? "Reseting..." : "Reset Password"}
-          </Button>
-        </form>
-      </section>
-    </main>
+      </div>
+
+      {/* RIGHT SIDE: Reset Form */}
+      <div className="reset-container">
+        <div className="reset-card">
+          <button
+            className="reset-back-btn"
+            onClick={() => navigate("/")}
+            aria-label="Go to homepage"
+          >
+            <FiArrowLeft />
+          </button>
+
+          <div className="reset-header">
+            <div className="reset-logo">
+              <img src={logo} alt="Examible" />
+            </div>
+            <h1 className="reset-title">Create a new password</h1>
+            <p className="reset-subtitle">
+              Your new password must be different from your previously used
+              passwords.
+            </p>
+          </div>
+
+          <form
+            className="reset-form"
+            onSubmit={(e) => handleSubmit(e, inputValue)}
+          >
+            <div className="reset-form-group">
+              <Input
+                name="newPassword"
+                label="New Password"
+                onChange={handleChange}
+                value={inputValue.newPassword}
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+                placeholder="Enter new password"
+                required
+                isPassword
+                error={errorMessage.newPassword}
+              />
+            </div>
+
+            <div className="reset-form-group">
+              <Input
+                label="Confirm Password"
+                name="confirmPassword"
+                onChange={handleChange}
+                value={inputValue.confirmPassword}
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+                placeholder="Confirm your password"
+                required
+                isPassword
+                error={errorMessage.confirmPassword}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              disabled={disabled}
+              loading={loading}
+              fullWidth
+              className="reset-submit"
+            >
+              {loading ? "Resetting..." : "Reset Password"}
+            </Button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

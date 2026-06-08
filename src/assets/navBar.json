@@ -1,17 +1,26 @@
 [
   {
     "name": "Home",
-    "link": "/",
-    "id": 1
+    "link": "#home",
+    "id": 1,
+    "isAnchor": true
   },
   {
-    "name": "About Us",
-    "link": "/about-us",
-    "id": 2
+    "name": "User Prep",
+    "link": "#user-prep",
+    "id": 2,
+    "isAnchor": true
+  },
+  {
+    "name": "How It Works",
+    "link": "#how-it-works",
+    "id": 3,
+    "isAnchor": true
   },
   {
     "name": "Plans",
-    "link": "/plans",
-    "id": 4
+    "link": "#pricing",
+    "id": 4,
+    "isAnchor": true
   }
 ]

@@ -10,8 +10,10 @@ import AiResponse from "../../components/AiResponse";
 import Sidebar from "../../components/Sidebar";
 import ResponsiveSidebar from "../../components/ResponsiveSidebar";
 import { useExamibleContext } from "../../context/ExamibleContext";
-import { HamburgerIcon } from "../../assets/public/svg/common";
 import { toast } from "react-toastify";
+import ThemeToggle from "../../components/ThemeToggle";
+import { FiMenu } from "react-icons/fi";
+import { HiMenuAlt4 } from "react-icons/hi";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
@@ -35,7 +37,7 @@ const Dashboard = () => {
       {showBot ? (
         <LegacyBot closeBot={() => setShowBot(false)} />
       ) : (
-        <RiRobot2Line onClick={() => showMyBot()} className="legacyBot" />
+        <RiRobot2Line onClick={() => showMyBot()} className="ExamibleBot" />
       )}
 
       <Sidebar />
@@ -48,38 +50,37 @@ const Dashboard = () => {
           {showDropdown ? (
             ""
           ) : (
-            <h3>
-              Welcome,{" "}
-              {user?.fullName
-                ?.split(" ")
-                .filter((_, index) => index <= 1)
-                .join(" ")}
-            </h3>
+            <h3 className="dashboard-welcome-text">Welcome home</h3>
           )}
-          <nav
-            style={{ backgroundColor: user?.image ? "transparent" : "#804bf2" }}
-          >
-            {user?.image ? (
-              <img src={user?.image?.imageUrl} alt="user" />
-            ) : (
-              <h1>
-                {user?.fullName
-                  ?.split(" ")
-                  .map((item) => item.charAt(0))
-                  .join(" ")
-                  .split(" ")
-                  .filter((_, index) => index <= 1)
-                  .join("")}
-              </h1>
-            )}
-          </nav>
-          <button
-            className="menu-button"
-            aria-label="Open Menu"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <HamburgerIcon />
-          </button>
+          <div className="header-actions-container">
+            <ThemeToggle />
+            <nav
+              style={{
+                background: user?.image ? "transparent" : "#804bf2",
+              }}
+            >
+              {user?.image ? (
+                <img src={user?.image?.imageUrl} alt="user" />
+              ) : (
+                <h1>
+                  {user?.fullName
+                    ?.split(" ")
+                    .map((item) => item.charAt(0))
+                    .join(" ")
+                    .split(" ")
+                    .filter((_, index) => index <= 1)
+                    .join("")}
+                </h1>
+              )}
+            </nav>
+            <button
+              className="menu-button"
+              aria-label="Open Menu"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              <HiMenuAlt4 size={24} />
+            </button>
+          </div>
         </div>
         <div className="dashboard-rightHolder">
           <Outlet />

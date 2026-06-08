@@ -1,128 +1,176 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/header.css";
 import menuBar from "../assets/navBar.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import HeaderLogo from "../assets/public/logo.png";
-import Button from "../shared/Button";
-import { HamburgerIcon } from "../assets/public/svg/common";
+import { HiMenuAlt4, HiX } from "react-icons/hi";
+import { motion, AnimatePresence } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
   const location = useLocation();
   const nav = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+
+  const handleAnchorClick = (e, link) => {
+    if (link.startsWith("#")) {
+      e.preventDefault();
+      const sectionId = link.substring(1);
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setActiveSection(sectionId);
+        setShowDropdown(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = showDropdown ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showDropdown]);
 
   return (
-    <>
-      <div className="header">
-        <div className="header-holder">
-          <div className="header-holderImg">
-            <img
-              src={HeaderLogo}
-              alt="Examible"
-              style={{ cursor: "pointer" }}
-              onClick={() => nav("/")}
-            />
-          </div>
-          <div className="header-holderText">
-            <ul>
-              {menuBar.map((item, index) => (
-                <li
-                  key={index}
-                  className={location.pathname === item.link ? "active" : ""}
-                >
-                  <Link
-                    to={item?.link}
-                    style={{ color: "black", textDecoration: "none" }}
+    <header className={`ex-header ${scrolled ? "ex-header--scrolled" : ""}`}>
+      <div className="ex-header__inner">
+        <button
+          className="ex-header__brand"
+          onClick={() => nav("/")}
+          aria-label="Examible home"
+        >
+          <img src={HeaderLogo} alt="Examible" />
+        </button>
+
+        <nav className="ex-header__nav" aria-label="Primary">
+          <ul>
+            {menuBar.map((item) => (
+              <li
+                key={item.id}
+                className={activeSection === item.link.substring(1) ? "active" : ""}
+              >
+                {item.isAnchor ? (
+                  <a
+                    href={item.link}
+                    onClick={(e) => handleAnchorClick(e, item.link)}
                   >
                     {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <aside className="header-holderButton">
-            <Button
-              variant="outline"
-              onClick={() => nav("/signup")}
-              style={{ width: 89 }}
-              size="sm"
-            >
-              Sign Up
-            </Button>
-            <Button
-              onClick={() => nav("/login")}
-              variant="primary-outline"
-              style={{ width: 89 }}
-              size="sm"
-            >
-              Login
-            </Button>
-          </aside>
+                  </a>
+                ) : (
+                  <Link to={item.link}>{item.name}</Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="ex-header__actions">
+          <ThemeToggle />
+          <button className="ex-btn ex-btn-ghost ex-header__cta" onClick={() => nav("/signup")}>
+            Sign Up
+          </button>
+          <button className="ex-btn ex-btn-primary ex-header__cta" onClick={() => nav("/login")}>
+            Login
+          </button>
+        </div>
+
+        <div className="ex-header__mobileActions">
+          <ThemeToggle />
           <button
-            className="menu-button"
-            aria-label="Open Menu"
-            onClick={() => setShowDropdown(!showDropdown)}
+            className="ex-header__menuBtn"
+            aria-label="Open menu"
+            onClick={() => setShowDropdown(true)}
           >
-            <HamburgerIcon />
+            <HiMenuAlt4 size={24} />
           </button>
         </div>
       </div>
-      {showDropdown && (
-        <div
-          className="header-dropDown"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <div
-            className="header-dropDownHolder"
-            onClick={(e) => e.stopPropagation()}
+
+      <AnimatePresence>
+        {showDropdown && (
+          <motion.div
+            className="ex-header__overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setShowDropdown(false)}
           >
-            <div className="headerDropdown-holderImg">
-              <img
-                src={HeaderLogo}
-                alt="Examible"
-                onClick={() => {
-                  (nav("/"), setShowDropdown(!showDropdown));
-                }}
-              />
-            </div>
-            <div className="headerDropdown-holderText">
-              <>
-                {menuBar.map((item, index) => (
+            <motion.div
+              className="ex-header__drawer ex-glass"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 34 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="ex-header__drawerTop">
+                <img src={HeaderLogo} alt="Examible" className="ex-header__drawerLogo" />
+                <button
+                  className="ex-header__menuBtn"
+                  aria-label="Close menu"
+                  onClick={() => setShowDropdown(false)}
+                >
+                  <HiX size={24} />
+                </button>
+              </div>
+
+              <ul className="ex-header__drawerNav">
+                {menuBar.map((item) => (
                   <li
-                    key={index}
-                    className={location.pathname === item.link ? "active" : ""}
-                    onClick={() => setShowDropdown(!showDropdown)}
+                    key={item.id}
+                    className={activeSection === item.link.substring(1) ? "active" : ""}
+                    onClick={() => setShowDropdown(false)}
                   >
-                    <Link
-                      to={item.link}
-                      style={{ color: "black", textDecoration: "none" }}
-                    >
-                      {item.name}
-                    </Link>
+                    {item.isAnchor ? (
+                      <a
+                        href={item.link}
+                        onClick={(e) => handleAnchorClick(e, item.link)}
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link to={item.link}>{item.name}</Link>
+                    )}
                   </li>
                 ))}
-              </>
-              <Button
-                variant="outline"
-                onClick={() => nav("/signup")}
-                style={{ width: 89 }}
-                size="sm"
-              >
-                Sign Up
-              </Button>
-              <Button
-                onClick={() => nav("/login")}
-                style={{ width: 89 }}
-                size="sm"
-                variant="primary-outline"
-              >
-                Login
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+              </ul>
+
+              <div className="ex-header__drawerActions">
+                <button
+                  className="ex-btn ex-btn-ghost"
+                  onClick={() => {
+                    setShowDropdown(false);
+                    nav("/signup");
+                  }}
+                >
+                  Sign Up
+                </button>
+                <button
+                  className="ex-btn ex-btn-primary"
+                  onClick={() => {
+                    setShowDropdown(false);
+                    nav("/login");
+                  }}
+                >
+                  Login
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 
