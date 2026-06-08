@@ -246,8 +246,21 @@ const Profile = () => {
         animate="show"
       >
         <motion.div className="prof-hero-section" variants={itemVariants}>
-          <div className="prof-hero-bg"></div>
           <div className="prof-hero-content">
+            <div className="prof-hero-badges">
+              <span className="prof-badge plan-badge">
+                {user?.plan === "Premium" ? <FaCrown /> : <FaCheckCircle />}
+                {user?.plan || "Freemium"} Plan
+              </span>
+              <span className="prof-badge target-badge">
+                <FaBullseye /> Target: 300+
+              </span>
+            </div>
+            <h1 className="prof-hero-name">{user?.fullName}</h1>
+            <p className="prof-hero-email">{user?.email}</p>
+          </div>
+
+          <div className="prof-hero-graphics">
             <div className="prof-avatar-container">
               {imageUrl ? (
                 <img src={imageUrl} alt="Profile" className="prof-avatar" />
@@ -278,21 +291,6 @@ const Profile = () => {
                   />
                 </>
               )}
-            </div>
-            <div className="prof-hero-info">
-              <h1 className="prof-hero-name">{user?.fullName}</h1>
-              <p className="prof-hero-email">{user?.email}</p>
-              <div className="prof-badges">
-                <span
-                  className={`prof-badge plan-${user?.plan?.toLowerCase() || "freemium"}`}
-                >
-                  {user?.plan === "Premium" ? <FaCrown /> : <FaCheckCircle />}
-                  {user?.plan || "Freemium"} Plan
-                </span>
-                <span className="prof-badge target">
-                  <FaBullseye /> Target: 300+
-                </span>
-              </div>
             </div>
           </div>
         </motion.div>
