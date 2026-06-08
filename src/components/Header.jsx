@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import "../styles/header.css";
 import menuBar from "../assets/navBar.json";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HeaderLogo from "../assets/public/logo.png";
 import { HiMenuAlt4, HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
-  const location = useLocation();
   const nav = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);

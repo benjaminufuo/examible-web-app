@@ -22,7 +22,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const PastQuestion = () => {
   // Using useNavigate to programmatically navigate between routes
-  const [activeDropdown, setActiveDropdown] = useState(null);
   const [years, setYears] = useState([]); // State to hold the years fetched from the API
   const [subjectYearsMap, setSubjectYearsMap] = useState({}); // State to hold the mapping of subjects to years
   const [loading, setLoading] = useState(false);
@@ -74,7 +73,7 @@ const PastQuestion = () => {
       nav("/past-questions/view");
       setLoading(false);
       setDisabled(true);
-    } catch (error) {
+    } catch {
       toast.dismiss(toastId);
       setDisabled(false);
       setLoading(false);

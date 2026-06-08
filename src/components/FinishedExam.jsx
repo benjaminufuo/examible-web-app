@@ -79,7 +79,7 @@ const FinishedExam = () => {
           dispatch(setFinishedExam());
         }, 550);
       }
-    } catch (error) {
+    } catch {
       // baseApi handles error toast
     }
   };

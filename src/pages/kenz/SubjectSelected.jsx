@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import "../../styles/dashboardCss/subjectSelected.css";
 import "../../styles/dashboardCss/overview.css";
 import image1 from "../../assets/public/home-firstlayer.webp";
@@ -59,7 +59,7 @@ const SubjectSelected = () => {
           setShowSubjectSelected(false);
         }, 500);
       }
-    } catch (error) {
+    } catch {
       toast.dismiss(id);
       setLoading(false);
     }
@@ -144,11 +144,7 @@ const SubjectSelected = () => {
                   >
                     <div className="ss-card-header">
                       <div className="ss-card-icon">
-                        {typeof subjectMap[item] === "function" ? (
-                          React.createElement(subjectMap[item])
-                        ) : (
-                          <img src={subjectMap[item]} alt={item} />
-                        )}
+                        <img src={subjectMap[item]} alt={item} />
                       </div>
                       <div className="ss-status-badge active">
                         <FiCheck /> Enrolled
@@ -197,16 +193,12 @@ const SubjectSelected = () => {
                 >
                   <div className="ss-card-header">
                     <div className="ss-card-icon">
-                      {typeof subjectMap[item] === "function" ? (
-                        React.createElement(subjectMap[item])
-                      ) : (
-                        <img
-                          src={subjectMap[item]}
-                          alt={item}
-                          width={80}
-                          height={80}
-                        />
-                      )}
+                      <img
+                        src={subjectMap[item]}
+                        alt={item}
+                        width={80}
+                        height={80}
+                      />
                     </div>
                   </div>
                   <div className="ss-card-body">

@@ -12,7 +12,6 @@ import { SiMoneygram } from "react-icons/si";
 import { GrStatusGood } from "react-icons/gr";
 import "../styles/dashboardCss/dashboard.css";
 import { useExamibleContext } from "../context/ExamibleContext";
-import { toast } from "react-toastify";
 import { setMockExamQuestion } from "../global/slice";
 import Button from "../shared/Button";
 import { motion, AnimatePresence } from "framer-motion";

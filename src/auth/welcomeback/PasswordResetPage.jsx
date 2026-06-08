@@ -24,7 +24,7 @@ const PasswordResetPage = () => {
 
   function validatePassword(inputValue) {
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'()<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'()<>=+/"|,{}[\]¬`£~-]{8,}$/;
     return passwordRegex.test(inputValue);
   }
   const validateField = (name, value) => {
@@ -69,7 +69,7 @@ const PasswordResetPage = () => {
             navigate("/login");
           }, 3000);
         }
-      } catch (error) {
+      } catch {
         setLoading(false);
       }
     }

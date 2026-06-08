@@ -69,7 +69,7 @@ const Profile = () => {
         dispatch(setUser(res?.data?.data));
         setNotEditing(true);
       }, 500);
-    } catch (error) {
+    } catch {
       toast.dismiss(id);
       setNotEditing(true);
     }
@@ -85,7 +85,7 @@ const Profile = () => {
         toast.success("Upload Successfully");
         dispatch(setUser(res?.data?.data));
       }
-    } catch (error) {
+    } catch {
       // baseApi handles error toast
     } finally {
       toast.dismiss(toastId);
@@ -110,7 +110,7 @@ const Profile = () => {
         });
         setNotPassword(true);
       }, 500);
-    } catch (error) {
+    } catch {
       setLoading(false);
       toast.dismiss(id);
       setEdittedPassword({
@@ -131,7 +131,7 @@ const Profile = () => {
 
   function validatePassword(inputValue) {
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'()<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'()<>=+/"|,{}[\]¬`£~-]{8,}$/;
     return passwordRegex.test(inputValue);
   }
 

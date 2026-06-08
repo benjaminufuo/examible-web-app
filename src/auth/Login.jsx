@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
@@ -61,7 +61,7 @@ const Login = () => {
           }
         }, 3000);
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
     }
   };

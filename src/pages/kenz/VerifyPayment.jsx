@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
-import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../global/slice";
 import PaymentSuccessfull from "../../components/PaymentSuccessfull";
@@ -24,7 +22,7 @@ const VerifyPayment = () => {
         setPlan(res?.data?.data?.student?.plan);
         setIsVerifying(false);
       }
-    } catch (error) {
+    } catch {
       setTimeout(() => {
         nav("/overview");
       }, 3000);

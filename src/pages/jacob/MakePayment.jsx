@@ -4,8 +4,6 @@ import "../../styles/dashboardCss/makepayment.css";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { FiLock, FiCheckCircle, FiShield, FiCreditCard } from "react-icons/fi";
 import { paymentApi } from "../../config/paymentApi";
@@ -18,7 +16,7 @@ const MakePayment = () => {
   const location = useLocation();
   const { amount, plan } = location.state || {};
 
-  const koraPayPaymentIntegration = async (e, amount, email, name) => {
+  const koraPayPaymentIntegration = async (e, amount) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -31,7 +29,7 @@ const MakePayment = () => {
           window.location.href = response?.data?.data?.checkout_url;
         }, 500);
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
     }
   };

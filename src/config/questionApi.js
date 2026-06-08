@@ -9,7 +9,7 @@ class QuestionApi {
     );
   }
 
-  fetchMockQuestions(subject, questions) {
+  fetchMockQuestions(subject) {
     return this.#http.get(`/mock-questions/${encodeURIComponent(subject)}`);
   }
 }

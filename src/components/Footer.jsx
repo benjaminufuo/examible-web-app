@@ -46,15 +46,24 @@ const Footer = () => {
           <div className="ex-footer__ctaText">
             <h2 className="ex-h2">Start your success journey today.</h2>
             <p className="ex-lead">
-              Join thousands of students preparing smarter for JAMB, WAEC, and NECO
-              with AI-powered practice.
+              Join thousands of students preparing smarter for JAMB, WAEC, and
+              NECO with AI-powered practice.
             </p>
           </div>
           <div className="ex-footer__ctaActions">
-            <button className="ex-btn ex-btn-primary ex-btn-lg" onClick={() => nav("/signup")}>
+            <button
+              className="ex-btn ex-btn-primary ex-btn-lg"
+              onClick={() => nav("/signup")}
+            >
               Start practicing free
             </button>
-            <button className="ex-btn ex-btn-ghost ex-btn-lg" onClick={() => nav("/plans")}>
+            <button
+              className="ex-btn ex-btn-ghost ex-btn-lg"
+              onClick={() => {
+                const el = document.getElementById("pricing");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               View plans
             </button>
           </div>
@@ -64,7 +73,9 @@ const Footer = () => {
       <div className="ex-container ex-footer__grid">
         <div className="ex-footer__brand">
           <img src={FooterLogo} alt="Examible" />
-          <p>The future of exam preparation for African students, powered by AI.</p>
+          <p>
+            The future of exam preparation for African students, powered by AI.
+          </p>
           <div className="ex-footer__socials">
             {socials.map(({ Icon, href, label }) => (
               <a
@@ -118,7 +129,10 @@ const Footer = () => {
       </div>
 
       <div className="ex-container ex-footer__bottom">
-        <span>© {new Date().getFullYear()} Examible Technologies. All rights reserved.</span>
+        <span>
+          © {new Date().getFullYear()} Examible Technologies. All rights
+          reserved.
+        </span>
         <div className="ex-footer__legal">
           <Link to="/data-deletion">Privacy</Link>
           <Link to="/data-deletion">Data Deletion</Link>

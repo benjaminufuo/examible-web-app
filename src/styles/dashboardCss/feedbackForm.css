@@ -161,60 +161,44 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Ant Design Rate Component Dark/Light Mode Fix */
+/* ============================================================
+   Native StarRating component
+   ============================================================ */
 
-/* 1. Base Grey for Unselected (Zero) and Background of Half-Selected */
-.feedback-rate-wrapper .ant-rate-star-zero .ant-rate-star-first svg,
-.feedback-rate-wrapper .ant-rate-star-zero .ant-rate-star-second svg,
-.feedback-rate-wrapper .ant-rate-star-half .ant-rate-star-second svg {
-  color: var(--ex-surface-3, #e5e7eb) !important;
-  fill: var(--ex-surface-3, #e5e7eb) !important;
+/* CSS variable for the empty-star fill colour; overridden per theme */
+:root {
+  --star-empty-color: #e5e7eb;
+}
+html[data-theme="dark"] {
+  --star-empty-color: rgba(255, 255, 255, 0.2);
 }
 
-html[data-theme="dark"]
-  .feedback-rate-wrapper
-  .ant-rate-star-zero
-  .ant-rate-star-first
-  svg,
-html[data-theme="dark"]
-  .feedback-rate-wrapper
-  .ant-rate-star-zero
-  .ant-rate-star-second
-  svg,
-html[data-theme="dark"]
-  .feedback-rate-wrapper
-  .ant-rate-star-half
-  .ant-rate-star-second
-  svg {
-  color: rgba(255, 255, 255, 0.2) !important;
-  fill: rgba(255, 255, 255, 0.2) !important;
+.star-rating {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 2. Gold for Selected (Full) and Foreground of Half-Selected */
-.feedback-rate-wrapper .ant-rate-star-full .ant-rate-star-first svg,
-.feedback-rate-wrapper .ant-rate-star-full .ant-rate-star-second svg,
-.feedback-rate-wrapper .ant-rate-star-half .ant-rate-star-first svg {
-  color: #f2ae30 !important;
-  fill: #f2ae30 !important;
+.star-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  border-radius: 4px;
 }
 
-html[data-theme="dark"]
-  .feedback-rate-wrapper
-  .ant-rate-star-full
-  .ant-rate-star-first
-  svg,
-html[data-theme="dark"]
-  .feedback-rate-wrapper
-  .ant-rate-star-full
-  .ant-rate-star-second
-  svg,
-html[data-theme="dark"]
-  .feedback-rate-wrapper
-  .ant-rate-star-half
-  .ant-rate-star-first
-  svg {
-  color: #f2ae30 !important;
-  fill: #f2ae30 !important;
+.star-btn:hover {
+  transform: scale(1.2);
+}
+
+.star-btn:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
 }
 
 @media (max-width: 600px) {

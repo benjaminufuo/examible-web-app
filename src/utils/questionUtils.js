@@ -34,7 +34,7 @@ export const getAnswerText = (answerLetter, options) => {
 };
 
 export const deduplicateQuestionMeta = (questions) =>
-  questions.reduce((acc, rawItem, index) => {
+  questions.reduce((acc, rawItem) => {
     const item = normalizeQuestion(rawItem);
     const prev = acc[acc.length - 1]?.item;
     const newItem = {
