@@ -22,7 +22,6 @@ html {
 }
 /* Force content wrapper and bubble to fill message bounds */
 .cs-message .cs-message__content-wrapper {
-  flex: 1 !important;
   min-width: 0 !important;
 }
 
@@ -100,4 +99,17 @@ html {
 .chat-markdown img {
   max-width: 100%;
   height: auto;
+}
+
+.cs-message-list .cs-typing-indicator {
+  background-color: var(--ex-surface) !important;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: var(--ex-surface-3) !important;
 }

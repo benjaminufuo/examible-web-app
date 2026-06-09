@@ -7,7 +7,7 @@ import {
   MessageInput,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
-import { useState } from "react";
+import { useState, useMemo, useRef } from "react";
 import { setChatbotMessages } from "../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
@@ -19,20 +19,29 @@ import rehypeKatex from "rehype-katex";
 
 const normalizeLatexDelimiters = (text) =>
   text
-    .replace(/\\{1,2}\[[\s]*(?![\d.]+[a-z]{2}\])/g, "\n$$\n")
-    .replace(/[\s]*\\{1,2}\]/g, "\n$$\n")
+    // \[...\] → display math — use functions so $$ isn't treated as JS replace-special "$"
+    .replace(/\\{1,2}\[[\s]*(?![\d.]+[a-z]{2}\])/g, () => "\n$$\n")
+    .replace(/[\s]*\\{1,2}\]/g, () => "\n$$\n")
+    // \(...\) → inline math
     .replace(/\\{1,2}\(/g, "$")
     .replace(/\\{1,2}\)/g, "$")
     // remark-math needs $$ on its own line — insert newlines when missing
-    .replace(/\$\$([^\n$])/g, "$$\n$1")
-    .replace(/([^\n$])\$\$/g, "$1\n$$");
+    .replace(/\$\$([^\n$])/g, (_, c) => `$$\n${c}`)
+    .replace(/([^\n$])\$\$/g, (_, c) => `${c}\n$$`)
+    // Collapse newlines inside display-math blocks; strip bare % (LaTeX comment markers — the model
+    // writes \boxed{% formula} and after collapse KaTeX errors with "comment has no terminating newline")
+    .replace(
+      /\$\$\n([\s\S]*?)\n\$\$/g,
+      (_, math) =>
+        `$$\n${math.replace(/\n/g, " ").replace(/(?<!\\)%\s*/g, "")}\n$$`,
+    );
 
 const CONTENT_BLOCK_RE =
   /\[\s*\{\s*['"]type['"]\s*:\s*['"]text['"]\s*,\s*['"]text['"]\s*:\s*(["'])([\s\S]*)/;
 const unescapeBackslashes = (text) =>
   text
     .replace(/\\\\(?!\n)/g, "\\") // \\ → \ except before newline (LaTeX \\ line break)
-    .replace(/\\n(?![a-z])/g, "\n"); // \n → newline (skip \nabla, \newline etc.)
+    .replace(/\\n(?![a-z])/g, "\n"); // \n → newline (skip \nabla, \nu etc.; uppercase \nF is not a valid LaTeX cmd)
 
 const cleanBotMessage = (text) => {
   const m = text.match(CONTENT_BLOCK_RE);
@@ -73,6 +82,7 @@ const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
   const messages = useSelector((state) => state.chatbotMessages);
   const dispatch = useDispatch();
+  const rafRef = useRef(null);
 
   const processMessage = async (chatMessages) => {
     const systemMessage = {
@@ -136,16 +146,21 @@ const LegacyChatbot = () => {
             if (delta) {
               if (!accumulated) setTyping(false);
               accumulated += delta;
-              dispatch(
-                setChatbotMessages([
-                  ...chatMessages,
-                  {
-                    message: accumulated,
-                    sender: "ChatGPT",
-                    direction: "Outgoing",
-                  },
-                ]),
-              );
+              // Batch UI updates to one dispatch per animation frame
+              if (rafRef.current) cancelAnimationFrame(rafRef.current);
+              rafRef.current = requestAnimationFrame(() => {
+                dispatch(
+                  setChatbotMessages([
+                    ...chatMessages,
+                    {
+                      message: accumulated,
+                      sender: "ChatGPT",
+                      direction: "Outgoing",
+                    },
+                  ]),
+                );
+                rafRef.current = null;
+              });
             }
           } catch (_e) {
             // ignore
@@ -153,7 +168,18 @@ const LegacyChatbot = () => {
         }
       }
 
+      // Flush any pending RAF and do the final dispatch
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
       if (!accumulated) throw new Error("No content received");
+      dispatch(
+        setChatbotMessages([
+          ...chatMessages,
+          { message: accumulated, sender: "ChatGPT", direction: "Outgoing" },
+        ]),
+      );
     } catch {
       dispatch(
         setChatbotMessages([
@@ -182,6 +208,22 @@ const LegacyChatbot = () => {
     processMessage(newMessages);
   };
 
+  // Pre-process bot messages once per messages-array change, not on every render
+  const processedMessages = useMemo(
+    () =>
+      messages.map((msg) =>
+        msg.sender === "ChatGPT"
+          ? {
+              ...msg,
+              _processed: normalizeLatexDelimiters(
+                cleanBotMessage(msg.message),
+              ),
+            }
+          : msg,
+      ),
+    [messages],
+  );
+
   return (
     <MainContainer>
       <ChatContainer>
@@ -192,21 +234,22 @@ const LegacyChatbot = () => {
             typing ? <TypingIndicator content="Examible bot is typing" /> : null
           }
         >
-          {messages.map((message, index) => {
+          {processedMessages.map((message, index) => {
             return (
               <Message key={index} model={message}>
                 <Message.CustomContent>
                   <div className="chat-markdown">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[[rehypeKatex, { throwOnError: false, errorColor: "#cc0000" }]]}
+                      rehypePlugins={[
+                        [
+                          rehypeKatex,
+                          { throwOnError: false, errorColor: "#cc0000" },
+                        ],
+                      ]}
                       components={mdComponents}
                     >
-                      {message.sender === "ChatGPT"
-                        ? normalizeLatexDelimiters(
-                            cleanBotMessage(message.message),
-                          )
-                        : message.message}
+                      {message._processed ?? message.message}
                     </ReactMarkdown>
                   </div>
                 </Message.CustomContent>

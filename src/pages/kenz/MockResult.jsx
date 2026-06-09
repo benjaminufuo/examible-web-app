@@ -125,7 +125,7 @@ const MockResult = () => {
         breakdown[subj] = { total: 0, correct: 0, incorrect: 0 };
       }
       breakdown[subj].total += 1;
-      const qScore = exam[index]?.score || 0;
+      const qScore = exam?.[index]?.score || 0;
       if (qScore > 0) {
         breakdown[subj].correct += 1;
       } else {
@@ -293,7 +293,7 @@ const MockResult = () => {
 
       <div className="mr-question-list">
         {processedQuestions.map(({ item, newItem }, index) => {
-          const currentExamItem = exam.slice(intialCount, finalCount)?.[index];
+          const currentExamItem = exam?.slice(intialCount, finalCount)?.[index];
           const isCorrect = currentExamItem?.score > 0;
           const selectedOptionLetter = currentExamItem?.option;
           const correctOptionLetter = item?.answer;
