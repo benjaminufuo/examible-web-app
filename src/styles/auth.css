@@ -78,16 +78,18 @@ html[data-theme="dark"] .auth-card {
 }
 
 .auth-logo {
-  height: 80px;
-  margin-bottom: 8px;
+  height: 100px;
+  width: 197px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.auth-logo img {
-  height: 100%;
-  width: auto;
+  img {
+    height: 70%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 .auth-title {
@@ -529,11 +531,6 @@ html[data-theme="dark"] .auth-social-btn:hover {
 
   .auth-title {
     font-size: 20px;
-  }
-
-  .auth-logo {
-    height: 64px;
-    margin-bottom: 4px;
   }
 
   .auth-header {
