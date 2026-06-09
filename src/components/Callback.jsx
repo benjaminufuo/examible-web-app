@@ -14,6 +14,7 @@ const Callback = () => {
     try {
       const res = await studentApi.getStudentById(userId);
       if (res?.data?.success) {
+        localStorage.setItem("userToken", token);
         dispatch(setUser(res?.data?.data));
         dispatch(setUserToken(token));
         setTimeout(() => {
