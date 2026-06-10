@@ -9,6 +9,7 @@ import governmentImg from "../assets/public/subjects/government.png";
 import commerceImg from "../assets/public/subjects/commerce.png";
 import historyImg from "../assets/public/subjects/history.png";
 import geographyImg from "../assets/public/subjects/geography.png";
+import accountingImg from "../assets/public/subjects/accounting.png";
 
 export const allSubjectsData = [
   { subject: "Mathematics", img: mathImg },
@@ -22,4 +23,19 @@ export const allSubjectsData = [
   { subject: "Commerce", img: commerceImg },
   { subject: "History", img: historyImg },
   { subject: "Geography", img: geographyImg },
+  { subject: "Accounting (Principles of Accounts)", img: accountingImg },
+];
+
+export const ALLOWED_SUBJECTS = [
+  "English",
+  "Mathematics",
+  "Physics",
+  "Chemistry",
+  "Biology",
+  "Literature in English",
+  "Economics",
+  "Geography",
+  "Government",
+  "History",
+  "Accounting (Principles of Accounts)",
 ];
