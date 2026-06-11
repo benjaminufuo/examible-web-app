@@ -150,9 +150,9 @@
 }
 
 .ex-header__drawerLogo {
-  height: 80px;
-  width: auto;
-  object-fit: contain;
+  height: 70px;
+  width: 100%;
+  object-fit: cover;
 }
 
 .ex-header__drawerNav {

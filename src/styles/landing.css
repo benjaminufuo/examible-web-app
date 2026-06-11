@@ -54,11 +54,20 @@
 .ex-hero__grid {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(var(--ex-grid-line) 1px, transparent 1px),
+  background-image:
+    linear-gradient(var(--ex-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--ex-grid-line) 1px, transparent 1px);
   background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 35%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 35%, transparent 75%);
+  mask-image: radial-gradient(
+    ellipse 75% 55% at 50% 0%,
+    #000 35%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 55% at 50% 0%,
+    #000 35%,
+    transparent 75%
+  );
 }
 .ex-hero__glow {
   position: absolute;
@@ -381,11 +390,13 @@
 }
 .ex-feature {
   padding: 28px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 .ex-feature:hover {
   transform: translateY(-6px);
-  box-shadow: var(--ex-shadow-lg);
   border-color: var(--ex-brand);
 }
 .ex-feature__icon {
@@ -465,9 +476,15 @@
   border-radius: 50%;
   background: var(--ex-border-strong);
 }
-.ex-preview__chrome span:nth-child(1) { background: #ff5f57; }
-.ex-preview__chrome span:nth-child(2) { background: #febc2e; }
-.ex-preview__chrome span:nth-child(3) { background: #28c840; }
+.ex-preview__chrome span:nth-child(1) {
+  background: #ff5f57;
+}
+.ex-preview__chrome span:nth-child(2) {
+  background: #febc2e;
+}
+.ex-preview__chrome span:nth-child(3) {
+  background: #28c840;
+}
 .ex-preview__chrome em {
   margin-left: 12px;
   font-style: normal;
@@ -645,11 +662,23 @@
   background: var(--ex-text-muted);
   animation: ex-typing 1.2s infinite ease-in-out;
 }
-.ex-preview__typing span:nth-child(2) { animation-delay: 0.15s; }
-.ex-preview__typing span:nth-child(3) { animation-delay: 0.3s; }
+.ex-preview__typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.ex-preview__typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
 @keyframes ex-typing {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-5px); opacity: 1; }
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
 }
 
 /* leaderboard view */
@@ -741,7 +770,9 @@
   border-radius: var(--ex-radius);
   background: var(--ex-surface);
   border: 1px solid var(--ex-border);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 .ex-why__item:hover {
   transform: translateY(-4px);

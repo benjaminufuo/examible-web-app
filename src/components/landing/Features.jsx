@@ -28,11 +28,11 @@ const features = [
     title: "Performance Analytics",
     desc: "See exactly where you're strong, where you're weak, and what to study next.",
   },
-  {
-    Icon: FiAward,
-    title: "Gamified Leaderboards",
-    desc: "Earn XP, climb weekly rankings, and stay motivated with friendly competition.",
-  },
+  // {
+  //   Icon: FiAward,
+  //   title: "Gamified Leaderboards",
+  //   desc: "Earn XP, climb weekly rankings, and stay motivated with friendly competition.",
+  // },
   {
     Icon: FiTarget,
     title: "Smart Recommendations",

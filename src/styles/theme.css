@@ -38,7 +38,9 @@
   --ex-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
   --ex-shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
   --ex-shadow-lg: 0 24px 64px -16px rgba(67, 36, 150, 0.22);
-  --ex-shadow-glow: 0 0 0 1px rgba(128, 75, 242, 0.18), 0 18px 60px -20px rgba(128, 75, 242, 0.45);
+  --ex-shadow-glow:
+    0 0 0 1px rgba(128, 75, 242, 0.18),
+    0 18px 60px -20px rgba(128, 75, 242, 0.45);
 
   /* Hero ambient glow color */
   --ex-glow-1: rgba(128, 75, 242, 0.55);
@@ -47,8 +49,18 @@
 
   /* Gradients */
   --ex-gradient-brand: linear-gradient(135deg, #804bf2 0%, #6a32e8 100%);
-  --ex-gradient-vibrant: linear-gradient(120deg, #804bf2 0%, #9d6bff 45%, #06b6d4 100%);
-  --ex-gradient-text: linear-gradient(120deg, #804bf2 0%, #6a32e8 60%, #06b6d4 120%);
+  --ex-gradient-vibrant: linear-gradient(
+    120deg,
+    #804bf2 0%,
+    #9d6bff 45%,
+    #06b6d4 100%
+  );
+  --ex-gradient-text: linear-gradient(
+    120deg,
+    #804bf2 0%,
+    #6a32e8 60%,
+    #06b6d4 120%
+  );
 
   /* Type */
   --ex-font-display: "Sora", "Montserrat", system-ui, sans-serif;
@@ -93,19 +105,28 @@
   --ex-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --ex-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
   --ex-shadow-lg: 0 30px 80px -20px rgba(0, 0, 0, 0.75);
-  --ex-shadow-glow: 0 0 0 1px rgba(157, 107, 255, 0.25), 0 24px 80px -24px rgba(128, 75, 242, 0.6);
+  --ex-shadow-glow:
+    0 0 0 1px rgba(157, 107, 255, 0.25),
+    0 24px 80px -24px rgba(128, 75, 242, 0.6);
 
   --ex-glow-1: rgba(128, 75, 242, 0.5);
   --ex-glow-2: rgba(34, 211, 238, 0.32);
   --ex-grid-line: rgba(255, 255, 255, 0.045);
 
-  --ex-gradient-text: linear-gradient(120deg, #b794ff 0%, #9d6bff 45%, #22d3ee 120%);
+  --ex-gradient-text: linear-gradient(
+    120deg,
+    #b794ff 0%,
+    #9d6bff 45%,
+    #22d3ee 120%
+  );
 }
 
 /* Smooth theme transition */
 html.ex-theme-ready,
 html.ex-theme-ready body {
-  transition: background-color 0.35s ease, color 0.35s ease;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 
 /* ============================================================
@@ -218,8 +239,12 @@ html.ex-theme-ready body {
   border-radius: 999px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.25s ease, background 0.25s ease,
-    border-color 0.25s ease, color 0.25s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -236,7 +261,6 @@ html.ex-theme-ready body {
 
 .ex-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 24px 60px -18px rgba(128, 75, 242, 0.65);
 }
 
 .ex-btn-ghost {
