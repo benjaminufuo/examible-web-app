@@ -27,7 +27,24 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const sectionIds = menuBar
+      .filter((item) => item.isAnchor)
+      .map((item) => item.link.substring(1));
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+
+      // The "active" section is the last one whose top has scrolled past
+      // 35% down from the viewport top — tracks tall sections correctly.
+      const trigger = window.scrollY + window.innerHeight * 0.35;
+      let current = sectionIds[0];
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= trigger) current = id;
+      }
+      setActiveSection(current);
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -56,7 +73,9 @@ const Header = () => {
             {menuBar.map((item) => (
               <li
                 key={item.id}
-                className={activeSection === item.link.substring(1) ? "active" : ""}
+                className={
+                  activeSection === item.link.substring(1) ? "active" : ""
+                }
               >
                 {item.isAnchor ? (
                   <a
@@ -75,10 +94,16 @@ const Header = () => {
 
         <div className="ex-header__actions">
           <ThemeToggle />
-          <button className="ex-btn ex-btn-ghost ex-header__cta" onClick={() => nav("/signup")}>
+          <button
+            className="ex-btn ex-btn-ghost ex-header__cta"
+            onClick={() => nav("/signup")}
+          >
             Sign Up
           </button>
-          <button className="ex-btn ex-btn-primary ex-header__cta" onClick={() => nav("/login")}>
+          <button
+            className="ex-btn ex-btn-primary ex-header__cta"
+            onClick={() => nav("/login")}
+          >
             Login
           </button>
         </div>
@@ -114,7 +139,11 @@ const Header = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="ex-header__drawerTop">
-                <img src={HeaderLogo} alt="Examible" className="ex-header__drawerLogo" />
+                <img
+                  src={HeaderLogo}
+                  alt="Examible"
+                  className="ex-header__drawerLogo"
+                />
                 <button
                   className="ex-header__menuBtn"
                   aria-label="Close menu"
@@ -128,7 +157,9 @@ const Header = () => {
                 {menuBar.map((item) => (
                   <li
                     key={item.id}
-                    className={activeSection === item.link.substring(1) ? "active" : ""}
+                    className={
+                      activeSection === item.link.substring(1) ? "active" : ""
+                    }
                     onClick={() => setShowDropdown(false)}
                   >
                     {item.isAnchor ? (
