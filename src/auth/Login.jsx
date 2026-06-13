@@ -45,21 +45,18 @@ const Login = () => {
       dispatch(setUserToken(res?.data?.token));
       dispatch(setUser(res?.data?.data));
       if (res?.data?.success) {
-        toast.success("Login successful!");
         setLoading(false);
-        setTimeout(() => {
-          if (location.state?.selectedPlan) {
-            navigate("/subscription/make-payment", {
-              state: {
-                selectedPlan: location.state?.selectedPlan,
-                amount: location.state?.amount,
-              },
-              replace: true,
-            });
-          } else {
-            navigate("/overview", { replace: true });
-          }
-        }, 3000);
+        if (location.state?.selectedPlan) {
+          navigate("/subscription/make-payment", {
+            state: {
+              selectedPlan: location.state?.selectedPlan,
+              amount: location.state?.amount,
+            },
+            replace: true,
+          });
+        } else {
+          navigate("/overview", { replace: true });
+        }
       }
     } catch {
       setLoading(false);

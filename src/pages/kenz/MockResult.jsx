@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelExam } from "../../global/slice";
@@ -35,13 +35,13 @@ const MockResult = () => {
     (state) => state.mockExamQuestions,
   );
   const examFromRedux = useSelector((state) => state.exam);
-  const mockYearFromRedux = useSelector((state) => state.mockYear);
+  const mockYearFromRedux = mockExamQuestionsFromRedux[0]?.year;
   const userToken = useSelector((state) => state.userToken);
   const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
 
   const mockExamQuestions = isPastQuestionResult
     ? location.state?.questions
-    : mockExamQuestionsFromRedux;
+    : mockExamQuestionsFromRedux[0]?.questions ?? [];
   const exam = isPastQuestionResult ? location.state?.exam : examFromRedux;
   const mockYear = isPastQuestionResult
     ? location.state?.year
@@ -117,6 +117,16 @@ const MockResult = () => {
   const totalCorrect = Math.round(totalScore);
   const totalIncorrect = validQuestionsLength - totalCorrect;
 
+  // For mock exams, exam items are keyed by subject+number (not position).
+  // For past-question results, location.state.exam is positional — keep that path unchanged.
+  const getExamEntry = useCallback(
+    (questionIndex) => {
+      if (isPastQuestionResult) return exam?.[questionIndex];
+      return exam?.find((e) => e.number === questionIndex + 1);
+    },
+    [isPastQuestionResult, exam],
+  );
+
   const subjectBreakdown = useMemo(() => {
     const breakdown = {};
     mockExamQuestions?.forEach((q, index) => {
@@ -125,7 +135,7 @@ const MockResult = () => {
         breakdown[subj] = { total: 0, correct: 0, incorrect: 0 };
       }
       breakdown[subj].total += 1;
-      const qScore = exam?.[index]?.score || 0;
+      const qScore = getExamEntry(index)?.score || 0;
       if (qScore > 0) {
         breakdown[subj].correct += 1;
       } else {
@@ -136,7 +146,7 @@ const MockResult = () => {
       name,
       ...stats,
     }));
-  }, [mockExamQuestions, exam, location.state]);
+  }, [mockExamQuestions, getExamEntry]);
 
   const processedQuestions = useMemo(
     () =>
@@ -293,7 +303,7 @@ const MockResult = () => {
 
       <div className="mr-question-list">
         {processedQuestions.map(({ item, newItem }, index) => {
-          const currentExamItem = exam?.slice(intialCount, finalCount)?.[index];
+          const currentExamItem = getExamEntry(intialCount + index);
           const isCorrect = currentExamItem?.score > 0;
           const selectedOptionLetter = currentExamItem?.option;
           const correctOptionLetter = item?.answer;
@@ -401,7 +411,7 @@ const MockResult = () => {
                       index,
                     );
                   }}
-                  disabled={loading}
+                  disabled={typeof loading === "number"}
                 >
                   {loading === index ? (
                     <ClipLoader color="white" size={16} />

@@ -68,3 +68,8 @@ export const getSafeText = (val) => {
   }
   return String(val);
 };
+
+export const getTotalNumbersOfQuestion = (resArr) => {
+  if (!resArr || !Array.isArray(resArr)) return 0;
+  return resArr.reduce((sum, block) => sum + (block?.questions?.length ?? 0), 0);
+};

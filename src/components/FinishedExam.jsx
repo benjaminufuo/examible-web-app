@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFinishedExam, setUser } from "../global/slice";
 import { studentApi } from "../config/studentApi";
 import { useExamibleContext } from "../context/ExamibleContext";
+import { getTotalNumbersOfQuestion } from "../utils/questionUtils";
 
 const FinishedExam = () => {
   const nav = useNavigate();
@@ -22,14 +23,9 @@ const FinishedExam = () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
 
     let completed = "no";
-    if (exam && mockExamQuestions && exam.length === mockExamQuestions.length) {
+    const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
+    if (exam && validQuestionsLength > 0 && exam.length === validQuestionsLength) {
       completed = "yes";
-      for (let element of exam) {
-        if (!element || !element.option) {
-          completed = "no";
-          break;
-        }
-      }
     }
 
     const initialDuration =
@@ -37,15 +33,14 @@ const FinishedExam = () => {
       (user?.plan === "Freemium" ? 10 : 30);
 
     const duration = Math.min(
-      1800,
+      7200,
       Math.max(1, initialDuration * 60 - timeLeft),
-    ); // Cap at 1800 to prevent backend max validation
-    const validQuestionsLength = mockExamQuestions?.length || 1;
+    ); // Cap at 7200s (2 hours) to cover CBT exam duration
 
     const rawPerformance =
       (exam?.reduce((acc, item) => acc + (item?.score || 0), 0) /
         2 /
-        validQuestionsLength) *
+        (validQuestionsLength || 1)) *
       100;
 
     const performance = Math.min(
@@ -55,7 +50,7 @@ const FinishedExam = () => {
 
     const apiSubject =
       mockSelectedSubject === "CBT Examination"
-        ? "English Language"
+        ? "English"
         : mockSelectedSubject || "Mock Exam";
 
     try {
@@ -76,8 +71,8 @@ const FinishedExam = () => {
           }, 20000);
         }, 500);
         setTimeout(() => {
-          dispatch(setFinishedExam());
-        }, 550);
+          dispatch(setFinishedExam(false));
+        }, 2000);
       }
     } catch {
       // baseApi handles error toast

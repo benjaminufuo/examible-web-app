@@ -97,7 +97,7 @@ const LegacyChatbot = () => {
     };
 
     const apiMessages = chatMessages.map((message) => ({
-      role: message.sender === "ChatGPT" ? "assistant" : "user",
+      role: message.sender === "bot" ? "assistant" : "user",
       content: message.message,
     }));
 
@@ -154,8 +154,8 @@ const LegacyChatbot = () => {
                     ...chatMessages,
                     {
                       message: accumulated,
-                      sender: "ChatGPT",
-                      direction: "Outgoing",
+                      sender: "bot",
+                      direction: "incoming",
                     },
                   ]),
                 );
@@ -177,7 +177,7 @@ const LegacyChatbot = () => {
       dispatch(
         setChatbotMessages([
           ...chatMessages,
-          { message: accumulated, sender: "ChatGPT", direction: "Outgoing" },
+          { message: accumulated, sender: "bot", direction: "incoming" },
         ]),
       );
     } catch {
@@ -186,8 +186,8 @@ const LegacyChatbot = () => {
           ...chatMessages,
           {
             message: "Sorry, something went wrong. Please try again.",
-            sender: "ChatGPT",
-            direction: "Outgoing",
+            sender: "bot",
+            direction: "incoming",
           },
         ]),
       );
@@ -212,7 +212,7 @@ const LegacyChatbot = () => {
   const processedMessages = useMemo(
     () =>
       messages.map((msg) =>
-        msg.sender === "ChatGPT"
+        msg.sender === "bot"
           ? {
               ...msg,
               _processed: normalizeLatexDelimiters(

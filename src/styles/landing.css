@@ -44,6 +44,10 @@
   padding-top: clamp(90px, 13vh, 150px);
   padding-bottom: clamp(60px, 9vw, 110px);
   overflow: hidden;
+
+  @media (max-width: 600px) {
+    padding-top: 32px;
+  }
 }
 .ex-hero__bg {
   position: absolute;
@@ -68,11 +72,19 @@
     #000 35%,
     transparent 75%
   );
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 .ex-hero__glow {
   position: absolute;
   border-radius: 50%;
   filter: blur(100px);
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 .ex-hero__glow--1 {
   width: 520px;
@@ -80,6 +92,10 @@
   background: var(--ex-glow-1);
   top: -200px;
   left: -140px;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 .ex-hero__glow--2 {
   width: 460px;
@@ -87,6 +103,10 @@
   background: var(--ex-glow-2);
   top: -120px;
   right: -120px;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 .ex-hero__inner {
   position: relative;
@@ -320,7 +340,7 @@
   right: -40px;
 }
 .ex-hero__floatCard--pass {
-  bottom: -30px;
+  bottom: -44px;
   left: -34px;
 }
 
@@ -1160,14 +1180,14 @@
   }
   .ex-hero__floatCard--ai {
     left: 0;
-    top: 12px;
+    top: -30px;
   }
   .ex-hero__floatCard--rank {
     right: 0;
   }
   .ex-hero__floatCard--pass {
     left: 0;
-    bottom: 12px;
+    bottom: -42px;
   }
   .ex-hero__dashStats {
     grid-template-columns: repeat(3, 1fr);

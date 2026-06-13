@@ -17,7 +17,7 @@
   border-bottom: 1px solid var(--ex-border);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 10;
   box-shadow: var(--ex-shadow-sm);
 }
 
@@ -428,6 +428,10 @@
   border-color: var(--ex-border);
   transform: none;
   box-shadow: none;
+}
+
+.exam-nav-lock-icon {
+  font-size: 12px;
 }
 
 .exam-premium-warning {

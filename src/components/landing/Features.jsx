@@ -48,11 +48,11 @@ const features = [
     title: "JAMB & WAEC Past Questions",
     desc: "Thousands of verified past questions organized by subject and topic.",
   },
-  {
-    Icon: FiActivity,
-    title: "Progress Tracking",
-    desc: "Track streaks, accuracy, and predicted scores over time on one dashboard.",
-  },
+  // {
+  //   Icon: FiActivity,
+  //   title: "Progress Tracking",
+  //   desc: "Track streaks, accuracy, and predicted scores over time on one dashboard.",
+  // },
   // { Icon: FiWifiOff, title: "Offline Learning Support", desc: "Keep practicing even when your connection drops, then sync when you're back." },
   {
     Icon: FiShield,

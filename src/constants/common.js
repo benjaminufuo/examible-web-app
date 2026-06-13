@@ -39,3 +39,8 @@ export const ALLOWED_SUBJECTS = [
   "History",
   "Accounting (Principles of Accounts)",
 ];
+
+export const ALLOWED_YEARS = Array.from(
+  { length: 11 },
+  (_, index) => 2025 - index,
+);

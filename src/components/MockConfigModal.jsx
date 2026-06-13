@@ -7,7 +7,6 @@ import {
   setExamTimer,
   setMockExamQuestion,
   setMockSelectedSubject,
-  setMockYear,
 } from "../global/slice";
 import "../styles/dashboardCss/MockConfigModal.css";
 import Button from "../shared/Button";
@@ -19,7 +18,7 @@ const MockConfigModal = ({ subject, onClose }) => {
 
   const [loading, setLoading] = useState(false);
   const [config, setConfig] = useState({
-    questions: 15,
+    questions: subject === "English" ? 15 : 10,
     duration: 10,
   });
 
@@ -30,19 +29,25 @@ const MockConfigModal = ({ subject, onClose }) => {
   const handleStartExam = async () => {
     setLoading(true);
     try {
-      const res = await questionApi.fetchMockQuestions(subject);
+      const res = await questionApi.fetchMockQuestions(
+        subject,
+        config.questions,
+      );
 
       if (res?.data?.success) {
         // Enforce the exact number of questions selected in the modal
-        const selectedQuestions =
-          res?.data?.data?.slice(0, config.questions) || [];
-        dispatch(setMockExamQuestion(selectedQuestions));
-        dispatch(setMockYear(res?.data?.year));
+        dispatch(
+          setMockExamQuestion(
+            res?.data?.data
+              ? [{ questions: res?.data?.data, subject, year: res?.data?.year }]
+              : [],
+          ),
+        );
         dispatch(setExamTimer({ plan: user?.plan, duration: config.duration }));
         sessionStorage.setItem("mockExamDuration", config.duration);
         dispatch(setMockSelectedSubject(subject));
         setTimeout(() => {
-          nav(`/mock-exam/questions`, { state: { subjectId: 1 } });
+          nav(`/mock-exam/questions`);
         }, 500);
       }
     } catch {
