@@ -8,6 +8,8 @@ import {
   FiPlay,
   FiArrowRight,
 } from "react-icons/fi";
+import avatarOne from "../../assets/public/avatars/avatar1.png";
+import avatarTwo from "../../assets/public/avatars/avatar2.png";
 
 const float = (delay) => ({
   animate: { y: [0, -12, 0] },
@@ -40,24 +42,32 @@ const Hero = () => {
             <span className="ex-gradient-text">starts here.</span>
           </h1>
           <p className="ex-lead ex-hero__lead">
-            Examible helps students across Africa master JAMB, WAEC, and NECO with
-            realistic CBT simulations, a personal AI tutor, and analytics that turn
-            practice into measurable score gains.
+            Examible helps students across Africa master JAMB, WAEC, and NECO
+            with realistic CBT simulations, a personal AI tutor, and analytics
+            that turn practice into measurable score gains.
           </p>
 
           <div className="ex-hero__actions">
-            <button className="ex-btn ex-btn-primary ex-btn-lg" onClick={() => nav("/signup")}>
+            <button
+              className="ex-btn ex-btn-primary ex-btn-lg"
+              onClick={() => nav("/signup")}
+            >
               Start practicing <FiArrowRight size={18} />
             </button>
-            <button className="ex-btn ex-btn-ghost ex-btn-lg" onClick={() => nav("/signup")}>
+            <button
+              className="ex-btn ex-btn-ghost ex-btn-lg"
+              onClick={() => nav("/signup")}
+            >
               <FiPlay size={16} /> Take a mock exam
             </button>
           </div>
 
           <div className="ex-hero__proof">
             <div className="ex-hero__avatars" aria-hidden="true">
-              {["#804bf2", "#06b6d4", "#f2ae30", "#16b364"].map((c, i) => (
-                <span key={i} style={{ background: c }} />
+              {AVATARS.map((avatar, i) => (
+                <span key={i} style={{ background: avatar.color }}>
+                  <img src={avatar.img} alt="student" />
+                </span>
               ))}
             </div>
             <p>
@@ -112,7 +122,11 @@ const Hero = () => {
                     key={i}
                     initial={{ height: 0 }}
                     animate={{ height: `${h}%` }}
-                    transition={{ duration: 0.7, delay: 0.5 + i * 0.08, ease: "easeOut" }}
+                    transition={{
+                      duration: 0.7,
+                      delay: 0.5 + i * 0.08,
+                      ease: "easeOut",
+                    }}
                   />
                 ))}
               </div>
@@ -131,7 +145,11 @@ const Hero = () => {
                       className="ex-hero__fill"
                       initial={{ width: 0 }}
                       animate={{ width: `${row.v}%` }}
-                      transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
+                      transition={{
+                        duration: 0.9,
+                        delay: 0.6,
+                        ease: "easeOut",
+                      }}
                     />
                   </div>
                   <em>{row.v}%</em>
@@ -140,8 +158,17 @@ const Hero = () => {
             </div>
           </div>
 
-          <motion.div className="ex-hero__floatCard ex-hero__floatCard--ai ex-glass" {...float(0.4)}>
-            <span className="ex-hero__floatIcon" style={{ background: "var(--ex-brand-soft)", color: "var(--ex-brand)" }}>
+          <motion.div
+            className="ex-hero__floatCard ex-hero__floatCard--ai ex-glass"
+            {...float(0.4)}
+          >
+            <span
+              className="ex-hero__floatIcon"
+              style={{
+                background: "var(--ex-brand-soft)",
+                color: "var(--ex-brand)",
+              }}
+            >
               <FiZap size={16} />
             </span>
             <div>
@@ -150,8 +177,17 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.div className="ex-hero__floatCard ex-hero__floatCard--rank ex-glass" {...float(1.1)}>
-            <span className="ex-hero__floatIcon" style={{ background: "rgba(242,174,48,0.16)", color: "var(--ex-accent-2)" }}>
+          <motion.div
+            className="ex-hero__floatCard ex-hero__floatCard--rank ex-glass"
+            {...float(1.1)}
+          >
+            <span
+              className="ex-hero__floatIcon"
+              style={{
+                background: "rgba(242,174,48,0.16)",
+                color: "var(--ex-accent-2)",
+              }}
+            >
               <FiAward size={16} />
             </span>
             <div>
@@ -160,8 +196,17 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.div className="ex-hero__floatCard ex-hero__floatCard--pass ex-glass" {...float(0.8)}>
-            <span className="ex-hero__floatIcon" style={{ background: "rgba(22,179,100,0.16)", color: "var(--ex-success)" }}>
+          <motion.div
+            className="ex-hero__floatCard ex-hero__floatCard--pass ex-glass"
+            {...float(0.8)}
+          >
+            <span
+              className="ex-hero__floatIcon"
+              style={{
+                background: "rgba(22,179,100,0.16)",
+                color: "var(--ex-success)",
+              }}
+            >
               <FiCheckCircle size={16} />
             </span>
             <div>
@@ -176,3 +221,22 @@ const Hero = () => {
 };
 
 export default Hero;
+
+const AVATARS = [
+  {
+    color: "#804bf2",
+    img: avatarOne,
+  },
+  {
+    color: "#06b6d4",
+    img: avatarTwo,
+  },
+  {
+    color: "#f2ae30",
+    img: avatarOne,
+  },
+  {
+    color: "#16b364",
+    img: avatarTwo,
+  },
+];

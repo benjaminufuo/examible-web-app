@@ -150,6 +150,13 @@
   border-radius: 50%;
   border: 2px solid var(--ex-bg);
   margin-left: -10px;
+
+  & img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    /* object-fit: contain; */
+  }
 }
 .ex-hero__avatars span:first-child {
   margin-left: 0;

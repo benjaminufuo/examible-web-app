@@ -58,70 +58,71 @@ const Header = () => {
   }, [showDropdown]);
 
   return (
-    <header className={`ex-header ${scrolled ? "ex-header--scrolled" : ""}`}>
-      <div className="ex-header__inner">
-        <button
-          className="ex-header__brand"
-          onClick={() => nav("/")}
-          aria-label="Examible home"
-        >
-          <img src={HeaderLogo} alt="Examible" />
-        </button>
-
-        <nav className="ex-header__nav" aria-label="Primary">
-          <ul>
-            {menuBar.map((item) => (
-              <li
-                key={item.id}
-                className={
-                  activeSection === item.link.substring(1) ? "active" : ""
-                }
-              >
-                {item.isAnchor ? (
-                  <a
-                    href={item.link}
-                    onClick={(e) => handleAnchorClick(e, item.link)}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <Link to={item.link}>{item.name}</Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="ex-header__actions">
-          <ThemeToggle />
+    <>
+      <header className={`ex-header ${scrolled ? "ex-header--scrolled" : ""}`}>
+        <div className="ex-header__inner">
           <button
-            className="ex-btn ex-btn-ghost ex-header__cta"
-            onClick={() => nav("/signup")}
+            className="ex-header__brand"
+            onClick={() => nav("/")}
+            aria-label="Examible home"
           >
-            Sign Up
+            <img src={HeaderLogo} alt="Examible" />
           </button>
-          <button
-            className="ex-btn ex-btn-primary ex-header__cta"
-            onClick={() => nav("/login")}
-          >
-            Login
-          </button>
+
+          <nav className="ex-header__nav" aria-label="Primary">
+            <ul>
+              {menuBar.map((item) => (
+                <li
+                  key={item.id}
+                  className={
+                    activeSection === item.link.substring(1) ? "active" : ""
+                  }
+                >
+                  {item.isAnchor ? (
+                    <a
+                      href={item.link}
+                      onClick={(e) => handleAnchorClick(e, item.link)}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link to={item.link}>{item.name}</Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="ex-header__actions">
+            <ThemeToggle />
+            <button
+              className="ex-btn ex-btn-ghost ex-header__cta"
+              onClick={() => nav("/signup")}
+            >
+              Sign Up
+            </button>
+            <button
+              className="ex-btn ex-btn-primary ex-header__cta"
+              onClick={() => nav("/login")}
+            >
+              Login
+            </button>
+          </div>
+
+          <div className="ex-header__mobileActions">
+            <ThemeToggle />
+            <button
+              className="ex-header__menuBtn"
+              aria-label="Open menu"
+              onClick={() => setShowDropdown(true)}
+            >
+              <HiMenuAlt4 size={24} />
+            </button>
+          </div>
         </div>
-
-        <div className="ex-header__mobileActions">
-          <ThemeToggle />
-          <button
-            className="ex-header__menuBtn"
-            aria-label="Open menu"
-            onClick={() => setShowDropdown(true)}
-          >
-            <HiMenuAlt4 size={24} />
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {showDropdown && (
+      </header>
+      {showDropdown && (
+        <AnimatePresence>
           <motion.div
             className="ex-header__overlay"
             initial={{ opacity: 0 }}
@@ -198,9 +199,9 @@ const Header = () => {
               </div>
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+        </AnimatePresence>
+      )}
+    </>
   );
 };
 
