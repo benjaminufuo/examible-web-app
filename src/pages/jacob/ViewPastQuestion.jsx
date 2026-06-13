@@ -7,9 +7,7 @@ import {
   IoCloseCircle,
   IoSparklesOutline,
 } from "react-icons/io5";
-import {
-  setPastQuestionsOption,
-} from "../../global/slice";
+import { setPastQuestionsOption } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -127,7 +125,7 @@ const QuestionCard = ({
             </div>
             <button
               className="vpq-ai-btn"
-              disabled={loading}
+              disabled={typeof loading === "number"}
               onClick={() =>
                 onViewExplanation(
                   item.number,
