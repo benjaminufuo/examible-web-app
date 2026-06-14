@@ -1,5 +1,5 @@
-import { FiStar } from "react-icons/fi";
 import Reveal from "./Reveal";
+import TestimonialCarousel from "../TestimonialCarousel";
 
 const testimonials = [
   {
@@ -18,10 +18,17 @@ const testimonials = [
   },
   {
     quote:
-      "The leaderboard kept me coming back every single day. Turning revision into a friendly competition completely changed my study habits.",
-    name: "David K.",
-    role: "WAEC & JAMB candidate",
-    color: "#f2ae30",
+      "Going through real JAMB past questions year by year showed me exactly which topics repeat. I walked into the exam knowing every pattern — that focus is what pushed my score over 300.",
+    name: "Chisom E.",
+    role: "Scored 304 in JAMB",
+    color: "#10b981",
+  },
+  {
+    quote:
+      "After every mock exam, the instant breakdown told me exactly where I was dropping marks. I fixed those weak spots in two weeks and my score jumped by over 40 points.",
+    name: "Blessing T.",
+    role: "Scored 287 in JAMB",
+    color: "#f97316",
   },
 ];
 
@@ -29,34 +36,17 @@ const Testimonials = () => {
   return (
     <section className="ex-section ex-testi">
       <div className="ex-container">
-        <div className="ex-section-head">
+        <Reveal className="ex-section-head">
           <span className="ex-eyebrow">Loved by students</span>
           <h2 className="ex-h2">
-            Real results from <span className="ex-gradient-text">real candidates</span>
+            Real results from{" "}
+            <span className="ex-gradient-text">real candidates</span>
           </h2>
-        </div>
+        </Reveal>
 
-        <div className="ex-testi__grid">
-          {testimonials.map((t, i) => (
-            <Reveal key={t.name} className="ex-testi__card ex-card" delay={i * 0.1}>
-              <div className="ex-testi__stars" aria-label="5 out of 5 stars">
-                {Array.from({ length: 5 }).map((_, s) => (
-                  <FiStar key={s} size={16} fill="var(--ex-accent-2)" stroke="var(--ex-accent-2)" />
-                ))}
-              </div>
-              <p className="ex-testi__quote">{t.quote}</p>
-              <div className="ex-testi__person">
-                <span className="ex-testi__avatar" style={{ background: t.color }}>
-                  {t.name.charAt(0)}
-                </span>
-                <div>
-                  <strong>{t.name}</strong>
-                  <small>{t.role}</small>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={0.15}>
+          <TestimonialCarousel testimonials={testimonials} />
+        </Reveal>
       </div>
     </section>
   );

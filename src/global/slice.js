@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { OPTION_KEYS } from "../utils/questionUtils";
 
 const initialState = {
   userToken: "",
@@ -6,7 +7,6 @@ const initialState = {
   year: "",
   pastQuestions: [],
   pastQuestionsOption: {},
-  mockSubject: "",
   mockExamQuestions: [],
   mockExamOptions: {
     optionA: false,
@@ -15,22 +15,20 @@ const initialState = {
     optionD: false,
     optionE: false,
   },
-  examMeter: 0,
   examTimerMins: 0,
   examTimerSecs: 0,
   exam: [],
   notEnrolledSubjects: [],
-  FinishedExam: false,
-  timeOut: false,
+  finishedExam: false,
+  timedOut: false,
   chatbotMessages: [
     {
       message:
         "Hello, I am Examible bot, Feel free to ask me question based on O'level Subjects",
-      sender: "ChatGPT",
-      direction: "Outgoing",
+      sender: "bot",
+      direction: "incoming",
     },
   ],
-  mockYear: "",
   mockSelectedSubject: "",
 };
 
@@ -54,12 +52,7 @@ const slice = createSlice({
       state.pastQuestions = payload;
     },
     setPastQuestionsOption: (state, { payload }) => {
-      if (payload.reset) {
-        state.pastQuestionsOption = {};
-        return;
-      }
-      const { questionIndex, selectedOption, isCorrect, correctAnswerText } =
-        payload;
+      const { questionIndex, selectedOption, isCorrect, correctAnswerText } = payload;
       state.pastQuestionsOption[questionIndex] = {
         selectedOption,
         isCorrect,
@@ -69,158 +62,60 @@ const slice = createSlice({
     clearPastQuestionsOption: (state) => {
       state.pastQuestionsOption = {};
     },
-
-    setMockSubject: (state, { payload }) => {
-      if (state.mockSubject === payload) {
-        state.mockSubject = "";
-      } else {
-        state.mockSubject = payload;
-      }
-    },
     setMockExamQuestion: (state, { payload }) => {
       state.mockExamQuestions = payload;
     },
     setMockExamOption: (state, { payload }) => {
-      switch (payload.option) {
-        case "A":
-          state.mockExamOptions.optionA = payload.answer;
-          state.mockExamOptions.optionB = false;
-          state.mockExamOptions.optionC = false;
-          state.mockExamOptions.optionD = false;
-          state.mockExamOptions.optionE = false;
-          break;
-        case "B":
-          state.mockExamOptions.optionA = false;
-          state.mockExamOptions.optionB = payload.answer;
-          state.mockExamOptions.optionC = false;
-          state.mockExamOptions.optionD = false;
-          state.mockExamOptions.optionE = false;
-          break;
-        case "C":
-          state.mockExamOptions.optionA = false;
-          state.mockExamOptions.optionB = false;
-          state.mockExamOptions.optionC = payload.answer;
-          state.mockExamOptions.optionD = false;
-          state.mockExamOptions.optionE = false;
-          break;
-        case "D":
-          state.mockExamOptions.optionA = false;
-          state.mockExamOptions.optionB = false;
-          state.mockExamOptions.optionC = false;
-          state.mockExamOptions.optionD = payload.answer;
-          state.mockExamOptions.optionE = false;
-          break;
-
-        case "E":
-          state.mockExamOptions.optionA = false;
-          state.mockExamOptions.optionB = false;
-          state.mockExamOptions.optionC = false;
-          state.mockExamOptions.optionD = false;
-          state.mockExamOptions.optionE = payload.answer;
-          break;
-
-        default:
-          state.mockExamOptions.optionA = false;
-          state.mockExamOptions.optionB = false;
-          state.mockExamOptions.optionC = false;
-          state.mockExamOptions.optionD = false;
-          state.mockExamOptions.optionE = false;
-          break;
+      // Only touch the two keys that change instead of all five
+      const prevKey = OPTION_KEYS.find((k) => state.mockExamOptions[k]);
+      if (prevKey) state.mockExamOptions[prevKey] = false;
+      const key = `option${payload.option}`;
+      if (key in state.mockExamOptions) {
+        state.mockExamOptions[key] = payload.answer;
       }
     },
     cancelExam: (state) => {
-      state.mockSubject = "";
-      state.mockExamOptions.optionA = false;
-      state.mockExamOptions.optionB = false;
-      state.mockExamOptions.optionC = false;
-      state.mockExamOptions.optionD = false;
-      state.mockExamOptions.optionE = false;
-      state.exam = [];
       state.mockExamQuestions = [];
-    },
-    previousQuestion: (state) => {
-      state.examMeter = state.examMeter - 100 / state.mockExamQuestions.length;
+      state.exam = [];
+      state.mockExamOptions = { ...initialState.mockExamOptions };
+      state.finishedExam = false;
+      state.timedOut = false;
     },
     nextQuestion: (state, { payload }) => {
-      if (state.mockExamOptions.optionA) {
-        const obj = {
-          option: "A",
-          answer: state.mockExamOptions.optionA,
-          score: state.mockExamOptions.optionA === payload.answer ? 2 : 0,
-        };
-        const num = Number(payload.subjectId) - 1;
-        state.exam[num] = obj;
-        state.examMeter =
-          state.examMeter + 100 / state.mockExamQuestions.length;
-      } else if (state.mockExamOptions.optionB) {
-        const obj = {
-          option: "B",
-          answer: state.mockExamOptions.optionB,
-          score: state.mockExamOptions.optionB === payload.answer ? 2 : 0,
-        };
-        const num = Number(payload.subjectId) - 1;
-        state.exam[num] = obj;
-        state.examMeter =
-          state.examMeter + 100 / state.mockExamQuestions.length;
-      } else if (state.mockExamOptions.optionC) {
-        const obj = {
-          option: "C",
-          answer: state.mockExamOptions.optionC,
-          score: state.mockExamOptions.optionC === payload.answer ? 2 : 0,
-        };
-        const num = Number(payload.subjectId) - 1;
-        state.exam[num] = obj;
-        state.examMeter =
-          state.examMeter + 100 / state.mockExamQuestions.length;
-      } else if (state.mockExamOptions.optionD) {
-        const obj = {
-          option: "D",
-          answer: state.mockExamOptions.optionD,
-          score: state.mockExamOptions.optionD === payload.answer ? 2 : 0,
-        };
-        const num = Number(payload.subjectId) - 1;
-        state.exam[num] = obj;
-        state.examMeter =
-          state.examMeter + 100 / state.mockExamQuestions.length;
-      } else if (state.mockExamOptions.optionE) {
-        const obj = {
-          option: "E",
-          answer: state.mockExamOptions.optionE,
-          score: state.mockExamOptions.optionE === payload.answer ? 2 : 0,
-        };
-        const num = Number(payload.subjectId) - 1;
-        state.exam[num] = obj;
-        state.examMeter =
-          state.examMeter + 100 / state.mockExamQuestions.length;
+      const selectedKey = OPTION_KEYS.find((k) => state.mockExamOptions[k]);
+      if (!selectedKey) return;
+
+      const option = selectedKey.replace("option", "");
+      const answer = state.mockExamOptions[selectedKey];
+      const obj = {
+        number: Number(payload.subjectId),
+        subject: payload.subject,
+        option,
+        answer,
+        score: answer === payload.answer ? 2 : 0,
+      };
+
+      const currentIndex = state.exam.findIndex(
+        (q) => q.subject === payload.subject && q.number === Number(payload.subjectId),
+      );
+      if (currentIndex !== -1) {
+        state.exam[currentIndex] = obj;
       } else {
-        const obj = {
-          option: "",
-          answer: "none",
-          score: state.mockExamOptions.optionD === payload.answer ? 2 : 0,
-        };
-        const num = Number(payload.subjectId) - 1;
-        state.exam[num] = obj;
+        state.exam.push(obj);
       }
     },
     setExamTimer: (state, { payload }) => {
-      state.examMeter = 0;
-      if (typeof payload === "object" && payload.duration) {
-        state.examTimerMins = payload.duration - 1;
-        state.examTimerSecs = 59;
-      } else if (payload === "Freemium") {
-        state.examTimerMins = 9;
-        state.examTimerSecs = 59;
-      } else {
-        state.examTimerMins = 29;
-        state.examTimerSecs = 59;
-      }
+      state.examTimerMins = payload.duration - 1;
+      state.examTimerSecs = 59;
       state.exam = [];
-      state.FinishedExam = false;
-      state.timeOut = false;
+      state.mockExamOptions = { ...initialState.mockExamOptions };
+      state.finishedExam = false;
+      state.timedOut = false;
     },
     theExamTimer: (state) => {
+      if (state.finishedExam) return;
       if (state.examTimerMins <= 0 && state.examTimerSecs <= 0) {
-        state.timeOut = true;
+        state.timedOut = true;
         return;
       }
       if (state.examTimerSecs === 0) {
@@ -230,41 +125,18 @@ const slice = createSlice({
         state.examTimerSecs--;
       }
     },
-    logoutTheUser: (state) => {
-      state.user = {};
-      state.userToken = "";
-      state.mockSubject = "";
-      state.mockExamQuestions = [];
-      state.chatbotMessages = [
-        {
-          message:
-            "Hello, I am Examible bot, Feel free to ask me question based on O'level Subjects",
-          sender: "ChatGPT",
-          direction: "Outgoing",
-        },
-      ];
-    },
-
+    logoutTheUser: () => initialState,
     setNotEnrolledSubjects: (state, { payload }) => {
       state.notEnrolledSubjects = payload;
     },
-    setFinishedExam: (state) => {
-      state.FinishedExam = !state.FinishedExam;
+    setFinishedExam: (state, { payload }) => {
+      state.finishedExam = payload;
     },
-    setExamTimeout: (state) => {
-      state.timeOut = !state.timeOut;
+    setTimedOut: (state, { payload }) => {
+      state.timedOut = payload;
     },
     setChatbotMessages: (state, { payload }) => {
       state.chatbotMessages = payload;
-    },
-    setMockYear: (state, { payload }) => {
-      state.mockYear = payload;
-      state.mockExamOptions.optionA = false;
-      state.mockExamOptions.optionB = false;
-      state.mockExamOptions.optionC = false;
-      state.mockExamOptions.optionD = false;
-      state.mockExamOptions.optionE = false;
-      state.exam = [];
     },
     setMockSelectedSubject: (state, { payload }) => {
       state.mockSelectedSubject = payload;
@@ -282,18 +154,15 @@ export const {
   setYear,
   theExamTimer,
   setUser,
-  setMockSubject,
   setMockExamQuestion,
   setMockExamOption,
   cancelExam,
-  previousQuestion,
   nextQuestion,
   setExamTimer,
   setNotEnrolledSubjects,
   setFinishedExam,
-  setExamTimeout,
+  setTimedOut,
   setChatbotMessages,
-  setMockYear,
   setMockSelectedSubject,
 } = slice.actions;
 

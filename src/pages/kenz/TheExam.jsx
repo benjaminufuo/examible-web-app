@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Latex from "react-latex-next";
-import "katex/dist/katex.min.css"; // Required for math symbols to format correctly
+import "katex/dist/katex.min.css";
 import Calculator from "../../components/Calculator";
 import ErrorPgae from "../jacob/ErrorPgae";
 import { motion, AnimatePresence } from "framer-motion";
@@ -23,7 +23,13 @@ import {
   theExamTimer,
 } from "../../global/slice";
 import { useExamibleContext } from "../../context/ExamibleContext";
-import { normalizeQuestion } from "../../utils/questionUtils";
+import {
+  getTotalNumbersOfQuestion,
+  normalizeQuestion,
+} from "../../utils/questionUtils";
+
+const getFreeLimit = (subj) =>
+  subj?.toLowerCase().includes("english") ? 20 : 10;
 
 const TheExam = () => {
   const dispatch = useDispatch();
@@ -33,136 +39,138 @@ const TheExam = () => {
   const mockExamQuestions = useSelector((state) => state.mockExamQuestions);
   const mockSelectedSubject =
     useSelector((state) => state.mockSelectedSubject) || "";
+  const isCbtMode = mockSelectedSubject === "CBT Examination";
   const mockExamOptions = useSelector((state) => state.mockExamOptions) || {};
-  const exam = mockExamQuestions || [];
+  const subjectBlocks = mockExamQuestions || [];
   const num = Number(subjectId);
-  const currentQuestion = normalizeQuestion(exam[num - 1] || {});
   const userAnswers = useSelector((state) => state.exam) || [];
   const user = useSelector((state) => state.user);
+  const timedOut = useSelector((state) => state.timedOut);
   const { setShowLeavingNow } = useExamibleContext();
   const examTimerMins = useSelector((state) => state.examTimerMins);
   const examTimerSecs = useSelector((state) => state.examTimerSecs);
-  const isNext =
-    mockExamOptions?.optionA ||
-    mockExamOptions?.optionB ||
-    mockExamOptions?.optionC ||
-    mockExamOptions?.optionD ||
-    mockExamOptions?.optionE;
-  const totalQuestions = mockExamQuestions?.length || 0;
-  const answeredQuestions = userAnswers.filter((item) => item?.option).length;
+  const isNext = Object.values(mockExamOptions).some(Boolean);
+  const totalQuestions = getTotalNumbersOfQuestion(subjectBlocks);
+  const answeredQuestions = userAnswers.length;
   const examMeter = totalQuestions
     ? Math.round((answeredQuestions / totalQuestions) * 100)
     : 0;
 
-  // Premium Logic
-  const isFreemium = !user?.plan || user?.plan === "Freemium";
-  const getFreeLimit = (subj) => {
-    return subj?.toLowerCase().includes("english") ? 20 : 10;
-  };
-  const currentFreeLimit = getFreeLimit(currentQuestion?.subject);
-
   useLayoutEffect(() => {
-    if (!mockExamQuestions || mockExamQuestions.length <= 0) {
+    if (!subjectBlocks || subjectBlocks.length <= 0) {
       nav("/overview");
     }
-  }, [mockExamQuestions]);
-
-  const isCbtMode = mockSelectedSubject === "CBT Examination";
+  }, [subjectBlocks, nav]);
 
   const examSubjects = useMemo(() => {
-    if (!isCbtMode || !exam || exam.length === 0) {
+    if (!isCbtMode || !subjectBlocks || subjectBlocks.length <= 1) {
       return [];
     }
-    const subjects = exam.map((q) => q.subject).filter(Boolean);
+    const subjects = subjectBlocks.map((q) => q.subject).filter(Boolean);
     return [...new Set(subjects)];
-  }, [isCbtMode, exam]);
+  }, [isCbtMode, subjectBlocks]);
 
-  let displayQuestionNum = subjectId;
-  let displayTotalNum = totalQuestions;
-  let navStart = 0;
-  let navLength = totalQuestions;
+  const lastSubjectChaged = location.state?.lastSubjectChaged;
+  const locationCurrentSubject = location.state?.currentSubject;
 
-  if (isCbtMode && currentQuestion?.subject) {
-    const firstIndexOfSubject = exam.findIndex(
-      (q) => q.subject === currentQuestion.subject,
+  // Derive currentSubject from location state — all navigation already writes it there
+  const currentSubject =
+    locationCurrentSubject || examSubjects[0] || subjectBlocks[0]?.subject;
+
+  const getCurrentUserAnswer = (
+    questionNumber,
+    selectedSubject = currentSubject,
+  ) =>
+    userAnswers.find(
+      (q) => q.subject === selectedSubject && q.number === questionNumber,
     );
-    const totalInSubject = exam.filter(
-      (q) => q.subject === currentQuestion.subject,
-    ).length;
-    displayQuestionNum = Number(subjectId) - firstIndexOfSubject;
-    displayTotalNum = totalInSubject;
-    navStart = firstIndexOfSubject;
-    navLength = totalInSubject;
-  }
+
+  // O(1) lookup for the nav grid; avoids O(n²) .find on every timer render
+  const answeredMap = useMemo(() => {
+    const map = {};
+    userAnswers.forEach((a) => {
+      map[`${a.subject}:${a.number}`] = a;
+    });
+    return map;
+  }, [userAnswers]);
+
+  // Memoize the subject block and normalised question so they don't recompute every second
+  const currentBlock = useMemo(
+    () => subjectBlocks.find((q) => q.subject === currentSubject),
+    [subjectBlocks, currentSubject],
+  );
+
+  const currentQuestion = useMemo(
+    () => normalizeQuestion(currentBlock?.questions[num - 1]),
+    [currentBlock, num],
+  );
+
+  const isFreemium = !user?.plan || user?.plan === "Freemium";
+  const currentFreeLimit = getFreeLimit(currentSubject);
+
+  let navLength = !isCbtMode
+    ? totalQuestions
+    : currentSubject === "English"
+      ? 60
+      : 40;
 
   const navArray = Array.from({ length: navLength }, (_, i) => i);
 
-  let isLastAvailableQuestion = Number(subjectId) === totalQuestions;
-  if (isCbtMode && isFreemium && displayQuestionNum === currentFreeLimit) {
-    const hasMoreSubjects = exam.some(
-      (q, i) =>
-        i > Number(subjectId) - 1 && q.subject !== currentQuestion.subject,
+  let isLastAvailableQuestion = isCbtMode
+    ? examSubjects[examSubjects.length - 1] === currentSubject &&
+      num === subjectBlocks.at(-1)?.questions?.length
+    : num === totalQuestions;
+
+  if (isCbtMode && isFreemium && num === currentFreeLimit) {
+    const hasMoreSubjects = subjectBlocks.some(
+      (q, i) => i > num - 1 && q.subject !== currentSubject,
     );
     if (!hasMoreSubjects) {
       isLastAvailableQuestion = true;
     }
   }
 
-  // Dynamic Timer States
   const timerClass =
     examTimerMins < 5 ? "critical" : examTimerMins < 15 ? "warning" : "normal";
 
-  // 1. Setup the countdown interval
   useEffect(() => {
     const timerId = setInterval(() => {
       dispatch(theExamTimer());
     }, 1000);
-
-    return () => clearInterval(timerId); // Cleanup interval on unmount
+    return () => clearInterval(timerId);
   }, [dispatch]);
 
-  // 2. Auto-submit when time is up
+  // Save the active question's answer before the timeout modal takes over
   useEffect(() => {
-    if (examTimerMins === 0 && examTimerSecs === 0) {
-      handleFinishedExam();
-    }
-  }, [examTimerMins, examTimerSecs]);
-
-  const previousExam = () => {
+    if (!timedOut) return;
     dispatch(
       nextQuestion({
         answer: currentQuestion?.answer,
         subjectId,
+        subject: currentSubject,
       }),
     );
-    if (num > 1) {
-      let prevIndex = num - 2;
+  }, [timedOut, currentQuestion?.answer, subjectId, currentSubject, dispatch]);
 
-      // If skipping back to a previous subject on Freemium, jump straight to the last *unlocked* question
-      if (isCbtMode && isFreemium) {
-        const prevQ = exam[prevIndex];
-        if (prevQ && prevQ.subject !== currentQuestion.subject) {
-          const prevSubjStart = exam.findIndex(
-            (q) => q.subject === prevQ.subject,
-          );
-          const prevSubjTotal = exam.filter(
-            (q) => q.subject === prevQ.subject,
-          ).length;
-          const availableInPrev = Math.min(
-            prevSubjTotal,
-            getFreeLimit(prevQ.subject),
-          );
-          prevIndex = prevSubjStart + availableInPrev - 1;
-        }
-      }
-      nav(location.pathname, { state: { subjectId: prevIndex + 1 } });
-      dispatch(
-        setMockExamOption({
-          option: userAnswers[prevIndex]?.option,
-          answer: userAnswers[prevIndex]?.option,
-        }),
-      );
-    }
+  const previousExam = () => {
+    if (num <= 1) return;
+    dispatch(
+      nextQuestion({
+        answer: currentQuestion?.answer,
+        subjectId,
+        subject: currentSubject,
+      }),
+    );
+    const prevIndex = num - 1;
+    dispatch(
+      setMockExamOption({
+        option: getCurrentUserAnswer(prevIndex)?.option,
+        answer: getCurrentUserAnswer(prevIndex)?.option,
+      }),
+    );
+    nav(location.pathname, {
+      state: { ...location.state, subjectId: prevIndex },
+    });
   };
 
   const nextExam = () => {
@@ -170,38 +178,63 @@ const TheExam = () => {
       nextQuestion({
         answer: currentQuestion?.answer,
         subjectId,
+        subject: currentSubject,
       }),
     );
 
     let nextIndex = num;
 
-    // If reaching the limit of a subject on Freemium, skip straight to the next subject block
-    if (isCbtMode && isFreemium) {
-      const nextQ = exam[nextIndex];
-      if (
-        nextQ &&
-        nextQ.subject === currentQuestion.subject &&
-        displayQuestionNum >= currentFreeLimit
-      ) {
-        const nextSubjIndex = exam.findIndex(
-          (q, i) =>
-            i > Number(subjectId) - 1 && q.subject !== currentQuestion.subject,
-        );
-        nextIndex = nextSubjIndex !== -1 ? nextSubjIndex : totalQuestions;
+    const currentExamIndex = subjectBlocks.findIndex(
+      (q) => q.subject === currentSubject,
+    );
+    if (currentExamIndex === -1) return;
+
+    const currentExam = subjectBlocks[currentExamIndex].questions;
+    const nextSubj = subjectBlocks[currentExamIndex + 1];
+
+    if (isCbtMode && isFreemium && currentExam) {
+      const nextQ = currentExam[nextIndex];
+      if (nextQ && num >= currentFreeLimit) {
+        const id = lastSubjectChaged?.[nextSubj?.subject] ?? 1;
+        nextIndex = nextSubj ? id : nextIndex;
       }
     }
 
-    if (nextIndex < totalQuestions) {
-      nav(location.pathname, { state: { subjectId: nextIndex + 1 } });
+    if (
+      nextIndex >= currentExam.length &&
+      subjectBlocks[subjectBlocks.length - 1]?.subject !== currentSubject
+    ) {
+      const id = lastSubjectChaged?.[nextSubj?.subject] ?? 1;
+      nav(location.pathname, {
+        state: {
+          ...location.state,
+          subjectId: id,
+          currentSubject: nextSubj?.subject,
+          lastSubjectChaged: {
+            ...lastSubjectChaged,
+            [currentSubject]: nextIndex,
+          },
+        },
+      });
+      // Pass nextSubj.subject explicitly — the closure still holds the old currentSubject
       dispatch(
         setMockExamOption({
-          option: userAnswers[nextIndex]?.option,
-          answer: userAnswers[nextIndex]?.option,
+          option: getCurrentUserAnswer(id, nextSubj?.subject)?.option,
+          answer: getCurrentUserAnswer(id, nextSubj?.subject)?.option,
         }),
       );
-    } else {
-      handleFinishedExam();
+      return;
     }
+
+    nav(location.pathname, {
+      state: { ...location.state, subjectId: nextIndex + 1 },
+    });
+    dispatch(
+      setMockExamOption({
+        option: getCurrentUserAnswer(nextIndex + 1)?.option,
+        answer: getCurrentUserAnswer(nextIndex + 1)?.option,
+      }),
+    );
   };
 
   const handleFinishedExam = () => {
@@ -209,39 +242,81 @@ const TheExam = () => {
       nextQuestion({
         answer: currentQuestion?.answer,
         subjectId,
+        subject: currentSubject,
       }),
     );
-    // Open the Finished Exam modal
-    dispatch(setFinishedExam());
+    dispatch(setFinishedExam(true));
   };
 
   const handleSubjectSwitch = (targetSubject) => {
-    // 1. Save current question progress before switching
     dispatch(
       nextQuestion({
         answer: currentQuestion?.answer,
         subjectId,
+        subject: currentSubject,
       }),
     );
 
-    // 2. Find the first question of the target subject
-    const targetIndex = exam.findIndex((q) => q.subject === targetSubject);
-
-    if (targetIndex !== -1) {
-      // 3. Navigate to that question
-      nav(location.pathname, { state: { subjectId: targetIndex + 1 } });
-
-      // 4. Load the state for the new question
+    const targetIndex = lastSubjectChaged?.[targetSubject];
+    if (targetIndex) {
       dispatch(
         setMockExamOption({
-          option: userAnswers[targetIndex]?.option,
-          answer: userAnswers[targetIndex]?.option,
+          option: getCurrentUserAnswer(targetIndex, targetSubject)?.option,
+          answer: getCurrentUserAnswer(targetIndex, targetSubject)?.option,
         }),
       );
+      nav(location.pathname, {
+        state: {
+          ...location.state,
+          subjectId: targetIndex,
+          currentSubject: targetSubject,
+          lastSubjectChaged: {
+            ...lastSubjectChaged,
+            [currentSubject]: num,
+          },
+        },
+      });
+      return;
     }
+
+    nav(location.pathname, {
+      state: {
+        ...location.state,
+        subjectId: 1,
+        currentSubject: targetSubject,
+        lastSubjectChaged: { ...lastSubjectChaged, [currentSubject]: num },
+      },
+    });
+
+    dispatch(
+      setMockExamOption({
+        option: getCurrentUserAnswer(1, targetSubject)?.option,
+        answer: getCurrentUserAnswer(1, targetSubject)?.option,
+      }),
+    );
   };
 
-  if (num > mockExamQuestions?.length || num < 1) {
+  const handleNavClick = (relativeIndex, isLocked) => {
+    if (isLocked) return;
+    dispatch(
+      nextQuestion({
+        answer: currentQuestion?.answer,
+        subjectId,
+        subject: currentSubject,
+      }),
+    );
+    nav(location.pathname, {
+      state: { ...location.state, subjectId: relativeIndex + 1 },
+    });
+    dispatch(
+      setMockExamOption({
+        option: getCurrentUserAnswer(relativeIndex + 1)?.option,
+        answer: getCurrentUserAnswer(relativeIndex + 1)?.option,
+      }),
+    );
+  };
+
+  if (num > navLength || num < 1) {
     return <ErrorPgae />;
   }
 
@@ -252,9 +327,11 @@ const TheExam = () => {
         className={`exam-header ${isCbtMode && examSubjects.length > 1 ? "cbt-active" : ""}`}
       >
         <div className="exam-header-left">
-          <h1>{mockSelectedSubject} CBT</h1>
+          <h1>
+            {mockSelectedSubject} {isCbtMode ? "" : "CBT"}
+          </h1>
           <span className="exam-progress-text">
-            Question {displayQuestionNum} of {displayTotalNum}
+            Question {num} of {currentBlock?.questions.length}
           </span>
         </div>
         <div className="exam-header-right">
@@ -267,7 +344,16 @@ const TheExam = () => {
           </div>
           <button
             className="exam-exit-btn"
-            onClick={() => setShowLeavingNow(true)}
+            onClick={() => {
+              dispatch(
+                nextQuestion({
+                  answer: currentQuestion?.answer,
+                  subjectId,
+                  subject: currentSubject,
+                }),
+              );
+              setShowLeavingNow(true);
+            }}
           >
             <FiLogOut /> Exit Exam
           </button>
@@ -286,7 +372,7 @@ const TheExam = () => {
             {examSubjects.map((subject) => (
               <button
                 key={subject}
-                className={`exam-subject-tab ${currentQuestion?.subject === subject ? "active" : ""}`}
+                className={`exam-subject-tab ${currentSubject === subject ? "active" : ""}`}
                 onClick={() => handleSubjectSwitch(subject)}
               >
                 {subject}
@@ -307,9 +393,7 @@ const TheExam = () => {
             className="exam-question-card"
           >
             <div className="exam-q-meta">
-              <span className="exam-q-number">
-                Question {displayQuestionNum}
-              </span>
+              <span className="exam-q-number">Question {num}</span>
             </div>
 
             {currentQuestion?.subheadingA && (
@@ -423,10 +507,10 @@ const TheExam = () => {
             <h3>Question Navigator</h3>
             <div className="exam-nav-grid">
               {navArray.map((relativeIndex) => {
-                const globalIndex = navStart + relativeIndex;
                 const displayNum = relativeIndex + 1;
-                const isAnswered = userAnswers[globalIndex]?.option;
-                const isCurrent = globalIndex + 1 === Number(subjectId);
+                const isAnswered =
+                  answeredMap[`${currentSubject}:${displayNum}`]?.option;
+                const isCurrent = relativeIndex + 1 === Number(subjectId);
                 const isLocked =
                   isCbtMode && isFreemium && displayNum > currentFreeLimit;
 
@@ -437,30 +521,13 @@ const TheExam = () => {
 
                 return (
                   <button
-                    key={globalIndex}
+                    key={relativeIndex}
                     className={chipClass}
-                    onClick={() => {
-                      if (isLocked) return;
-                      dispatch(
-                        nextQuestion({
-                          answer: currentQuestion?.answer,
-                          subjectId,
-                        }),
-                      );
-                      nav(location.pathname, {
-                        state: { subjectId: globalIndex + 1 },
-                      });
-                      dispatch(
-                        setMockExamOption({
-                          option: userAnswers[globalIndex]?.option,
-                          answer: userAnswers[globalIndex]?.option,
-                        }),
-                      );
-                    }}
+                    onClick={() => handleNavClick(relativeIndex, isLocked)}
                     disabled={isLocked}
                   >
                     {isLocked ? (
-                      <FaLock style={{ fontSize: "12px" }} />
+                      <FaLock className="exam-nav-lock-icon" />
                     ) : (
                       displayNum
                     )}
@@ -483,4 +550,5 @@ const TheExam = () => {
     </div>
   );
 };
+
 export default TheExam;

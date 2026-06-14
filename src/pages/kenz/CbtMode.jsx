@@ -8,7 +8,6 @@ import {
   setExamTimer,
   setMockExamQuestion,
   setMockSelectedSubject,
-  setMockYear,
 } from "../../global/slice";
 import "../../styles/dashboardCss/cbtMode.css";
 import { MdLockOutline, MdCheckCircle } from "react-icons/md";
@@ -66,81 +65,22 @@ const CbtMode = () => {
     }
 
     setLoading(true);
-    const id = toast.loading("Compiling your 180-Question CBT Examination...");
-
     try {
-      let results = [];
+      const response = await questionApi.getCbtQuestions(selected.join(","));
 
-      // Fetch questions sequentially to prevent overwhelming the backend or hitting rate limits
-      for (const subject of selected) {
-        try {
-          const res = await questionApi.fetchMockQuestions(subject);
-          results.push({
-            subject,
-            data: res.data.data,
-            year: res.data.year,
-          });
-        } catch (err) {
-          results.push({
-            subject,
-            data: [],
-            error: true,
-            errMsg: err?.response?.data?.message || err.message,
-          });
-        }
-      }
-
-      // Validation step for incomplete data
-      const failedSubjects = results.filter((r) => r.error);
-      if (failedSubjects.length > 0) {
-        toast.dismiss(id);
-        const errNames = failedSubjects.map((e) => e.subject).join(", ");
-        toast.error(`Failed to load ${errNames}: ${failedSubjects[0].errMsg}`);
-        setLoading(false);
-        return;
-      }
-
-      // Combine the exact requested limits
-      let combinedQuestions = [];
-      results.forEach((result) => {
-        const limit = result.subject === englishSubj ? 60 : 40;
-        let questions = result.data.slice(0, limit).map((q) => ({
-          ...q,
-          subject: result.subject, // Inject the subject into each question
-        }));
-
-        // Shuffle questions within this subject block
-        for (let i = questions.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [questions[i], questions[j]] = [questions[j], questions[i]];
-        }
-
-        combinedQuestions = [...combinedQuestions, ...questions];
-      });
-
-      if (combinedQuestions.length === 0) {
-        toast.dismiss(id);
-        toast.error("No questions available for the selected subjects.");
-        setLoading(false);
-        return;
-      }
-
-      // Dispatch exactly 180 combined questions to the standard Redux store
-      dispatch(setMockExamQuestion(combinedQuestions));
-      dispatch(setMockYear(results[0].year || new Date().getFullYear()));
+      dispatch(setMockExamQuestion(response?.data?.data ?? []));
 
       // Configure the global Exam Engine settings
-      dispatch(setExamTimer({ plan: user?.plan, duration: 120 })); // 2 hours
-      sessionStorage.setItem("mockExamDuration", 120);
+      const examDuration = user?.plan === "Freemium" ? 30 : 120;
+      dispatch(setExamTimer({ plan: user?.plan, duration: examDuration }));
+      sessionStorage.setItem("mockExamDuration", examDuration);
       dispatch(setMockSelectedSubject("CBT Examination"));
 
-      toast.dismiss(id);
       setTimeout(() => {
         nav(`/mock-exam/questions`);
       }, 500);
     } catch {
       setLoading(false);
-      toast.dismiss(id);
     }
   };
 
@@ -262,7 +202,7 @@ const CbtMode = () => {
             </div>
 
             <button
-              className={`cbt-start-btn ${selected.length === 4 ? "active" : ""}`}
+              className={`cbt-start-btn ${selected.length === 4 && !loading ? "active" : ""}`}
               onClick={startCbt}
               disabled={selected.length !== 4 || loading}
             >

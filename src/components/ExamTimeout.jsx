@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "../styles/dashboardCss/examTimeout.css";
 import { useDispatch } from "react-redux";
-import { setExamTimeout, setFinishedExam } from "../global/slice";
+import { setTimedOut, setFinishedExam } from "../global/slice";
 import { motion } from "framer-motion";
 import { LuAlarmClock } from "react-icons/lu";
 
@@ -9,8 +9,8 @@ const ExamTimeout = () => {
   const dispatch = useDispatch();
 
   const checkResult = () => {
-    dispatch(setFinishedExam());
-    dispatch(setExamTimeout());
+    dispatch(setFinishedExam(true));
+    dispatch(setTimedOut(false));
   };
 
   // Lock body scrolling while the timeout modal is open

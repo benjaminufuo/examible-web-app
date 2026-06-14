@@ -8,6 +8,7 @@ import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
 import { FiAlertTriangle } from "react-icons/fi";
+import { getTotalNumbersOfQuestion } from "../../utils/questionUtils";
 
 const LeavingNow = () => {
   const nav = useNavigate();
@@ -26,18 +27,18 @@ const LeavingNow = () => {
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
     let duration = 0;
-    const completed = "no";
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
       (user?.plan === "Freemium" ? 10 : 30);
 
     duration = Math.min(7200, Math.max(1, initialDuration * 60 - timeLeft)); // Increased cap to 7200 (2 hours) for CBT Mode
-    const validQuestionsLength = mockExamQuestions?.length || 1; // Prevent division by zero
+    const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
+    const completed = "no"; // LeavingNow is always an early-quit — completion credit belongs to FinishedExam
 
     const rawPerformance =
       (exam.reduce((acc, item) => acc + (item?.score || 0), 0) /
         2 /
-        validQuestionsLength) *
+        (validQuestionsLength || 1)) *
       100;
 
     const performance = Math.min(

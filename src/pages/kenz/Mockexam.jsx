@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "../../styles/dashboardCss/mockExam.css";
-import { useDispatch, useSelector } from "react-redux";
-import { setMockSubject } from "../../global/slice";
+import { useSelector } from "react-redux";
 import MockConfigModal from "../../components/MockConfigModal";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -17,14 +16,15 @@ import {
 } from "react-icons/fa";
 
 const Mockexam = () => {
-  const mySubject = useSelector((state) => state.mockSubject);
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [clickedSubject, setClickedSubject] = useState(null);
 
   const handleSubjectClick = (subject) => {
-    dispatch(setMockSubject(mySubject === subject ? null : subject));
+    setClickedSubject((prevSubject) =>
+      prevSubject === subject ? null : subject,
+    );
   };
 
   const openConfigModal = (subject) => {
@@ -116,7 +116,7 @@ const Mockexam = () => {
             subjects.map((subject, index) => (
               <motion.div
                 key={index}
-                className={`mock-subject-card ${mySubject === subject ? "active" : ""}`}
+                className={`mock-subject-card ${clickedSubject === subject ? "active" : ""}`}
                 onClick={() => handleSubjectClick(subject)}
                 variants={itemVariants}
               >
@@ -135,7 +135,7 @@ const Mockexam = () => {
 
                 {/* 4. EXPANDED SUBJECT DETAILS & 5. START EXAM CTA */}
                 <AnimatePresence>
-                  {mySubject === subject && (
+                  {clickedSubject === subject && (
                     <motion.div
                       className="mock-expanded-panel"
                       initial={{ opacity: 0, height: 0 }}
@@ -159,7 +159,7 @@ const Mockexam = () => {
                           openConfigModal(subject);
                         }}
                       >
-                        <FaPlayCircle /> Launch Mock Exam
+                        Setup Mock Practice
                       </button>
                     </motion.div>
                   )}

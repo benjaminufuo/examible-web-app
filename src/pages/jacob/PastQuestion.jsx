@@ -15,15 +15,13 @@ import {
   clearPastQuestionsOption,
 } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { questionApi } from "../../config/questionApi";
 import { motion, AnimatePresence } from "framer-motion";
+import { ALLOWED_YEARS } from "../../constants/common";
 
 const PastQuestion = () => {
-  // Using useNavigate to programmatically navigate between routes
-  const [years, setYears] = useState([]); // State to hold the years fetched from the API
-  const [subjectYearsMap, setSubjectYearsMap] = useState({}); // State to hold the mapping of subjects to years
+  const years = ALLOWED_YEARS;
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
@@ -43,19 +41,6 @@ const PastQuestion = () => {
       ? `${freeYears[freeYears.length - 1]} - ${freeYears[0]}`
       : freeYears[0];
 
-  const baseUrl = import.meta.env.VITE_QUESTION_URL;
-  const getYears = async () => {
-    try {
-      const response = await axios.get(baseUrl);
-      setSubjectYearsMap(response.data.data); // Save the mapping
-    } catch (error) {
-      console.error("Error fetching years:", error);
-    }
-  };
-
-  useEffect(() => {
-    getYears();
-  }, []);
   // function to get past question for year and subject
   const getPastQuestionForYearSubject = async (year, subject) => {
     if (year === "All" || subject === "All") {
@@ -64,17 +49,23 @@ const PastQuestion = () => {
     }
     setLoading(true);
 
-    const toastId = toast.loading("Please wait....");
     try {
       const response = await questionApi.fetchQuestions(year, subject);
-      toast.dismiss(toastId);
-      dispatch(setPastQuestions(response.data.data));
+      const questions = response?.data?.data;
+      if (!questions?.length) {
+        toast.error(
+          `No questions found for ${subject} (${year}). Try a different year.`,
+        );
+        setLoading(false);
+        setDisabled(false);
+        return;
+      }
+      dispatch(setPastQuestions(questions));
       dispatch(clearPastQuestionsOption());
       nav("/past-questions/view");
       setLoading(false);
       setDisabled(true);
     } catch {
-      toast.dismiss(toastId);
       setDisabled(false);
       setLoading(false);
     }
@@ -83,12 +74,7 @@ const PastQuestion = () => {
   const handleSubjectClick = (subject) => {
     setSelectedSubject(subject);
     dispatch(setExam(subject));
-    if (subjectYearsMap[subject]) {
-      setYears(subjectYearsMap[subject].sort((a, b) => b - a)); // Sort years in descending order
-    } else {
-      setYears([]); // If no years are available for the subject, set years to an empty array
-    }
-    setSelectedYear("All"); // Reset selected year when subject changes
+    setSelectedYear("Year"); // Reset selected year when subject changes
   };
 
   const handleYearClick = (year) => {

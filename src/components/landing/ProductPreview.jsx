@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiBarChart2, FiMonitor, FiMessageSquare, FiAward } from "react-icons/fi";
+import {
+  FiBarChart2,
+  FiMonitor,
+  FiMessageSquare,
+  FiAward,
+} from "react-icons/fi";
 
 const tabs = [
-  { id: "analytics", label: "Analytics", Icon: FiBarChart2 },
+  // { id: "analytics", label: "Analytics", Icon: FiBarChart2 },
   { id: "exam", label: "Mock Exam", Icon: FiMonitor },
   { id: "ai", label: "AI Tutor", Icon: FiMessageSquare },
-  { id: "leaderboard", label: "Leaderboard", Icon: FiAward },
+  // { id: "leaderboard", label: "Leaderboard", Icon: FiAward },
 ];
 
 const AnalyticsView = () => (
@@ -40,7 +45,9 @@ const AnalyticsView = () => (
             fill="var(--ex-brand-soft)"
           />
         </svg>
-        <span className="ex-preview__lineLabel">Score trend · last 8 weeks</span>
+        <span className="ex-preview__lineLabel">
+          Score trend · last 8 weeks
+        </span>
       </div>
     </div>
   </div>
@@ -52,9 +59,7 @@ const ExamView = () => (
       <span>Question 14 of 40</span>
       <span className="ex-preview__timer">23:18</span>
     </div>
-    <p className="ex-preview__q">
-      If 2x + 3 = 11, what is the value of x?
-    </p>
+    <p className="ex-preview__q">If 2x + 3 = 11, what is the value of x?</p>
     <div className="ex-preview__options">
       {[
         { k: "A", t: "3", correct: false },
@@ -62,7 +67,10 @@ const ExamView = () => (
         { k: "C", t: "5", correct: false },
         { k: "D", t: "7", correct: false },
       ].map((o) => (
-        <div className={`ex-preview__opt ${o.correct ? "is-correct" : ""}`} key={o.k}>
+        <div
+          className={`ex-preview__opt ${o.correct ? "is-correct" : ""}`}
+          key={o.k}
+        >
           <span>{o.k}</span>
           {o.t}
         </div>
@@ -88,7 +96,9 @@ const AIView = () => (
       Can you give me a similar one to try?
     </div>
     <div className="ex-preview__typing">
-      <span /><span /><span />
+      <span />
+      <span />
+      <span />
     </div>
   </div>
 );
@@ -102,7 +112,10 @@ const LeaderboardView = () => (
       { r: 4, n: "You", xp: "4,180", you: true },
       { r: 5, n: "Chidi N.", xp: "3,970", you: false },
     ].map((row) => (
-      <div className={`ex-preview__lbRow ${row.you ? "is-you" : ""}`} key={row.r}>
+      <div
+        className={`ex-preview__lbRow ${row.you ? "is-you" : ""}`}
+        key={row.r}
+      >
         <span className="ex-preview__lbRank">{row.r}</span>
         <span className="ex-preview__lbName">{row.n}</span>
         <span className="ex-preview__lbXp">{row.xp} XP</span>
@@ -112,14 +125,14 @@ const LeaderboardView = () => (
 );
 
 const views = {
-  analytics: <AnalyticsView />,
+  // analytics: <AnalyticsView />,
   exam: <ExamView />,
   ai: <AIView />,
-  leaderboard: <LeaderboardView />,
+  // leaderboard: <LeaderboardView />,
 };
 
 const ProductPreview = () => {
-  const [active, setActive] = useState("analytics");
+  const [active, setActive] = useState("exam");
 
   return (
     <section className="ex-section ex-preview" id="product">
@@ -127,11 +140,12 @@ const ProductPreview = () => {
         <div className="ex-section-head">
           <span className="ex-eyebrow">See it in action</span>
           <h2 className="ex-h2">
-            One platform, your <span className="ex-gradient-text">entire prep journey</span>
+            One platform, your{" "}
+            <span className="ex-gradient-text">entire prep journey</span>
           </h2>
           <p className="ex-lead">
-            Switch between analytics, realistic CBT exams, your AI tutor, and live
-            leaderboards — all in a single, beautifully designed workspace.
+            Switch between analytics, realistic CBT exams, your AI tutor, and
+            live leaderboards — all in a single, beautifully designed workspace.
           </p>
         </div>
 
@@ -150,7 +164,9 @@ const ProductPreview = () => {
 
         <div className="ex-preview__window ex-card">
           <div className="ex-preview__chrome">
-            <span /><span /><span />
+            <span />
+            <span />
+            <span />
             <em>app.examible.com</em>
           </div>
           <div className="ex-preview__body">
