@@ -14,6 +14,7 @@ import {
   FaPlayCircle,
   FaHistory,
 } from "react-icons/fa";
+import { ALLOWED_SUBJECTS } from "../../constants/common";
 
 const Mockexam = () => {
   const user = useSelector((state) => state.user);
@@ -78,7 +79,9 @@ const Mockexam = () => {
           </div>
           <div className="mock-stat-info">
             <h4>Enrolled Subjects</h4>
-            <p>{subjects.length || 0}/4</p>
+            <p>
+              {subjects.length || 0}/{ALLOWED_SUBJECTS.length}
+            </p>
           </div>
         </motion.div>
 

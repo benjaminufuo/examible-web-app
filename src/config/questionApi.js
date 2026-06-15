@@ -20,6 +20,10 @@ class QuestionApi {
       `/cbt-mode/questions?subjects=${encodeURIComponent(subjects)}`,
     );
   }
+
+  submitCbt(data) {
+    return this.#http.post(`/cbt-mode/submit`, data);
+  }
 }
 
 export const questionApi = new QuestionApi();

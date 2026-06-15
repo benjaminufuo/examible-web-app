@@ -31,13 +31,13 @@ export const ALLOWED_SUBJECTS = [
   "Mathematics",
   "Physics",
   "Chemistry",
-  "Biology",
-  "Literature in English",
   "Economics",
-  "Geography",
-  "Government",
-  "History",
   "Accounting (Principles of Accounts)",
+  // "Biology",
+  // "Literature in English",
+  // "Geography",
+  // "Government",
+  // "History",
 ];
 
 export const ALLOWED_YEARS = Array.from(

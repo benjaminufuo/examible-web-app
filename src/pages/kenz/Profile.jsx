@@ -21,6 +21,7 @@ import {
   FaClock,
   FaCalendarAlt,
 } from "react-icons/fa";
+import { ALLOWED_SUBJECTS } from "../../constants/common";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -188,19 +189,15 @@ const Profile = () => {
     }
   };
 
-  const ratings = user?.myRating || [];
-  let strongest = null;
-  let weakest = null;
-  if (ratings.length > 0) {
-    strongest = ratings.reduce((max, r) =>
-      r.performance > max.performance ? r : max,
-    );
-    weakest = ratings.reduce((min, r) =>
-      r.performance < min.performance ? r : min,
-    );
-  }
-  const examsTaken = ratings.length;
-  const averageScore = user?.totalRating || 0;
+  const lastCbt = user?.lastCbtDetails ?? null;
+  const subjectBreakdown = lastCbt?.subjectBreakdown ?? [];
+  const strongest = lastCbt?.strongestSubject ?? null;
+  const weakest = lastCbt?.weakestSubject ?? null;
+  const averageScore = lastCbt?.average ?? 0;
+  const strongestScore =
+    subjectBreakdown.find((s) => s.subject === strongest)?.average ?? null;
+  const weakestScore =
+    subjectBreakdown.find((s) => s.subject === weakest)?.average ?? null;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -509,7 +506,7 @@ const Profile = () => {
                 </div>
                 <div className="prof-stat-info">
                   <h4>Subjects</h4>
-                  <p>{user?.enrolledSubjects?.length || 0}/4</p>
+                  <p>{subjectBreakdown?.length || "-"}</p>
                 </div>
               </motion.div>
               <motion.div className="prof-stat-card" variants={itemVariants}>
@@ -517,8 +514,8 @@ const Profile = () => {
                   <FaChartLine />
                 </div>
                 <div className="prof-stat-info">
-                  <h4>Exams Taken</h4>
-                  <p>{examsTaken}</p>
+                  <h4>Correct Answers</h4>
+                  <p>{lastCbt?.correctAnswers ?? "—"}</p>
                 </div>
               </motion.div>
               <motion.div className="prof-stat-card" variants={itemVariants}>
@@ -527,7 +524,7 @@ const Profile = () => {
                 </div>
                 <div className="prof-stat-info">
                   <h4>Avg. Score</h4>
-                  <p>{averageScore?.toFixed(1) || 0}%</p>
+                  <p>{averageScore?.toFixed(1) ?? 0}%</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -544,12 +541,12 @@ const Profile = () => {
                   <div className="prof-perf-details">
                     <span className="prof-perf-label">Strongest Subject</span>
                     <span className="prof-perf-value">
-                      {strongest ? strongest.subject : "N/A"}
+                      {strongest ?? "N/A"}
                     </span>
                   </div>
-                  {strongest && (
+                  {strongestScore !== null && (
                     <span className="prof-perf-score">
-                      {strongest.performance.toFixed(1)}%
+                      {strongestScore.toFixed(1)}%
                     </span>
                   )}
                 </div>
@@ -559,13 +556,11 @@ const Profile = () => {
                   </div>
                   <div className="prof-perf-details">
                     <span className="prof-perf-label">Needs Attention</span>
-                    <span className="prof-perf-value">
-                      {weakest ? weakest.subject : "N/A"}
-                    </span>
+                    <span className="prof-perf-value">{weakest ?? "N/A"}</span>
                   </div>
-                  {weakest && (
+                  {weakestScore !== null && (
                     <span className="prof-perf-score">
-                      {weakest.performance.toFixed(1)}%
+                      {weakestScore.toFixed(1)}%
                     </span>
                   )}
                 </div>
@@ -580,32 +575,26 @@ const Profile = () => {
                 <h3>Recent Activity</h3>
               </div>
               <div className="prof-activity-timeline">
-                {ratings.length > 0 ? (
-                  [...ratings]
-                    .reverse()
-                    .slice(0, 4)
-                    .map((item, index) => (
-                      <div className="prof-activity-item" key={index}>
-                        <div className="prof-activity-dot"></div>
-                        <div className="prof-activity-content">
-                          <h4>
-                            {item.subject}{" "}
-                            {item.type || item.examType || "Practice"}
-                          </h4>
-                          <div className="prof-activity-meta">
-                            <span>
-                              <FaClock /> {item.duration}s
-                            </span>
-                            <span>Score: {item.performance.toFixed(1)}%</span>
-                          </div>
+                {subjectBreakdown.length > 0 ? (
+                  subjectBreakdown.map((item, index) => (
+                    <div className="prof-activity-item" key={item._id ?? index}>
+                      <div className="prof-activity-dot"></div>
+                      <div className="prof-activity-content">
+                        <h4>{item.subject} CBT Mock</h4>
+                        <div className="prof-activity-meta">
+                          <span>
+                            <FaClock /> {item.totalQuestions} questions
+                          </span>
+                          <span>Score: {item.average?.toFixed(1) ?? 0}%</span>
                         </div>
                       </div>
-                    ))
+                    </div>
+                  ))
                 ) : (
                   <div className="prof-empty-state">
                     <FaCalendarAlt className="prof-empty-icon" />
                     <p>
-                      No recent activity found. Take a mock exam to get started!
+                      No recent activity found. Take a cbt exam to get started!
                     </p>
                   </div>
                 )}
