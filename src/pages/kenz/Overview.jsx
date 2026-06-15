@@ -90,22 +90,13 @@ const Overview = () => {
     }
   };
 
-  // Safely derive performance insights from existing user state
-  const ratings = user?.myRating || [];
-  let strongest = null;
-  let weakest = null;
-  if (ratings.length > 0) {
-    strongest = ratings.reduce((max, r) =>
-      r.performance > max.performance ? r : max,
-    );
-    weakest = ratings.reduce((min, r) =>
-      r.performance < min.performance ? r : min,
-    );
-  }
-
-  const recommendedAction = weakest
-    ? `Spend 15 mins reviewing ${weakest.subject} to boost your accuracy.`
-    : "Complete a CBT Mock Exam today to establish your baseline.";
+  const lastCbt = user?.lastCbtDetails ?? null;
+  const subjectBreakdown = lastCbt?.subjectBreakdown ?? [];
+  const strongest = lastCbt?.strongestSubject ?? null;
+  const weakest = lastCbt?.weakestSubject ?? null;
+  const recommendedAction =
+    lastCbt?.recommedation ??
+    "Complete a CBT Mock Exam today to establish your baseline.";
 
   // Framer motion variants
   const containerVariants = {
@@ -208,8 +199,8 @@ const Overview = () => {
               <div className="ov-readiness-content">
                 <div className="ov-circular-chart">
                   <CircularProgressbar
-                    value={user?.totalRating}
-                    text={`${user?.totalRating?.toFixed(1) || 0}%`}
+                    value={lastCbt?.average ?? 0}
+                    text={`${lastCbt?.average?.toFixed(1) ?? 0}%`}
                     styles={{
                       path: { stroke: "#804bf2", strokeLinecap: "round" },
                       trail: { stroke: "rgba(128, 75, 242, 0.1)" },
@@ -224,13 +215,15 @@ const Overview = () => {
                 </div>
                 <div className="ov-readiness-stats">
                   <div className="ov-stat-item">
-                    <span className="ov-stat-label">Exams Taken</span>
-                    <span className="ov-stat-value">{ratings.length}</span>
+                    <span className="ov-stat-label">Total Questions</span>
+                    <span className="ov-stat-value">
+                      {lastCbt?.totalQuestions ?? "—"}
+                    </span>
                   </div>
                   <div className="ov-stat-item">
                     <span className="ov-stat-label">Subjects</span>
                     <span className="ov-stat-value">
-                      {user?.enrolledSubjects?.length || 0}/4
+                      {subjectBreakdown?.length || "—"}
                     </span>
                   </div>
                 </div>
@@ -250,18 +243,14 @@ const Overview = () => {
                   <FaTrophy className="metric-icon" />
                   <div className="metric-text">
                     <span className="metric-title">Strongest Subject</span>
-                    <span className="metric-value">
-                      {strongest ? strongest.subject : "N/A"}
-                    </span>
+                    <span className="metric-value">{strongest ?? "N/A"}</span>
                   </div>
                 </div>
                 <div className="ov-metric-box negative">
                   <FaChartLine className="metric-icon" />
                   <div className="metric-text">
                     <span className="metric-title">Needs Attention</span>
-                    <span className="metric-value">
-                      {weakest ? weakest.subject : "N/A"}
-                    </span>
+                    <span className="metric-value">{weakest ?? "N/A"}</span>
                   </div>
                 </div>
               </div>
@@ -322,29 +311,27 @@ const Overview = () => {
                 <span className="ov-subtitle">Accuracy by subject</span>
               </div>
               <div className="ov-performance-list">
-                {ratings.length > 0 ? (
-                  ratings.map((item, index) => (
-                    <div key={index} className="ov-perf-row">
+                {subjectBreakdown.length > 0 ? (
+                  subjectBreakdown.map((item, index) => (
+                    <div key={item._id ?? index} className="ov-perf-row">
                       <div className="ov-perf-info">
                         <div className="ov-perf-name-group">
                           <span className="ov-perf-name">{item.subject}</span>
                           <span
-                            className={`ov-perf-status ${item.completed === "yes" ? "completed" : "incomplete"}`}
+                            className={`ov-perf-status ${item.isCompleted ? "completed" : "incomplete"}`}
                           >
-                            {item.completed === "yes"
-                              ? "Completed"
-                              : "Incomplete"}
+                            {item.isCompleted ? "Completed" : "Incomplete"}
                           </span>
                         </div>
                         <span className="ov-perf-score">
-                          {item.performance.toFixed(1)}%
+                          {item.average?.toFixed(1) ?? 0}%
                         </span>
                       </div>
                       <div className="ov-perf-bar-bg">
                         <div
                           className="ov-perf-bar-fill"
                           style={{
-                            width: `${Math.min(100, Math.max(0, item.performance))}%`,
+                            width: `${Math.min(100, Math.max(0, item.average ?? 0))}%`,
                           }}
                         ></div>
                       </div>

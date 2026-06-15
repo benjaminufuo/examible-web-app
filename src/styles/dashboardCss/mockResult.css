@@ -547,6 +547,80 @@
   justify-content: flex-end;
 }
 
+/* ── CBT Review: Subject Tabs ── */
+.mr-subject-tabs {
+  display: flex;
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto 32px;
+  flex-wrap: wrap;
+}
+
+.mr-subject-tab {
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid var(--ex-border);
+  background: var(--ex-surface);
+  color: var(--ex-text-muted);
+  font-family: "Sora", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mr-subject-tab:hover {
+  border-color: var(--ex-brand);
+  color: var(--ex-brand);
+  background: var(--ex-brand-soft);
+}
+
+.mr-subject-tab.active {
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand, #ffffff);
+  border-color: transparent;
+  box-shadow: var(--ex-shadow-sm);
+}
+
+/* ── CBT Review: Locked Question Card ── */
+.mr-question-card.mr-question-locked {
+  background: var(--ex-surface-2);
+  border-style: dashed;
+  border-color: var(--ex-border-strong);
+  box-shadow: none;
+}
+
+.mr-locked-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.mr-lock-icon {
+  font-size: 28px;
+  color: var(--ex-text-muted);
+  opacity: 0.5;
+}
+
+.mr-locked-content h4 {
+  font-family: "Sora", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ex-text-muted);
+  margin: 0;
+}
+
+.mr-locked-content p {
+  font-size: 14px;
+  color: var(--ex-text-muted);
+  margin: 0;
+  opacity: 0.75;
+}
+
 @media (max-width: 768px) {
   .mr-summary-main,
   .mr-detailed-review-main {
@@ -568,5 +642,13 @@
   }
   .mr-pagination-wrapper {
     justify-content: center;
+  }
+  .mr-subject-tabs {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .mr-subject-tab {
+    padding: 8px 16px;
+    font-size: 13px;
   }
 }

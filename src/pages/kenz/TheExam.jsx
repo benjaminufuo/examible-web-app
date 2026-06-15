@@ -31,6 +31,8 @@ import {
 const getFreeLimit = (subj) =>
   subj?.toLowerCase().includes("english") ? 20 : 10;
 
+const TOTAL_CBT_QUESTIONS = 180;
+
 const TheExam = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -53,7 +55,11 @@ const TheExam = () => {
   const totalQuestions = getTotalNumbersOfQuestion(subjectBlocks);
   const answeredQuestions = userAnswers.length;
   const examMeter = totalQuestions
-    ? Math.round((answeredQuestions / totalQuestions) * 100)
+    ? Math.round(
+        (answeredQuestions /
+          (isCbtMode ? TOTAL_CBT_QUESTIONS : totalQuestions)) *
+          100,
+      )
     : 0;
 
   useLayoutEffect(() => {
@@ -123,7 +129,7 @@ const TheExam = () => {
 
   if (isCbtMode && isFreemium && num === currentFreeLimit) {
     const hasMoreSubjects = subjectBlocks.some(
-      (q, i) => i > num - 1 && q.subject !== currentSubject,
+      (q) => q.questions.length === num && q.subject === currentSubject,
     );
     if (!hasMoreSubjects) {
       isLastAvailableQuestion = true;
@@ -331,7 +337,7 @@ const TheExam = () => {
             {mockSelectedSubject} {isCbtMode ? "" : "CBT"}
           </h1>
           <span className="exam-progress-text">
-            Question {num} of {currentBlock?.questions.length}
+            Question {num} of {navLength}
           </span>
         </div>
         <div className="exam-header-right">
@@ -499,7 +505,7 @@ const TheExam = () => {
             </div>
             <div className="exam-progress-stats">
               <span>{answeredQuestions} Answered</span>
-              <span>{totalQuestions - answeredQuestions} Remaining</span>
+              <span>{TOTAL_CBT_QUESTIONS - answeredQuestions} Remaining</span>
             </div>
           </div>
 

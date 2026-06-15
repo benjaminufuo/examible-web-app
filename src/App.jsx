@@ -148,6 +148,10 @@ const routes = createBrowserRouter([
                 element: <MockResult />,
               },
               {
+                path: "/cbt-mode/result",
+                element: <MockResult />,
+              },
+              {
                 path: "/past-questions/view",
                 element: <ViewPastQuestion />,
               },

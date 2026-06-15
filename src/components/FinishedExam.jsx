@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setFinishedExam, setUser } from "../global/slice";
 import { studentApi } from "../config/studentApi";
+import { questionApi } from "../config/questionApi";
 import { useExamibleContext } from "../context/ExamibleContext";
 import { getTotalNumbersOfQuestion } from "../utils/questionUtils";
 
@@ -22,11 +23,7 @@ const FinishedExam = () => {
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
 
-    let completed = "no";
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
-    if (exam && validQuestionsLength > 0 && exam.length === validQuestionsLength) {
-      completed = "yes";
-    }
 
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
@@ -35,7 +32,44 @@ const FinishedExam = () => {
     const duration = Math.min(
       7200,
       Math.max(1, initialDuration * 60 - timeLeft),
-    ); // Cap at 7200s (2 hours) to cover CBT exam duration
+    );
+
+    const isCbt = mockSelectedSubject === "CBT Examination";
+
+    if (isCbt) {
+      const subjects = mockExamQuestions.map((q) => q.subject);
+      const data = exam.map((q) => ({
+        subject: q?.subject || "N/A",
+        isCorrect: q?.score === 2,
+      }));
+      try {
+        const res = await questionApi.submitCbt({ duration, subjects, data });
+        if (res?.data?.success) {
+          setTimeout(() => {
+            dispatch(setUser(res?.data?.data));
+            nav("/cbt-mode/result", {
+              state: { details: res?.data?.data?.lastCbtDetails },
+            });
+            setTimeout(() => {
+              handleShowUserFeedback();
+            }, 20000);
+          }, 500);
+          setTimeout(() => {
+            dispatch(setFinishedExam(false));
+          }, 2000);
+        } else {
+          dispatch(setFinishedExam(false));
+        }
+      } catch {
+        dispatch(setFinishedExam(false));
+      }
+      return;
+    }
+
+    let completed = "no";
+    if (exam && validQuestionsLength > 0 && exam.length === validQuestionsLength) {
+      completed = "yes";
+    }
 
     const rawPerformance =
       (exam?.reduce((acc, item) => acc + (item?.score || 0), 0) /
@@ -46,18 +80,13 @@ const FinishedExam = () => {
     const performance = Math.min(
       100,
       Math.max(0, Math.round(rawPerformance) || 0),
-    ); // Ensure between 0 and 100
-
-    const apiSubject =
-      mockSelectedSubject === "CBT Examination"
-        ? "English"
-        : mockSelectedSubject || "Mock Exam";
+    );
 
     try {
       const res = await studentApi.updateRating({
         duration,
         completed,
-        subject: apiSubject,
+        subject: mockSelectedSubject || "Mock Exam",
         performance,
       });
       if (res?.data?.success) {
@@ -73,9 +102,11 @@ const FinishedExam = () => {
         setTimeout(() => {
           dispatch(setFinishedExam(false));
         }, 2000);
+      } else {
+        dispatch(setFinishedExam(false));
       }
     } catch {
-      // baseApi handles error toast
+      dispatch(setFinishedExam(false));
     }
   };
 

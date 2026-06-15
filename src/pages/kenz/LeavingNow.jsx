@@ -9,6 +9,7 @@ import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
 import { FiAlertTriangle } from "react-icons/fi";
 import { getTotalNumbersOfQuestion } from "../../utils/questionUtils";
+import { questionApi } from "../../config/questionApi";
 
 const LeavingNow = () => {
   const nav = useNavigate();
@@ -26,14 +27,12 @@ const LeavingNow = () => {
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
-    let duration = 0;
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
       (user?.plan === "Freemium" ? 10 : 30);
 
-    duration = Math.min(7200, Math.max(1, initialDuration * 60 - timeLeft)); // Increased cap to 7200 (2 hours) for CBT Mode
+    const duration = Math.min(7200, Math.max(1, initialDuration * 60 - timeLeft));
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
-    const completed = "no"; // LeavingNow is always an early-quit — completion credit belongs to FinishedExam
 
     const rawPerformance =
       (exam.reduce((acc, item) => acc + (item?.score || 0), 0) /
@@ -41,43 +40,49 @@ const LeavingNow = () => {
         (validQuestionsLength || 1)) *
       100;
 
-    const performance = Math.min(
-      100,
-      Math.max(0, Math.round(rawPerformance) || 0),
-    ); // Ensure between 0 and 100
+    const performance = Math.min(100, Math.max(0, Math.round(rawPerformance) || 0));
 
-    // Safely find the standard English subject name to avoid backend schema/validation errors
     const englishSubj =
       allSubjectsData.find((s) => s.subject.toLowerCase().includes("english"))
         ?.subject || "English Language";
 
-    const apiSubject =
-      mockSelectedSubject === "CBT Examination"
-        ? englishSubj
-        : mockSelectedSubject || "Mock Exam";
+    const isCbt = mockSelectedSubject === "CBT Examination";
+    const apiSubject = isCbt ? englishSubj : mockSelectedSubject || "Mock Exam";
 
     setLoading(true);
     try {
-      const res = await studentApi.updateRating({
-        duration,
-        completed,
-        subject: apiSubject,
-        performance,
-      });
-      if (res?.data?.success) {
-        setTimeout(() => {
-          dispatch(setUser(res?.data?.data));
-          setShowLeavingNow(false);
-          setLoading(false);
-          nav("/mock-exam/result", {
-            state: { subject: mockSelectedSubject },
-          });
-          setTimeout(() => {
-            handleShowUserFeedback();
-          }, 20000);
-        }, 500);
+      let res;
+      if (isCbt) {
+        const subjects = mockExamQuestions.map((q) => q.subject);
+        const data = exam.map((q) => ({
+          subject: q?.subject || "N/A",
+          isCorrect: q?.score === 2,
+        }));
+        res = await questionApi.submitCbt({ duration, subjects, data });
+      } else {
+        res = await studentApi.updateRating({
+          duration,
+          completed: "no",
+          subject: apiSubject,
+          performance,
+        });
       }
+
+      if (!res?.data?.success) return;
+
+      dispatch(setUser(res.data.data));
+      setShowLeavingNow(false);
+
+      if (isCbt) {
+        nav("/cbt-mode/result", { state: { details: res.data.data?.lastCbtDetails } });
+      } else {
+        nav("/mock-exam/result", { state: { subject: mockSelectedSubject } });
+      }
+
+      setTimeout(handleShowUserFeedback, 20000);
     } catch {
+      // network/server error — loading reset in finally
+    } finally {
       setLoading(false);
     }
   };
