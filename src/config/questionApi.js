@@ -16,9 +16,7 @@ class QuestionApi {
   }
 
   getCbtQuestions(subjects) {
-    return this.#http.get(
-      `/cbt-mode/questions?subjects=${encodeURIComponent(subjects)}`,
-    );
+    return this.#http.get(`/cbt-mode/questions?subjects=${subjects}`);
   }
 
   submitCbt(data) {
