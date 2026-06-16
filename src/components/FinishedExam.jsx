@@ -3,9 +3,10 @@ import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setFinishedExam, setUser } from "../global/slice";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
+import { questionApi } from "../config/questionApi";
 import { useExamibleContext } from "../context/ExamibleContext";
+import { getTotalNumbersOfQuestion } from "../utils/questionUtils";
 
 const FinishedExam = () => {
   const nav = useNavigate();
@@ -21,39 +22,74 @@ const FinishedExam = () => {
 
   const quitExam = async () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
-    let duration = 0;
-    let completed = "";
-    for (let element of exam) {
-      if (!element?.option || exam.length < mockExamQuestions.length) {
-        completed = "no";
-        break;
-      } else {
-        completed = "yes";
-      }
-    }
-    if (user?.plan === "Freemium") {
-      duration = 600 - timeLeft;
-    } else {
-      duration = 1800 - timeLeft;
-    }
-    const performance =
-      (exam?.reduce((acc, item, index) => {
-        if (item?.score) {
-          acc = acc + item.score;
-          return acc;
+
+    const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
+
+    const initialDuration =
+      parseInt(sessionStorage.getItem("mockExamDuration")) ||
+      (user?.plan === "Freemium" ? 10 : 30);
+
+    const duration = Math.min(
+      7200,
+      Math.max(1, initialDuration * 60 - timeLeft),
+    );
+
+    const isCbt = mockSelectedSubject === "CBT Examination";
+
+    if (isCbt) {
+      const subjects = mockExamQuestions.map((q) => q.subject);
+      const data = exam.map((q) => ({
+        subject: q?.subject || "N/A",
+        isCorrect: q?.score === 2,
+      }));
+      try {
+        const res = await questionApi.submitCbt({ duration, subjects, data });
+        if (res?.data?.success) {
+          setTimeout(() => {
+            dispatch(setUser(res?.data?.data));
+            nav("/cbt-mode/result", {
+              state: { details: res?.data?.data?.lastCbtDetails },
+            });
+            setTimeout(() => {
+              handleShowUserFeedback();
+            }, 20000);
+          }, 500);
+          setTimeout(() => {
+            dispatch(setFinishedExam(false));
+          }, 2000);
         } else {
-          return acc;
+          dispatch(setFinishedExam(false));
         }
-      }, 0) /
+      } catch {
+        dispatch(setFinishedExam(false));
+      }
+      return;
+    }
+
+    let completed = "no";
+    if (exam && validQuestionsLength > 0 && exam.length === validQuestionsLength) {
+      completed = "yes";
+    }
+
+    const rawPerformance =
+      (exam?.reduce((acc, item) => acc + (item?.score || 0), 0) /
         2 /
-        mockExamQuestions.length) *
+        (validQuestionsLength || 1)) *
       100;
+
+    const performance = Math.min(
+      100,
+      Math.max(0, Math.round(rawPerformance) || 0),
+    );
+
     try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}api/v1/myRating/${user._id || user.id}`,
-        { duration, completed, subject: mockSelectedSubject, performance },
-      );
-      if (res?.status === 200) {
+      const res = await studentApi.updateRating({
+        duration,
+        completed,
+        subject: mockSelectedSubject || "Mock Exam",
+        performance,
+      });
+      if (res?.data?.success) {
         setTimeout(() => {
           dispatch(setUser(res?.data?.data));
           nav("/mock-exam/result", {
@@ -64,13 +100,13 @@ const FinishedExam = () => {
           }, 20000);
         }, 500);
         setTimeout(() => {
-          dispatch(setFinishedExam());
-        }, 550);
+          dispatch(setFinishedExam(false));
+        }, 2000);
+      } else {
+        dispatch(setFinishedExam(false));
       }
-    } catch (error) {
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
+    } catch {
+      dispatch(setFinishedExam(false));
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -11,23 +11,24 @@ const MainHolder = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
+      if (userToken) {
+        nav("/overview", { replace: true });
+      }
     }, 1000);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1100);
   }, [userToken]);
 
   if (loading) {
     return <Loading />;
   }
-
-  if (userToken && !loading) {
-    nav("/overview", { replace: true });
-  }
   return (
-    <>
+    <div className="ex-scope">
       <Header />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 

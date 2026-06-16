@@ -30,7 +30,7 @@ const Input = ({
   const handleChange = (event) => {
     if (!disabled && !readOnly && onChange) {
       onChange(event);
-      onChangeText(event.target.value);
+      onChangeText?.(event.target.value);
     }
   };
 

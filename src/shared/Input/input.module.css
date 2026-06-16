@@ -25,7 +25,7 @@
 .label {
   font-size: 14px;
   font-weight: 500;
-  color: #727a86;
+  color: var(--ex-text-soft, #727a86);
   line-height: 1.4;
   margin: 0;
   cursor: pointer;
@@ -51,35 +51,35 @@
   transform: translateY(-50%);
   right: 20px;
   font-size: 20px;
-  color: #000;
+  color: var(--ex-text, #000);
   cursor: pointer;
 }
 
 .input {
   padding: 14px 17px;
-  background: #f9fafb;
-  border: 1px solid #98a2b3;
+  background: var(--ex-input-bg, #f9fafb);
+  border: 1px solid var(--ex-input-border, #98a2b3);
   border-radius: 6px;
   font-size: 14px;
   font-weight: 400;
-  color: #011a2a;
+  color: var(--ex-text, #011a2a);
   transition: all 0.2s ease-in-out;
   outline: none;
 
   &::placeholder {
-    color: #727a86;
+    color: var(--ex-text-soft, #727a86);
     font-weight: 400;
   }
 
   &:hover {
-    border-color: #667085;
-    background: #ffffff;
+    border-color: var(--ex-input-border-hover, #667085);
+    background: var(--ex-input-bg-hover, #ffffff);
   }
 
   &:focus {
-    border-color: #7300ff;
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(115, 0, 255, 0.1);
+    border-color: var(--ex-brand, #7300ff);
+    background: var(--ex-input-bg-hover, #ffffff);
+    box-shadow: 0 0 0 3px var(--ex-brand-alpha, rgba(115, 0, 255, 0.1));
   }
 
   &:disabled {

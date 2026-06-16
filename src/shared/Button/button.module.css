@@ -15,7 +15,7 @@
   user-select: none;
   white-space: nowrap;
   color: white;
-  background: #804bf2;
+  background: var(--ex-brand, #804bf2);
 
   &:hover {
     opacity: 0.8;
@@ -90,19 +90,19 @@
 }
 
 .primary {
-  background: #804bf2;
-  color: #f9fafb;
+  background: var(--ex-brand, #804bf2);
+  color: var(--ex-button-text, #f9fafb);
   font-weight: 600;
   line-height: 145%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   &:hover:not(.disabled) {
-    background-color: #885aed;
+    background-color: var(--ex-brand-hover, #885aed);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 
   &:active:not(.disabled) {
-    background: #763af8;
+    background: var(--ex-brand-active, #763af8);
   }
 }
 
@@ -177,10 +177,9 @@
 }
 
 .disabled {
-  cursor: not-allowed !important;
   pointer-events: none;
-  background: #d0d5dd !important;
-  color: #ffffff !important;
+  background: #d0d5dd;
+  color: #ffffff;
 
   &:hover {
     transform: none;

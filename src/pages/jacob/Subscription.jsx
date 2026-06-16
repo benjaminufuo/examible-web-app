@@ -1,60 +1,165 @@
-import React, { useState } from "react";
 import "../../styles/dashboardCss/subscription.css";
-import MonthlyPayment from "../jacob/MonthlyPayment";
-import YearlyPayment from "../jacob/YearlyPayment";
-// import { useDispatch, useSelector } from "react-redux";
-// import { setToggle } from "../../global/slice";
-const Subscription = () => {
-  // const toggle = useSelector((state) => state.toggle);
+import "../../styles/dashboardCss/dashboard-components.css";
+import { FiCheck } from "react-icons/fi";
+import { FaCheckCircle } from "react-icons/fa";
+import wallet from "../../assets/public/wallet.png";
+import { useNavigate } from "react-router-dom";
 
-  // const dispatch = useDispatch();
+import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
-  // const handleToggle = (isYearly) => {
-  //   if (toggle !== isYearly) {
-  //     dispatch(setToggle(isYearly));
-  //   }
-  // };
+const plans = [
+  {
+    title: "Freemium",
+    price: null,
+    displayPrice: "Free",
+    sub: "Forever",
+    description:
+      "Start for free: explore Examible core features without PAYING A DIME. Upgrade anytime for full access.",
+    benefits: [
+      "Limited access to past Jamb Questions (e.g. 2015 - 2017 past questions)",
+      "10 minutes free mock exam",
+      "Can't remove chosen subject",
+    ],
+    featured: false,
+  },
+  {
+    title: "Yearly",
+    price: 5000,
+    displayPrice: "₦5,000",
+    sub: "/ year / student",
+    description:
+      "Subscribe to the YEARLY PLAN and enjoy unlimited access to all Examible features for FULL 12 MONTHS.",
+    benefits: [
+      "Full access to Jamb Past Questions",
+      "Full access to Mock Exam",
+      "Access to choose and remove subject",
+      "Access to Examible Bot",
+      "Study Recommendations",
+    ],
+    featured: true,
+  },
+  {
+    title: "Monthly",
+    price: 500,
+    displayPrice: "₦500",
+    sub: "/ month / student",
+    description:
+      "Subscribe to the MONTHLY PLAN and enjoy Unlimited access to all Examible features for 30 days.",
+    benefits: [
+      "Full access to all Jamb Past questions",
+      "Full access to Mock Exam",
+      "Access to choose and remove subject",
+      "Study recommendation",
+    ],
+    featured: false,
+  },
+];
+
+const Plans = () => {
+  const nav = useNavigate();
+  const user = useSelector((state) => state.user);
+  const currentPlan = user?.plan || "Freemium"; // Default fallback with optional chaining
+  const handleChoosePlan = (e, amount, plan) => {
+    e.preventDefault();
+    nav("/subscription/make-payment", { state: { amount, plan } });
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
-    <main className="subscriptionmain">
-      <div className="sebcontainer">
-        <div className="subdivheader">
-          <h1>Payment Plan</h1>
-          <span>
-            Your Path to <em>300+</em> Starts Here: <br /> Select a Plan
-          </span>
+    <div
+      className="sub-premium-main"
+      style={{ width: "100%", padding: "32px", boxSizing: "border-box" }}
+    >
+      <motion.div
+        className="dashboard-hero-section fade-in"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="hero-content">
+          <h1 className="hero-greeting">
+            Choose the <span>Perfect Plan</span>
+          </h1>
+          <p className="hero-subtext">
+            Elevate your performance and achieve your goals with full access to
+            all Examible premium features.
+          </p>
         </div>
-        {/* <div className="togglebutton">
-          <button
-            className={`toggle-btn ${toggle ? "inactive" : "active"}`}
-            onClick={() => handleToggle(false)}
-            style={{ marginRight: "auto" }}
-          >
-            Monthly
-          </button>
-          <button
-            className={`toggle-btn ${toggle ? "active" : "inactive"}`}
-            onClick={() => handleToggle(true)}
-            style={{ marginLeft: "auto" }}
-          >
-            Yearly
-          </button>
-        </div> */}
-        <YearlyPayment />
-        {/* <MonthlyPayment /> */}
+        <div className="hero-image">
+          <img src={wallet} alt="Wallet" style={{ maxHeight: "250px" }} />
+        </div>
+      </motion.div>
 
-        <div className="subfootercontainer">
-          <div className="subfooter">
-            <span>
-              Try our Basic Plan at no cost, or upgrade to our Exam Ready Plan
-              for the ultimate JAMB prep experience. Get full access to past
-              questions, mock exams, and smart study tools – all at the best
-              value for your money.
-            </span>
-          </div>
-        </div>
-      </div>
-    </main>
+      <motion.div
+        className="sub-pricing-grid"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {plans.map((plan) => {
+          const isActive = currentPlan === plan.title;
+
+          return (
+            <motion.div
+              key={plan.title}
+              className={`sub-pricing-card ${plan.featured ? "is-featured" : ""}`}
+              variants={itemVariants}
+            >
+              {isActive ? (
+                <span className="sub-pricing-tag active-plan">
+                  <FaCheckCircle style={{ marginRight: "6px" }} /> Active Plan
+                </span>
+              ) : plan.featured ? (
+                <span className="sub-pricing-tag">Most popular</span>
+              ) : null}
+
+              <h3 className="sub-pricing-name">{plan.title}</h3>
+              <div className="sub-pricing-price">
+                <strong>{plan.displayPrice}</strong>
+                {plan.sub && <small>{plan.sub}</small>}
+              </div>
+              <p className="sub-pricing-desc">{plan.description}</p>
+
+              <ul className="sub-pricing-benefits">
+                {plan.benefits.map((benefit, i) => (
+                  <li key={i}>
+                    <FiCheck size={18} />
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+
+              {
+                // Render the "Downgrade" button for Freemium
+                plan.title !== "Freemium" && (
+                  <button
+                    className={`sub-pricing-btn ${
+                      plan.featured ? "primary" : "outline"
+                    }`}
+                    onClick={(e) => {
+                      handleChoosePlan(e, plan.price, plan.title);
+                    }}
+                  >
+                    {`Upgrade to ${plan.title}`}
+                  </button>
+                )
+              }
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 };
 
-export default Subscription;
+export default Plans;

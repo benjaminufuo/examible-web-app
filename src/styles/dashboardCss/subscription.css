@@ -1,1145 +1,336 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
-.subscriptionmain {
+.sub-plans-main {
   width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(128, 75, 242, 0.2);
-  padding: 30px;
-
-  @media screen and (max-width: 550px) {
-    background-color: white;
-  }
-}
-
-.sebcontainer {
-  width: 100%;
-  min-height: 100vh;
+  height: auto;
+  background: #fff;
   display: flex;
   flex-direction: column;
-  padding: 30px 30px 150px 30px;
-  justify-content: flex-start;
-  gap: 30px;
-  background-color: #fff;
-
-  .subdivheader {
-    width: 100%;
-    height: 27vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-
-    & h1 {
-      color: #1e1e1e;
-      text-align: left;
-      font-family: Montserrat;
-      font-size: 30px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 103%;
-      letter-spacing: -0.57px;
-    }
-
-    & span {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 36px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 55px;
-
-      & em {
-        color: #804bf2;
-        font-family: Montserrat;
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 55px;
-      }
-    }
-  }
+  align-items: center;
+  padding: 0;
+  border: 2px solid #f2f2f2;
 }
 
-.offercontainer {
+.sub-plans-header-bg {
   width: 100%;
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-}
-.togglebutton {
-  display: flex;
-  width: 233.333px;
-  height: 70px;
-  padding-left: 30px;
-  padding-right: 30px;
-  justify-content: center;
-  align-items: center;
-  gap: 15.556px;
-  flex-shrink: 0;
-  border-radius: 77.778px;
   background: #804bf2;
-}
-
-.toggle-btn {
-  padding: 10px 20px;
-  border: 1px solid #804bf2;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.toggle-btn.active {
-  background-color: #f2ae30;
-  color: black;
+  height: 200px;
   display: flex;
-  width: 100px;
-  height: 40px;
   justify-content: center;
   align-items: center;
-  gap: 7.778px;
-
-  font-family: Montserrat;
-  font-size: 15.556px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 27.222px;
 }
 
-.toggle-btn.inactive {
+.sub-plans-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.sub-plans-header-text {
+  font-weight: 700;
+  color: #fff;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 70px;
+}
+
+.sub-plans-header-text h2 {
   color: #fff;
   font-family: Montserrat;
-  font-size: 15.556px;
+  font-size: 35.222px;
   font-style: normal;
   font-weight: 600;
-  line-height: 27.222px;
-  background-color: transparent;
 }
 
-.monthlyusub {
-  width: 100%;
-  min-height: 100vh;
+.sub-plans-header-text .sub-highlight {
+  color: #f2ae30;
+}
+
+.sub-wallet-container {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
+  padding-right: 60px;
+  width: 30%;
+  height: 100%;
+}
+
+.sub-plans-wallet-img {
+  width: 440px;
+  height: 200px;
+}
+
+.sub-plans-cards {
+  display: flex;
+  gap: 32px;
   justify-content: space-between;
-
-  .monthlyfreemium {
-    width: 31%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    .monthlysubcontainer {
-      width: 100%;
-      height: 90%;
-      border-radius: 20px;
-      border: 5px solid rgba(128, 75, 242, 0.4);
-      background: #fff;
-      padding-top: 30px;
-      padding-left: 15px;
-      padding-right: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      & h1 {
-        color: #804bf2;
-        font-family: Sora;
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 35px;
-        text-transform: uppercase;
-      }
-      .started {
-        color: #1e1e1e;
-        text-align: center;
-        font-family: Montserrat;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 25px;
-        height: 10%;
-        display: flex;
-        justify-content: center;
-      }
-    }
-    .subofferdiv {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      height: max-content;
-      justify-content: space-between;
-      align-items: flex-start;
-
-      .suboffer {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 30vh;
-        justify-content: space-between;
-      }
-    }
-
-    .subiconfirst {
-      width: 39%;
-      font-size: 20px;
-      color: #804bf2;
-    }
-  }
-}
-.subbuttondiv {
+  flex-wrap: wrap;
   width: 100%;
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-inline: 10px;
+  height: auto;
+  padding-block: 60px;
+  max-width: 1300px;
+  margin: 0 auto;
 }
-.subbuttondiv1 {
-  width: 100%;
-  height: 10vh;
+
+.sub-plan-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 350px;
+  height: 512px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
 }
-.yearlytext {
+
+.sub-freemium-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 300px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+  background: #fff;
+}
+
+.sub-freemium-card:hover {
+  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
+  border-color: #804bf2;
+  transition: border-color 1.05s ease-in-out;
+}
+
+.sub-yearly-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 300px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+  background: #804bf2;
+}
+.sub-yearly-card:hover {
+  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
+  border-color: #b9b7b7;
+  transition: border-color 1.05s ease-in-out;
+}
+.sub-monthly-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
+  padding: 32px 24px;
+  width: 300px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+  border: 3px solid #f2f2f2;
+  background: #fff;
+}
+.sub-monthly-card:hover {
+  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
+  border-color: #804bf2;
+  transition: border-color 1.05s ease-in-out;
+}
+
+.sub-plan-title {
+  background: #804bf2;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 6px 18px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.sub-plan-desc {
   color: #1e1e1e;
   font-family: Montserrat;
   font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.266px;
+}
+
+.sub-plan-link {
+  color: #804bf2;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 25px; /* 178.571% */
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.sub-plan-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 16px 0 8px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.sub-plan-price .sub-plan-sub {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.sub-benefit {
+  font-family: Montserrat;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
+  line-height: 107%; /* 17.12px */
+  letter-spacing: -0.304px;
+  text-transform: capitalize;
 }
-.planbutton {
-  display: flex;
+.sub-plan-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 24px 0;
   width: 100%;
-  padding: 10px;
+}
+
+.sub-plan-benefits li {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.sub-benefit-text {
+  margin-left: 8px;
+  width: 90%;
+}
+.sub-checkmark {
+  color: #804bf2;
+  width: 6%;
+  display: flex;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
-  border-radius: 50px;
-  border: 3px solid #804bf2;
+}
+
+.sub-plan-btn {
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sub-freemium-btn {
+  background: #804bf2;
+  color: #fff;
+}
+.sub-freemium-btn:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.sub-yearly-btn {
   background: #fff;
   color: #804bf2;
-  font-family: Sora;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 35px; /* 175% */
-  text-transform: capitalize;
-  cursor: pointer;
 }
-
-.planbutton1:hover:not(:disabled) {
-  background-color: white;
-  transition: 350ms ease-out;
-  color: #804bf2;
-  border: 3px solid #804bf2;
-}
-.planbutton1:disabled {
-  background-color: #d6d4da;
-  cursor: not-allowed;
-}
-.monthlypremium {
-  width: 31%;
-  height: 100vh;
-  .monthlypremiumcontainer {
-    width: 100%;
-    height: 100vh;
-    border-radius: 20px;
-    border: 5px solid rgba(128, 75, 242, 0.1);
-    background: rgba(128, 75, 242, 0.2);
-    padding-top: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    & h1 {
-      color: #804bf2;
-      font-family: Sora;
-      font-size: 36px;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 30px;
-      text-transform: uppercase;
-    }
-    & span {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      height: 10%;
-    }
-  }
-}
-
-.premiumbofferdiv {
-  width: 100%;
-  height: 40vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-
-  .premiumsuboffer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
-    & span {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      text-align: left;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  .subiconfirst1 {
-    width: auto;
-    color: #804bf2;
-  }
-
-  .subamountddiv {
-    width: 100%;
-    height: 20vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .subamount {
-      color: #804bf2;
-      font-family: Sora;
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-  }
-
-  .monthlysubtextdiv {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    height: auto;
-
-    .monthlysubtext {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-    }
-  }
-  .subbuttondiv {
-    width: 100%;
-    height: aut0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-.yearlysubtextdiv {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  height: auto;
-
-  .yearlysubtext {
-    color: #1e1e1e;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-  }
-}
-.subamountddiv1 {
-  width: 100%;
-  height: 8vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.subamount1 {
-  color: #804bf2;
-  font-family: Sora;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-.planbutton1 {
-  display: flex;
-  width: 100%;
-  height: auto;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  border-radius: 50px;
-  background: rgba(128, 75, 242, 0.99);
-  color: #fff;
-  font-family: Sora;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 35px;
-  border: none;
-  text-transform: capitalize;
-  cursor: pointer;
-}
-.planbutton:hover:not(:disabled) {
-  background-color: #804bf2;
-  transition: 350ms ease-out;
-  color: white;
-}
-
-.planbutton1:disabled {
-  background-color: #d6d4da;
-  cursor: not-allowed;
-}
-.premiumsuboffer1 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-
-  & span {
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    text-align: left;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-.subiconfirst {
-  width: auto;
+.sub-yearly-btn:hover {
+  opacity: 0.9;
   color: #804bf2;
 }
 
-.premiumsuboffer2 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.lifesub {
-  width: 31%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  .lifesuboffertext {
-    width: 100%;
-    height: auto;
-    display: flex;
-
-    & span {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 22px; /* 157.143% */
-    }
-  }
-
-  .lifesubamountdiv {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    & h1 {
-      color: #804bf2;
-      font-family: Sora;
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 57px; /* 118.75% */
-      text-transform: uppercase;
-    }
-  }
-
-  .lifesubtext {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    & span {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 25px;
-    }
-  }
-}
-
-.lifesubcontainer {
-  width: 100%;
-  height: 90%;
-  border-radius: 20px;
-  border: 5px solid rgba(242, 174, 48, 0.3);
-  background: rgba(242, 174, 48, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 10px;
-  padding-bottom: 15px;
-  gap: 5px;
-}
-
-.accessmodel {
-  color: #804bf2;
-  text-align: center;
-  font-family: Sora;
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 800;
-
-  text-transform: uppercase;
-}
-.lifevalue {
-  color: #1e1e1e;
-  text-align: center;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 25px;
-}
-
-.lifesuboffer {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-}
-
-.subiconfirst2 {
-  color: #804bf2;
-  font-size: 20px;
-}
-
-.subfootercontainer {
-  width: 100%;
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.subfooter {
-  display: flex;
-  width: 90%;
-  height: 80%;
-  padding: 16.667px 58.186px 27.333px 55.555px;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  border-radius: 46.296px;
+.sub-monthly-btn {
   background: #804bf2;
-
-  & span {
-    color: #fff;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 13.667px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 27.778px; /* 166.667% */
-  }
+  color: #fff;
+}
+.sub-monthly-btn:hover {
+  opacity: 0.9;
 }
 
-.paymentsymboldiv {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30%;
-}
-
+/* Responsive */
 @media screen and (min-width: 320px) and (max-width: 480px) {
-  .sebcontainer {
-    width: 100%;
-    min-height: 100vh;
+  .sub-plans-header-content {
     display: flex;
-    flex-direction: column;
-    padding: 20px 20px 150px 20px;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-
-    .subdivheader {
-      width: 100%;
-      height: 27vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      & h1 {
-        color: #1e1e1e;
-        text-align: center;
-        font-family: Montserrat;
-        font-size: 30px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 103%;
-        letter-spacing: -0.57px;
-      }
-
-      & span {
-        text-align: center;
-        color: #1e1e1e;
-        font-family: Montserrat;
-        font-size: 30px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 55px;
-
-        & em {
-          color: #804bf2;
-          font-family: Montserrat;
-          font-size: 30px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 55px;
-        }
-      }
-    }
   }
-  .monthlyusub {
+  .sub-plans-header-text {
     width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-
-    .monthlyfreemium {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-
-      .monthlysubcontainer {
-        width: 100%;
-        height: 90%;
-        border-radius: 20px;
-        border: 5px solid rgba(128, 75, 242, 0.4);
-        background: #fff;
-        padding-top: 30px;
-        padding-left: 15px;
-        padding-right: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        & h1 {
-          color: #804bf2;
-          font-family: Sora;
-          font-size: 36px;
-          font-style: normal;
-          font-weight: 800;
-          line-height: 35px;
-          text-transform: uppercase;
-        }
-        .started {
-          color: #1e1e1e;
-          text-align: center;
-          font-family: Montserrat;
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 25px;
-          height: 10%;
-          display: flex;
-          justify-content: center;
-        }
-      }
-
-      .subofferdiv {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        height: 23vh;
-        justify-content: space-between;
-
-        .suboffer {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          height: 30vh;
-          justify-content: space-between;
-
-          .suboffertext {
-            color: #1e1e1e;
-            font-family: Montserrat;
-            font-size: 12px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 22px;
-            text-align: left;
-            width: 100%;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-          }
-        }
-      }
-
-      .subiconfirst {
-        width: 39%;
-        font-size: 20px;
-        color: #804bf2;
-      }
-    }
-
-    .subbuttondiv {
-      width: 100%;
-      height: 20%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
-  .monthlypremium {
-    width: 100%;
-    height: 100vh;
-  }
-
-  .lifesub {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    .lifesubcontainer {
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      border: 5px solid rgba(128, 75, 242, 0.4);
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-  }
-
-  .subfootercontainer {
-    width: 100%;
-    height: 20vh;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .subfooter {
-    display: flex;
+  .sub-plans-header-text h2 {
+    font-size: 20px;
+  }
+  .sub-wallet-container {
+    display: none;
+  }
+  .sub-plans-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .sub-plan-card {
+    width: 90vw;
+    max-width: 400px;
+  }
+  .sub-plans-header-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .sub-plans-wallet-img {
+    margin-left: 0;
+    margin-top: 24px;
+    width: 90px;
+  }
+  .sub-plans-header-text h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 1024px) {
+  .sub-plans-header-bg {
+    height: 150px;
+  }
+  .sub-plans-header-text {
     width: 100%;
+    width: 50%;
+  }
+  .sub-plans-header-text h2 {
+    font-size: 20px;
+  }
+  .sub-wallet-container {
+    width: 50%;
     height: 100%;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    flex-shrink: 0;
-    border-radius: 20px;
-    background: #804bf2;
-
-    & span {
-      color: #fff;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 23px;
-    }
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 1024px) {
-  .sebcontainer {
-    width: 100%;
-    min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    padding: 20px 20px 150px 20px;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-
-    .subdivheader {
-      width: 100%;
-      height: 27vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      & h1 {
-        color: #1e1e1e;
-        text-align: center;
-        font-family: Montserrat;
-        font-size: 30px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 103%;
-        letter-spacing: -0.57px;
-      }
-
-      & span {
-        text-align: center;
-        color: #1e1e1e;
-        font-family: Montserrat;
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 55px;
-
-        & em {
-          color: #804bf2;
-          font-family: Montserrat;
-          font-size: 36px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 55px;
-        }
-      }
-    }
+    justify-content: flex-start;
   }
-  .monthlyusub {
-    width: 70%;
-    min-height: 100vh;
-    display: flex;
+  .sub-plans-wallet-img {
+    width: 380px;
+    height: 150px;
+  }
+  .sub-plans-cards {
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-
-    .monthlyfreemium {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-
-      .monthlysubcontainer {
-        width: 100%;
-        height: 90%;
-        border-radius: 20px;
-        border: 5px solid rgba(128, 75, 242, 0.4);
-        background: #fff;
-        padding-top: 30px;
-        padding-left: 15px;
-        padding-right: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        & h1 {
-          color: #804bf2;
-          font-family: Sora;
-          font-size: 36px;
-          font-style: normal;
-          font-weight: 800;
-          line-height: 35px;
-          text-transform: uppercase;
-        }
-        .started {
-          color: #1e1e1e;
-          text-align: center;
-          font-family: Montserrat;
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 25px;
-          height: 10%;
-          display: flex;
-          justify-content: center;
-        }
-      }
-      .subofferdiv {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        height: 23vh;
-        justify-content: space-between;
-
-        .suboffer {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          height: 30vh;
-          justify-content: space-between;
-
-          .suboffertext {
-            color: #1e1e1e;
-            font-family: Montserrat;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 22px;
-            text-align: left;
-            width: 100%;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-          }
-        }
-      }
-
-      .subiconfirst {
-        width: 39%;
-        font-size: 20px;
-        color: #804bf2;
-      }
-    }
-
-    .subbuttondiv {
-      width: 100%;
-      height: 20%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
-  .monthlypremium {
-    width: 100%;
-    height: 100vh;
-  }
-
-  .lifesub {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    .lifesubcontainer {
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      border: 5px solid rgba(128, 75, 242, 0.4);
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-  }
-
-  .subfooter {
-    display: flex;
-    width: 70%;
-    height: 80%;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    flex-shrink: 0;
-    border-radius: 20px;
-    background: #804bf2;
-
-    & span {
-      color: #fff;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 11px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 27.778px;
-    }
-  }
-  .planbutton {
-    display: flex;
-    width: 60%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    border-radius: 50px;
-    border: 3px solid #804bf2;
-    background: #fff;
-    color: #804bf2;
-    font-family: Sora;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 35px; /* 175% */
-    text-transform: capitalize;
-    cursor: pointer;
-  }
-
-  .planbutton1 {
-    display: flex;
-    width: 60%;
-    height: auto;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-    border-radius: 50px;
-    background: rgba(128, 75, 242, 0.99);
-    color: #fff;
-    font-family: Sora;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 35px;
-    border: none;
-    text-transform: capitalize;
-    cursor: pointer;
-  }
-
-  .paymentsymboldiv {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30%;
-    & img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .subscriptionmain {
-    padding: 10px;
-  }
-  .yearlytext {
-    font-size: 12px;
-  }
-  .yearlysubtextdiv {
-    width: 100%;
-    height: auto;
-
-    .yearlysubtext {
-      font-size: 12px;
-    }
-  }
-  .subamount1 {
-    font-size: 28px;
-  }
-
-  .subamountddiv {
-    width: 100%;
-    height: 20vh;
-
-    .subamount {
-      font-size: 28px;
-    }
-  }
-
-  .planbutton1:hover:not(:disabled) {
-    background-color: white;
-    /* transition: 350ms ease-out; */
-    color: #804bf2;
-    border: 1px solid #804bf2;
-  }
-  .planbutton1 {
-    font-size: 15px;
-    padding: 2px;
-  }
-  .planbutton {
-    font-size: 15px;
-    padding: 2px;
-  }
-  .subfootercontainer {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .subfooter {
-    height: 100px;
-    padding: 5px;
-
-    & span {
-      font-size: 10px;
-      line-height: 13px;
-    }
-  }
-  .premiumbofferdiv {
-    width: 100%;
-    height: 40vh;
-
-    .premiumsuboffer {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-
-      & span {
-        font-size: 12px;
-      }
-    }
-  }
-
-  .sebcontainer {
-    width: 100%;
-    min-height: auto;
-    padding: 30px 30px 150px 30px;
-    gap: 5px;
-
-    .subdivheader {
-      width: 100%;
-      height: auto;
-
-      & h1 {
-        font-size: 25px;
-      }
-
-      & span {
-        font-size: 20px;
-        & em {
-          font-size: 20px;
-        }
-      }
-    }
+    gap: 24px;
   }
 }

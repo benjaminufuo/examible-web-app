@@ -1,0 +1,305 @@
+/* ============================================================
+   Examible Design Tokens — premium light/dark theme system
+   Prefixed with --ex- to avoid clashing with legacy styles.
+   ============================================================ */
+
+:root {
+  /* Brand */
+  --ex-brand: #804bf2;
+  --ex-brand-strong: #6a32e8;
+  --ex-brand-soft: rgba(128, 75, 242, 0.1);
+  --ex-brand-contrast: #ffffff;
+  --ex-accent: #06b6d4; /* cyan vibrancy */
+  --ex-accent-2: #f2ae30; /* gold */
+  --ex-success: #16b364;
+  --ex-danger: #ef4444;
+
+  /* Surfaces (light) */
+  --ex-bg: #ffffff;
+  --ex-bg-subtle: #f6f5fb;
+  --ex-surface: #ffffff;
+  --ex-surface-2: #f3f1fc;
+  --ex-surface-3: #ebe8fa;
+  --ex-border: rgba(16, 24, 40, 0.1);
+  --ex-border-strong: rgba(16, 24, 40, 0.16);
+
+  /* Text */
+  --ex-text: #141124;
+  --ex-text-soft: #3a3650;
+  --ex-text-muted: #6a6680;
+  --ex-text-onbrand: #ffffff;
+
+  /* Glass */
+  --ex-glass-bg: rgba(255, 255, 255, 0.7);
+  --ex-glass-border: rgba(255, 255, 255, 0.6);
+  --ex-glass-blur: 16px;
+
+  /* Effects */
+  --ex-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --ex-shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+  --ex-shadow-lg: 0 24px 64px -16px rgba(67, 36, 150, 0.22);
+  --ex-shadow-glow:
+    0 0 0 1px rgba(128, 75, 242, 0.18),
+    0 18px 60px -20px rgba(128, 75, 242, 0.45);
+
+  /* Hero ambient glow color */
+  --ex-glow-1: rgba(128, 75, 242, 0.55);
+  --ex-glow-2: rgba(6, 182, 212, 0.35);
+  --ex-grid-line: rgba(16, 24, 40, 0.05);
+
+  /* Gradients */
+  --ex-gradient-brand: linear-gradient(135deg, #804bf2 0%, #6a32e8 100%);
+  --ex-gradient-vibrant: linear-gradient(
+    120deg,
+    #804bf2 0%,
+    #9d6bff 45%,
+    #06b6d4 100%
+  );
+  --ex-gradient-text: linear-gradient(
+    120deg,
+    #804bf2 0%,
+    #6a32e8 60%,
+    #06b6d4 120%
+  );
+
+  /* Type */
+  --ex-font-display: "Sora", "Montserrat", system-ui, sans-serif;
+  --ex-font-body: "Inter", "Montserrat", system-ui, sans-serif;
+
+  /* Radii */
+  --ex-radius-sm: 10px;
+  --ex-radius: 16px;
+  --ex-radius-lg: 24px;
+  --ex-radius-xl: 32px;
+
+  /* Layout */
+  --ex-max: 1200px;
+  --ex-nav-h: 72px;
+}
+
+[data-theme="dark"] {
+  --ex-brand: #9d6bff;
+  --ex-brand-strong: #b794ff;
+  --ex-brand-soft: rgba(157, 107, 255, 0.14);
+  --ex-brand-contrast: #0a0a0f;
+  --ex-accent: #22d3ee;
+  --ex-accent-2: #f5c451;
+  --ex-success: #34d399;
+
+  --ex-bg: #08080d;
+  --ex-bg-subtle: #0c0c15;
+  --ex-surface: #121120;
+  --ex-surface-2: #181729;
+  --ex-surface-3: #211f37;
+  --ex-border: rgba(255, 255, 255, 0.09);
+  --ex-border-strong: rgba(255, 255, 255, 0.16);
+
+  --ex-text: #f5f4fc;
+  --ex-text-soft: #cfcde0;
+  --ex-text-muted: #9b98b3;
+  --ex-text-onbrand: #ffffff;
+
+  --ex-glass-bg: rgba(20, 19, 36, 0.55);
+  --ex-glass-border: rgba(255, 255, 255, 0.1);
+
+  --ex-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ex-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --ex-shadow-lg: 0 30px 80px -20px rgba(0, 0, 0, 0.75);
+  --ex-shadow-glow:
+    0 0 0 1px rgba(157, 107, 255, 0.25),
+    0 24px 80px -24px rgba(128, 75, 242, 0.6);
+
+  --ex-glow-1: rgba(128, 75, 242, 0.5);
+  --ex-glow-2: rgba(34, 211, 238, 0.32);
+  --ex-grid-line: rgba(255, 255, 255, 0.045);
+
+  --ex-gradient-text: linear-gradient(
+    120deg,
+    #b794ff 0%,
+    #9d6bff 45%,
+    #22d3ee 120%
+  );
+}
+
+/* Smooth theme transition */
+html.ex-theme-ready,
+html.ex-theme-ready body {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+/* ============================================================
+   Shared premium primitives (reusable across landing + app)
+   ============================================================ */
+
+.ex-scope {
+  background: var(--ex-bg);
+  color: var(--ex-text);
+  font-family: var(--ex-font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ex-container {
+  width: 100%;
+  max-width: var(--ex-max);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (max-width: 600px) {
+  .ex-container {
+    padding-inline: 18px;
+  }
+}
+
+.ex-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ex-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ex-brand);
+  background: var(--ex-brand-soft);
+  border: 1px solid var(--ex-border);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+.ex-h1 {
+  font-family: var(--ex-font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: var(--ex-text);
+}
+
+.ex-h2 {
+  font-family: var(--ex-font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ex-text);
+}
+
+.ex-h3 {
+  font-family: var(--ex-font-display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ex-text);
+}
+
+.ex-lead {
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  line-height: 1.6;
+  color: var(--ex-text-muted);
+}
+
+.ex-gradient-text {
+  background: var(--ex-gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.ex-card {
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius-lg);
+  box-shadow: var(--ex-shadow-md);
+}
+
+.ex-glass {
+  background: var(--ex-glass-bg);
+  border: 1px solid var(--ex-glass-border);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ex-glass-blur));
+}
+
+/* Buttons */
+.ex-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--ex-font-body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ex-btn:active {
+  transform: translateY(1px);
+}
+
+.ex-btn-primary {
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand);
+  box-shadow: var(--ex-shadow-glow);
+}
+
+.ex-btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.ex-btn-ghost {
+  background: var(--ex-surface);
+  color: var(--ex-text);
+  border-color: var(--ex-border-strong);
+}
+
+.ex-btn-ghost:hover {
+  background: var(--ex-surface-2);
+  transform: translateY(-2px);
+}
+
+.ex-btn-lg {
+  padding: 16px 28px;
+  font-size: 16px;
+}
+
+/* Section rhythm */
+.ex-section {
+  position: relative;
+  padding-block: clamp(64px, 9vw, 120px);
+}
+
+.ex-section-head {
+  max-width: 720px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 56px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ex-btn,
+  html.ex-theme-ready,
+  html.ex-theme-ready body {
+    transition: none !important;
+  }
+}

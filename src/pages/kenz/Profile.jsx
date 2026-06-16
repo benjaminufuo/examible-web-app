@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
-import "../../styles/dashboardCss/profile.css";
+import "../../styles/dashboardCss/profile-premium.css";
 import { TbEdit } from "react-icons/tb";
 import { LuUserRound } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { setUser } from "../../global/slice";
 import { useLocation } from "react-router-dom";
 import { LiaSave } from "react-icons/lia";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaCrown,
+  FaCheckCircle,
+  FaBullseye,
+  FaBookOpen,
+  FaChartLine,
+  FaBrain,
+  FaMedal,
+  FaClock,
+  FaCalendarAlt,
+} from "react-icons/fa";
+import { ALLOWED_SUBJECTS } from "../../constants/common";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -50,20 +63,16 @@ const Profile = () => {
   const changeFullname = async (fullName) => {
     const id = toast.loading("Updating");
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/studentUpdate/${user?._id}`,
-        { fullName },
-      );
+      const res = await studentApi.updateProfile({ fullName });
       toast.dismiss(id);
       setTimeout(() => {
         toast.success(res?.data?.message);
         dispatch(setUser(res?.data?.data));
         setNotEditing(true);
       }, 500);
-    } catch (error) {
+    } catch {
       toast.dismiss(id);
       setNotEditing(true);
-      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -72,23 +81,13 @@ const Profile = () => {
     formDatas.append("image", image);
     const toastId = toast.loading("Please wait ...");
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/upload-profileImage/${
-          user?._id || user?.id
-        }`,
-        formDatas,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
-      if (res?.status === 200) {
+      const res = await studentApi.uploadImage(formDatas);
+      if (res?.data?.success) {
         toast.success("Upload Successfully");
         dispatch(setUser(res?.data?.data));
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
+    } catch {
+      // baseApi handles error toast
     } finally {
       toast.dismiss(toastId);
       setImage("");
@@ -100,12 +99,7 @@ const Profile = () => {
     setLoading(true);
     const id = toast.loading("Please wait ...");
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/change/password/student/${
-          user?._id || user?.id
-        }`,
-        edittedPassword,
-      );
+      const res = await studentApi.changePassword(edittedPassword);
       setLoading(false);
       toast.dismiss(id);
       setTimeout(() => {
@@ -117,12 +111,9 @@ const Profile = () => {
         });
         setNotPassword(true);
       }, 500);
-    } catch (error) {
+    } catch {
       setLoading(false);
       toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
       setEdittedPassword({
         currentPassword: "",
         newPassword: "",
@@ -141,7 +132,7 @@ const Profile = () => {
 
   function validatePassword(inputValue) {
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'\(\)<>=+/"|,{}[\]¬`£~-]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#;:_^'()<>=+/"|,{}[\]¬`£~-])[A-Za-z\d@$!%*?&.#;:_^'()<>=+/"|,{}[\]¬`£~-]{8,}$/;
     return passwordRegex.test(inputValue);
   }
 
@@ -198,185 +189,421 @@ const Profile = () => {
     }
   };
 
+  const lastCbt = user?.lastCbtDetails ?? null;
+  const subjectBreakdown = lastCbt?.subjectBreakdown ?? [];
+  const strongest = lastCbt?.strongestSubject ?? null;
+  const weakest = lastCbt?.weakestSubject ?? null;
+  const averageScore = lastCbt?.average ?? 0;
+  const strongestScore =
+    subjectBreakdown.find((s) => s.subject === strongest)?.average ?? null;
+  const weakestScore =
+    subjectBreakdown.find((s) => s.subject === weakest)?.average ?? null;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
   return (
-    <div className="profile">
-      <div className="profile-firstLayer">
-        <h3>Profile Setting</h3>
-        <>
-          {notEditing ? (
-            <nav onClick={() => setNotEditing(false)}>
-              <TbEdit fontSize={25} />
-              Edit
-            </nav>
-          ) : (
-            <nav
-              style={{
-                fontSize: 18,
-                pointerEvents: fullName ? "auto" : "none",
-              }}
-              onClick={() => changeFullname(fullName)}
-            >
-              Update
-            </nav>
-          )}
-        </>
-      </div>
-      <div className="profile-secondLayer">
-        {imageUrl ? (
-          <img src={imageUrl} alt="" />
-        ) : (
-          <LuUserRound fontSize={50} />
-        )}
+    <>
+      <motion.div
+        className="prof-premium-main"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div className="prof-hero-section" variants={itemVariants}>
+          <div className="prof-hero-content">
+            <div className="prof-hero-badges">
+              <span className="prof-badge plan-badge">
+                {user?.plan === "Premium" ? <FaCrown /> : <FaCheckCircle />}
+                {user?.plan || "Freemium"} Plan
+              </span>
+              <span className="prof-badge target-badge">
+                <FaBullseye /> Target: 300+
+              </span>
+            </div>
+            <h1 className="prof-hero-name">{user?.fullName}</h1>
+            <p className="prof-hero-email">{user?.email}</p>
+          </div>
 
-        {image ? (
-          <label onClick={() => setProfilePic()}>
-            <LiaSave />
-          </label>
-        ) : (
-          <label htmlFor="la"> + </label>
-        )}
-        <input type="file" id="la" hidden onChange={(e) => onchangeFile(e)} />
-      </div>
-      <form className="profile-thirdLayer" onSubmit={changePassword}>
-        <main>
-          <label>Full Name</label>
-          <div className="profile-inputWrapper">
-            <input
-              disabled={notEditing}
-              type="text"
-              placeholder="Enter Fullname"
-              value={fullName}
-              onChange={(e) => setFullname(e.target.value)}
-              style={{ cursor: notEditing ? "not-allowed" : "pointer" }}
-            />
-          </div>
-        </main>
-        <main>
-          <label>Email</label>
-          <div className="profile-inputWrapper">
-            <input
-              disabled={true}
-              type="email"
-              placeholder="Enter Email"
-              value={user?.email}
-              style={{ cursor: "not-allowed" }}
-            />
-          </div>
-        </main>
-        {!notPassword && (
-          <>
-            <main>
-              <label>Old Password</label>
-              <div className="profile-inputWrapper">
-                <input
-                  disabled={notPassword}
-                  value={edittedPassword.currentPassword}
-                  required
-                  onChange={(e) =>
-                    setEdittedPassword({
-                      ...edittedPassword,
-                      currentPassword: e.target.value,
-                    })
-                  }
-                  type={
-                    passwordsVisiblity.currentPassword ? "text" : "password"
-                  }
-                  placeholder="123*******"
-                  style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-                />
-                <div
-                  className="profile-eyeIcon"
-                  onClick={handleVisilibityChange.bind(this, "currentPassword")}
-                >
-                  {passwordsVisiblity.currentPassword ? (
-                    <FaRegEye />
-                  ) : (
-                    <FaRegEyeSlash />
-                  )}
+          <div className="prof-hero-graphics">
+            <div className="prof-avatar-container">
+              {imageUrl ? (
+                <img src={imageUrl} alt="Profile" className="prof-avatar" />
+              ) : (
+                <div className="prof-avatar-placeholder">
+                  <LuUserRound />
                 </div>
-              </div>
-            </main>
-            <main>
-              <label>New Password</label>
-              <div className="profile-inputWrapper">
-                <input
-                  disabled={notPassword}
-                  value={edittedPassword.newPassword}
-                  name="newPassword"
-                  required
-                  onChange={handleChange}
-                  type={passwordsVisiblity.newPassword ? "text" : "password"}
-                  placeholder="abc******"
-                  style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-                  onBlur={(e) => validateField(e.target.name, e.target.value)}
-                />
-                <div
-                  className="profile-eyeIcon"
-                  onClick={handleVisilibityChange.bind(this, "newPassword")}
-                >
-                  {passwordsVisiblity.newPassword ? (
-                    <FaRegEye />
-                  ) : (
-                    <FaRegEyeSlash />
-                  )}
-                </div>
-              </div>
-              {errorMessages.newPassword && (
-                <small className="profile-error">
-                  {errorMessages.newPassword}
-                </small>
               )}
-            </main>
-            <main>
-              <label>Confirm Password</label>
-              <div className="profile-inputWrapper">
-                <input
-                  disabled={notPassword}
-                  required
-                  value={edittedPassword.confirmPassword}
-                  name="confirmPassword"
-                  onChange={handleChange}
-                  type={
-                    passwordsVisiblity.confirmPassword ? "text" : "password"
-                  }
-                  placeholder="abc******"
-                  style={{ cursor: notPassword ? "not-allowed" : "pointer" }}
-                  onBlur={(e) => validateField(e.target.name, e.target.value)}
-                />
-                <div
-                  className="profile-eyeIcon"
-                  onClick={handleVisilibityChange.bind(this, "confirmPassword")}
+              {image ? (
+                <button
+                  className="prof-avatar-save"
+                  onClick={setProfilePic}
+                  disabled={loading}
                 >
-                  {passwordsVisiblity.confirmPassword ? (
-                    <FaRegEye />
+                  <LiaSave size={20} />
+                </button>
+              ) : (
+                <>
+                  <label htmlFor="prof-pic-upload" className="prof-avatar-edit">
+                    <TbEdit size={18} />
+                  </label>
+                  <input
+                    type="file"
+                    id="prof-pic-upload"
+                    hidden
+                    onChange={onchangeFile}
+                    accept="image/*"
+                  />
+                </>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
+        <div className="prof-content-grid">
+          <div className="prof-left-column">
+            <motion.div className="prof-card" variants={itemVariants}>
+              <div className="prof-card-header">
+                <h3>Personal Information</h3>
+                {notEditing ? (
+                  <button
+                    className="prof-edit-btn"
+                    onClick={() => setNotEditing(false)}
+                  >
+                    <TbEdit /> Edit
+                  </button>
+                ) : (
+                  <button
+                    className="prof-save-btn"
+                    onClick={() => changeFullname(fullName)}
+                    disabled={!fullName || loading}
+                  >
+                    Update
+                  </button>
+                )}
+              </div>
+              <div className="prof-form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullname(e.target.value)}
+                  disabled={notEditing}
+                  placeholder="Enter Fullname"
+                  className={`prof-input ${!notEditing ? "editable" : ""}`}
+                />
+              </div>
+              <div className="prof-form-group">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  value={user?.email || ""}
+                  disabled
+                  className="prof-input"
+                />
+              </div>
+            </motion.div>
+
+            <motion.div className="prof-card" variants={itemVariants}>
+              <div className="prof-card-header">
+                <h3>Security & Password</h3>
+              </div>
+              <form
+                onSubmit={changePassword}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "20px",
+                }}
+              >
+                <div className="prof-form-group">
+                  <label>Current Password</label>
+                  <div className="prof-password-input">
+                    <input
+                      type={
+                        passwordsVisiblity.currentPassword ? "text" : "password"
+                      }
+                      value={edittedPassword.currentPassword}
+                      name="currentPassword"
+                      onChange={(e) =>
+                        setEdittedPassword({
+                          ...edittedPassword,
+                          currentPassword: e.target.value,
+                        })
+                      }
+                      placeholder="••••••••"
+                      disabled={notPassword}
+                      required={!notPassword}
+                      className={`prof-input ${!notPassword ? "editable" : ""}`}
+                    />
+                    <button
+                      type="button"
+                      className="prof-eye-btn"
+                      onClick={() => handleVisilibityChange("currentPassword")}
+                    >
+                      {passwordsVisiblity.currentPassword ? (
+                        <FaRegEye />
+                      ) : (
+                        <FaRegEyeSlash />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                {!notPassword && (
+                  <AnimatePresence>
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "20px",
+                      }}
+                    >
+                      <div className="prof-form-group">
+                        <label>New Password</label>
+                        <div className="prof-password-input">
+                          <input
+                            type={
+                              passwordsVisiblity.newPassword
+                                ? "text"
+                                : "password"
+                            }
+                            value={edittedPassword.newPassword}
+                            name="newPassword"
+                            onChange={handleChange}
+                            onBlur={(e) =>
+                              validateField(e.target.name, e.target.value)
+                            }
+                            placeholder="••••••••"
+                            required
+                            className="prof-input editable"
+                          />
+                          <button
+                            type="button"
+                            className="prof-eye-btn"
+                            onClick={() =>
+                              handleVisilibityChange("newPassword")
+                            }
+                          >
+                            {passwordsVisiblity.newPassword ? (
+                              <FaRegEye />
+                            ) : (
+                              <FaRegEyeSlash />
+                            )}
+                          </button>
+                        </div>
+                        {errorMessages.newPassword && (
+                          <span className="prof-error-msg">
+                            {errorMessages.newPassword}
+                          </span>
+                        )}
+                      </div>
+                      <div className="prof-form-group">
+                        <label>Confirm Password</label>
+                        <div className="prof-password-input">
+                          <input
+                            type={
+                              passwordsVisiblity.confirmPassword
+                                ? "text"
+                                : "password"
+                            }
+                            value={edittedPassword.confirmPassword}
+                            name="confirmPassword"
+                            onChange={handleChange}
+                            onBlur={(e) =>
+                              validateField(e.target.name, e.target.value)
+                            }
+                            placeholder="••••••••"
+                            required
+                            className="prof-input editable"
+                          />
+                          <button
+                            type="button"
+                            className="prof-eye-btn"
+                            onClick={() =>
+                              handleVisilibityChange("confirmPassword")
+                            }
+                          >
+                            {passwordsVisiblity.confirmPassword ? (
+                              <FaRegEye />
+                            ) : (
+                              <FaRegEyeSlash />
+                            )}
+                          </button>
+                        </div>
+                        {errorMessages.confirmPassword && (
+                          <span className="prof-error-msg">
+                            {errorMessages.confirmPassword}
+                          </span>
+                        )}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                )}
+                <div className="prof-form-actions">
+                  {notPassword ? (
+                    <button
+                      type="button"
+                      className="prof-action-btn secondary"
+                      onClick={() => setNotPassword(false)}
+                    >
+                      Change Password
+                    </button>
                   ) : (
-                    <FaRegEyeSlash />
+                    <div className="prof-action-group">
+                      <button
+                        type="button"
+                        className="prof-action-btn ghost"
+                        onClick={() => {
+                          setNotPassword(true);
+                          setEdittedPassword({
+                            currentPassword: "",
+                            newPassword: "",
+                            confirmPassword: "",
+                          });
+                          setErrorMessages({
+                            newPassword: "",
+                            confirmPassword: "",
+                          });
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="prof-action-btn primary"
+                        disabled={loading || isDisabled()}
+                      >
+                        Update Password
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </form>
+            </motion.div>
+          </div>
+
+          <div className="prof-right-column">
+            <motion.div
+              className="prof-stats-grid"
+              variants={containerVariants}
+            >
+              <motion.div className="prof-stat-card" variants={itemVariants}>
+                <div className="prof-stat-icon">
+                  <FaBookOpen />
+                </div>
+                <div className="prof-stat-info">
+                  <h4>Subjects</h4>
+                  <p>{subjectBreakdown?.length || "-"}</p>
+                </div>
+              </motion.div>
+              <motion.div className="prof-stat-card" variants={itemVariants}>
+                <div className="prof-stat-icon">
+                  <FaChartLine />
+                </div>
+                <div className="prof-stat-info">
+                  <h4>Correct Answers</h4>
+                  <p>{lastCbt?.correctAnswers ?? "—"}</p>
+                </div>
+              </motion.div>
+              <motion.div className="prof-stat-card" variants={itemVariants}>
+                <div className="prof-stat-icon">
+                  <FaBrain />
+                </div>
+                <div className="prof-stat-info">
+                  <h4>Avg. Score</h4>
+                  <p>{averageScore?.toFixed(1) ?? 0}%</p>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div className="prof-card" variants={itemVariants}>
+              <div className="prof-card-header">
+                <h3>Performance Snapshot</h3>
+              </div>
+              <div className="prof-performance-list">
+                <div className="prof-perf-item positive">
+                  <div className="prof-perf-icon">
+                    <FaMedal />
+                  </div>
+                  <div className="prof-perf-details">
+                    <span className="prof-perf-label">Strongest Subject</span>
+                    <span className="prof-perf-value">
+                      {strongest ?? "N/A"}
+                    </span>
+                  </div>
+                  {strongestScore !== null && (
+                    <span className="prof-perf-score">
+                      {strongestScore.toFixed(1)}%
+                    </span>
+                  )}
+                </div>
+                <div className="prof-perf-item negative">
+                  <div className="prof-perf-icon">
+                    <FaChartLine style={{ transform: "rotate(180deg)" }} />
+                  </div>
+                  <div className="prof-perf-details">
+                    <span className="prof-perf-label">Needs Attention</span>
+                    <span className="prof-perf-value">{weakest ?? "N/A"}</span>
+                  </div>
+                  {weakestScore !== null && (
+                    <span className="prof-perf-score">
+                      {weakestScore.toFixed(1)}%
+                    </span>
                   )}
                 </div>
               </div>
-              {errorMessages.confirmPassword && (
-                <small className="profile-error">
-                  {errorMessages.confirmPassword}
-                </small>
-              )}
-            </main>
-          </>
-        )}
-        <>
-          {notPassword ? (
-            <button onClick={() => setNotPassword(false)}>
-              Change Password
-            </button>
-          ) : (
-            <button disabled={loading || isDisabled()}>Update Password</button>
-          )}
-        </>
-      </form>
-    </div>
+            </motion.div>
+
+            <motion.div
+              className="prof-card prof-activity-card"
+              variants={itemVariants}
+            >
+              <div className="prof-card-header">
+                <h3>Recent Activity</h3>
+              </div>
+              <div className="prof-activity-timeline">
+                {subjectBreakdown.length > 0 ? (
+                  subjectBreakdown.map((item, index) => (
+                    <div className="prof-activity-item" key={item._id ?? index}>
+                      <div className="prof-activity-dot"></div>
+                      <div className="prof-activity-content">
+                        <h4>{item.subject} CBT Mock</h4>
+                        <div className="prof-activity-meta">
+                          <span>
+                            <FaClock /> {item.totalQuestions} questions
+                          </span>
+                          <span>Score: {item.average?.toFixed(1) ?? 0}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="prof-empty-state">
+                    <FaCalendarAlt className="prof-empty-icon" />
+                    <p>
+                      No recent activity found. Take a cbt exam to get started!
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </>
   );
 };
 

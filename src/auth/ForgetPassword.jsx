@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../styles/authCss/auth.css";
+import "../styles/auth.css";
 import { IoMdArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { studentApi } from "../config/studentApi";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
 
@@ -44,16 +44,12 @@ const ForgetPassword = () => {
     if (!disabled) {
       setLoading(true);
       try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/forgot_password/student`,
-          data,
-        );
-        if (res?.status === 200) {
-          toast.info("Password reset link sent to your email!");
+        const res = await studentApi.forgotPassword(data);
+        if (res?.data?.success) {
+          toast.info(res?.data?.message);
         }
         setLoading(false);
-      } catch (error) {
-        toast.error(error?.response?.data?.message);
+      } catch {
         setLoading(false);
       }
     }
@@ -76,47 +72,96 @@ const ForgetPassword = () => {
   }, [loading, setDisabled]);
 
   return (
-    <div className="signupMain">
-      <div className="circle">
-        <div className="innercircle"></div>
-      </div>
-      <div className="circle1">
-        <div className="innercircle1"></div>
-      </div>
-      <div className="goldsmallcircle"></div>
-      <div className="goldsmallcircle1"></div>
-      <div className="closeicondiv">
-        <IoMdArrowBack
-          className="closeIcon"
-          onClick={() => navigate("/login")}
-        />
-      </div>
-      <div className="signupForm">
-        <div className="signheader">
-          <h1>FORGET PASSWORD</h1>
+    <div className="ex-scope auth-wrapper">
+      <div className="auth-side">
+        <div className="auth-side-content">
+          <div className="auth-side-title">Forgot Your Password?</div>
+          <p className="auth-side-text">
+            No worries! We&apos;ll get you back on track in minutes so you can
+            continue your exam prep.
+          </p>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Secure reset link sent to your email</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Military-grade encryption protection</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>Back to studying in under 2 minutes</div>
+          </div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
+            <div>24/7 support if you need help</div>
+          </div>
         </div>
-        <form className="form" onSubmit={(e) => handleSubmit(e, inputValue)}>
-          <Input
-            label="Email"
-            name="email"
-            type="email"
-            value={inputValue.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-            error={errorMessage.email}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
-          />
-          <Button
-            type="submit"
-            loading={loading}
-            disabled={disabled}
-            fullWidth
-            style={{ marginTop: 12 }}
+      </div>
+
+      <div className="auth-container">
+        <div className="auth-card">
+          <div
+            style={{
+              marginBottom: 24,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
           >
-            {loading ? "Please wait..." : "Send password Reset Link"}
-          </Button>
-        </form>
+            <IoMdArrowBack
+              onClick={() => navigate("/login")}
+              style={{
+                cursor: "pointer",
+                fontSize: 24,
+                color: "var(--ex-text)",
+              }}
+            />
+          </div>
+
+          <div className="auth-header" style={{ marginBottom: 32 }}>
+            <h1 className="auth-title">Reset Password</h1>
+            <p className="auth-subtitle">
+              Enter your email to receive a reset link
+            </p>
+          </div>
+
+          <form
+            className="auth-form"
+            onSubmit={(e) => handleSubmit(e, inputValue)}
+          >
+            <div className="auth-form-group">
+              <Input
+                label="Email Address"
+                name="email"
+                type="email"
+                value={inputValue.email}
+                onChange={handleChange}
+                placeholder="your@email.com"
+                required
+                error={errorMessage.email}
+                onBlur={(e) => validateField(e.target.name, e.target.value)}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              loading={loading}
+              disabled={disabled}
+              fullWidth
+              className="auth-submit"
+            >
+              {loading ? "Sending reset link..." : "Send Reset Link"}
+            </Button>
+          </form>
+
+          <p className="auth-footer">
+            Back to{" "}
+            <a onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
+              login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

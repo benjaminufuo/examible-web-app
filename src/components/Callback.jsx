@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import Loading from "./Loading";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
 
@@ -13,18 +12,16 @@ const Callback = () => {
 
   const createUser = async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}api/v1/studentInfo/${userId}`,
-      );
-      if (res?.status === 200) {
+      const res = await studentApi.getStudentById(userId);
+      if (res?.data?.success) {
+        localStorage.setItem("userToken", token);
         dispatch(setUser(res?.data?.data));
         dispatch(setUserToken(token));
         setTimeout(() => {
           nav("/overview", { replace: true });
         }, 3000);
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
+    } catch {
       setTimeout(() => {
         nav("/login");
       }, 3000);

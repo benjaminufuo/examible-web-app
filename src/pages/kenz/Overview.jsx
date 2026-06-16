@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import "../../styles/dashboardCss/overview.css";
-import image1 from "../../assets/public/home-firstlayer.png";
+import "../../styles/dashboardCss/dashboard-components.css";
+import image1 from "../../assets/public/home-firstlayer.webp";
 import { FaBook } from "react-icons/fa6";
 import { PiExamFill } from "react-icons/pi";
 import SubjectSelected from "./SubjectSelected";
@@ -8,12 +9,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotEnrolledSubjects, setUser } from "../../global/slice";
 import { TbTrashX } from "react-icons/tb";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { studentApi } from "../../config/studentApi";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
-import { PlusIcon } from "../../assets/public/svg/common";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  FaPlayCircle,
+  FaBookOpen,
+  FaBolt,
+  FaChartLine,
+  FaArrowRight,
+  FaBrain,
+  FaTrophy,
+  FaPlus,
+} from "react-icons/fa";
 
 const Overview = () => {
   const user = useSelector((state) => state.user);
@@ -21,92 +33,79 @@ const Overview = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  // build a fast lookup for subject -> svg component OR img once
   const subjectMap = useMemo(
-    () =>
-      Object.fromEntries(
-        allSubjectsData.map((s) => [s.subject, s.svg || s.img]),
-      ),
+    () => Object.fromEntries(allSubjectsData.map((s) => [s.subject, s.img])),
     [],
   );
 
   const { setShowSubjectSelected, showSubjectSelected } = useExamibleContext();
+  const nav = useNavigate();
 
   const removeSubject = async (subject) => {
     const id = toast.loading("Removing Subject ...");
     setLoading(true);
     try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}api/v1/removeSubject/${user?._id || user?.id}`,
-        { subject },
-      );
+      const res = await studentApi.removeSubject({ subject });
       setLoading(false);
-      if (res?.status === 200) {
+      if (res?.data?.success) {
         toast.dismiss(id);
         setTimeout(() => {
           toast.success(res?.data?.message);
           dispatch(setUser(res?.data?.data));
         }, 500);
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
       toast.dismiss(id);
-      setTimeout(() => {
-        toast.error(error?.response?.data?.message);
-      }, 500);
     }
   };
 
   const onMouseEnterToShowBin = (index) => {
-    // if (user?.plan !== "Freemium") {
-    //   setShowBin(index);
-    //   return;
-    // }
-    // setShowBin("");
-    setShowBin(index);
+    if (user?.plan !== "Freemium") {
+      setShowBin(index);
+      return;
+    }
+    setShowBin("");
   };
 
   const addMoreSubject = async () => {
-    // if (user?.plan === "Freemium" && user?.enrolledSubjects?.length === 4) {
-    //   toast.error("Upgrade Plan to add more subject");
-    // } else {
-    //   setLoading(true);
-    //   const id = toast.loading("Please wait ...");
-    //   try {
-    //     const res = await axios.get(
-    //       `${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${
-    //         user?._id
-    //       }`
-    //     );
-    //     setLoading(false);
-    //     if (res?.status) {
-    //       dispatch(setNotEnrolledSubjects(res?.data?.data));
-    //       toast.dismiss(id);
-    //       setShowSubjectSelected(true);
-    //     }
-    //   } catch (error) {
-    //     setLoading(false);
-    //     toast.error(error?.response?.data?.message);
-    //     toast.dismiss(id);
-    //   }
-    // }
-    setLoading(true);
-    const id = toast.loading("Please wait ...");
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}api/v1/studentNotSubjects/${user?._id || user?.id}`,
-      );
-      setLoading(false);
-      if (res?.status) {
-        dispatch(setNotEnrolledSubjects(res?.data?.data));
+    if (user?.plan === "Freemium" && user?.enrolledSubjects?.length === 4) {
+      toast.error("Upgrade Plan to add more subject");
+      return;
+    } else {
+      setLoading(true);
+      const id = toast.loading("Please wait ...");
+      try {
+        const res = await studentApi.getNotEnrolledSubjects();
+        setLoading(false);
+        if (res?.status) {
+          dispatch(setNotEnrolledSubjects(res?.data?.data));
+          toast.dismiss(id);
+          setShowSubjectSelected(true);
+        }
+      } catch {
+        setLoading(false);
         toast.dismiss(id);
-        setShowSubjectSelected(true);
       }
-    } catch (error) {
-      setLoading(false);
-      toast.error(error?.response?.data?.message);
-      toast.dismiss(id);
     }
+  };
+
+  const lastCbt = user?.lastCbtDetails ?? null;
+  const subjectBreakdown = lastCbt?.subjectBreakdown ?? [];
+  const strongest = lastCbt?.strongestSubject ?? null;
+  const weakest = lastCbt?.weakestSubject ?? null;
+  const recommendedAction =
+    lastCbt?.recommedation ??
+    "Complete a CBT Mock Exam today to establish your baseline.";
+
+  // Framer motion variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   return (
@@ -114,257 +113,242 @@ const Overview = () => {
       {showSubjectSelected ? (
         <SubjectSelected />
       ) : (
-        <div className="overview">
-          <div className="overview-firstLayer">
-            <div className="overview-firstLayerLeft">
-              <div className="overview-firstLayerLeftUP">
-                <main>
-                  <nav>
-                    <h5>
-                      <span style={{ color: "#F2AE30" }}>Hello,</span>{" "}
-                      {user?.fullName
-                        ?.split(" ")
-                        .filter((_, index) => index <= 1)
-                        .join(" ")}
-                    </h5>
-                    <p>
-                      Welcome to Examible — your ultimate companion for JAMB
-                      success. Let’s help you score 300+ and unlock your dream
-                      university!
-                    </p>
-                  </nav>
-                  <article></article>
-                  <section></section>
-                </main>
-                <img src={image1} alt="" />
+        <motion.div
+          className="ov-premium-dashboard"
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
+          {/* 1. Personalized Hero */}
+          <motion.div className="ov-hero-section" variants={itemVariants}>
+            <div className="ov-hero-content">
+              <div className="ov-hero-badges">
+                <span className="ov-badge plan-badge">
+                  {user?.plan || "Freemium"} Plan
+                </span>
+                <span className="ov-badge target-badge">Target: 300+</span>
               </div>
-              <div className="overview-firstLayerMiddle">
-                <h5>My Performance Level</h5>
-                <main>
-                  <div>
-                    <FaBook color="#804BF2" fontSize={35} />
-                  </div>
-                  <nav>
-                    <h6>{user?.enrolledSubjects?.length}</h6>
-                    <p>Subject Selected</p>
-                  </nav>
-                </main>
-                <main style={{ backgroundColor: "#F2AE30" }}>
-                  <div style={{ backgroundColor: "black" }}>
-                    <PiExamFill color="white" fontSize={35} />
-                  </div>
-                  <nav>
-                    <h6>
-                      {/* {user?.plan === "Freemium" ? "10" : "30"} */}
-                      30
-                    </h6>
-                    <p>Minutes Mock Exam</p>
-                  </nav>
-                </main>
-                <main style={{ backgroundColor: "#804BF2" }}>
-                  <div style={{ backgroundColor: "white" }}>
-                    <FaBook color="#F2AE30" fontSize={35} />
-                  </div>
-                  <nav style={{ color: "white" }}>
-                    <h6>
-                      {/* {user?.plan === "Freemium" ? "2" : "All"} */}
-                      All
-                    </h6>
-                    <p>Years Pass Questions</p>
-                  </nav>
-                </main>
+              <h1>Welcome back, {user?.fullName?.split(" ")[0]} 👋</h1>
+              <p>
+                You're making steady progress toward your exam goals. Keep up
+                the momentum!
+              </p>
+            </div>
+            <div className="ov-hero-graphics">
+              <img
+                src={image1}
+                alt="Student Progress"
+                className="ov-hero-img"
+              />
+            </div>
+          </motion.div>
+
+          {/* 2. Quick Actions */}
+          <motion.div className="ov-section" variants={itemVariants}>
+            <h2 className="ov-section-title">Action Center</h2>
+            <div className="ov-quick-actions">
+              <div
+                className="ov-action-card primary"
+                onClick={() => nav("/cbt-mode")}
+              >
+                <div className="ov-action-icon">
+                  <FaPlayCircle />
+                </div>
+                <div className="ov-action-info">
+                  <h3>Start CBT Simulator</h3>
+                  <p>Take a full 2-hour mock exam</p>
+                </div>
+                <FaArrowRight className="ov-action-arrow" />
               </div>
-              <div className="overview-firstLayerLeftDown">
-                <h4>Subject Selected</h4>
-                <main>
-                  {user?.enrolledSubjects?.map((item, index) => (
-                    <nav
-                      onMouseEnter={() => onMouseEnterToShowBin(index)}
-                      onMouseLeave={() => setShowBin("")}
-                      key={index}
-                    >
-                      {typeof subjectMap[item] === "function" ? (
-                        React.createElement(subjectMap[item])
-                      ) : (
-                        <img
-                          src={subjectMap[item]}
-                          alt={item}
-                          loading="eager"
-                          width={48}
-                          height={48}
-                        />
-                      )}
-                      <TbTrashX
-                        style={{
-                          pointerEvents: loading ? "none" : "auto",
-                          display: showBin === index ? "flex" : "none",
-                        }}
-                        className="overview-trashIcon"
-                        onClick={(e) => {
-                          (e.stopPropagation(), removeSubject(item));
-                        }}
-                      />
-                    </nav>
-                  ))}
-                  <nav
-                    style={{
-                      pointerEvents: loading ? "none" : "auto",
-                      cursor: "pointer",
+              <div
+                className="ov-action-card secondary"
+                onClick={() => nav("/past-questions")}
+              >
+                <div className="ov-action-icon">
+                  <FaBookOpen />
+                </div>
+                <div className="ov-action-info">
+                  <h3>Past Questions</h3>
+                  <p>Browse by subject and year</p>
+                </div>
+                <FaArrowRight className="ov-action-arrow" />
+              </div>
+              <div
+                className="ov-action-card tertiary"
+                onClick={() => nav("/mock-exam")}
+              >
+                <div className="ov-action-icon">
+                  <FaBolt />
+                </div>
+                <div className="ov-action-info">
+                  <h3>Quick Practice</h3>
+                  <p>
+                    Short {user?.plan === "Freemium" ? "10" : "30"}-min subject
+                    tests
+                  </p>
+                </div>
+                <FaArrowRight className="ov-action-arrow" />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 3. Readiness & Insights */}
+          <motion.div className="ov-readiness-grid" variants={itemVariants}>
+            <div className="ov-card ov-readiness-card">
+              <h3>Overall Readiness</h3>
+              <div className="ov-readiness-content">
+                <div className="ov-circular-chart">
+                  <CircularProgressbar
+                    value={lastCbt?.average ?? 0}
+                    text={`${lastCbt?.average?.toFixed(1) ?? 0}%`}
+                    styles={{
+                      path: { stroke: "#804bf2", strokeLinecap: "round" },
+                      trail: { stroke: "rgba(128, 75, 242, 0.1)" },
+                      text: {
+                        fill: "#804bf2",
+                        fontSize: "24px",
+                        fontWeight: "700",
+                        fontFamily: "'Sora', sans-serif",
+                      },
                     }}
-                    onClick={() => addMoreSubject()}
-                  >
-                    <aside>
-                      <div className="plus-icon">
-                        <PlusIcon />
-                      </div>
-                      <h6>
-                        Click to <br /> Add Subject
-                      </h6>
-                    </aside>
-                  </nav>
-                </main>
+                  />
+                </div>
+                <div className="ov-readiness-stats">
+                  <div className="ov-stat-item">
+                    <span className="ov-stat-label">Total Questions</span>
+                    <span className="ov-stat-value">
+                      {lastCbt?.totalQuestions ?? "—"}
+                    </span>
+                  </div>
+                  <div className="ov-stat-item">
+                    <span className="ov-stat-label">Subjects</span>
+                    <span className="ov-stat-value">
+                      {subjectBreakdown?.length || "—"}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="overview-firstLayerRight">
-              <h5>My Performance Level</h5>
-              <main>
-                <div>
-                  <FaBook color="#804BF2" fontSize={35} />
+
+            <div className="ov-card ov-insights-card">
+              <h3>AI Insights & Recommendations</h3>
+              <div className="ov-insight-banner">
+                <div className="ov-insight-icon">
+                  <FaBrain />
                 </div>
-                <nav>
-                  <h6>{user?.enrolledSubjects?.length}</h6>
-                  <p>Subject Selected</p>
-                </nav>
-              </main>
-              <main style={{ backgroundColor: "#F2AE30" }}>
-                <div style={{ backgroundColor: "black" }}>
-                  <PiExamFill color="white" fontSize={35} />
+                <p>{recommendedAction}</p>
+              </div>
+              <div className="ov-insight-metrics">
+                <div className="ov-metric-box positive">
+                  <FaTrophy className="metric-icon" />
+                  <div className="metric-text">
+                    <span className="metric-title">Strongest Subject</span>
+                    <span className="metric-value">{strongest ?? "N/A"}</span>
+                  </div>
                 </div>
-                <nav>
-                  <h6>
-                    {/* {user?.plan === "Freemium" ? "10" : "30"} */}
-                    30
-                  </h6>
-                  <p>Minutes Mock Exam</p>
-                </nav>
-              </main>
-              <main style={{ backgroundColor: "#804BF2" }}>
-                <div style={{ backgroundColor: "white" }}>
-                  <FaBook color="#F2AE30" fontSize={35} />
+                <div className="ov-metric-box negative">
+                  <FaChartLine className="metric-icon" />
+                  <div className="metric-text">
+                    <span className="metric-title">Needs Attention</span>
+                    <span className="metric-value">{weakest ?? "N/A"}</span>
+                  </div>
                 </div>
-                <nav style={{ color: "white" }}>
-                  <h6>
-                    {/* {user?.plan === "Freemium" ? "2" : "All"} */}
-                    All
-                  </h6>
-                  <p>Years Pass Questions</p>
-                </nav>
-              </main>
+              </div>
             </div>
-          </div>
-          <h1>My Rating</h1>
-          <div className="overview-secondLayer">
-            <div className="overview-secondLayerLeft">
-              <header>
-                <p>Current Rating</p>
-                <aside>
-                  <h5>100</h5>
-                  <h6>Percent</h6>
-                </aside>
-              </header>
-              <footer>
-                <nav></nav>
-                <CircularProgressbar
-                  value={user?.totalRating}
-                  text={`${user?.totalRating?.toFixed(1) || 0}%`}
-                  styles={{
-                    path: {
-                      stroke: "#804bf2",
-                    },
-                    trail: {
-                      stroke: "#804BF233",
-                    },
-                    text: {
-                      fontWeight: 800,
-                      fontSize: 17,
-                      fill: "#000000",
-                      fontFamily: '"Montserrat", sans-serif',
-                    },
-                  }}
-                />
-              </footer>
+          </motion.div>
+
+          {/* 4. Subject Selection & Performance Breakdown */}
+          <motion.div className="ov-bottom-grid" variants={itemVariants}>
+            <div className="ov-card">
+              <div className="ov-card-header">
+                <h3>Your Subjects</h3>
+                <span className="ov-subtitle">
+                  Manage your examination subjects
+                </span>
+              </div>
+              <div className="ov-subjects-grid">
+                {user?.enrolledSubjects?.map((item, index) => (
+                  <div
+                    key={index}
+                    onMouseEnter={() => onMouseEnterToShowBin(index)}
+                    onMouseLeave={() => setShowBin("")}
+                    className="ov-subject-pill"
+                  >
+                    <img
+                      src={subjectMap[item]}
+                      alt={item}
+                      className="ov-subject-img"
+                    />
+                    <span className="ov-subject-name">{item}</span>
+                    {showBin === index && (
+                      <button
+                        className="ov-delete-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeSubject(item);
+                        }}
+                        disabled={loading}
+                      >
+                        <TbTrashX />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <div
+                  className="ov-add-subject"
+                  onClick={addMoreSubject}
+                  style={{ pointerEvents: loading ? "none" : "auto" }}
+                >
+                  <FaPlus className="ov-add-icon" />
+                  <span>Add Subject</span>
+                </div>
+              </div>
             </div>
-            <div className="overview-secondLayerRight">
-              <div className="overview-secondLayerRightHolder">
-                <ul>
-                  <li style={{ justifyContent: "left" }}>Subject</li>
-                  <li>Performance</li>
-                  <li>Duration</li>
-                  <li>Completed</li>
-                </ul>
-                {user?.myRating?.length <= 0 || !user?.myRating ? (
-                  <p className="overview-noPerformance">No Performance yet</p>
+
+            <div className="ov-card">
+              <div className="ov-card-header">
+                <h3>Performance Breakdown</h3>
+                <span className="ov-subtitle">Accuracy by subject</span>
+              </div>
+              <div className="ov-performance-list">
+                {subjectBreakdown.length > 0 ? (
+                  subjectBreakdown.map((item, index) => (
+                    <div key={item._id ?? index} className="ov-perf-row">
+                      <div className="ov-perf-info">
+                        <div className="ov-perf-name-group">
+                          <span className="ov-perf-name">{item.subject}</span>
+                          <span
+                            className={`ov-perf-status ${item.isCompleted ? "completed" : "incomplete"}`}
+                          >
+                            {item.isCompleted ? "Completed" : "Incomplete"}
+                          </span>
+                        </div>
+                        <span className="ov-perf-score">
+                          {item.average?.toFixed(1) ?? 0}%
+                        </span>
+                      </div>
+                      <div className="ov-perf-bar-bg">
+                        <div
+                          className="ov-perf-bar-fill"
+                          style={{
+                            width: `${Math.min(100, Math.max(0, item.average ?? 0))}%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))
                 ) : (
-                  <>
-                    {user?.myRating?.map((item, index) => (
-                      <ol key={index}>
-                        <li style={{ justifyContent: "left" }}>
-                          {item?.subject}
-                        </li>
-                        <li>{item?.performance?.toFixed(2)} %</li>
-                        <li>
-                          {`${Math.floor(item?.duration / 60)} `}{" "}
-                          <em style={{ marginInline: "5px" }}> mins </em>
-                          {` ${item?.duration % 60} `}{" "}
-                          <em style={{ marginLeft: "5px" }}> secs</em>
-                        </li>
-                        <li>{item?.completed}</li>
-                      </ol>
-                    ))}
-                  </>
+                  <div className="ov-empty-state">
+                    <p>
+                      Complete your first exam to unlock detailed performance
+                      metrics.
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
-          </div>
-          <div className="overview-thirdLayer">
-            <div className="overview-thirdLayerHolder">
-              <h6>How to Improve on your academic performance.</h6>
-              <ol>
-                <li>
-                  Set Clear Goals – Know what grades you’re aiming for and
-                  create a plan to reach them.
-                </li>
-                <li>
-                  Manage Your Time – Use a study schedule to balance school,
-                  revision, and rest.
-                </li>
-                <li>
-                  Stay Consistent – Study regularly, not just before exams.
-                </li>
-                <li>
-                  Practice with Past Questions – Especially for JAMB, this helps
-                  you understand the pattern.
-                </li>
-                <li>
-                  Take Mock Tests – Simulate real exam conditions to build
-                  confidence.
-                </li>
-                <li>
-                  Ask for Help – Don’t hesitate to ask teachers or peers if
-                  you’re stuck.
-                </li>
-                <li>
-                  Stay Healthy – Eat well, sleep enough, and take short breaks
-                  to stay sharp.
-                </li>
-                <li>
-                  Avoid Distractions – Stay focused during study time—put your
-                  phone away if needed.
-                </li>
-              </ol>
-            </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
     </>
   );

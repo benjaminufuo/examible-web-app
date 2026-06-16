@@ -1,0 +1,136 @@
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+
+  @media screen and (max-width: 550px) {
+    width: 100%;
+  }
+}
+
+.paginationContainer::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+/* Numbers wrapper */
+.questionNumbers {
+  display: flex;
+  gap: 5px;
+  padding: 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Nav arrows */
+.navArrow {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid var(--ex-border-strong);
+  border-radius: 6px;
+  background-color: var(--ex-surface);
+  color: var(--ex-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.navArrow:hover:not(:disabled) {
+  background-color: var(--ex-surface-2);
+  color: var(--ex-brand);
+  border-color: var(--ex-brand);
+}
+
+.navArrow:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  color: var(--ex-text-muted);
+  border-color: var(--ex-border);
+}
+
+/* Page buttons */
+.questionNumber {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  border: 1px solid var(--ex-border);
+  border-radius: 50%;
+  background-color: var(--ex-surface);
+  color: var(--ex-text);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.questionNumber:hover {
+  background-color: var(--ex-surface-2);
+  color: var(--ex-brand);
+  border-color: var(--ex-brand);
+}
+
+.active {
+  background-color: var(--ex-brand) !important;
+  color: var(--ex-text-onbrand, #ffffff) !important;
+  border-color: var(--ex-brand) !important;
+  transform: scale(1.1);
+  box-shadow: var(--ex-shadow-sm);
+}
+
+/* Dots */
+.pageIndicator {
+  min-width: 24px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ex-text-muted);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.pageNotFound {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  background-color: var(--ex-bg);
+  display: flex;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Mobile Responsiveness for Small Screens (e.g. 320px - 400px) */
+@media screen and (max-width: 400px) {
+  .paginationContainer {
+    gap: 4px;
+    padding: 4px;
+  }
+  .questionNumbers {
+    gap: 3px;
+    padding: 0;
+  }
+  .questionNumber,
+  .navArrow {
+    min-width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+  .pageIndicator {
+    min-width: 16px;
+  }
+}

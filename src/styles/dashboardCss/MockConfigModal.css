@@ -1,0 +1,150 @@
+/* Premium Mock Config Modal */
+.mock-config-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.mock-config-modal {
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--ex-shadow-md);
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+  animation: slideInDown 0.3s ease;
+}
+
+.mock-config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--ex-border);
+}
+
+.mock-config-header h3 {
+  font-family: "Sora", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ex-text);
+  margin: 0;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--ex-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover:not(:disabled) {
+  background: var(--ex-surface-2);
+  color: var(--ex-danger, #ef4444);
+}
+
+.close-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mock-config-body {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.config-group h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ex-text);
+  margin: 0 0 12px 0;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.option-btn {
+  background: var(--ex-surface-2);
+  border: 1px solid var(--ex-border);
+  color: var(--ex-text);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.option-btn:hover:not(:disabled) {
+  background: var(--ex-surface-3);
+  border-color: var(--ex-brand);
+}
+
+.option-btn.active {
+  background: var(--ex-brand-soft);
+  border-color: var(--ex-brand);
+  color: var(--ex-brand);
+  box-shadow: var(--ex-shadow-sm);
+}
+
+.option-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--ex-surface-3);
+}
+
+.premium-lock {
+  font-size: 14px;
+}
+
+.premium-note {
+  font-size: 13px;
+  color: var(--ex-text-muted);
+  margin: 12px 0 0 0;
+  line-height: 1.5;
+}
+
+.premium-note a {
+  color: var(--ex-brand);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.premium-note a:hover {
+  color: var(--ex-brand-strong);
+}
+
+.mock-config-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--ex-border);
+  background: var(--ex-surface-2);
+}
