@@ -23,16 +23,16 @@ const VerifyPayment = () => {
         setIsVerifying(false);
       }
     } catch {
-      setTimeout(() => {
-        nav("/overview");
-      }, 3000);
+      // setTimeout(() => {
+      //   nav("/overview");
+      // }, 3000);
     }
   };
 
   useEffect(() => {
     verifyPayment();
   }, []);
-  return <>{isVerifying ? <Loading /> : <PaymentSuccessfull plan={plan} />}</>;
+  return <>{<PaymentSuccessfull plan={plan} />}</>;
 };
 
 export default VerifyPayment;
