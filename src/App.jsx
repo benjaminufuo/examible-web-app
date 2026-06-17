@@ -24,6 +24,9 @@ const ViewPastQuestion = safeLazy(
 const Callback = safeLazy(() => import("./components/Callback"));
 const VerifyPayment = safeLazy(() => import("./pages/kenz/VerifyPayment"));
 const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
+const PerformanceSummary = safeLazy(
+  () => import("./pages/kenz/PerformanceSummary"),
+);
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
 const MainHolder = safeLazy(() => import("./routes/MainHolder"));
@@ -148,8 +151,8 @@ const routes = createBrowserRouter([
                 element: <MockResult />,
               },
               {
-                path: "/cbt-mode/result",
-                element: <MockResult />,
+                path: "/mock-exam/summary",
+                element: <PerformanceSummary />,
               },
               {
                 path: "/past-questions/view",

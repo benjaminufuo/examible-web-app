@@ -16,16 +16,12 @@ import {
   FaArrowLeft,
   FaBrain,
   FaRedo,
-  FaLock,
 } from "react-icons/fa";
 import Latex from "react-latex-next";
 import "katex/dist/katex.min.css";
 import QuestionMeta from "../../components/QuestionMeta";
 import { LETTERS, deduplicateQuestionMeta } from "../../utils/questionUtils";
 import useAiExplanation from "../../utils/useAiExplanation";
-
-const getFreeLimit = (subj) =>
-  subj?.toLowerCase().includes("english") ? 20 : 10;
 
 const MockResult = () => {
   const location = useLocation();
@@ -42,25 +38,10 @@ const MockResult = () => {
   const mockYearFromRedux = mockExamQuestionsFromRedux[0]?.year;
   const userToken = useSelector((state) => state.userToken);
   const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
-  const user = useSelector((state) => state.user);
-
-  const isCbtMode =
-    mockSelectedSubject === "CBT Examination" && !isPastQuestionResult;
-  const lastCbt = isCbtMode
-    ? (location.state?.details ?? user?.lastCbtDetails ?? null)
-    : null;
 
   const mockExamQuestions = isPastQuestionResult
     ? location.state?.questions
-    : isCbtMode
-      ? mockExamQuestionsFromRedux.flatMap((block) =>
-          block.questions.map((q, i) => ({
-            ...q,
-            subject: q.subject ?? block.subject,
-            _position: i + 1,
-          })),
-        )
-      : (mockExamQuestionsFromRedux[0]?.questions ?? []);
+    : (mockExamQuestionsFromRedux[0]?.questions ?? []);
   const exam = isPastQuestionResult ? location.state?.exam : examFromRedux;
   const mockYear = isPastQuestionResult
     ? location.state?.year
@@ -69,10 +50,9 @@ const MockResult = () => {
   const [viewStep, setViewStep] = useState("loading"); // "loading" | "summary" | "details"
   const [loadingText, setLoadingText] = useState("Calculating your results...");
 
-  const [currentPage, setCurrentPage] = useState(location.state?.page || 1);
-  const [reviewSubject, setReviewSubject] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const page = currentPage;
+  const page = location.state?.page || currentPage || 1;
   const questionsPerPage = 5;
   const indexOfLastQuestion = page * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -95,6 +75,9 @@ const MockResult = () => {
 
   const totalScore =
     exam?.reduce((acc, item) => acc + (item?.score || 0), 0) / 2 || 0;
+
+  const isCbtMode =
+    mockSelectedSubject === "CBT Examination" && !isPastQuestionResult;
 
   const retryExam = () => {
     dispatch(cancelExam());
@@ -139,15 +122,9 @@ const MockResult = () => {
   const getExamEntry = useCallback(
     (questionIndex) => {
       if (isPastQuestionResult) return exam?.[questionIndex];
-      if (isCbtMode) {
-        const q = mockExamQuestions?.[questionIndex];
-        return exam?.find(
-          (e) => e.number === q?._position && e.subject === q?.subject,
-        );
-      }
       return exam?.find((e) => e.number === questionIndex + 1);
     },
-    [isPastQuestionResult, isCbtMode, exam, mockExamQuestions],
+    [isPastQuestionResult, exam],
   );
 
   const subjectBreakdown = useMemo(() => {
@@ -171,29 +148,12 @@ const MockResult = () => {
     }));
   }, [mockExamQuestions, getExamEntry]);
 
-  const examSubjectsForReview = isCbtMode
-    ? mockExamQuestionsFromRedux.map((b) => b.subject).filter(Boolean)
-    : [];
-  const activeReviewSubject = isCbtMode
-    ? reviewSubject || examSubjectsForReview[0] || ""
-    : null;
-  const reviewQuestions = useMemo(
-    () =>
-      isCbtMode && activeReviewSubject
-        ? mockExamQuestions.filter((q) => q.subject === activeReviewSubject)
-        : mockExamQuestions,
-    [isCbtMode, activeReviewSubject, mockExamQuestions],
-  );
-  const reviewSubjectTotal = isCbtMode
-    ? activeReviewSubject?.toLowerCase().includes("english")
-      ? 60
-      : 40
-    : reviewQuestions.length;
-
   const processedQuestions = useMemo(
     () =>
-      deduplicateQuestionMeta(reviewQuestions?.slice(intialCount, finalCount)),
-    [reviewQuestions, intialCount, finalCount],
+      deduplicateQuestionMeta(
+        mockExamQuestions?.slice(intialCount, finalCount),
+      ),
+    [mockExamQuestions, intialCount, finalCount],
   );
 
   if (viewStep === "loading") {
@@ -256,11 +216,7 @@ const MockResult = () => {
             </div>
             <div className="mr-stat-info">
               <h4>Total Questions</h4>
-              <p>
-                {isCbtMode
-                  ? (lastCbt?.totalQuestions ?? validQuestionsLength)
-                  : validQuestionsLength}
-              </p>
+              <p>{validQuestionsLength}</p>
             </div>
           </div>
           <div className="mr-stat-card">
@@ -269,11 +225,7 @@ const MockResult = () => {
             </div>
             <div className="mr-stat-info">
               <h4>Correct Answers</h4>
-              <p>
-                {isCbtMode
-                  ? (lastCbt?.correctAnswers ?? totalCorrect)
-                  : totalCorrect}
-              </p>
+              <p>{totalCorrect}</p>
             </div>
           </div>
           <div className="mr-stat-card">
@@ -282,11 +234,7 @@ const MockResult = () => {
             </div>
             <div className="mr-stat-info">
               <h4>Incorrect / Missed</h4>
-              <p>
-                {isCbtMode
-                  ? (lastCbt?.wrongAnswers ?? totalIncorrect)
-                  : totalIncorrect}
-              </p>
+              <p>{totalIncorrect}</p>
             </div>
           </div>
           <div className="mr-stat-card">
@@ -295,11 +243,7 @@ const MockResult = () => {
             </div>
             <div className="mr-stat-info">
               <h4>Overall Score</h4>
-              <p>
-                {isCbtMode
-                  ? `${(lastCbt?.average ?? performance).toFixed(1)}%`
-                  : `${performance.toFixed(1)}%`}
-              </p>
+              <p>{performance.toFixed(1)}%</p>
             </div>
           </div>
         </div>
@@ -318,34 +262,23 @@ const MockResult = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(lastCbt?.subjectBreakdown ?? subjectBreakdown).map(
-                    (item, idx) => {
-                      const name = item.subject ?? item.name;
-                      const total = item.totalQuestions ?? item.total;
-                      const correct = item.correctAnswers ?? item.correct;
-                      const incorrect = item.wrongAnswers ?? item.incorrect;
-                      const accuracy =
-                        item.average ??
-                        (total > 0 ? (correct / total) * 100 : 0);
-                      return (
-                        <tr key={item._id ?? idx}>
-                          <td>
-                            <strong>{name}</strong>
-                          </td>
-                          <td>{total}</td>
-                          <td className="text-success">{correct}</td>
-                          <td className="text-danger">{incorrect}</td>
-                          <td>
-                            <span
-                              className={`mr-accuracy-badge ${accuracy >= 50 ? "pass" : "fail"}`}
-                            >
-                              {accuracy.toFixed(0)}%
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    },
-                  )}
+                  {subjectBreakdown.map((subj, idx) => (
+                    <tr key={idx}>
+                      <td>
+                        <strong>{subj.name}</strong>
+                      </td>
+                      <td>{subj.total}</td>
+                      <td className="text-success">{subj.correct}</td>
+                      <td className="text-danger">{subj.incorrect}</td>
+                      <td>
+                        <span
+                          className={`mr-accuracy-badge ${(subj.correct / subj.total) * 100 >= 50 ? "pass" : "fail"}`}
+                        >
+                          {((subj.correct / subj.total) * 100).toFixed(0)}%
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -368,84 +301,16 @@ const MockResult = () => {
         </div>
       </div>
 
-      {isCbtMode && examSubjectsForReview.length > 1 && (
-        <div className="mr-subject-tabs">
-          {examSubjectsForReview.map((subj) => (
-            <button
-              key={subj}
-              className={`mr-subject-tab ${activeReviewSubject === subj ? "active" : ""}`}
-              onClick={() => {
-                setReviewSubject(subj);
-                setCurrentPage(1);
-                nav(
-                  {
-                    pathname: location.pathname,
-                  },
-                  {
-                    state: {
-                      ...location.state,
-                      page: 1,
-                    },
-                  },
-                );
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              {subj}
-            </button>
-          ))}
-        </div>
-      )}
-
       <div className="mr-question-list">
-        {Array.from({
-          length: isCbtMode
-            ? Math.min(
-                questionsPerPage,
-                Math.max(0, reviewSubjectTotal - intialCount),
-              )
-            : processedQuestions.length,
-        }).map((_, index) => {
-          const slotIndex = intialCount + index;
-          const isLocked = isCbtMode && slotIndex >= reviewQuestions.length;
-          const { item, newItem } = isLocked
-            ? {}
-            : (processedQuestions[index] ?? {});
-          const currentExamItem =
-            !isLocked && item
-              ? isCbtMode
-                ? exam?.find(
-                    (e) =>
-                      e.number === item._position && e.subject === item.subject,
-                  )
-                : getExamEntry(slotIndex)
-              : null;
+        {processedQuestions.map(({ item, newItem }, index) => {
+          const currentExamItem = getExamEntry(intialCount + index);
           const isCorrect = currentExamItem?.score > 0;
           const selectedOptionLetter = currentExamItem?.option;
           const correctOptionLetter = item?.answer;
 
-          if (isLocked) {
-            return (
-              <motion.div
-                key={slotIndex}
-                className="mr-question-card mr-question-locked"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="mr-locked-content">
-                  <FaLock className="mr-lock-icon" />
-                  <h4>Question {slotIndex + 1}</h4>
-                  <p>Upgrade to Premium to review this question.</p>
-                </div>
-              </motion.div>
-            );
-          }
-
           return (
             <motion.div
-              key={slotIndex}
+              key={index}
               className="mr-question-card"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -453,7 +318,9 @@ const MockResult = () => {
               transition={{ duration: 0.3 }}
             >
               <div className="mr-q-header">
-                <span className="mr-q-number">Question {slotIndex + 1}</span>
+                <span className="mr-q-number">
+                  Question {intialCount + index + 1}
+                </span>
                 {currentExamItem?.option ? (
                   isCorrect ? (
                     <span className="mr-q-badge correct">
@@ -568,7 +435,9 @@ const MockResult = () => {
           <Pagination
             page={page}
             setPage={setCurrentPage}
-            totalPages={Math.ceil(reviewSubjectTotal / questionsPerPage)}
+            totalPages={Math.ceil(
+              (mockExamQuestions?.length || 0) / questionsPerPage,
+            )}
           />
         </div>
       </div>
