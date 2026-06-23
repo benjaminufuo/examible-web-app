@@ -31,7 +31,7 @@
 .ex-ambient-glow.glow-2 {
   width: 300px;
   height: 300px;
-  background: var(--ex-glow-2);
+  background: var(--ex-glow-1);
   bottom: -50px;
   right: -50px;
   animation-delay: -5s;
