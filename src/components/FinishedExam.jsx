@@ -21,6 +21,8 @@ const FinishedExam = () => {
   const { handleShowUserFeedback } = useExamibleContext();
 
   const quitExam = async () => {
+    if (sessionStorage.getItem("_exam_submitting")) return;
+    sessionStorage.setItem("_exam_submitting", "1");
     const timeLeft = examTimerMins * 60 + examTimerSecs;
 
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
@@ -46,6 +48,7 @@ const FinishedExam = () => {
         const res = await questionApi.submitCbt({ duration, subjects, data });
         if (res?.data?.success) {
           setTimeout(() => {
+            sessionStorage.removeItem("_exam_submitting");
             dispatch(setUser(res?.data?.data));
             nav("/cbt-mode/result", {
               state: { details: res?.data?.data?.lastCbtDetails },
@@ -58,9 +61,11 @@ const FinishedExam = () => {
             dispatch(setFinishedExam(false));
           }, 2000);
         } else {
+          sessionStorage.removeItem("_exam_submitting");
           dispatch(setFinishedExam(false));
         }
       } catch {
+        sessionStorage.removeItem("_exam_submitting");
         dispatch(setFinishedExam(false));
       }
       return;
@@ -91,6 +96,7 @@ const FinishedExam = () => {
       });
       if (res?.data?.success) {
         setTimeout(() => {
+          sessionStorage.removeItem("_exam_submitting");
           dispatch(setUser(res?.data?.data));
           nav("/mock-exam/result", {
             state: { subject: mockSelectedSubject },
@@ -103,9 +109,11 @@ const FinishedExam = () => {
           dispatch(setFinishedExam(false));
         }, 2000);
       } else {
+        sessionStorage.removeItem("_exam_submitting");
         dispatch(setFinishedExam(false));
       }
     } catch {
+      sessionStorage.removeItem("_exam_submitting");
       dispatch(setFinishedExam(false));
     }
   };

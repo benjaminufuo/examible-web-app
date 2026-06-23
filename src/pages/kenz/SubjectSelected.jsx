@@ -204,7 +204,7 @@ const SubjectSelected = () => {
                     <button
                       className="ss-add-btn"
                       onClick={() => addSubject(item)}
-                      disabled={loading}
+                      disabled={loading === item}
                     >
                       {loading === item ? (
                         <ClipLoader size={16} color="#ffffff" />
