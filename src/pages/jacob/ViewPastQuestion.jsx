@@ -136,11 +136,11 @@ const QuestionCard = ({
                   item.subheadingB,
                   item.diagramUrlA,
                   item.diagramUrlB,
-                  questionIndex,
+                  item.number,
                 )
               }
             >
-              {loading === questionIndex ? (
+              {loading === item.number ? (
                 <ClipLoader color="white" size={16} />
               ) : (
                 <>

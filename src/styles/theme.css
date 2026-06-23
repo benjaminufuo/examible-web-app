@@ -204,7 +204,7 @@ html.ex-theme-ready body {
 }
 
 .ex-gradient-text {
-  background: var(--ex-gradient-text);
+  background: var(--ex-gradient-brand);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -41,26 +41,24 @@ const SubjectSelected = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(null);
-  const notEnrolledSubjects = useSelector((state) => state.notEnrolledSubjects);
+  const notEnrolledFromStore = useSelector((state) => state.notEnrolledSubjects);
+  const [notEnrolledSubjects, setNotEnrolledSubjects] = useState(notEnrolledFromStore);
 
   const { setShowSubjectSelected } = useExamibleContext();
 
   const addSubject = async (subject) => {
     setLoading(subject);
-    const id = toast.loading("Adding Subject ...");
     try {
       const res = await studentApi.addSubject({ subject });
       setLoading(false);
       if (res?.data?.success) {
-        toast.dismiss(id);
+        setNotEnrolledSubjects((prev) => prev.filter((s) => s !== subject));
         setTimeout(() => {
           toast.success(res?.data?.message);
           dispatch(setUser(res?.data?.data));
-          setShowSubjectSelected(false);
         }, 500);
       }
     } catch {
-      toast.dismiss(id);
       setLoading(false);
     }
   };
