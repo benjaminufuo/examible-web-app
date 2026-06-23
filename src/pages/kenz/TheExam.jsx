@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import "../../styles/dashboardCss/examBody.css";
 import { LuClock2 } from "react-icons/lu";
 import {
@@ -62,13 +62,7 @@ const TheExam = () => {
       )
     : 0;
 
-  useLayoutEffect(() => {
-    if (!subjectBlocks || subjectBlocks.length <= 0) {
-      nav("/overview");
-    }
-  }, [subjectBlocks, nav]);
-
-  const examSubjects = useMemo(() => {
+const examSubjects = useMemo(() => {
     if (!isCbtMode || !subjectBlocks || subjectBlocks.length <= 1) {
       return [];
     }
