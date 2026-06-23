@@ -541,12 +541,12 @@ const MockResult = () => {
                       item.subheadingB,
                       item.diagramUrlA,
                       item.diagramUrlB,
-                      index,
+                      item.number,
                     );
                   }}
                   disabled={typeof loading === "number"}
                 >
-                  {loading === index ? (
+                  {loading === item.number ? (
                     <ClipLoader color="white" size={16} />
                   ) : (
                     <>

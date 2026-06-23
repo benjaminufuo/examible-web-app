@@ -505,7 +505,11 @@ const TheExam = () => {
             </div>
             <div className="exam-progress-stats">
               <span>{answeredQuestions} Answered</span>
-              <span>{TOTAL_CBT_QUESTIONS - answeredQuestions} Remaining</span>
+              <span>
+                {(isCbtMode ? TOTAL_CBT_QUESTIONS : totalQuestions) -
+                  answeredQuestions}{" "}
+                Remaining
+              </span>
             </div>
           </div>
 
