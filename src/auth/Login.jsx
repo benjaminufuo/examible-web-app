@@ -35,15 +35,15 @@ const Login = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
-    if (isButtonDisabled && !googleLoading) return;
+    if (isButtonDisabled) return;
 
     setLoading(true);
     try {
       const res = await studentApi.login(data);
-      localStorage.setItem("userToken", res?.data?.token);
-      dispatch(setUserToken(res?.data?.token));
-      dispatch(setUser(res?.data?.data));
       if (res?.data?.success) {
+        localStorage.setItem("userToken", res?.data?.token);
+        dispatch(setUserToken(res?.data?.token));
+        dispatch(setUser(res?.data?.data));
         setLoading(false);
         if (location.state?.selectedPlan) {
           navigate("/subscription/make-payment", {

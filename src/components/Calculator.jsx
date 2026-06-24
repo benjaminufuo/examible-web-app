@@ -14,7 +14,8 @@ const Calculator = () => {
   const posRef = useRef({ x: 0, y: 0 });
   const isDraggingRef = useRef(false);
   const hasMovedRef = useRef(false);
-  const dragStart = useRef({ x: 0, y: 0 });
+  const dragStart = useRef({ x: 0, y: 0, clientX: 0, clientY: 0 });
+  const boundsRef = useRef({ minX: 0, maxX: 0, minY: 0, maxY: 0 });
   const wrapperRef = useRef(null);
 
   const getBounds = () => {
@@ -38,10 +39,13 @@ const Calculator = () => {
     wrapperRef.current?.setPointerCapture(e.pointerId);
     isDraggingRef.current = true;
     hasMovedRef.current = false;
+    boundsRef.current = getBounds();
     setIsDragging(true);
     dragStart.current = {
       x: e.clientX - posRef.current.x,
       y: e.clientY - posRef.current.y,
+      clientX: e.clientX,
+      clientY: e.clientY,
     };
   };
 
@@ -49,10 +53,13 @@ const Calculator = () => {
     if (!isDraggingRef.current) return;
     const rawX = e.clientX - dragStart.current.x;
     const rawY = e.clientY - dragStart.current.y;
-    const { minX, maxX, minY, maxY } = getBounds();
+    const { minX, maxX, minY, maxY } = boundsRef.current;
     const newX = Math.min(Math.max(rawX, minX), maxX);
     const newY = Math.min(Math.max(rawY, minY), maxY);
-    if (!hasMovedRef.current && (Math.abs(newX - posRef.current.x) > 3 || Math.abs(newY - posRef.current.y) > 3)) {
+    if (!hasMovedRef.current && (
+      Math.abs(e.clientX - dragStart.current.clientX) > 3 ||
+      Math.abs(e.clientY - dragStart.current.clientY) > 3
+    )) {
       hasMovedRef.current = true;
     }
     posRef.current = { x: newX, y: newY };
@@ -74,7 +81,9 @@ const Calculator = () => {
   useLayoutEffect(() => {
     const adjustBounds = () => {
       if (!wrapperRef.current) return;
-      const { minX, maxX, minY, maxY } = getBounds();
+      const bounds = getBounds();
+      boundsRef.current = bounds;
+      const { minX, maxX, minY, maxY } = bounds;
       setPosition((prev) => {
         const newX = Math.min(Math.max(prev.x, minX), maxX);
         const newY = Math.min(Math.max(prev.y, minY), maxY);

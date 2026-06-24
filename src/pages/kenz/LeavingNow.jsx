@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../../styles/dashboardCss/leavingNow.css";
 import { setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,11 +21,16 @@ const LeavingNow = () => {
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+  const [quitError, setQuitError] = useState(null);
+  const isSubmittingRef = useRef(false);
 
   const { handleShowUserFeedback, showLeavingNow, setShowLeavingNow } =
     useExamibleContext();
 
   const quitExam = async () => {
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
+    setQuitError(null);
     const timeLeft = examTimerMins * 60 + examTimerSecs;
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
@@ -68,7 +73,10 @@ const LeavingNow = () => {
         });
       }
 
-      if (!res?.data?.success) return;
+      if (!res?.data?.success) {
+        setQuitError("Something went wrong. Please try again.");
+        return;
+      }
 
       dispatch(setUser(res.data.data));
       setShowLeavingNow(false);
@@ -81,8 +89,9 @@ const LeavingNow = () => {
 
       setTimeout(handleShowUserFeedback, 20000);
     } catch {
-      // network/server error — loading reset in finally
+      setQuitError("Network error. Please check your connection.");
     } finally {
+      isSubmittingRef.current = false;
       setLoading(false);
     }
   };
@@ -156,6 +165,12 @@ const LeavingNow = () => {
             {loading ? "Quitting..." : "Quit Anyway"}
           </button>
         </div>
+
+        {quitError && (
+          <p style={{ color: "var(--ex-danger, #e53e3e)", fontSize: "0.8rem", textAlign: "center", marginTop: "0.75rem" }}>
+            {quitError}
+          </p>
+        )}
       </motion.div>
     </motion.div>
   );
