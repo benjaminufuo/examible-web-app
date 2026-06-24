@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import { FaCalculator, FaTimes } from "react-icons/fa";
 import "../styles/calculator.css";
 
@@ -10,93 +10,78 @@ const Calculator = () => {
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [hasMoved, setHasMoved] = useState(false);
+
+  const posRef = useRef({ x: 0, y: 0 });
+  const isDraggingRef = useRef(false);
+  const hasMovedRef = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const wrapperRef = useRef(null);
 
-  const handlePointerDown = (e) => {
-    if (e.type === "mousedown" && e.button !== 0) return;
-    setIsDragging(true);
-    setHasMoved(false);
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-    dragStart.current = {
-      x: clientX - position.x,
-      y: clientY - position.y,
+  const getBounds = () => {
+    if (!wrapperRef.current) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+    const el = wrapperRef.current;
+    const padding = 10;
+    const minX = padding - el.offsetLeft;
+    const maxX = window.innerWidth - padding - el.offsetWidth - el.offsetLeft;
+    const minY = padding - el.offsetTop;
+    const maxY = window.innerHeight - padding - el.offsetHeight - el.offsetTop;
+    return {
+      minX: Math.min(minX, maxX),
+      maxX: Math.max(minX, maxX),
+      minY: Math.min(minY, maxY),
+      maxY: Math.max(minY, maxY),
     };
   };
 
-  useEffect(() => {
-    const handlePointerMove = (e) => {
-      if (!isDragging) return;
-      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      const rawX = clientX - dragStart.current.x;
-      const rawY = clientY - dragStart.current.y;
-      let newX = rawX;
-      let newY = rawY;
-      if (wrapperRef.current) {
-        const width = wrapperRef.current.offsetWidth;
-        const height = wrapperRef.current.offsetHeight;
-        const offsetLeft = wrapperRef.current.offsetLeft;
-        const offsetTop = wrapperRef.current.offsetTop;
-        const padding = 10;
-        let minX = padding - offsetLeft;
-        let maxX = window.innerWidth - padding - width - offsetLeft;
-        let minY = padding - offsetTop;
-        let maxY = window.innerHeight - padding - height - offsetTop;
-        if (minX > maxX) minX = maxX;
-        if (minY > maxY) minY = maxY;
-        if (newX > maxX) newX = maxX;
-        if (newX < minX) newX = minX;
-        if (newY > maxY) newY = maxY;
-        if (newY < minY) newY = minY;
-      }
-      if (Math.abs(rawX - position.x) > 3 || Math.abs(rawY - position.y) > 3) {
-        setHasMoved(true);
-      }
-      setPosition({ x: newX, y: newY });
+  const handlePointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    wrapperRef.current?.setPointerCapture(e.pointerId);
+    isDraggingRef.current = true;
+    hasMovedRef.current = false;
+    setIsDragging(true);
+    dragStart.current = {
+      x: e.clientX - posRef.current.x,
+      y: e.clientY - posRef.current.y,
     };
+  };
 
-    const handlePointerUp = () => setIsDragging(false);
-
-    if (isDragging) {
-      window.addEventListener("mousemove", handlePointerMove);
-      window.addEventListener("mouseup", handlePointerUp);
-      window.addEventListener("touchmove", handlePointerMove, { passive: false });
-      window.addEventListener("touchend", handlePointerUp);
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current) return;
+    const rawX = e.clientX - dragStart.current.x;
+    const rawY = e.clientY - dragStart.current.y;
+    const { minX, maxX, minY, maxY } = getBounds();
+    const newX = Math.min(Math.max(rawX, minX), maxX);
+    const newY = Math.min(Math.max(rawY, minY), maxY);
+    if (!hasMovedRef.current && (Math.abs(newX - posRef.current.x) > 3 || Math.abs(newY - posRef.current.y) > 3)) {
+      hasMovedRef.current = true;
     }
+    posRef.current = { x: newX, y: newY };
+    // Update DOM directly — no React re-render on every pixel
+    if (wrapperRef.current) {
+      wrapperRef.current.style.transform = `translate(${newX}px, ${newY}px)`;
+    }
+  };
 
-    return () => {
-      window.removeEventListener("mousemove", handlePointerMove);
-      window.removeEventListener("mouseup", handlePointerUp);
-      window.removeEventListener("touchmove", handlePointerMove);
-      window.removeEventListener("touchend", handlePointerUp);
-    };
-  }, [isDragging]);
+  const handlePointerUp = () => {
+    if (!isDraggingRef.current) return;
+    const wasTap = !hasMovedRef.current;
+    isDraggingRef.current = false;
+    setIsDragging(false);
+    setPosition({ ...posRef.current });
+    if (wasTap && !isOpen) setIsOpen(true);
+  };
 
   useLayoutEffect(() => {
     const adjustBounds = () => {
       if (!wrapperRef.current) return;
-      const width = wrapperRef.current.offsetWidth;
-      const height = wrapperRef.current.offsetHeight;
-      const offsetLeft = wrapperRef.current.offsetLeft;
-      const offsetTop = wrapperRef.current.offsetTop;
-      const padding = 10;
-      let minX = padding - offsetLeft;
-      let maxX = window.innerWidth - padding - width - offsetLeft;
-      let minY = padding - offsetTop;
-      let maxY = window.innerHeight - padding - height - offsetTop;
-      if (minX > maxX) minX = maxX;
-      if (minY > maxY) minY = maxY;
+      const { minX, maxX, minY, maxY } = getBounds();
       setPosition((prev) => {
-        let newX = prev.x;
-        let newY = prev.y;
-        if (newX > maxX) newX = maxX;
-        if (newX < minX) newX = minX;
-        if (newY > maxY) newY = maxY;
-        if (newY < minY) newY = minY;
-        if (newX !== prev.x || newY !== prev.y) return { x: newX, y: newY };
+        const newX = Math.min(Math.max(prev.x, minX), maxX);
+        const newY = Math.min(Math.max(prev.y, minY), maxY);
+        if (newX !== prev.x || newY !== prev.y) {
+          posRef.current = { x: newX, y: newY };
+          return { x: newX, y: newY };
+        }
         return prev;
       });
     };
@@ -104,10 +89,6 @@ const Calculator = () => {
     window.addEventListener("resize", adjustBounds);
     return () => window.removeEventListener("resize", adjustBounds);
   }, [isOpen]);
-
-  const toggleOpen = () => {
-    if (!hasMoved) setIsOpen(true);
-  };
 
   const handleClear = () => setInput("");
 
@@ -279,15 +260,16 @@ const Calculator = () => {
       ref={wrapperRef}
       className={`calculator-wrapper ${isOpen ? "open" : ""}`}
       style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
     >
       {!isOpen && (
         <button
           className="calc-toggle-btn"
-          onClick={toggleOpen}
-          onMouseDown={handlePointerDown}
-          onTouchStart={handlePointerDown}
+          onPointerDown={handlePointerDown}
           title="Open Calculator"
-          style={{ cursor: isDragging ? "grabbing" : "grab" }}
+          style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "none" }}
         >
           <FaCalculator size={24} />
         </button>
@@ -297,9 +279,8 @@ const Calculator = () => {
         <div className="calculator-container">
           <div
             className="calculator-header"
-            onMouseDown={handlePointerDown}
-            onTouchStart={handlePointerDown}
-            style={{ cursor: isDragging ? "grabbing" : "grab", userSelect: "none" }}
+            onPointerDown={handlePointerDown}
+            style={{ cursor: isDragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}
           >
             <span>Calculator</span>
             <FaTimes
@@ -308,8 +289,7 @@ const Calculator = () => {
                 e.stopPropagation();
                 setIsOpen(false);
               }}
-              onMouseDown={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
               title="Close Calculator"
             />
           </div>

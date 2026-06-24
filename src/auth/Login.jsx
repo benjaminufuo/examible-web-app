@@ -102,13 +102,17 @@ const Login = () => {
         <div className="auth-card">
           <button
             className="auth-back-btn"
-            onClick={() => navigate("/")}
-            aria-label="Go to homepage"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
           >
             <FiArrowLeft />
           </button>
           <div className="auth-header">
-            <div className="auth-logo">
+            <div
+              className="auth-logo"
+              aria-label="Examible logo"
+              onClick={() => navigate("/")}
+            >
               <img src={logo} alt="Examible" />
             </div>
             <h1 className="auth-title">Log in</h1>
