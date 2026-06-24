@@ -114,12 +114,40 @@
 }
 
 /* Subject Grid */
+.mock-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
 .mock-section-title {
   font-size: 24px;
   font-weight: 700;
-  margin: 0 0 20px 0;
+  margin: 0;
   color: var(--ex-text);
 }
+.mock-summary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--ex-surface);
+  color: var(--ex-text);
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--ex-border);
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+.mock-summary-btn:hover {
+  border-color: var(--ex-brand);
+  color: var(--ex-brand);
+}
+
 .mock-subjects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -314,7 +342,7 @@
   gap: 12px;
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
-  color: #4a4a4a;
+  color: var(--ex-text-muted);
   line-height: 1.5;
 }
 .mock-benefits-list li svg {

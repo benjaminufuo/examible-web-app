@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../global/slice";
 import PaymentSuccessfull from "../../components/PaymentSuccessfull";
 import { paymentApi } from "../../config/paymentApi";
+import { toast } from "react-toastify";
 
 const VerifyPayment = () => {
   const [isVerifying, setIsVerifying] = useState(true);
@@ -22,7 +23,8 @@ const VerifyPayment = () => {
         setPlan(res?.data?.data?.student?.plan);
         setIsVerifying(false);
       }
-    } catch {
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
       setTimeout(() => {
         nav("/overview");
       }, 3000);

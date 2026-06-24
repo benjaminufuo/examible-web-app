@@ -15,6 +15,8 @@ const routePrefetches = {
   "/profile": () => import("../pages/kenz/Profile"),
   "/past-questions": () => import("../pages/jacob/PastQuestion"),
   "/subscription": () => import("../pages/jacob/Subscription"),
+  "/subscription/transactions": () =>
+    import("../pages/jacob/TransactionHistory"),
   "/subscription/make-payment": () => import("../pages/jacob/MakePayment"),
 };
 

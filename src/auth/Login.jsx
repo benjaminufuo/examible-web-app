@@ -2,7 +2,6 @@ import { useState } from "react";
 import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
-import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";
@@ -36,15 +35,15 @@ const Login = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
-    if (isButtonDisabled && !googleLoading) return;
+    if (isButtonDisabled) return;
 
     setLoading(true);
     try {
       const res = await studentApi.login(data);
-      localStorage.setItem("userToken", res?.data?.token);
-      dispatch(setUserToken(res?.data?.token));
-      dispatch(setUser(res?.data?.data));
       if (res?.data?.success) {
+        localStorage.setItem("userToken", res?.data?.token);
+        dispatch(setUserToken(res?.data?.token));
+        dispatch(setUser(res?.data?.data));
         setLoading(false);
         if (location.state?.selectedPlan) {
           navigate("/subscription/make-payment", {
@@ -103,13 +102,17 @@ const Login = () => {
         <div className="auth-card">
           <button
             className="auth-back-btn"
-            onClick={() => navigate("/")}
-            aria-label="Go to homepage"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
           >
             <FiArrowLeft />
           </button>
           <div className="auth-header">
-            <div className="auth-logo">
+            <div
+              className="auth-logo"
+              aria-label="Examible logo"
+              onClick={() => navigate("/")}
+            >
               <img src={logo} alt="Examible" />
             </div>
             <h1 className="auth-title">Log in</h1>

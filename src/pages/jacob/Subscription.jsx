@@ -1,6 +1,6 @@
 import "../../styles/dashboardCss/subscription.css";
 import "../../styles/dashboardCss/dashboard-components.css";
-import { FiCheck } from "react-icons/fi";
+import { FiCheck, FiFileText } from "react-icons/fi";
 import { FaCheckCircle } from "react-icons/fa";
 import wallet from "../../assets/public/wallet.png";
 import { useNavigate } from "react-router-dom";
@@ -94,6 +94,12 @@ const Plans = () => {
             Elevate your performance and achieve your goals with full access to
             all Examible premium features.
           </p>
+          <button
+            className="sub-transaction-history-btn"
+            onClick={() => nav("/subscription/transactions")}
+          >
+            <FiFileText /> Transaction History
+          </button>
         </div>
         <div className="hero-image">
           <img src={wallet} alt="Wallet" style={{ maxHeight: "250px" }} />

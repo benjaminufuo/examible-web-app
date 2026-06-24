@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../styles/auth.css";
-import { IoMdArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { studentApi } from "../config/studentApi";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
+import { FiArrowLeft } from "react-icons/fi";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
@@ -101,25 +101,15 @@ const ForgetPassword = () => {
 
       <div className="auth-container">
         <div className="auth-card">
-          <div
-            style={{
-              marginBottom: 24,
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
+          <button
+            className="auth-back-btn"
+            onClick={() => navigate("/login")}
+            aria-label="Go back to login"
           >
-            <IoMdArrowBack
-              onClick={() => navigate("/login")}
-              style={{
-                cursor: "pointer",
-                fontSize: 24,
-                color: "var(--ex-text)",
-              }}
-            />
-          </div>
+            <FiArrowLeft />
+          </button>
 
-          <div className="auth-header" style={{ marginBottom: 32 }}>
+          <div className="auth-header">
             <h1 className="auth-title">Reset Password</h1>
             <p className="auth-subtitle">
               Enter your email to receive a reset link

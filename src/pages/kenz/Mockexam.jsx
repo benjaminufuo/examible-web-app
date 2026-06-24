@@ -3,6 +3,7 @@ import "../../styles/dashboardCss/mockExam.css";
 import { useSelector } from "react-redux";
 import MockConfigModal from "../../components/MockConfigModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   FaLaptopCode,
   FaCheckCircle,
@@ -13,11 +14,13 @@ import {
   FaChartBar,
   FaPlayCircle,
   FaHistory,
+  FaChartLine,
 } from "react-icons/fa";
 import { ALLOWED_SUBJECTS } from "../../constants/common";
 
 const Mockexam = () => {
   const user = useSelector((state) => state.user);
+  const nav = useNavigate();
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [clickedSubject, setClickedSubject] = useState(null);
@@ -108,7 +111,16 @@ const Mockexam = () => {
 
       {/* 3. SUBJECT SELECTION EXPERIENCE */}
       <div>
-        <h2 className="mock-section-title">Select Subject for CBT</h2>
+        <div className="mock-section-header">
+          <h2 className="mock-section-title">Select Subject for CBT</h2>
+          <button
+            onClick={() => nav("/mock-exam/performance-summary")}
+            className="mock-summary-btn"
+          >
+            <FaChartLine /> Performance Summary
+          </button>
+        </div>
+
         <motion.div
           className="mock-subjects-grid"
           variants={containerVariants}

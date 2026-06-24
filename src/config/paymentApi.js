@@ -10,6 +10,10 @@ class PaymentApi {
   verifyPayment(reference) {
     return this.#http.get(`/verifyKoraPay?reference=${reference}`);
   }
+
+  getTransactionHistory() {
+    return this.#http.get("/payments/my");
+  }
 }
 
 export const paymentApi = new PaymentApi();

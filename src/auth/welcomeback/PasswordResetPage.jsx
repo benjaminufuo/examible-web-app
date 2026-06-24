@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../styles/authCss/resetpassword.css";
+import "../../styles/auth.css";
 import logo from "../../assets/public/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
@@ -92,57 +92,57 @@ const PasswordResetPage = () => {
   }, [inputValue]);
 
   return (
-    <div className="ex-scope reset-wrapper">
+    <div className="ex-scope auth-wrapper">
       {/* LEFT SIDE: Brand Experience */}
-      <div className="reset-side">
-        <div className="reset-side-content">
-          <div className="reset-side-title">Secure Your Account</div>
-          <p className="reset-side-text">
+      <div className="auth-side">
+        <div className="auth-side-content">
+          <div className="auth-side-title">Secure Your Account</div>
+          <p className="auth-side-text">
             You're one step away from getting back to your learning journey.
             Create a strong password to continue preparing for success.
           </p>
-          <div className="reset-side-feature">
-            <div className="reset-side-feature-icon">✓</div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
             <div>Use at least 8 characters</div>
           </div>
-          <div className="reset-side-feature">
-            <div className="reset-side-feature-icon">✓</div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
             <div>Include uppercase & lowercase letters</div>
           </div>
-          <div className="reset-side-feature">
-            <div className="reset-side-feature-icon">✓</div>
+          <div className="auth-side-feature">
+            <div className="auth-side-feature-icon">✓</div>
             <div>Add numbers and special characters</div>
           </div>
         </div>
       </div>
 
       {/* RIGHT SIDE: Reset Form */}
-      <div className="reset-container">
-        <div className="reset-card">
+      <div className="auth-container">
+        <div className="auth-card">
           <button
-            className="reset-back-btn"
+            className="auth-back-btn"
             onClick={() => navigate("/")}
             aria-label="Go to homepage"
           >
             <FiArrowLeft />
           </button>
 
-          <div className="reset-header">
-            <div className="reset-logo">
+          <div className="auth-header">
+            <div className="auth-logo">
               <img src={logo} alt="Examible" />
             </div>
-            <h1 className="reset-title">Create a new password</h1>
-            <p className="reset-subtitle">
+            <h1 className="auth-title">Create a new password</h1>
+            <p className="auth-subtitle">
               Your new password must be different from your previously used
               passwords.
             </p>
           </div>
 
           <form
-            className="reset-form"
+            className="auth-form"
             onSubmit={(e) => handleSubmit(e, inputValue)}
           >
-            <div className="reset-form-group">
+            <div className="auth-form-group">
               <Input
                 name="newPassword"
                 label="New Password"
@@ -156,7 +156,7 @@ const PasswordResetPage = () => {
               />
             </div>
 
-            <div className="reset-form-group">
+            <div className="auth-form-group">
               <Input
                 label="Confirm Password"
                 name="confirmPassword"
@@ -175,7 +175,7 @@ const PasswordResetPage = () => {
               disabled={disabled}
               loading={loading}
               fullWidth
-              className="reset-submit"
+              className="auth-submit"
             >
               {loading ? "Resetting..." : "Reset Password"}
             </Button>

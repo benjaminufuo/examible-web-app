@@ -336,7 +336,13 @@
 }
 
 .ov-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 24px;
+  border-bottom: 1px solid var(--ex-border);
+  padding-bottom: 16px;
+  gap: 16px;
 }
 
 .ov-card-header h3 {
@@ -346,6 +352,24 @@
 .ov-subtitle {
   font-size: 13px;
   color: var(--ex-text-muted);
+}
+
+.ov-report-btn {
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: "Sora", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ov-report-btn:hover {
+  background: var(--ex-surface-3);
+  transform: translateY(-1px);
 }
 
 .ov-subjects-grid {

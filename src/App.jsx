@@ -15,12 +15,19 @@ const Mockexam = safeLazy(() => import("./pages/kenz/Mockexam"));
 const PastQuestion = safeLazy(() => import("./pages/jacob/PastQuestion"));
 const Profile = safeLazy(() => import("./pages/kenz/Profile"));
 const Subscription = safeLazy(() => import("./pages/jacob/Subscription"));
+const TransactionHistory = safeLazy(
+  () => import("./pages/jacob/TransactionHistory"),
+);
 const Verify = safeLazy(() => import("./auth/Verify"));
 const ExamBody = safeLazy(() => import("./pages/kenz/ExamBody"));
 const MakePayment = safeLazy(() => import("./pages/jacob/MakePayment"));
 const ViewPastQuestion = safeLazy(
   () => import("./pages/jacob/ViewPastQuestion"),
 );
+const PerformanceSummary = safeLazy(
+  () => import("./pages/kenz/PerformanceSummary"),
+);
+// const CbtReport = safeLazy(() => import("./pages/kenz/CbtReport"));
 const Callback = safeLazy(() => import("./components/Callback"));
 const VerifyPayment = safeLazy(() => import("./pages/kenz/VerifyPayment"));
 const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
@@ -119,9 +126,17 @@ const routes = createBrowserRouter([
                   </Suspense>
                 ),
               },
+              // {
+              //   path: "/cbt-mode/report",
+              //   element: <CbtReport />,
+              // },
               {
                 path: "/mock-exam",
                 element: <Mockexam />,
+              },
+              {
+                path: "/mock-exam/performance-summary",
+                element: <PerformanceSummary />,
               },
               // JAMB CBT Simulator Route
               {
@@ -139,6 +154,10 @@ const routes = createBrowserRouter([
               {
                 path: "/subscription",
                 element: <Subscription />,
+              },
+              {
+                path: "/subscription/transactions",
+                element: <TransactionHistory />,
               },
               {
                 path: "/subscription/make-payment",
