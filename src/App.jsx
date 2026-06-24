@@ -142,7 +142,11 @@ const routes = createBrowserRouter([
               },
               {
                 path: "/subscription/make-payment",
-                element: <MakePayment />,
+                element: (
+                  <NavOnlyRoute fallback="/subscription">
+                    <MakePayment />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/mock-exam/result",
