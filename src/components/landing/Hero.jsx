@@ -10,6 +10,8 @@ import {
 } from "react-icons/fi";
 import avatarOne from "../../assets/public/avatars/avatar1.png";
 import avatarTwo from "../../assets/public/avatars/avatar2.png";
+import avatarThree from "../../assets/public/avatars/avatar3.png";
+import avatarFour from "../../assets/public/avatars/avatar4.png";
 
 const float = (delay) => ({
   animate: { y: [0, -12, 0] },
@@ -233,10 +235,10 @@ const AVATARS = [
   },
   {
     color: "#f2ae30",
-    img: avatarOne,
+    img: avatarThree,
   },
   {
     color: "#16b364",
-    img: avatarTwo,
+    img: avatarFour,
   },
 ];

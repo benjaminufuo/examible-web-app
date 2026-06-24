@@ -53,7 +53,7 @@
     120deg,
     #804bf2 0%,
     #9d6bff 45%,
-    #06b6d4 100%
+    #804bf2 100%
   );
   --ex-gradient-text: linear-gradient(
     120deg,
@@ -204,7 +204,7 @@ html.ex-theme-ready body {
 }
 
 .ex-gradient-text {
-  background: var(--ex-gradient-text);
+  background: var(--ex-gradient-brand);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

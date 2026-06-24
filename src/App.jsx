@@ -37,6 +37,7 @@ const MainHolder = safeLazy(() => import("./routes/MainHolder"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
 import PrivateRoute from "./routes/PrivateRoute";
+import NavOnlyRoute from "./routes/NavOnlyRoute";
 import AppWrapper from "./components/AppWrapper";
 import InvisibleFallback from "./components/InvisibleFallback";
 import { prefetchCommonRoutes, safeLazy } from "./utils/routePrefetch";
@@ -160,29 +161,53 @@ const routes = createBrowserRouter([
               },
               {
                 path: "/subscription/make-payment",
-                element: <MakePayment />,
+                element: (
+                  <NavOnlyRoute fallback="/subscription">
+                    <MakePayment />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/mock-exam/result",
-                element: <MockResult />,
+                element: (
+                  <NavOnlyRoute fallback="/mock-exam">
+                    <MockResult />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/cbt-mode/result",
-                element: <MockResult />,
+                element: (
+                  <NavOnlyRoute fallback="/cbt-mode">
+                    <MockResult />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/past-questions/view",
-                element: <ViewPastQuestion />,
+                element: (
+                  <NavOnlyRoute fallback="/past-questions">
+                    <ViewPastQuestion />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/past-questions/result",
-                element: <MockResult />,
+                element: (
+                  <NavOnlyRoute fallback="/past-questions">
+                    <MockResult />
+                  </NavOnlyRoute>
+                ),
               },
             ],
           },
           {
             path: "mock-exam/questions",
-            element: <ExamBody />,
+            element: (
+              <NavOnlyRoute fallback="/mock-exam">
+                <ExamBody />
+              </NavOnlyRoute>
+            ),
           },
         ],
       },
