@@ -16,6 +16,8 @@
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-back-btn {
@@ -52,6 +54,8 @@
   gap: 32px;
   max-width: 1100px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-summary-card {
@@ -62,6 +66,8 @@
   box-shadow: var(--ex-shadow-md);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-summary-card::before {
@@ -156,6 +162,8 @@
   border-radius: 24px;
   padding: 40px;
   box-shadow: var(--ex-shadow-md);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-payment-header {
@@ -194,6 +202,8 @@
   padding: 24px;
   border-radius: 16px;
   border: 1px solid var(--ex-border);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .detail-row {
@@ -201,6 +211,8 @@
   justify-content: space-between;
   align-items: center;
   font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .detail-row span {
@@ -210,6 +222,10 @@
 .detail-row strong {
   color: var(--ex-text);
   font-weight: 600;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .checkout-total-row {
@@ -219,6 +235,8 @@
   margin-bottom: 32px;
   padding-top: 24px;
   border-top: 1px dashed var(--ex-border-strong);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-total-row span {
@@ -278,22 +296,47 @@
 
 @media (max-width: 1024px) {
   .checkout-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 600px) {
   .checkout-premium-main {
-    padding: 16px;
+    padding: 16px 12px;
+    overflow-x: hidden;
   }
   .checkout-summary-card,
   .checkout-payment-card {
-    padding: 24px;
+    padding: 24px 16px;
+  }
+  .checkout-user-details {
+    padding: 16px;
   }
   .checkout-price strong {
-    font-size: 36px;
+    font-size: 32px;
   }
   .checkout-total-row strong {
     font-size: 24px;
+  }
+  .checkout-payment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .checkout-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+  }
+  .checkout-total-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
   }
 }

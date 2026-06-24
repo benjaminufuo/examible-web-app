@@ -47,7 +47,6 @@ const PerformanceSummary = () => {
   const { overallStats, subjectStats, insights } = useMemo(() => {
     let totalDuration = 0;
     let totalScore = 0;
-    let totalQuestions = 0; // Assuming ~40 questions per mock on average if not provided
     const subjects = {};
 
     filteredRatings.forEach((r) => {

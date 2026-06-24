@@ -2,7 +2,6 @@ import { useState } from "react";
 import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
-import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";

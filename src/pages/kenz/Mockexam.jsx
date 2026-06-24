@@ -16,6 +16,7 @@ import {
   FaHistory,
   FaChartLine,
 } from "react-icons/fa";
+import { ALLOWED_SUBJECTS } from "../../constants/common";
 
 const Mockexam = () => {
   const user = useSelector((state) => state.user);
@@ -81,7 +82,9 @@ const Mockexam = () => {
           </div>
           <div className="mock-stat-info">
             <h4>Enrolled Subjects</h4>
-            <p>{subjects.length || 0}/4</p>
+            <p>
+              {subjects.length || 0}/{ALLOWED_SUBJECTS.length}
+            </p>
           </div>
         </motion.div>
 
@@ -111,12 +114,13 @@ const Mockexam = () => {
         <div className="mock-section-header">
           <h2 className="mock-section-title">Select Subject for CBT</h2>
           <button
-            onClick={() => nav("/mock-exam/summary")}
+            onClick={() => nav("/mock-exam/performance-summary")}
             className="mock-summary-btn"
           >
             <FaChartLine /> Performance Summary
           </button>
         </div>
+
         <motion.div
           className="mock-subjects-grid"
           variants={containerVariants}

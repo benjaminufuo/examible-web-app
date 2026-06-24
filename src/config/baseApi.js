@@ -45,7 +45,7 @@ export class BaseApi {
       setTimeout(() => {
         window.location.href = "/login";
       }, 3000);
-    } else {
+    } else if (!error?.config?.silent) {
       toast.error(message);
     }
 

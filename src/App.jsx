@@ -15,18 +15,22 @@ const Mockexam = safeLazy(() => import("./pages/kenz/Mockexam"));
 const PastQuestion = safeLazy(() => import("./pages/jacob/PastQuestion"));
 const Profile = safeLazy(() => import("./pages/kenz/Profile"));
 const Subscription = safeLazy(() => import("./pages/jacob/Subscription"));
+const TransactionHistory = safeLazy(
+  () => import("./pages/jacob/TransactionHistory"),
+);
 const Verify = safeLazy(() => import("./auth/Verify"));
 const ExamBody = safeLazy(() => import("./pages/kenz/ExamBody"));
 const MakePayment = safeLazy(() => import("./pages/jacob/MakePayment"));
 const ViewPastQuestion = safeLazy(
   () => import("./pages/jacob/ViewPastQuestion"),
 );
-const Callback = safeLazy(() => import("./components/Callback"));
-const VerifyPayment = safeLazy(() => import("./pages/kenz/VerifyPayment"));
-const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const PerformanceSummary = safeLazy(
   () => import("./pages/kenz/PerformanceSummary"),
 );
+// const CbtReport = safeLazy(() => import("./pages/kenz/CbtReport"));
+const Callback = safeLazy(() => import("./components/Callback"));
+const VerifyPayment = safeLazy(() => import("./pages/kenz/VerifyPayment"));
+const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
 const MainHolder = safeLazy(() => import("./routes/MainHolder"));
@@ -121,9 +125,17 @@ const routes = createBrowserRouter([
                   </Suspense>
                 ),
               },
+              // {
+              //   path: "/cbt-mode/report",
+              //   element: <CbtReport />,
+              // },
               {
                 path: "/mock-exam",
                 element: <Mockexam />,
+              },
+              {
+                path: "/mock-exam/performance-summary",
+                element: <PerformanceSummary />,
               },
               // JAMB CBT Simulator Route
               {
@@ -143,6 +155,10 @@ const routes = createBrowserRouter([
                 element: <Subscription />,
               },
               {
+                path: "/subscription/transactions",
+                element: <TransactionHistory />,
+              },
+              {
                 path: "/subscription/make-payment",
                 element: <MakePayment />,
               },
@@ -151,8 +167,8 @@ const routes = createBrowserRouter([
                 element: <MockResult />,
               },
               {
-                path: "/mock-exam/summary",
-                element: <PerformanceSummary />,
+                path: "/cbt-mode/result",
+                element: <MockResult />,
               },
               {
                 path: "/past-questions/view",
