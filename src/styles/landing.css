@@ -100,7 +100,7 @@
 .ex-hero__glow--2 {
   width: 460px;
   height: 460px;
-  background: var(--ex-glow-2);
+  background: var(--ex-glow-1);
   top: -120px;
   right: -120px;
 
@@ -150,12 +150,13 @@
   border-radius: 50%;
   border: 2px solid var(--ex-bg);
   margin-left: -10px;
+  overflow: hidden;
 
   & img {
-    border-radius: 50%;
     height: 100%;
     width: 100%;
-    /* object-fit: contain; */
+    object-fit: cover;
+    object-position: center top;
   }
 }
 .ex-hero__avatars span:first-child {
@@ -271,7 +272,7 @@
 }
 .ex-hero__bars span {
   flex: 1;
-  background: var(--ex-gradient-vibrant);
+  background: var(--ex-gradient-brand);
   border-radius: 6px 6px 0 0;
   min-height: 6px;
 }
