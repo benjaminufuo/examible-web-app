@@ -72,7 +72,11 @@ const FinishedExam = () => {
     }
 
     let completed = "no";
-    if (exam && validQuestionsLength > 0 && exam.length === validQuestionsLength) {
+    if (
+      exam &&
+      validQuestionsLength > 0 &&
+      exam.length === validQuestionsLength
+    ) {
       completed = "yes";
     }
 
@@ -97,7 +101,6 @@ const FinishedExam = () => {
       if (res?.data?.success) {
         setTimeout(() => {
           sessionStorage.removeItem("_exam_submitting");
-          dispatch(setUser(res?.data?.data));
           nav("/mock-exam/result", {
             state: { subject: mockSelectedSubject },
           });
