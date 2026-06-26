@@ -36,10 +36,17 @@ const LeavingNow = () => {
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
       (isCbt
-        ? user?.plan === "Freemium" ? 30 : 120
-        : user?.plan === "Freemium" ? 10 : 30);
+        ? user?.plan === "Freemium"
+          ? 30
+          : 120
+        : user?.plan === "Freemium"
+          ? 10
+          : 30);
 
-    const duration = Math.min(7200, Math.max(1, initialDuration * 60 - timeLeft));
+    const duration = Math.min(
+      7200,
+      Math.max(1, initialDuration * 60 - timeLeft),
+    );
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
 
     const rawPerformance =
@@ -48,7 +55,10 @@ const LeavingNow = () => {
         (validQuestionsLength || 1)) *
       100;
 
-    const performance = Math.min(100, Math.max(0, Math.round(rawPerformance) || 0));
+    const performance = Math.min(
+      100,
+      Math.max(0, Math.round(rawPerformance) || 0),
+    );
 
     const englishSubj =
       allSubjectsData.find((s) => s.subject.toLowerCase().includes("english"))
@@ -79,11 +89,13 @@ const LeavingNow = () => {
         return;
       }
 
-      dispatch(setUser(res.data.data));
       setShowLeavingNow(false);
 
       if (isCbt) {
-        nav("/cbt-mode/result", { state: { details: res.data.data?.lastCbtDetails } });
+        dispatch(setUser(res.data.data));
+        nav("/cbt-mode/result", {
+          state: { details: res.data.data?.lastCbtDetails },
+        });
       } else {
         nav("/mock-exam/result", { state: { subject: mockSelectedSubject } });
       }
@@ -168,7 +180,14 @@ const LeavingNow = () => {
         </div>
 
         {quitError && (
-          <p style={{ color: "var(--ex-danger, #e53e3e)", fontSize: "0.8rem", textAlign: "center", marginTop: "0.75rem" }}>
+          <p
+            style={{
+              color: "var(--ex-danger, #e53e3e)",
+              fontSize: "0.8rem",
+              textAlign: "center",
+              marginTop: "0.75rem",
+            }}
+          >
             {quitError}
           </p>
         )}
