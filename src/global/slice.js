@@ -29,6 +29,8 @@ const initialState = {
     },
   ],
   mockSelectedSubject: "",
+  pastQuestionsPage: 1,
+  mockResultPage: 1,
 };
 
 const slice = createSlice({
@@ -43,6 +45,10 @@ const slice = createSlice({
     },
     setPastQuestions: (state, { payload }) => {
       state.pastQuestions = payload;
+      state.pastQuestionsPage = 1;
+    },
+    setPastQuestionsPage: (state, { payload }) => {
+      state.pastQuestionsPage = payload;
     },
     setPastQuestionsOption: (state, { payload }) => {
       const { questionIndex, selectedOption, isCorrect, correctAnswerText } =
@@ -74,6 +80,10 @@ const slice = createSlice({
       state.mockExamOptions = { ...initialState.mockExamOptions };
       state.finishedExam = false;
       state.timedOut = false;
+      state.mockResultPage = 1;
+    },
+    setMockResultPage: (state, { payload }) => {
+      state.mockResultPage = payload;
     },
     nextQuestion: (state, { payload }) => {
       const selectedKey = OPTION_KEYS.find((k) => state.mockExamOptions[k]);
@@ -107,6 +117,7 @@ const slice = createSlice({
       state.mockExamOptions = { ...initialState.mockExamOptions };
       state.finishedExam = false;
       state.timedOut = false;
+      state.mockResultPage = 1;
     },
     theExamTimer: (state) => {
       if (state.finishedExam) return;
@@ -143,6 +154,8 @@ const slice = createSlice({
 export const {
   setUserToken,
   setPastQuestions,
+  setPastQuestionsPage,
+  setMockResultPage,
   setPastQuestionsOption,
   clearPastQuestionsOption,
   logoutTheUser,

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import "../../styles/dashboardCss/viewpastquestion.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,7 +7,7 @@ import {
   IoCloseCircle,
   IoSparklesOutline,
 } from "react-icons/io5";
-import { setPastQuestionsOption } from "../../global/slice";
+import { setPastQuestionsOption, setPastQuestionsPage } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -38,7 +38,7 @@ const QuestionCard = ({
       id={`question-${item.number}`}
       className="vpq-question-card"
       key={item.number}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: -10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: questionIndex * 0.1 }}
@@ -197,11 +197,12 @@ const ViewPastQuestion = () => {
   const subject = location.state?.subject || "";
   const questions = useSelector((state) => state.pastQuestions) || [];
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
+  const savedPage = useSelector((state) => state.pastQuestionsPage);
   const [count, setCount] = useState(0);
   const [showExitModal, setShowExitModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const page = location.state?.page || currentPage || 1;
+  const [currentPage, setCurrentPage] = useState(savedPage || 1);
+  const page = currentPage;
   const questionsPerPage = 5;
 
   const indexOfLastQuestion = page * questionsPerPage;
@@ -237,12 +238,8 @@ const ViewPastQuestion = () => {
     }
   }, [count]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }, 0);
-    return () => clearTimeout(timer);
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
   const processedQuestions = useMemo(
@@ -305,8 +302,9 @@ const ViewPastQuestion = () => {
             totalPages={Math.ceil(questions.length / questionsPerPage)}
             page={page}
             setPage={(page) => {
-              setCount(count + 1);
+              setCount((c) => c + 1);
               setCurrentPage(page);
+              dispatch(setPastQuestionsPage(page));
             }}
           />
 
