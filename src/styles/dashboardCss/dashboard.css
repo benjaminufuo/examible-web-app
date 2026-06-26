@@ -315,7 +315,7 @@
       font-family: "Sora", sans-serif;
       font-weight: 700;
       font-size: 28px;
-      background: var(--ex-gradient-text);
+      background: var(--ex-gradient-brand);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;

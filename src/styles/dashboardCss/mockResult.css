@@ -348,6 +348,8 @@
   color: var(--ex-text-muted);
   font-style: italic;
   margin-bottom: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .mr-diagram {
@@ -355,6 +357,7 @@
   border-radius: 12px;
   margin: 16px 0;
   box-shadow: var(--ex-shadow-sm);
+  background-color: #ffffff;
 }
 
 .mr-question-text {
@@ -364,6 +367,8 @@
   color: var(--ex-text);
   line-height: 1.5;
   margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .mr-options-grid {
@@ -431,9 +436,12 @@
 
 .mr-opt-content {
   flex: 1;
+  min-width: 0;
   font-size: 15px;
   color: var(--ex-text);
   line-height: 1.5;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .mr-opt-icon {

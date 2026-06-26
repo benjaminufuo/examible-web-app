@@ -4,7 +4,6 @@ import { OPTION_KEYS } from "../utils/questionUtils";
 const initialState = {
   userToken: "",
   user: {},
-  year: "",
   pastQuestions: [],
   pastQuestionsOption: {},
   mockExamQuestions: [],
@@ -42,17 +41,12 @@ const slice = createSlice({
     setUser: (state, { payload }) => {
       state.user = payload;
     },
-    setExam: (state, { payload }) => {
-      state.exam = payload;
-    },
-    setYear: (state, { payload }) => {
-      state.year = payload;
-    },
     setPastQuestions: (state, { payload }) => {
       state.pastQuestions = payload;
     },
     setPastQuestionsOption: (state, { payload }) => {
-      const { questionIndex, selectedOption, isCorrect, correctAnswerText } = payload;
+      const { questionIndex, selectedOption, isCorrect, correctAnswerText } =
+        payload;
       state.pastQuestionsOption[questionIndex] = {
         selectedOption,
         isCorrect,
@@ -96,7 +90,9 @@ const slice = createSlice({
       };
 
       const currentIndex = state.exam.findIndex(
-        (q) => q.subject === payload.subject && q.number === Number(payload.subjectId),
+        (q) =>
+          q.subject === payload.subject &&
+          q.number === Number(payload.subjectId),
       );
       if (currentIndex !== -1) {
         state.exam[currentIndex] = obj;
@@ -149,9 +145,7 @@ export const {
   setPastQuestions,
   setPastQuestionsOption,
   clearPastQuestionsOption,
-  setExam,
   logoutTheUser,
-  setYear,
   theExamTimer,
   setUser,
   setMockExamQuestion,

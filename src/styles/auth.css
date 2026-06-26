@@ -522,6 +522,12 @@ html[data-theme="dark"] .auth-social-btn:hover {
   .auth-form {
     gap: 16px;
   }
+
+  .auth-back-btn {
+    top: 16px;
+    left: 16px;
+    font-size: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -532,6 +538,13 @@ html[data-theme="dark"] .auth-social-btn:hover {
 
   .auth-title {
     font-size: 20px;
+  }
+
+  .auth-back-btn {
+    top: 12px;
+    left: 12px;
+    font-size: 18px;
+    padding: 6px;
   }
 
   .auth-header {

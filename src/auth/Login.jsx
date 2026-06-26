@@ -102,7 +102,7 @@ const Login = () => {
         <div className="auth-card">
           <button
             className="auth-back-btn"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             aria-label="Go back"
           >
             <FiArrowLeft />

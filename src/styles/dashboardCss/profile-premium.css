@@ -853,3 +853,10 @@
     align-items: center;
   }
 }
+
+.prof-left-column,
+.prof-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

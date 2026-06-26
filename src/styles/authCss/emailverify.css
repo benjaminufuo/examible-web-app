@@ -79,15 +79,18 @@ html[data-theme="dark"] .email-verify-card {
 
 .email-verify-logo {
   height: 80px;
-  margin-bottom: 8px;
+  width: 197px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  cursor: pointer;
 
-.email-verify-logo img {
-  height: 100%;
-  width: auto;
+  img {
+    height: 70%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 .email-verify-title {
@@ -138,12 +141,9 @@ html[data-theme="dark"] .email-verify-card {
 
 .email-verify-side {
   flex: 1;
-  background: linear-gradient(
-    135deg,
-    var(--ex-brand, #804bf2) 0%,
-    #6834d8 50%,
-    #5a2d91 100%
-  );
+  background-image:
+    linear-gradient(rgba(128, 75, 242, 0.65), rgba(128, 75, 242, 0.65)),
+    url("../../assets/public/leftauthimage.jpg");
   display: none;
   align-items: center;
   justify-content: center;

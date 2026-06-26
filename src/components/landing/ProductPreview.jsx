@@ -144,8 +144,9 @@ const ProductPreview = () => {
             <span className="ex-gradient-text">entire prep journey</span>
           </h2>
           <p className="ex-lead">
-            Switch between analytics, realistic CBT exams, your AI tutor, and
-            live leaderboards — all in a single, beautifully designed workspace.
+            Switch between {/* analytics,  */}
+            realistic CBT exams, your AI tutor {/* , and live leaderboards  */}—
+            all in a single, beautifully designed workspace.
           </p>
         </div>
 
