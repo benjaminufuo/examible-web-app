@@ -321,7 +321,7 @@ const CbtReport = () => {
                       <span
                         className={`cbt-accuracy-badge ${getAccuracyClass(item.average)}`}
                       >
-                        {item.average.toFixed(0)}%
+                        {(Number.isFinite(item.average) ? item.average : 0).toFixed(0)}%
                       </span>
                     </td>
                   </tr>
@@ -345,12 +345,12 @@ const CbtReport = () => {
                   <motion.div
                     className="cbt-bar-fill"
                     initial={{ width: 0 }}
-                    animate={{ width: `${item.average}%` }}
+                    animate={{ width: `${Number.isFinite(item.average) ? item.average : 0}%` }}
                     transition={{ duration: 0.5, delay: 0.2 + idx * 0.1 }}
                   ></motion.div>
                 </div>
                 <span className="cbt-bar-value">
-                  {item.average.toFixed(0)}%
+                  {(Number.isFinite(item.average) ? item.average : 0).toFixed(0)}%
                 </span>
               </div>
             ))}
@@ -486,7 +486,7 @@ const CbtReport = () => {
                         <div
                           className="cbt-bar-fill"
                           style={{
-                            "--bar-fill-width": `${(s.totalQuestions / totalQuestions) * 100}%`,
+                            "--bar-fill-width": `${totalQuestions > 0 ? (s.totalQuestions / totalQuestions) * 100 : 0}%`,
                             "--bar-fill-color":
                               chartColors[i % chartColors.length],
                           }}
@@ -579,7 +579,7 @@ const CbtReport = () => {
                   <span
                     className={`cbt-history-score ${getAccuracyClass(attempt.performance)}`}
                   >
-                    {attempt.performance.toFixed(1)}%
+                    {(Number.isFinite(attempt.performance) ? attempt.performance : 0).toFixed(1)}%
                   </span>
                 </div>
               ))}

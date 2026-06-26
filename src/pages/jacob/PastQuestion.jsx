@@ -8,12 +8,7 @@ import {
   FaLock,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setExam,
-  setPastQuestions,
-  setYear,
-  clearPastQuestionsOption,
-} from "../../global/slice";
+import { setPastQuestions, clearPastQuestionsOption } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { questionApi } from "../../config/questionApi";
@@ -62,7 +57,7 @@ const PastQuestion = () => {
       }
       dispatch(setPastQuestions(questions));
       dispatch(clearPastQuestionsOption());
-      nav("/past-questions/view");
+      nav("/past-questions/view", { state: { subject, year } });
       setLoading(false);
       setDisabled(true);
     } catch {
@@ -73,13 +68,11 @@ const PastQuestion = () => {
 
   const handleSubjectClick = (subject) => {
     setSelectedSubject(subject);
-    dispatch(setExam(subject));
     setSelectedYear("Year"); // Reset selected year when subject changes
   };
 
   const handleYearClick = (year) => {
     setSelectedYear(year);
-    dispatch(setYear(year));
   };
 
   useEffect(() => {

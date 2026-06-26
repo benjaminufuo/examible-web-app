@@ -1,7 +1,6 @@
 import styles from "./pagination.module.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
-import ErrorPgae from "../../pages/jacob/ErrorPgae";
 
 const getPagination = (currentPage, totalPages) => {
   const pages = [];
@@ -49,6 +48,8 @@ const Pagination = ({ page, setPage, totalPages }) => {
   const navigate = useNavigate();
 
   const handlePageChange = (newPage) => {
+    document.activeElement?.blur();
+
     navigate(
       {
         pathname: location.pathname,
@@ -63,7 +64,8 @@ const Pagination = ({ page, setPage, totalPages }) => {
 
     setPage(newPage);
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   return (

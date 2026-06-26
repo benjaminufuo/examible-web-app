@@ -152,8 +152,17 @@ const examSubjects = useMemo(() => {
     );
   }, [timedOut, currentQuestion?.answer, subjectId, currentSubject, dispatch]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [subjectId]);
+
   const previousExam = () => {
     if (num <= 1) return;
+    document.activeElement?.blur();
     dispatch(
       nextQuestion({
         answer: currentQuestion?.answer,
@@ -258,7 +267,7 @@ const examSubjects = useMemo(() => {
     );
 
     const targetIndex = lastSubjectChaged?.[targetSubject];
-    if (targetIndex) {
+    if (targetIndex != null) {
       dispatch(
         setMockExamOption({
           option: getCurrentUserAnswer(targetIndex, targetSubject)?.option,

@@ -193,8 +193,8 @@ const ViewPastQuestion = () => {
     navigate("/past-questions/result", { state: resultState });
   };
 
-  const year = useSelector((state) => state.year);
-  const subject = useSelector((state) => state.exam);
+  const year = location.state?.year || "";
+  const subject = location.state?.subject || "";
   const questions = useSelector((state) => state.pastQuestions) || [];
   const pastQuestionsOption = useSelector((state) => state.pastQuestionsOption);
   const [count, setCount] = useState(0);
@@ -236,6 +236,14 @@ const ViewPastQuestion = () => {
       }, 20000);
     }
   }, [count]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [currentPage]);
 
   const processedQuestions = useMemo(
     () =>
@@ -299,7 +307,6 @@ const ViewPastQuestion = () => {
             setPage={(page) => {
               setCount(count + 1);
               setCurrentPage(page);
-              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
 

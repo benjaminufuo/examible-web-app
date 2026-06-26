@@ -153,6 +153,8 @@
   font-style: italic;
   margin-bottom: 16px;
   line-height: 1.6;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .exam-diagram {
@@ -160,6 +162,7 @@
   border-radius: 12px;
   margin: 16px 0;
   border: 1px solid var(--ex-border);
+  background-color: #ffffff;
 }
 
 .exam-q-text {
@@ -169,6 +172,8 @@
   color: var(--ex-text);
   line-height: 1.6;
   margin: 0 0 32px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .exam-options-grid {
@@ -225,9 +230,12 @@
 
 .exam-opt-text {
   flex: 1;
+  min-width: 0;
   font-size: 16px;
   color: var(--ex-text);
   line-height: 1.5;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .exam-opt-check {

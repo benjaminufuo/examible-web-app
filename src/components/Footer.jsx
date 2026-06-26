@@ -133,10 +133,10 @@ const Footer = () => {
           © {new Date().getFullYear()} Examible Technologies. All rights
           reserved.
         </span>
-        <div className="ex-footer__legal">
+        {/* <div className="ex-footer__legal">
           <Link to="/data-deletion">Privacy</Link>
           <Link to="/data-deletion">Data Deletion</Link>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

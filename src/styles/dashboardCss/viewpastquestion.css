@@ -192,6 +192,8 @@
   color: var(--ex-text-muted);
   font-style: italic;
   margin-bottom: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .vpq-diagram {
@@ -213,6 +215,8 @@
   color: var(--ex-text);
   line-height: 1.5;
   margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .vpq-options-grid {
@@ -289,9 +293,12 @@
 
 .vpq-option-content {
   flex: 1;
+  min-width: 0;
   font-size: 16px;
   color: var(--ex-text);
   line-height: 1.5;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .vpq-status-icon {

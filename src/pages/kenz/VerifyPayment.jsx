@@ -24,7 +24,6 @@ const VerifyPayment = () => {
         setIsVerifying(false);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
       setTimeout(() => {
         nav("/overview");
       }, 3000);

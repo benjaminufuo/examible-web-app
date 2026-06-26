@@ -20,7 +20,10 @@ const FinalCTA = () => {
               WAEC, and NECO with AI-powered practice and real-time analytics.
             </p>
             <div className="ex-cta__actions">
-              <button className="ex-btn ex-btn-white ex-btn-lg" onClick={() => nav("/signup")}>
+              <button
+                className="ex-btn ex-btn-white ex-btn-lg"
+                onClick={() => nav("/signup")}
+              >
                 Create free account <FiArrowRight size={18} />
               </button>
               <button
@@ -34,7 +37,7 @@ const FinalCTA = () => {
               </button>
             </div>
             <p className="ex-cta__note">
-              No card required · Free practice questions · Cancel anytime
+              No card required · Free practice questions
             </p>
           </div>
         </Reveal>

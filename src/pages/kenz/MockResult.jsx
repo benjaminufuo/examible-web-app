@@ -130,6 +130,14 @@ const MockResult = () => {
     }
   }, [viewStep]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [currentPage]);
+
   // Summary Math Computation
   const totalCorrect = Math.round(totalScore);
   const totalIncorrect = validQuestionsLength - totalCorrect;
@@ -388,7 +396,8 @@ const MockResult = () => {
                     },
                   },
                 );
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
               }}
             >
               {subj}

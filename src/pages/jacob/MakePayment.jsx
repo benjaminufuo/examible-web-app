@@ -149,7 +149,7 @@ const MakePayment = () => {
             </button>
 
             <p className="checkout-guarantee">
-              <FiCreditCard /> Instant activation. Cancel anytime.
+              <FiCreditCard /> Instant activation.
             </p>
           </div>
         </motion.div>

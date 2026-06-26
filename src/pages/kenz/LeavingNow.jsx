@@ -32,9 +32,12 @@ const LeavingNow = () => {
     isSubmittingRef.current = true;
     setQuitError(null);
     const timeLeft = examTimerMins * 60 + examTimerSecs;
+    const isCbt = mockSelectedSubject === "CBT Examination";
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
-      (user?.plan === "Freemium" ? 10 : 30);
+      (isCbt
+        ? user?.plan === "Freemium" ? 30 : 120
+        : user?.plan === "Freemium" ? 10 : 30);
 
     const duration = Math.min(7200, Math.max(1, initialDuration * 60 - timeLeft));
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
@@ -50,8 +53,6 @@ const LeavingNow = () => {
     const englishSubj =
       allSubjectsData.find((s) => s.subject.toLowerCase().includes("english"))
         ?.subject || "English Language";
-
-    const isCbt = mockSelectedSubject === "CBT Examination";
     const apiSubject = isCbt ? englishSubj : mockSelectedSubject || "Mock Exam";
 
     setLoading(true);
