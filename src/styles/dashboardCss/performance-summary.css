@@ -22,7 +22,7 @@
   font-weight: 700;
   margin: 0 0 8px 0;
   background: var(
-    --ex-gradient-text,
+    --ex-gradient-brand,
     linear-gradient(135deg, #804bf2 0%, #1a1a1a 100%)
   );
   -webkit-background-clip: text;
