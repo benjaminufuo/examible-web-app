@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelExam } from "../../global/slice";
+import { cancelExam, setMockResultPage } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import Calculator from "../../components/Calculator";
@@ -69,7 +69,8 @@ const MockResult = () => {
   const [viewStep, setViewStep] = useState("loading"); // "loading" | "summary" | "details"
   const [loadingText, setLoadingText] = useState("Calculating your results...");
 
-  const [currentPage, setCurrentPage] = useState(location.state?.page || 1);
+  const savedPage = useSelector((state) => state.mockResultPage);
+  const [currentPage, setCurrentPage] = useState(savedPage || 1);
   const [reviewSubject, setReviewSubject] = useState("");
 
   const page = currentPage;
@@ -130,12 +131,9 @@ const MockResult = () => {
     }
   }, [viewStep]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }, 0);
-    return () => clearTimeout(timer);
+  useLayoutEffect(() => {
+    if (viewStep === "loading") return;
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
   // Summary Math Computation
@@ -385,17 +383,7 @@ const MockResult = () => {
               onClick={() => {
                 setReviewSubject(subj);
                 setCurrentPage(1);
-                nav(
-                  {
-                    pathname: location.pathname,
-                  },
-                  {
-                    state: {
-                      ...location.state,
-                      page: 1,
-                    },
-                  },
-                );
+                dispatch(setMockResultPage(1));
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
               }}
@@ -576,7 +564,10 @@ const MockResult = () => {
         <div className="mr-pagination-wrapper">
           <Pagination
             page={page}
-            setPage={setCurrentPage}
+            setPage={(p) => {
+                setCurrentPage(p);
+                dispatch(setMockResultPage(p));
+              }}
             totalPages={Math.ceil(reviewSubjectTotal / questionsPerPage)}
           />
         </div>

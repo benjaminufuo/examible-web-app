@@ -1,6 +1,6 @@
 import styles from "./pagination.module.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 const getPagination = (currentPage, totalPages) => {
   const pages = [];
@@ -42,30 +42,22 @@ const getPagination = (currentPage, totalPages) => {
 };
 
 const Pagination = ({ page, setPage, totalPages }) => {
-  const location = useLocation();
-  const currentPage = Number(location.state?.page) || page || 1;
+  const currentPage = page || 1;
   const pages = getPagination(currentPage, totalPages);
-  const navigate = useNavigate();
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current);
+  }, []);
 
   const handlePageChange = (newPage) => {
-    document.activeElement?.blur();
-
-    navigate(
-      {
-        pathname: location.pathname,
-      },
-      {
-        state: {
-          ...location.state,
-          page: newPage,
-        },
-      },
-    );
-
-    setPage(newPage);
-
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    // Deferred to a macrotask so the DOM change happens after iOS
+    // fully releases the touch event, preventing touch-freeze on Safari.
+    // Clearing any pending timeout also prevents double-tap races.
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setPage(newPage);
+    }, 0);
   };
 
   return (

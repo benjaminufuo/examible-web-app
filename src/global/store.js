@@ -8,6 +8,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  throttle: 1000,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo } from "react";
 import "../../styles/dashboardCss/examBody.css";
 import { LuClock2 } from "react-icons/lu";
 import {
@@ -152,17 +152,12 @@ const examSubjects = useMemo(() => {
     );
   }, [timedOut, currentQuestion?.answer, subjectId, currentSubject, dispatch]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }, 0);
-    return () => clearTimeout(timer);
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
   }, [subjectId]);
 
   const previousExam = () => {
     if (num <= 1) return;
-    document.activeElement?.blur();
     dispatch(
       nextQuestion({
         answer: currentQuestion?.answer,
