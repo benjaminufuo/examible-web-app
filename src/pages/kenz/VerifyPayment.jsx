@@ -20,13 +20,21 @@ const VerifyPayment = () => {
       const res = await paymentApi.verifyPayment(reference);
       if (res?.data?.success) {
         dispatch(setUser(res?.data?.data?.student));
-        setPlan(res?.data?.data?.student?.plan);
+        const fullPlanName = res?.data?.data?.student?.plan || "";
+        // Remove "Premium " to get just "Monthly" or "Yearly"
+        setPlan(fullPlanName.replace("Premium ", ""));
         setIsVerifying(false);
+      } else {
+        // Handle cases where verification is not successful
+        toast.error(res?.data?.message || "Payment could not be verified.");
+        setIsVerifying(false);
+        nav("/subscription"); // Redirect to a relevant page
       }
-    } catch (error) {
+    } catch (_error) {
+      toast.error("An error occurred during verification. Please try again.");
       setTimeout(() => {
         nav("/overview");
-      }, 3000);
+      }, 2000);
     }
   };
 

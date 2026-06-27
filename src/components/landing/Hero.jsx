@@ -1,13 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import {
-  FiTrendingUp,
-  FiAward,
-  FiZap,
-  FiCheckCircle,
-  FiPlay,
-  FiArrowRight,
-} from "react-icons/fi";
+import { FiTrendingUp, FiZap, FiPlay, FiArrowRight } from "react-icons/fi";
+import { FaBrain, FaTrophy, FaChartLine } from "react-icons/fa";
 import avatarOne from "../../assets/public/avatars/avatar1.png";
 import avatarTwo from "../../assets/public/avatars/avatar2.png";
 import avatarThree from "../../assets/public/avatars/avatar3.png";
@@ -93,44 +87,37 @@ const Hero = () => {
                   <small>Your JAMB readiness is improving</small>
                 </div>
               </div>
-              <span className="ex-hero__badge">
+              {/* <span className="ex-hero__badge">
                 <FiTrendingUp size={13} /> +18%
-              </span>
+              </span> */}
             </div>
 
             <div className="ex-hero__dashStats">
               <div className="ex-hero__stat">
-                <small>Predicted score</small>
-                <strong>312</strong>
+                <small>Exams Taken</small>
+                <strong>12</strong>
               </div>
               <div className="ex-hero__stat">
-                <small>Streak</small>
-                <strong>14 days</strong>
+                <small>Avg. Score</small>
+                <strong>78%</strong>
               </div>
               <div className="ex-hero__stat">
-                <small>Accuracy</small>
+                <small>Top Subject</small>
                 <strong>86%</strong>
               </div>
             </div>
 
-            <div className="ex-hero__chart">
-              <div className="ex-hero__chartHead">
-                <small>Weekly performance</small>
-                <span>Mathematics</span>
-              </div>
-              <div className="ex-hero__bars">
-                {[42, 58, 50, 70, 64, 82, 90].map((h, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ height: 0 }}
-                    animate={{ height: `${h}%` }}
-                    transition={{
-                      duration: 0.7,
-                      delay: 0.5 + i * 0.08,
-                      ease: "easeOut",
-                    }}
-                  />
-                ))}
+            <div className="ex-hero__pieChart">
+              <div
+                className="ex-hero__doughnut"
+                style={{
+                  background: `conic-gradient(var(--ex-brand) 0% 78%, var(--ex-surface-2) 78% 100%)`,
+                }}
+              >
+                <div className="ex-hero__doughnut-inner">
+                  <strong>78%</strong>
+                  <small>Avg. Score</small>
+                </div>
               </div>
             </div>
 
@@ -171,11 +158,11 @@ const Hero = () => {
                 color: "var(--ex-brand)",
               }}
             >
-              <FiZap size={16} />
+              <FaBrain size={16} />
             </span>
             <div>
-              <strong>AI Tutor</strong>
-              <small>Explained 3 questions</small>
+              <strong>Most Practiced</strong>
+              <small>English Language</small>
             </div>
           </motion.div>
 
@@ -190,11 +177,11 @@ const Hero = () => {
                 color: "var(--ex-accent-2)",
               }}
             >
-              <FiAward size={16} />
+              <FaTrophy size={16} />
             </span>
             <div>
-              <strong>Rank #4</strong>
-              <small>Top 2% this week</small>
+              <strong>Strongest Subject</strong>
+              <small>Mathematics</small>
             </div>
           </motion.div>
 
@@ -205,15 +192,15 @@ const Hero = () => {
             <span
               className="ex-hero__floatIcon"
               style={{
-                background: "rgba(22,179,100,0.16)",
-                color: "var(--ex-success)",
+                background: "rgba(239,68,68,0.16)",
+                color: "var(--ex-danger)",
               }}
             >
-              <FiCheckCircle size={16} />
+              <FaChartLine size={16} style={{ transform: "rotate(180deg)" }} />
             </span>
             <div>
-              <strong>Mock passed</strong>
-              <small>84 / 100 correct</small>
+              <strong>Needs Improvement</strong>
+              <small>Physics</small>
             </div>
           </motion.div>
         </motion.div>

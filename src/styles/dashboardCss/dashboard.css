@@ -314,8 +314,8 @@
     h3 {
       font-family: "Sora", sans-serif;
       font-weight: 700;
-      font-size: 28px;
-      background: var(--ex-gradient-brand);
+      font-size: 22px;
+      background: linear-gradient(90deg, var(--ex-brand) 0%, #f59e0b 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -363,7 +363,7 @@
       margin-top: 0px;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       h3 {
-        font-size: 20px;
+        font-size: 18px;
       }
       nav {
         display: none;
@@ -783,6 +783,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 13px;
 }
 
 /* Mobile Adjustments */
@@ -791,7 +792,14 @@
     gap: 10px; /* Shrinks the gap so icons fit cleanly */
   }
   .dashboard-welcome-text {
-    font-size: 18px !important; /* Scales down text to fit mobile */
+    font-size: 13px !important; /* Adjust font size for wrapping */
+    white-space: normal; /* Allow text to wrap */
+    overflow: visible;
+    text-overflow: initial;
+    line-height: 1.4;
+  }
+  .motivational-slider {
+    height: 38px; /* Accommodate two lines of text */
   }
 }
 

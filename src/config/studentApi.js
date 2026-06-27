@@ -84,6 +84,9 @@ class StudentApi {
   submitFeedback() {
     return this.#http.put("/students/feedback");
   }
+  myMockTest() {
+    return this.#http.get("mock-tests/my-tests");
+  }
 }
 
 export const studentApi = new StudentApi();
