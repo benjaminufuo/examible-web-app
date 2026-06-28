@@ -94,12 +94,12 @@ const Hero = () => {
 
             <div className="ex-hero__dashStats">
               <div className="ex-hero__stat">
-                <small>Exams Taken</small>
-                <strong>12</strong>
+                <small>Subject taken</small>
+                <strong>4</strong>
               </div>
               <div className="ex-hero__stat">
-                <small>Avg. Score</small>
-                <strong>78%</strong>
+                <small>Total question</small>
+                <strong>160</strong>
               </div>
               <div className="ex-hero__stat">
                 <small>Top Subject</small>
@@ -126,6 +126,7 @@ const Hero = () => {
                 { s: "English", v: 78 },
                 { s: "Physics", v: 64 },
                 { s: "Chemistry", v: 71 },
+                { s: "Mathematics", v: 81 },
               ].map((row) => (
                 <div className="ex-hero__subjectRow" key={row.s}>
                   <span>{row.s}</span>
