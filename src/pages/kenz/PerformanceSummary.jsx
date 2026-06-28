@@ -12,9 +12,9 @@ import {
   FaFire,
   FaCalendarAlt,
 } from "react-icons/fa";
-import { ClipLoader } from "react-spinners";
 import "../../styles/dashboardCss/performance-summary.css";
 import { studentApi } from "../../config/studentApi";
+import Loading from "../../components/Loading";
 
 const PerformanceSummary = () => {
   const nav = useNavigate();
@@ -33,9 +33,7 @@ const PerformanceSummary = () => {
         if (res.data?.data) {
           setRatings(res.data.data);
         }
-      } catch (error) {
-        console.error("Failed to fetch performance summary:", error);
-      } finally {
+      } catch {
         setLoading(false);
       }
     };
@@ -156,11 +154,7 @@ const PerformanceSummary = () => {
   };
 
   if (loading) {
-    return (
-      <div className="perf-loading-state">
-        <ClipLoader color="var(--ex-brand)" size={40} />
-      </div>
-    );
+    return <Loading text="Analyzing your performance data..." />;
   }
 
   return (
