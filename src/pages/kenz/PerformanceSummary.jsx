@@ -33,7 +33,9 @@ const PerformanceSummary = () => {
         if (res.data?.data) {
           setRatings(res.data.data);
         }
-      } catch {
+      } catch (error) {
+        console.error("Failed to fetch performance summary:", error);
+      } finally {
         setLoading(false);
       }
     };

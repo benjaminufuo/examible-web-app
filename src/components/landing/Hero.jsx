@@ -15,6 +15,23 @@ const float = (delay) => ({
 const Hero = () => {
   const nav = useNavigate();
 
+  const chartSubjects = [
+    { name: "English", score: 78, color: "var(--ex-brand)" },
+    { name: "Physics", score: 64, color: "#10b981" },
+    { name: "Chemistry", score: 71, color: "#f59e0b" },
+  ];
+
+  const totalScore = chartSubjects.reduce((sum, s) => sum + s.score, 0) || 1;
+  let currentAngle = 0;
+  const conicGradientSlices = chartSubjects
+    .map((s) => {
+      const percentage = (s.score / totalScore) * 100;
+      const slice = `${s.color} ${currentAngle}% ${currentAngle + percentage}%`;
+      currentAngle += percentage;
+      return slice;
+    })
+    .join(", ");
+
   return (
     <section className="ex-hero">
       <div className="ex-hero__bg" aria-hidden="true">
@@ -98,12 +115,12 @@ const Hero = () => {
                 <strong>12</strong>
               </div>
               <div className="ex-hero__stat">
-                <small>Total quetion</small>
-                <strong>180</strong>
+                <small>Focus Area</small>
+                <strong className="ex-hero__stat--text">Physics</strong>
               </div>
               <div className="ex-hero__stat">
                 <small>Top Subject</small>
-                <strong>82%</strong>
+                <strong className="ex-hero__stat--text">English</strong>
               </div>
             </div>
 
@@ -111,7 +128,7 @@ const Hero = () => {
               <div
                 className="ex-hero__doughnut"
                 style={{
-                  background: `conic-gradient(var(--ex-brand) 0% 78%, var(--ex-surface-2) 78% 100%)`,
+                  background: `conic-gradient(${conicGradientSlices})`,
                 }}
               >
                 <div className="ex-hero__doughnut-inner">
@@ -122,27 +139,25 @@ const Hero = () => {
             </div>
 
             <div className="ex-hero__subjects">
-              {[
-                { s: "English", v: 78 },
-                { s: "Physics", v: 64 },
-                { s: "Chemistry", v: 71 },
-                { s: "Mathematics", v: 82 },
-              ].map((row) => (
-                <div className="ex-hero__subjectRow" key={row.s}>
-                  <span>{row.s}</span>
+              {chartSubjects.map((subject) => (
+                <div className="ex-hero__subjectRow" key={subject.name}>
+                  <span>{subject.name}</span>
                   <div className="ex-hero__track">
                     <motion.div
                       className="ex-hero__fill"
                       initial={{ width: 0 }}
-                      animate={{ width: `${row.v}%` }}
+                      animate={{ width: `${subject.score}%` }}
                       transition={{
                         duration: 0.9,
                         delay: 0.6,
                         ease: "easeOut",
                       }}
+                      style={{
+                        background: subject.color,
+                      }}
                     />
                   </div>
-                  <em>{row.v}%</em>
+                  <em>{subject.score}%</em>
                 </div>
               ))}
             </div>

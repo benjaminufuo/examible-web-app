@@ -241,6 +241,11 @@
   font-size: 1.3rem;
   color: var(--ex-text);
 }
+.ex-hero__stat--text {
+  font-size: 1.1rem;
+  font-family: var(--ex-font-body);
+  font-weight: 600;
+}
 .ex-hero__chart {
   background: var(--ex-surface-2);
   border: 1px solid var(--ex-border);
