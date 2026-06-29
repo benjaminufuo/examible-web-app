@@ -370,7 +370,6 @@
     align-items: flex-start;
   }
   .perf-filters {
-    width: 100%;
     overflow-x: auto;
   }
   .perf-filter-btn {
