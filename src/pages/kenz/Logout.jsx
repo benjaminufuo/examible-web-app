@@ -44,22 +44,16 @@ const Logout = () => {
         }, 550);
       }
       return;
-    } catch (error) {
+    } catch {
       setLoading(false);
-      if (
-        error?.response?.data?.message ===
-          "Session timed-out: Please login to continue" ||
-        error?.response?.data?.message ===
-          "Authentication Failed: User is not logged in"
-      ) {
-        setTimeout(() => {
-          nav("/");
-        }, 500);
-        setTimeout(() => {
-          dispatch(logoutTheUser());
-          setIsLogout(false);
-        }, 1000);
-      }
+
+      setTimeout(() => {
+        nav("/");
+      }, 500);
+      setTimeout(() => {
+        dispatch(logoutTheUser());
+        setIsLogout(false);
+      }, 1000);
     }
   };
 

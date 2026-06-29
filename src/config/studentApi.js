@@ -32,7 +32,7 @@ class StudentApi {
   // ─── Auth (Authenticated) ───────────────────────────────────────────────────
 
   logout() {
-    return this.#http.post("/logout");
+    return this.#http.post("/logout", null, { silent: true });
   }
 
   changePassword(data) {
@@ -83,6 +83,9 @@ class StudentApi {
 
   submitFeedback() {
     return this.#http.put("/students/feedback");
+  }
+  myMockTest() {
+    return this.#http.get("mock-tests/my-tests");
   }
 }
 

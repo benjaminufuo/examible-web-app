@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -14,25 +13,42 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import "../../styles/dashboardCss/performance-summary.css";
+import { studentApi } from "../../config/studentApi";
+import Loading from "../../components/Loading";
 
 const PerformanceSummary = () => {
-  const user = useSelector((state) => state.user);
   const nav = useNavigate();
   const [timeFilter, setTimeFilter] = useState("all");
+  const [ratings, setRatings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  const ratings = user?.myRating || [];
+    const fetchPerformanceData = async () => {
+      setLoading(true);
+      try {
+        const res = await studentApi.myMockTest();
+        if (res.data?.data) {
+          setRatings(res.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch performance summary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPerformanceData();
+  }, []);
 
   // Filter the data by selected time period
   const filteredRatings = useMemo(() => {
     if (timeFilter === "all") return ratings;
 
     const now = new Date();
-    const daysMap = { "7days": 7, "30days": 30, "3months": 90, "6months": 180 };
+    const daysMap = { "7days": 7, "30days": 30 };
     const limit = daysMap[timeFilter];
 
     return ratings.filter((r) => {
@@ -139,6 +155,10 @@ const PerformanceSummary = () => {
     return "poor";
   };
 
+  if (loading) {
+    return <Loading text="Analyzing your performance data..." />;
+  }
+
   return (
     <motion.div
       className="perf-summary-main"
@@ -160,7 +180,7 @@ const PerformanceSummary = () => {
         </div>
 
         <div className="perf-filters">
-          {["7days", "30days", "3months", "6months", "all"].map((f) => (
+          {["7days", "30days", "all"].map((f) => (
             <button
               key={f}
               className={`perf-filter-btn ${timeFilter === f ? "active" : ""}`}

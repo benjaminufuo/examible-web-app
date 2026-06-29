@@ -94,7 +94,7 @@ const Mockexam = () => {
           </div>
           <div className="mock-stat-info">
             <h4>Available Exams</h4>
-            <p>Unlimited</p>
+            <p>{user?.plan === "Freemium" ? "Limited" : "Unlimited"}</p>
           </div>
         </motion.div>
 

@@ -20,13 +20,17 @@ const VerifyPayment = () => {
       const res = await paymentApi.verifyPayment(reference);
       if (res?.data?.success) {
         dispatch(setUser(res?.data?.data?.student));
-        setPlan(res?.data?.data?.student?.plan);
+        const userPlan = res?.data?.data?.student?.plan || "Premium";
+        setPlan(userPlan);
         setIsVerifying(false);
+      } else {
+        setIsVerifying(false);
+        nav("/subscription"); // Redirect to a relevant page
       }
-    } catch (error) {
+    } catch {
       setTimeout(() => {
         nav("/overview");
-      }, 3000);
+      }, 2000);
     }
   };
 

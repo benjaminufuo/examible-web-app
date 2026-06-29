@@ -9,15 +9,18 @@ const loadingMessages = [
   "Personalizing your experience...",
 ];
 
-const Loading = () => {
+const Loading = ({ text }) => {
   const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
+    // If a specific text prop is provided, don't cycle through messages.
+    if (text) return;
+
     const interval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
     }, 2500);
     return () => clearInterval(interval);
-  }, []);
+  }, [text]);
 
   return (
     <div className="ex-premium-loader-overlay">
@@ -33,8 +36,8 @@ const Loading = () => {
 
         <div className="ex-loader-text-container">
           <h2 className="ex-loader-title">Examible</h2>
-          <p className="ex-loader-message" key={messageIndex}>
-            {loadingMessages[messageIndex]}
+          <p className="ex-loader-message" key={text || messageIndex}>
+            {text || loadingMessages[messageIndex]}
           </p>
         </div>
 
