@@ -134,7 +134,9 @@ const PerformanceSummary = () => {
     "#f59e0b",
     "#3b82f6",
     "#ec4899",
-    "#8b5cf6",
+    "#06b6d4",
+    "#84cc16",
+    "#e11d48",
   ];
   const totalAccuracySum =
     subjectStats.reduce((sum, s) => sum + s.accuracy, 0) || 1; // prevent divide by zero
@@ -386,52 +388,49 @@ const PerformanceSummary = () => {
             style={{ display: "flex", flexDirection: "column", gap: "16px" }}
           >
             {filteredRatings.length > 0 ? (
-              [...filteredRatings]
-                .reverse()
-                .slice(0, 4)
-                .map((r, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      borderBottom: "1px solid var(--ex-border)",
-                      paddingBottom: "12px",
-                    }}
-                  >
-                    <div>
-                      <strong
-                        style={{
-                          display: "block",
-                          fontSize: "14px",
-                          marginBottom: "4px",
-                        }}
-                      >
-                        {r.subject}
-                      </strong>
-                      <small
-                        style={{
-                          color: "var(--ex-text-muted)",
-                          fontSize: "12px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "4px",
-                        }}
-                      >
-                        <FaCalendarAlt />{" "}
-                        {r.createdAt
-                          ? new Date(r.createdAt).toLocaleDateString()
-                          : "Recently"}
-                      </small>
-                    </div>
-                    <span
-                      className={`perf-accuracy-pill ${getAccuracyClass(r.performance)}`}
+              [...filteredRatings].slice(0, 4).map((r, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderBottom: "1px solid var(--ex-border)",
+                    paddingBottom: "12px",
+                  }}
+                >
+                  <div>
+                    <strong
+                      style={{
+                        display: "block",
+                        fontSize: "14px",
+                        marginBottom: "4px",
+                      }}
                     >
-                      {r.performance ? r.performance.toFixed(1) : 0}%
-                    </span>
+                      {r.subject}
+                    </strong>
+                    <small
+                      style={{
+                        color: "var(--ex-text-muted)",
+                        fontSize: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                      }}
+                    >
+                      <FaCalendarAlt />{" "}
+                      {r.createdAt
+                        ? new Date(r.createdAt).toLocaleDateString()
+                        : "Recently"}
+                    </small>
                   </div>
-                ))
+                  <span
+                    className={`perf-accuracy-pill ${getAccuracyClass(r.performance)}`}
+                  >
+                    {r.performance ? r.performance.toFixed(1) : 0}%
+                  </span>
+                </div>
+              ))
             ) : (
               <p style={{ color: "var(--ex-text-muted)", fontSize: "14px" }}>
                 No recent sessions found.

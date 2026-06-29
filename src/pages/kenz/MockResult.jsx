@@ -1,4 +1,10 @@
-import { useState, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import "../../styles/dashboardCss/mockResult.css";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelExam, setMockResultPage } from "../../global/slice";
@@ -82,7 +88,7 @@ const MockResult = () => {
 
   const { loading, handleViewExplanation } = useAiExplanation(
     mockYear,
-    location.state?.subject,
+    location.state?.subject ?? reviewSubject,
     userToken,
   );
 
@@ -101,6 +107,8 @@ const MockResult = () => {
     dispatch(cancelExam());
     if (isPastQuestionResult) {
       nav("/past-questions");
+    } else if (isCbtMode) {
+      nav("/cbt-mode");
     } else {
       nav("/mock-exam");
     }
@@ -565,9 +573,9 @@ const MockResult = () => {
           <Pagination
             page={page}
             setPage={(p) => {
-                setCurrentPage(p);
-                dispatch(setMockResultPage(p));
-              }}
+              setCurrentPage(p);
+              dispatch(setMockResultPage(p));
+            }}
             totalPages={Math.ceil(reviewSubjectTotal / questionsPerPage)}
           />
         </div>
