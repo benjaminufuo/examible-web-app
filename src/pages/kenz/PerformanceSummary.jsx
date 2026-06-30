@@ -211,10 +211,7 @@ const PerformanceSummary = () => {
 
         <div className="perf-card perf-stat-card">
           <div className="perf-stat-header">
-            <div
-              className="perf-stat-icon"
-              style={{ color: "#10b981", background: "rgba(16,185,129,0.1)" }}
-            >
+            <div className="perf-stat-icon perf-stat-icon--green">
               <FaCheckCircle />
             </div>
             Average Accuracy
@@ -225,10 +222,7 @@ const PerformanceSummary = () => {
 
         <div className="perf-card perf-stat-card">
           <div className="perf-stat-header">
-            <div
-              className="perf-stat-icon"
-              style={{ color: "#f59e0b", background: "rgba(245,158,11,0.1)" }}
-            >
+            <div className="perf-stat-icon perf-stat-icon--amber">
               <FaClock />
             </div>
             Total Study Time
@@ -239,10 +233,7 @@ const PerformanceSummary = () => {
 
         <div className="perf-card perf-stat-card">
           <div className="perf-stat-header">
-            <div
-              className="perf-stat-icon"
-              style={{ color: "#3b82f6", background: "rgba(59,130,246,0.1)" }}
-            >
+            <div className="perf-stat-icon perf-stat-icon--blue">
               <FaFire />
             </div>
             Avg. Completion
@@ -292,7 +283,7 @@ const PerformanceSummary = () => {
               </table>
             </div>
           ) : (
-            <p style={{ color: "var(--ex-text-muted)", fontSize: "14px" }}>
+            <p className="perf-empty-text">
               No mock exam data found for this period.
             </p>
           )}
@@ -330,14 +321,7 @@ const PerformanceSummary = () => {
               </div>
             </div>
           ) : (
-            <p
-              style={{
-                color: "var(--ex-text-muted)",
-                fontSize: "14px",
-                textAlign: "center",
-                marginTop: "40px",
-              }}
-            >
+            <p className="perf-empty-text perf-empty-text--centered">
               Take an exam to unlock chart.
             </p>
           )}
@@ -350,7 +334,7 @@ const PerformanceSummary = () => {
           <h3 className="perf-section-title">Smart Insights</h3>
           <div className="perf-insight-list">
             <div className="perf-insight-row">
-              <div className="perf-insight-icon" style={{ color: "#10b981" }}>
+              <div className="perf-insight-icon perf-insight-icon--green">
                 <FaTrophy />
               </div>
               <div className="perf-insight-text">
@@ -359,8 +343,8 @@ const PerformanceSummary = () => {
               </div>
             </div>
             <div className="perf-insight-row">
-              <div className="perf-insight-icon" style={{ color: "#ef4444" }}>
-                <FaChartLine style={{ transform: "rotate(180deg)" }} />
+              <div className="perf-insight-icon perf-insight-icon--red">
+                <FaChartLine className="perf-icon-flip" />
               </div>
               <div className="perf-insight-text">
                 <h4>Needs Improvement</h4>
@@ -368,7 +352,7 @@ const PerformanceSummary = () => {
               </div>
             </div>
             <div className="perf-insight-row">
-              <div className="perf-insight-icon" style={{ color: "#804bf2" }}>
+              <div className="perf-insight-icon perf-insight-icon--purple">
                 <FaBrain />
               </div>
               <div className="perf-insight-text">
@@ -384,40 +368,13 @@ const PerformanceSummary = () => {
         {/* Section 7: Recent Exams Feed */}
         <motion.div className="perf-card" variants={itemVars}>
           <h3 className="perf-section-title">Recent Sessions</h3>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          >
+          <div className="perf-sessions-list">
             {filteredRatings.length > 0 ? (
               [...filteredRatings].slice(0, 4).map((r, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    borderBottom: "1px solid var(--ex-border)",
-                    paddingBottom: "12px",
-                  }}
-                >
+                <div key={idx} className="perf-session-row">
                   <div>
-                    <strong
-                      style={{
-                        display: "block",
-                        fontSize: "14px",
-                        marginBottom: "4px",
-                      }}
-                    >
-                      {r.subject}
-                    </strong>
-                    <small
-                      style={{
-                        color: "var(--ex-text-muted)",
-                        fontSize: "12px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4px",
-                      }}
-                    >
+                    <strong className="perf-session-subject">{r.subject}</strong>
+                    <small className="perf-session-date">
                       <FaCalendarAlt />{" "}
                       {r.createdAt
                         ? new Date(r.createdAt).toLocaleDateString()
@@ -432,9 +389,7 @@ const PerformanceSummary = () => {
                 </div>
               ))
             ) : (
-              <p style={{ color: "var(--ex-text-muted)", fontSize: "14px" }}>
-                No recent sessions found.
-              </p>
+              <p className="perf-empty-text">No recent sessions found.</p>
             )}
           </div>
         </motion.div>
