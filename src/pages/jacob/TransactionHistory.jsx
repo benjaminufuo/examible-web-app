@@ -118,7 +118,6 @@ const TransactionHistory = () => {
         toast.info(res.data?.message || "Payment is still being processed.");
       }
     } catch (error) {
-      toast.error("Verification failed. Please try again later.");
       console.error("Verification error:", error);
     } finally {
       setVerifying((prev) => {
