@@ -15,9 +15,9 @@ const routePrefetches = {
   "/profile": () => import("../pages/kenz/Profile"),
   "/past-questions": () => import("../pages/jacob/PastQuestion"),
   "/subscription": () => import("../pages/jacob/Subscription"),
+  "/subscription/transactions": () =>
+    import("../pages/jacob/TransactionHistory"),
   "/subscription/make-payment": () => import("../pages/jacob/MakePayment"),
-  "/about-us": () => import("../pages/jacob/AboutUs"),
-  "/plans": () => import("../pages/jacob/Plans"),
 };
 
 /**
@@ -60,7 +60,7 @@ const RELOAD_FLAG = "__routePrefetchReloaded";
 function hasReloadedOnce() {
   try {
     return sessionStorage.getItem(RELOAD_FLAG) === "1";
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -68,7 +68,7 @@ function hasReloadedOnce() {
 function markReloaded() {
   try {
     sessionStorage.setItem(RELOAD_FLAG, "1");
-  } catch (error) {
+  } catch {
     // ignore storage errors
   }
 }
@@ -84,7 +84,9 @@ export function safeLazy(importFn) {
       }
 
       return {
-        default: () => <div>Something went wrong. Please refresh the page.</div>,
+        default: () => (
+          <div>Something went wrong. Please refresh the page.</div>
+        ),
       };
     }),
   );

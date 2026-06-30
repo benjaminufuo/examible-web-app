@@ -24,11 +24,11 @@ const MainHolder = () => {
     return <Loading />;
   }
   return (
-    <>
+    <div className="ex-scope">
       <Header />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 

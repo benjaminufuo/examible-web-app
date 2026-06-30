@@ -5,6 +5,8 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background: var(--ex-bg);
+  color: var(--ex-text);
 }
 
 .aboutUsContainer {
@@ -15,6 +17,7 @@
   height: auto;
   padding-bottom: 40px;
 }
+
 .heroSection {
   width: 100%;
   height: auto;
@@ -22,16 +25,17 @@
   flex-direction: column;
   align-items: center;
 }
+
 .heroImgContainer {
   object-fit: contain;
   background-repeat: no-repeat;
   width: 100%;
   height: 250px;
+}
 
-  .heroImg {
-    width: 100%;
-    height: 100%;
-  }
+.heroImgContainer .heroImg {
+  width: 100%;
+  height: 100%;
 }
 
 .aboutdescription {
@@ -41,26 +45,22 @@
   padding: 47px 127.5px 47px 128.5px;
   justify-content: center;
   align-items: center;
-  background: #804bf2;
+  background: linear-gradient(135deg, var(--ex-brand), var(--ex-brand-hover));
 
   & h1 {
     width: 40%;
-    color: #fff;
-    font-family: Montserrat;
+    color: white;
+    font-family: Sora, sans-serif;
     font-size: 50px;
-    font-style: normal;
-    font-weight: 500;
+    font-weight: 700;
     gap: 10px;
-    /* line-height: 25px; */
 
     .aboutem {
-      color: #f2ae30;
-      font-family: Montserrat;
-      font-size: 50px;
-      font-style: normal;
+      color: var(--ex-accent, #f2ae30);
       font-weight: 800;
     }
   }
+
   .heroline {
     width: 10%;
     height: 100%;
@@ -68,16 +68,21 @@
     align-items: center;
     justify-content: center;
   }
+
+  .heroline svg {
+    stroke: white;
+  }
+
   & span {
     width: 40%;
-    color: #fff;
-    font-family: Montserrat;
-    font-size: 20px;
-    font-style: normal;
+    color: white;
+    font-family: Sora, sans-serif;
+    font-size: 18px;
     font-weight: 400;
-    line-height: 31px;
+    line-height: 1.6;
   }
 }
+
 .aboutstatements {
   width: 100%;
   height: auto;
@@ -93,46 +98,43 @@
     display: flex;
     flex-direction: column;
     padding: 80px 40px 20px 40px;
-    background: rgba(128, 75, 242, 0.2);
+    background: var(--ex-card-bg);
+    border: 1px solid var(--ex-border);
     gap: 10px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 32px var(--ex-shadow);
+      border-color: var(--ex-brand);
+    }
 
     & h1 {
-      color: #804bf2;
-      font-family: Montserrat;
-      font-size: 30px;
-      font-style: normal;
+      color: var(--ex-brand);
+      font-family: Sora, sans-serif;
+      font-size: 28px;
       font-weight: 700;
       text-transform: uppercase;
     }
 
-    & p {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 35px;
-    }
-
+    & p,
     & span {
-      color: #1e1e1e;
-      font-family: Montserrat;
-      font-size: 20px;
-      font-style: normal;
+      color: var(--ex-text);
+      font-family: Sora, sans-serif;
+      font-size: 16px;
       font-weight: 500;
-      line-height: 35px;
+      line-height: 1.6;
     }
   }
 
   .innertext {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
   }
 
   .statementImg {
     width: 100%;
-    height: auto;
     height: auto;
     display: flex;
     justify-content: center;
@@ -154,10 +156,9 @@
   height: 144px;
   flex-shrink: 0;
   bottom: -30px;
-
   position: absolute;
   clip-path: ellipse(60% 90% at 50% 90%);
-  background-color: #fff;
+  background-color: var(--ex-bg);
 }
 
 .leftthirdsection {
@@ -168,18 +169,17 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   padding: 10px;
 
   .leftcard {
     width: 48%;
     height: auto;
     object-fit: contain;
+  }
 
-    & img {
-      width: 180px;
-      height: 300px;
-    }
+  .leftcard img {
+    width: 180px;
+    height: 300px;
   }
 }
 
@@ -192,115 +192,101 @@
   gap: 20px;
 
   & h1 {
-    color: #1e1e1e;
-    font-family: Sora;
-    font-size: 43.684px;
-    font-style: normal;
+    color: var(--ex-text);
+    font-family: Sora, sans-serif;
+    font-size: 40px;
     font-weight: 700;
-    line-height: 67.953px;
+    line-height: 1.5;
 
     .emsucces {
-      color: var(--purple-primary-color, #804bf2);
-      font-family: Sora;
-      font-size: 43.684px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 67.953px;
+      color: var(--ex-brand);
+      font-weight: 800;
     }
   }
+
   .aboutstudytext {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
+  }
 
-    & p {
-      color: #1e1e1e;
-      font-family: Sora;
-      font-size: 19.415px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 36.403px;
-    }
-
-    & span {
-      color: #1e1e1e;
-      font-family: Sora;
-      font-size: 19.415px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 36.403px;
-    }
+  .aboutstudytext p,
+  .aboutstudytext span {
+    color: var(--ex-text-soft);
+    font-family: Sora, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.6;
   }
 }
 
-.aboutcircle {
+.aboutcircle,
+.aboutcircle1 {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #f2edfe;
   position: absolute;
-  bottom: -200px;
-  left: -190px;
-
-  .aboutinnercircle {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0px;
-    top: 30px;
-    left: 30px;
-    background: white;
-  }
+  opacity: 0.1;
 }
 
-.aboutpurplesmallcircle1 {
+.aboutcircle {
+  background: var(--ex-brand);
+  bottom: -200px;
+  left: -190px;
+}
+
+.aboutcircle .aboutinnercircle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  background: white;
+}
+
+.aboutcircle1 {
+  background: var(--ex-brand);
+  bottom: -50px;
+  right: -190px;
+}
+
+.aboutcircle1 .aboutinnercircle1 {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: white;
+}
+
+.aboutpurplesmallcircle1,
+.aboutpurplesmallcircle,
+.aboutgoldsmallcircle1 {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #804bf2;
   position: absolute;
+  opacity: 0.2;
+}
+
+.aboutpurplesmallcircle1 {
+  background: var(--ex-brand);
   top: 200px;
   left: -40px;
 }
 
 .aboutpurplesmallcircle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #804bf2;
-  position: absolute;
+  background: var(--ex-brand);
   bottom: 30px;
   right: 50px;
 }
 
 .aboutgoldsmallcircle1 {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #f2ae30;
-  position: absolute;
+  background: var(--ex-accent);
   bottom: -120px;
   left: 80px;
-}
-.aboutcircle1 {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: #804bf2;
-  position: absolute;
-  bottom: -50px;
-  right: -190px;
-
-  .aboutinnercircle1 {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: white;
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-  }
 }
 
 .bottomheader {
@@ -314,32 +300,26 @@
   gap: 10px;
 
   & h1 {
-    color: #804bf2;
+    color: var(--ex-brand);
     text-align: center;
-    font-family: Sora;
-    font-size: 56px;
-    font-style: normal;
+    font-family: Sora, sans-serif;
+    font-size: 48px;
     font-weight: 800;
-    line-height: 55px;
+    line-height: 1.3;
 
     & em {
-      color: #1e1e1e;
-      font-family: Sora;
-      font-size: 56px;
-      font-style: normal;
+      color: var(--ex-text);
       font-weight: 800;
-      line-height: 55px;
     }
   }
 
   & span {
-    color: #1e1e1e;
+    color: var(--ex-text-soft);
     text-align: center;
-    font-family: Montserrat;
-    font-size: 20px;
-    font-style: normal;
+    font-family: Sora, sans-serif;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 35px; /* 175% */
+    line-height: 1.6;
   }
 }
 
@@ -356,87 +336,90 @@
   .teamdiv {
     width: 90%;
     height: auto;
-    /* background-color: #f2ae30; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
+  }
 
-    & img {
-      width: 100%;
-      height: 380px;
-    }
-    .role {
-      width: 100%;
-      height: 150px;
-      position: absolute;
-      bottom: 0;
-      border-start-start-radius: 19.771px;
-      border-start-end-radius: 19.771px;
-      background: #d9d9d9;
-      display: flex;
-      align-items: flex-end;
-    }
+  .teamdiv img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
 
-    .abouticons {
-      width: 100%;
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 10px;
-    }
+  .role {
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    bottom: 0;
+    border-radius: 12px 12px 0 0;
+    background: var(--ex-card-bg);
+    display: flex;
+    align-items: flex-end;
+  }
 
-    .aboutname {
-      width: 80%;
-      padding: 15px;
-      border-radius: 19.771px;
-      background: #804bf2;
-      position: absolute;
-      bottom: 23%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      left: 10%;
-      z-index: 1;
+  .abouticons {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+  }
 
-      & h1 {
-        color: #fff;
-        font-family: Montserrat;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        text-align: center;
-        line-height: 29.657px; /* 136.364% */
-      }
+  .aboutname {
+    width: 80%;
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--ex-brand);
+    position: absolute;
+    bottom: 23%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 10%;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
 
-      & span {
-        color: #fff;
-        font-family: Montserrat;
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 29.657px; /* 166.667% */
-      }
-    }
+  .teamdiv:hover .aboutname {
+    transform: translateY(-8px);
+  }
+
+  .aboutname h1 {
+    color: white;
+    font-family: Sora, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .aboutname span {
+    color: white;
+    font-family: Sora, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
   }
 }
 
 .aboutmaiinicon {
-  font-size: 30px;
+  font-size: 28px;
   border-radius: 50%;
-  border: 1px solid #1e1e1e;
-  padding: 3px;
+  border: 1px solid var(--ex-text);
+  padding: 6px;
   cursor: pointer;
-  transform: scale(1);
+  color: var(--ex-text);
+  transition: all 0.3s ease;
 }
 
-.aboutmaiinicon :hover {
+.aboutmaiinicon:hover {
   transform: scale(1.1);
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
+  color: var(--ex-brand);
+  border-color: var(--ex-brand);
 }
 
 .smartpreparation {
@@ -457,23 +440,21 @@
     gap: 13px;
 
     & h1 {
-      color: #1e1e1e;
+      color: var(--ex-brand);
       text-align: center;
-      font-family: Sora;
+      font-family: Sora, sans-serif;
       font-size: 48px;
-      font-style: normal;
       font-weight: 800;
-      line-height: 45px; /* 93.75% */
+      line-height: 1.3;
     }
 
     & p {
-      color: #1e1e1e;
+      color: var(--ex-text-soft);
       text-align: center;
-      font-family: Montserrat;
-      font-size: 30px;
-      font-style: normal;
+      font-family: Sora, sans-serif;
+      font-size: 20px;
       font-weight: 400;
-      line-height: 45px; /* 150% */
+      line-height: 1.6;
     }
   }
 }
@@ -489,928 +470,187 @@
 .card {
   position: relative;
   display: inline-flex;
-  width: 506px;
+  width: 100%;
   max-width: 45%;
-  height: 212px;
+  height: 180px;
   justify-content: center;
   align-items: center;
-  background-color: #f2ae304d;
-  border-radius: 30px;
-  transition: all 0.3s ease-in-out;
+  background: var(--ex-card-bg);
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background: linear-gradient(135deg, var(--ex-brand), var(--ex-brand-hover));
+  border-color: var(--ex-brand);
+  transform: translateY(-8px);
 
   & p {
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 38.3px;
-    width: 75%;
-    margin: 0 auto;
-    transition: color 0.3s ease-in-out;
+    color: white;
   }
-}
-.card:hover p {
-  color: #fff;
-}
-.card:hover {
-  background-color: #804bf2;
 
   .innerpurplecircle {
-    background-color: #f2ae30;
-    transition: all 0.3s ease-in-out;
+    background-color: var(--ex-accent);
   }
 }
+
+.card p {
+  color: var(--ex-text);
+  font-family: Sora, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  width: 75%;
+  margin: 0 auto;
+  transition: color 0.3s ease;
+  text-align: center;
+}
+
 .whitecircle {
   position: absolute;
-  width: 103.7px;
-  height: 103.7px;
-  flex-shrink: 0;
-  background-color: #fff;
+  width: 100px;
+  height: 100px;
+  background: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  left: -60.85px;
-
-  .checkicon {
-    font-size: 40px;
-    color: #fff;
-  }
+  left: -50px;
 }
+
 .innerpurplecircle {
-  width: 75.792px;
-  height: 75.792px;
-  flex-shrink: 0;
-  background-color: #804bf2;
+  width: 75px;
+  height: 75px;
+  background: var(--ex-brand);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 1280px) {
-  .carddata {
-    width: 87%;
-  }
-  .card {
-    width: 100%;
-    max-width: 100%;
-  }
-  .teamcarousel {
-    width: 100%;
-    .teamdiv {
-      width: 90%;
-      .aboutname {
-        width: 90%;
-        padding: 15px;
-        border-radius: 19.771px;
-        background: #804bf2;
-        left: 5%;
-        z-index: 1;
-
-        & h1 {
-          font-size: 18px;
-        }
-
-        & span {
-          font-size: 15px;
-        }
-      }
-    }
-  }
+.innerpurplecircle .checkicon {
+  font-size: 36px;
+  color: white;
 }
 
-@media screen and (min-width: 0px) and (max-width: 550px) {
-  .aboutcircle {
-    display: none;
-  }
-  .aboutinnercircle {
-    display: none;
-  }
-  .aboutcircle1 {
-    display: none;
-  }
-  .aboutinnercircle1 {
-    display: none;
-  }
-  .aboutpurplesmallcircle1 {
-    display: none;
-  }
-  .aboutpurplesmallcircle {
-    display: none;
-  }
-  .aboutgoldsmallcircle1 {
-    display: none;
-  }
-  .heroImgContainer {
-    object-fit: contain;
-    width: 100%;
-    height: 100px;
-  }
-
+@media screen and (max-width: 1024px) {
   .aboutdescription {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: #804bf2;
+    padding: 30px;
+    height: auto;
 
     & h1 {
       width: 100%;
-      font-size: 30px;
-      text-align: center;
-
-      .aboutem {
-        width: 100%;
-        font-size: 30px;
-      }
+      font-size: 32px;
     }
+
     .heroline {
       display: none;
     }
+
     & span {
-      width: 40%;
       width: 100%;
-      text-align: center;
-      font-size: 17px;
+      font-size: 16px;
     }
   }
 
   .aboutstatements {
-    width: 100%;
-    display: flex;
     flex-direction: column;
-    position: relative;
-    gap: 0;
-    padding-bottom: 50px;
+
     .aboutcard {
       width: 100%;
-      height: 600px;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-
-      & h1 {
-        color: #804bf2;
-        width: 100%;
-        font-size: 20px;
-        text-align: center;
-      }
-
-      & p {
-        color: #1e1e1e;
-        text-align: center;
-        width: 100%;
-        font-weight: 600;
-        font-size: 14px;
-        text-align: center;
-      }
-
-      & span {
-        color: #1e1e1e;
-        width: 100%;
-        text-align: center;
-        font-weight: 600;
-        font-size: 14px;
-        text-align: center;
-      }
     }
-
-    .innertext {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-  }
-
-  .statementImg {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-
-    & img {
-      width: 180px;
-      height: 180px;
-    }
-  }
-
-  .eclipse {
-    width: 100%;
-    height: 144px;
-    flex-shrink: 0;
-    bottom: -40px;
-
-    position: absolute;
-    clip-path: ellipse(80% 90% at 50% 90%);
-    background-color: #fff;
   }
 
   .aboutthirdsection {
-    width: 100%;
-    min-height: auto;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-  }
-  .leftthirdsection {
     width: 100%;
-    min-height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-    .leftcard {
-      width: 40%;
-      height: auto;
-      object-fit: contain;
-
-      & img {
-        width: 140px;
-        height: 220px;
-      }
-    }
   }
 
+  .leftthirdsection,
   .rightthirdsection {
     width: 100%;
-    min-height: auto;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  }
+
+  .carddata {
+    width: 90%;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+
+  .bottomheader {
+    width: 90%;
 
     & h1 {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Sora;
-      font-size: 25px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 60px;
-
-      .emsucces {
-        color: var(--purple-primary-color, #804bf2);
-        font-family: Sora;
-        font-size: 25px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 60px;
-      }
-    }
-    .aboutstudytext {
-      min-height: 50vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-
-      & p {
-        text-align: center;
-        color: #1e1e1e;
-        font-family: Sora;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-      }
-
-      & span {
-        text-align: center;
-        color: #1e1e1e;
-        font-family: Sora;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 36.403px;
-      }
+      font-size: 32px;
     }
   }
-  .bottomheader {
-    width: 68%;
-    width: 100%;
-    padding-inline: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+}
+
+@media screen and (max-width: 640px) {
+  .aboutdescription {
+    padding: 20px;
 
     & h1 {
-      color: #804bf2;
-      text-align: center;
-      font-family: Sora;
-      font-size: 25px;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 55px;
-
-      & em {
-        color: #1e1e1e;
-        font-family: Sora;
-        font-size: 25px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 55px;
-      }
+      font-size: 24px;
     }
 
     & span {
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
       font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 35px;
     }
   }
 
-  .teamcarousel {
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    gap: 10px;
-
-    .teamdiv {
-      width: 110px;
-      height: 170px;
-      display: flex;
-      object-fit: contain;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      .role {
-        width: 100%;
-        height: 60px;
-        position: absolute;
-        bottom: 0;
-        border-start-start-radius: 19.771px;
-        border-start-end-radius: 19.771px;
-        background: #d9d9d9;
-        display: flex;
-        align-items: flex-end;
-      }
-
-      .abouticons {
-        width: 100%;
-        height: 30px;
-        padding-left: 5px;
-        padding-right: 10px;
-        padding-top: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .aboutmaiinicon {
-        padding: 1px;
-        font-size: 12px;
-        border-radius: 50%;
-        border: 1px solid #1e1e1e;
-      }
-
-      .aboutname {
-        width: 90%;
-        padding: 10px;
-        height: 20%;
-        border-radius: 10px;
-        background: #804bf2;
-        position: absolute;
-        bottom: 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        left: 5%;
-        z-index: 1;
-
-        & h1 {
-          color: #fff;
-          font-family: Montserrat;
-          font-size: 8px;
-          font-style: normal;
-          font-weight: 700;
-          text-align: center;
-          line-height: 10px;
-        }
-
-        & span {
-          color: #fff;
-          font-family: Montserrat;
-          font-size: 6px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 10px;
-          text-align: center;
-        }
-      }
-    }
-  }
-  .smartpreparation {
-    margin-top: 20px;
-    & .smartheader {
-      & h1 {
-        font-size: 32px;
-        line-height: 40px;
-      }
-      & p {
-        font-size: 14px;
-        line-height: 24px;
-      }
-    }
-  }
-  .card {
-    width: 90%;
-    margin: 0 auto;
-    height: max-content;
-    padding: 28px 0px;
+  .bottomheader {
+    width: 95%;
 
     & h1 {
-      font-size: 20px;
+      font-size: 24px;
     }
-    & p {
+
+    & span {
       font-size: 14px;
-      line-height: 24px;
     }
   }
+
+  .smartheader h1 {
+    font-size: 28px;
+  }
+
+  .smartheader p {
+    font-size: 16px;
+  }
+
+  .card {
+    height: auto;
+    padding: 20px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+
   .whitecircle {
-    width: 60px;
-    height: 60px;
-    left: -30px;
+    width: 70px;
+    height: 70px;
+    left: -35px;
   }
 
   .innerpurplecircle {
-    height: 45px;
-    width: 45px;
+    width: 50px;
+    height: 50px;
   }
 }
 
-@media screen and (min-width: 550px) and (max-width: 1024px) {
-  .aboutcircle {
-    display: none;
+@media screen and (max-width: 640px) {
+  /* Ensure CTA doesn't overlap carousel */
+  .smartsection {
+    margin-bottom: 80px;
   }
-  .aboutinnercircle {
-    display: none;
-  }
-  .aboutcircle1 {
-    display: none;
-  }
-  .aboutinnercircle1 {
-    display: none;
-  }
-  .aboutpurplesmallcircle1 {
-    display: none;
-  }
-  .aboutpurplesmallcircle {
-    display: none;
-  }
-  .aboutgoldsmallcircle1 {
-    display: none;
-  }
-  .aboutdescription {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: #804bf2;
-
-    & h1 {
-      width: 100%;
-      font-size: 38px;
-      text-align: center;
-
-      .aboutem {
-        width: 100%;
-        font-size: 38px;
-      }
-    }
-
-    & span {
-      width: 40%;
-      width: 100%;
-      text-align: center;
-      font-size: 23px;
-    }
-  }
-
+  
   .aboutstatements {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    gap: 0;
-    padding-bottom: 90px;
-
-    .aboutcard {
-      width: 100%;
-      height: 600px;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      justify-content: center;
-
-      & h1 {
-        color: #804bf2;
-        width: 100%;
-        font-size: 40px;
-        text-align: center;
-      }
-
-      & p {
-        color: #1e1e1e;
-        text-align: center;
-        width: 100%;
-        font-weight: 600;
-        text-align: center;
-        font-size: 25px;
-      }
-
-      & span {
-        color: #1e1e1e;
-        width: 100%;
-        text-align: center;
-        font-weight: 600;
-        text-align: center;
-        font-size: 25px;
-      }
-    }
-
-    .innertext {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-  }
-
-  .statementImg {
-    width: 100%;
-    height: auto;
-    height: auto;
-    display: flex;
-    justify-content: center;
-
-    & img {
-      width: 250px;
-      height: 250px;
-    }
-  }
-
-  .eclipse {
-    width: 100%;
-    height: 144px;
-    flex-shrink: 0;
-    bottom: -17px;
-
-    position: absolute;
-    clip-path: ellipse(80% 90% at 50% 90%);
-    background-color: #fff;
-  }
-  .aboutthirdsection {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 40px;
-  }
-
-  .leftthirdsection {
-    width: 40%;
-    height: 700px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-
-    .leftcard {
-      width: 48%;
-      height: auto;
-      object-fit: contain;
-
-      & img {
-        width: 130px;
-        height: 300px;
-      }
-    }
-  }
-
-  .rightthirdsection {
-    width: 60%;
-    height: 700px;
-    padding: 20px 20px 60px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    & h1 {
-      color: #1e1e1e;
-      font-family: Sora;
-      font-size: 34px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 67.953px;
-
-      .emsucces {
-        color: var(--purple-primary-color, #804bf2);
-        font-family: Sora;
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 67.953px;
-      }
-    }
-    .aboutstudytext {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-
-      & p {
-        color: #1e1e1e;
-        font-family: Sora;
-        font-size: 19.415px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 36.403px;
-      }
-
-      & span {
-        color: #1e1e1e;
-        font-family: Sora;
-        font-size: 19.415px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 36.403px;
-      }
-    }
-  }
-
-  .teamcarousel {
-    width: 100%;
-    height: 350px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    gap: 10px;
-
-    .teamdiv {
-      width: 90%;
-      height: 500px;
-      /* background-color: #f2ae30; */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      & img {
-        width: 100%;
-        height: 300px;
-      }
-      .role {
-        width: 100%;
-        height: 170px;
-        position: absolute;
-        bottom: 0;
-        border-start-start-radius: 19.771px;
-        border-start-end-radius: 19.771px;
-        background: #d9d9d9;
-        display: flex;
-        align-items: center;
-      }
-
-      .abouticons {
-        width: 100%;
-        height: 70px;
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-      }
-
-      .aboutmaiinicon {
-        font-size: 20px;
-        border-radius: 50%;
-        border: 2px solid black;
-        padding: 1px;
-      }
-
-      .aboutname {
-        width: 80%;
-        height: 60px;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        border-radius: 13.771px;
-        background: #804bf2;
-        position: absolute;
-        bottom: 26%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        left: 10%;
-        z-index: 1;
-
-        & h1 {
-          color: #fff;
-          font-family: Montserrat;
-          font-size: 12px;
-          text-align: center;
-          font-style: normal;
-          font-weight: 700;
-          text-align: center;
-          line-height: 20.657px; /* 136.364% */
-        }
-
-        & span {
-          text-align: center;
-          color: #fff;
-          font-family: Montserrat;
-          font-size: 10px;
-          font-style: normal;
-          font-weight: 400;
-          /* 166.667% */
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .leftthirdsection {
-    width: 100%;
-    min-height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-    .leftcard {
-      width: 40%;
-      height: auto;
-      object-fit: contain;
-
-      & img {
-        width: 120px;
-        height: 200px;
-      }
-    }
-  }
-
-  .teamcarousel {
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    gap: 10px;
-
-    .teamdiv {
-      width: 95px;
-      height: 170px;
-      display: flex;
-      object-fit: contain;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      .role {
-        width: 100%;
-        height: 60px;
-        position: absolute;
-        bottom: 0;
-        border-start-start-radius: 19.771px;
-        border-start-end-radius: 19.771px;
-        background: #d9d9d9;
-        display: flex;
-        align-items: flex-end;
-      }
-
-      .abouticons {
-        width: 100%;
-        height: 30px;
-        padding-left: 5px;
-        padding-right: 10px;
-        padding-top: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .aboutmaiinicon {
-        padding: 1px;
-        font-size: 12px;
-        border-radius: 50%;
-        border: 1px solid #1e1e1e;
-      }
-
-      .aboutname {
-        width: 90%;
-        padding: 10px;
-        height: 20%;
-        border-radius: 10px;
-        background: #804bf2;
-        position: absolute;
-        bottom: 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        left: 5%;
-        z-index: 1;
-
-        & h1 {
-          color: #fff;
-          font-family: Montserrat;
-          font-size: 8px;
-          font-style: normal;
-          font-weight: 700;
-          text-align: center;
-          line-height: 10px;
-        }
-
-        & span {
-          color: #fff;
-          font-family: Montserrat;
-          font-size: 6px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 10px;
-          text-align: center;
-        }
-      }
-    }
-  }
-
-  .aboutstatements {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    gap: 0;
-    padding-bottom: 70px;
-    .aboutcard {
-      width: 100%;
-      height: 640px;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-
-      & h1 {
-        color: #804bf2;
-        width: 100%;
-        font-size: 20px;
-        text-align: center;
-      }
-
-      & p {
-        color: #1e1e1e;
-        text-align: center;
-        width: 100%;
-        font-weight: 600;
-        font-size: 14px;
-        text-align: center;
-      }
-
-      & span {
-        color: #1e1e1e;
-        width: 100%;
-        text-align: center;
-        font-weight: 600;
-        font-size: 14px;
-        text-align: center;
-      }
-    }
-
-    .innertext {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+    margin-bottom: 60px;
   }
 }

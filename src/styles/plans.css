@@ -1,20 +1,35 @@
 .plans-main {
   width: 100%;
   height: auto;
-  background: #fff;
+  background: var(--ex-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0;
+  color: var(--ex-text);
 }
 
 .plans-header-bg {
   width: 100%;
-  background: #804bf2;
-  height: 200px;
+  background: linear-gradient(135deg, var(--ex-brand), var(--ex-brand-hover));
+  height: 240px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.plans-header-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: var(--ex-brand-alpha);
+  border-radius: 50%;
+  opacity: 0.1;
 }
 
 .plans-header-content {
@@ -23,312 +38,331 @@
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  padding: 0 60px;
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .plans-header-text {
-  font-weight: 700;
-  color: #fff;
-  height: 100%;
   width: 50%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 70px;
+}
 
-  & h2 {
-    color: #fff;
-    font-family: Montserrat;
-    font-size: 35.222px;
-    font-style: normal;
-    font-weight: 600;
-  }
+.plans-header-text h2 {
+  color: white;
+  font-family: Sora, sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
 }
 
 .plans-header-text .highlight {
-  color: #f2ae30;
+  color: var(--ex-accent, #f2ae30);
+  font-weight: 800;
 }
 
 .wallet-container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 60px;
-  width: 30%;
-  height: 100%;
+  width: 50%;
 }
 
 .plans-wallet-img {
-  width: 440px;
+  width: 400px;
   height: 200px;
+  object-fit: contain;
 }
 
 .plans-cards {
   display: flex;
   gap: 32px;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
   width: 90%;
   height: auto;
-  padding-block: 60px;
-  max-width: 1300px;
+  padding: 80px 0;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
 .plan-card {
   border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
-  padding: 32px 24px;
-  width: 350px;
-  height: 512px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  transition: box-shadow 0.2s;
-  border: 3px solid #f2f2f2;
+  background: var(--ex-card-bg);
+  border: 1px solid var(--ex-border);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px var(--ex-shadow);
 }
 
-.freemium-card {
-  border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
-  padding: 32px 24px;
-  width: 350px;
-  height: 512px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  transition: box-shadow 0.2s;
-  border: 3px solid #f2f2f2;
-  background: #fff;
-}
-
-.freemium-card:hover {
-  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
-  border-color: #804bf2;
-  transition: border-color 1.05s ease-in-out;
+.plan-card:hover {
+  transform: translateY(-12px);
+  border-color: var(--ex-brand);
+  box-shadow: 0 12px 40px var(--ex-shadow-lg);
 }
 
 .yearly-card {
-  border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
-  padding: 32px 24px;
-  width: 350px;
-  height: 512px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  transition: box-shadow 0.2s;
-  border: 3px solid #f2f2f2;
-  background: #804bf2;
+  background: linear-gradient(135deg, var(--ex-brand), var(--ex-brand-hover));
+  border-color: var(--ex-brand);
 }
+
 .yearly-card:hover {
-  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
-  border-color: #b9b7b7;
-  transition: border-color 1.05s ease-in-out;
-}
-.monthly-card {
-  border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(128, 75, 242, 0.08);
-  padding: 32px 24px;
-  width: 350px;
-  height: 512px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  transition: box-shadow 0.2s;
-  border: 3px solid #f2f2f2;
-  background: #fff;
-}
-.monthly-card:hover {
-  box-shadow: 0 8px 32px rgba(128, 75, 242, 0.18);
-  border-color: #804bf2;
-  transition: border-color 1.05s ease-in-out;
+  box-shadow: 0 12px 48px var(--ex-brand-alpha);
 }
 
 .plan-title {
-  background: #804bf2;
-  color: #fff;
+  background: var(--ex-brand);
+  color: white;
   font-weight: 700;
-  font-size: 1rem;
-  padding: 6px 18px;
+  font-size: 14px;
+  padding: 8px 16px;
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.yearly-card .plan-title {
+  background: white;
+  color: var(--ex-brand);
 }
 
 .plan-desc {
-  color: #1e1e1e;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-style: normal;
+  color: var(--ex-text-soft);
+  font-family: Sora, sans-serif;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 150%; /* 21px */
-  letter-spacing: -0.266px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.yearly-card .plan-desc {
+  color: white;
 }
 
 .plan-link {
-  color: #804bf2;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-style: normal;
+  color: var(--ex-brand);
+  font-family: Sora, sans-serif;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 25px; /* 178.571% */
+  line-height: 1.6;
   text-transform: uppercase;
-  text-decoration: none;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.yearly-card .plan-link {
+  color: white;
 }
 
 .plan-price {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 16px 0 8px 0;
+  font-size: 42px;
+  font-weight: 800;
+  margin: 20px 0 8px 0;
   display: flex;
   align-items: baseline;
   gap: 8px;
+  color: var(--ex-brand);
+}
+
+.yearly-card .plan-price {
+  color: white;
 }
 
 .plan-price .sub {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
+  opacity: 0.8;
 }
 
 .benefit {
-  font-family: Montserrat;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 107%; /* 17.12px */
-  letter-spacing: -0.304px;
+  font-family: Sora, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
   text-transform: capitalize;
+  color: var(--ex-text);
+  margin: 24px 0 16px 0;
+  letter-spacing: 0.3px;
 }
+
+.yearly-card .benefit {
+  color: white;
+}
+
 .plan-benefits {
   list-style: none;
   padding: 0;
-  margin: 12px 0 24px 0;
+  margin: 0 0 24px 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .plan-benefits li {
-  font-size: 15px;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--ex-text-soft);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.yearly-card .plan-benefits li {
+  color: white;
+}
+
+.checkmark {
+  color: var(--ex-brand);
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.yearly-card .checkmark {
+  color: white;
 }
 
 .benefit-text {
-  margin-left: 8px;
-  width: 90%;
-}
-.checkmark {
-  color: #804bf2;
-  width: 6%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-family: Sora, sans-serif;
+  line-height: 1.5;
 }
 
 .plan-btn {
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 8px;
-  padding: 12px 0;
+  border-radius: 10px;
+  padding: 14px 24px;
   width: 100%;
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 600;
+  font-family: Sora, sans-serif;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  margin-top: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.freemium-btn {
-  background: #804bf2;
-  color: #fff;
+.freemium-btn,
+.monthly-btn {
+  background: var(--ex-brand);
+  color: white;
 }
-.freemium-btn:hover {
-  opacity: 0.9;
-  color: #fff;
+
+.freemium-btn:hover,
+.monthly-btn:hover {
+  background: var(--ex-brand-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--ex-brand-alpha);
 }
 
 .yearly-btn {
-  background: #fff;
-  color: #804bf2;
-}
-.yearly-btn:hover {
-  opacity: 0.9;
-  color: #804bf2;
+  background: white;
+  color: var(--ex-brand);
+  font-weight: 700;
 }
 
-.monthly-btn {
-  background: #804bf2;
-  color: #fff;
-}
-.monthly-btn:hover {
-  opacity: 0.9;
+.yearly-btn:hover {
+  background: var(--ex-card-bg);
+  transform: translateY(-2px);
+  box-shadow: inset 0 0 0 2px white;
 }
 
 /* Responsive */
-@media screen and (min-width: 320px) and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
   .plans-header-content {
-    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
   }
+
   .plans-header-text {
     width: 100%;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    & h2 {
-      font-size: 20px;
-    }
   }
+
+  .plans-header-text h2 {
+    font-size: 32px;
+    text-align: center;
+  }
+
   .wallet-container {
-    display: none;
+    width: 100%;
+    justify-content: center;
   }
+
+  .plans-wallet-img {
+    width: 300px;
+    height: 150px;
+  }
+
   .plans-cards {
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    padding: 60px 0;
   }
+
   .plan-card {
-    width: 90vw;
     max-width: 400px;
-  }
-  .plans-header-content {
-    flex-direction: column;
-    align-items: center;
-  }
-  .plans-wallet-img {
-    margin-left: 0;
-    margin-top: 24px;
-    width: 90px;
-  }
-  .plans-header-text h2 {
-    font-size: 1.3rem;
   }
 }
 
-@media screen and (min-width: 480px) and (max-width: 1024px) {
+@media screen and (max-width: 640px) {
   .plans-header-bg {
-    height: 150px;
+    height: 180px;
   }
-  .plans-header-text {
-    width: 100%;
-    width: 50%;
-    & h2 {
-      font-size: 20px;
-    }
+
+  .plans-header-content {
+    padding: 20px;
   }
+
+  .plans-header-text h2 {
+    font-size: 24px;
+  }
+
   .wallet-container {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
+    display: none;
   }
-  .plans-wallet-img {
-    width: 380px;
-    height: 150px;
-  }
+
   .plans-cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    padding: 40px 0;
+    gap: 20px;
+  }
+
+  .plan-card {
+    width: 90vw;
+    max-width: 100%;
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .plan-price {
+    font-size: 32px;
+  }
+
+  .plan-btn {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+
+  .plan-benefits li {
+    font-size: 13px;
+  }
+
+  /* Ensure CTA doesn't overlap plan cards */
+  .plans-wrapper {
+    margin-bottom: 80px;
   }
 }

@@ -1,427 +1,342 @@
-.makepaymentmain {
+/* Premium Checkout Experience */
+.checkout-premium-main {
   width: 100%;
   min-height: 100vh;
+  padding: 32px;
+  box-sizing: border-box;
+  background: var(--ex-bg);
+  font-family: "Montserrat", sans-serif;
+}
+
+.checkout-header {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  flex-direction: column;
-  padding-left: 20px;
-  padding-top: 20px;
-  background-color: #fff;
-}
-
-.makepaymenttop {
-  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
-  height: auto;
-  justify-content: center;
-  align-items: flex-start;
+  box-sizing: border-box;
 }
 
-.makeleftdiv {
-  width: 50%;
-  min-height: 30vh;
+.checkout-back-btn {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  gap: 8px;
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  color: var(--ex-text);
+  transition: all 0.2s ease;
 }
 
-.makepaymentheader {
-  color: #1e1e1e;
-  font-family: Sora;
-  font-size: 48px;
-  font-style: normal;
+.checkout-back-btn:hover {
+  background: var(--ex-surface-2);
+  transform: translateX(-2px);
+}
+
+.checkout-header h2 {
+  font-family: "Sora", sans-serif;
+  font-size: 24px;
   font-weight: 700;
-  line-height: 130%; /* 62.4px */
-  letter-spacing: -0.912px;
+  color: var(--ex-text);
+  margin: 0;
 }
-.odername {
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
   width: 100%;
-  height: 8vh;
-  padding-inline: 20px;
-  background: rgba(128, 75, 242, 0.4);
+  box-sizing: border-box;
+}
+
+.checkout-summary-card {
+  background: var(--ex-gradient-brand);
+  border-radius: 24px;
+  padding: 40px;
+  color: var(--ex-text-onbrand, #ffffff);
+  box-shadow: var(--ex-shadow-md);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.checkout-summary-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+.checkout-eyebrow {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.checkout-summary-card h3 {
+  font-family: "Sora", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+.checkout-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.checkout-price strong {
+  font-family: "Montserrat", sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.checkout-price small {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.checkout-benefits h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.checkout-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkout-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.checkout-benefits li svg {
+  flex-shrink: 0;
+  color: var(--ex-accent-2, #f2ae30);
+}
+
+.checkout-payment-card {
+  background: var(--ex-glass-bg);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  border: 1px solid var(--ex-border);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--ex-shadow-md);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.checkout-payment-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .odername1 {
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%;
-    letter-spacing: -0.266px;
-  }
+  margin-bottom: 32px;
 }
 
-.odercode {
+.checkout-payment-header h3 {
+  font-family: "Sora", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ex-text);
+  margin: 0;
+}
+
+.trust-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ex-success, #10b981);
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.checkout-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+  background: var(--ex-surface-2);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--ex-border);
   width: 100%;
-  height: 8vh;
-  padding-inline: 20px;
-  background: #fff;
+  box-sizing: border-box;
+}
+
+.detail-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .code {
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%;
-    letter-spacing: -0.266px;
-  }
+  font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.oderemail {
-  width: 100%;
-  height: 8vh;
-  padding-inline: 20px;
-  background: rgba(128, 75, 242, 0.4);
+.detail-row span {
+  color: var(--ex-text-muted);
+}
+
+.detail-row strong {
+  color: var(--ex-text);
+  font-weight: 600;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.checkout-total-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .oderemail1 {
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%;
-    letter-spacing: -0.266px;
-  }
-}
-
-.oderamout {
+  margin-bottom: 32px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--ex-border-strong);
   width: 100%;
-  height: 8vh;
-  padding-inline: 20px;
-  background: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .oderamout1 {
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%;
-    letter-spacing: -0.266px;
-  }
+  box-sizing: border-box;
 }
 
-.backtosubscription {
+.checkout-total-row span {
+  font-size: 16px;
+  color: var(--ex-text-muted);
+  font-weight: 600;
+}
+
+.checkout-total-row strong {
+  font-family: "Montserrat", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ex-text);
+}
+
+.checkout-pay-btn {
   width: 100%;
-  height: 10vh;
-}
-
-.makepaymenttext {
-  width: 100%;
-  height: 10vh;
-  padding-inline: 20px;
-}
-
-.instantactivation {
-  width: 100%;
-  height: 10vh;
-  padding-inline: 10px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  .instanttext {
-    color: #1e1e1e;
-    font-family: Sora;
-    font-size: 26.951px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 130%; /* 35.037px */
-    letter-spacing: -0.512px;
-  }
-}
-
-.onlinepaymentdiv {
-  width: 100%;
-  height: 8vh;
-  padding-left: 10px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.onlinepayment {
-  color: #1e1e1e;
-  font-family: Montserrat;
-  font-size: 15.722px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 130%; /* 20.438px */
-  letter-spacing: -0.299px;
-}
-
-.makepaymentbtn {
-  width: 100%;
-  height: 10vh;
-  padding-left: 10px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  .korapayment {
-    display: flex;
-    width: 224.595px;
-    height: 50.534px;
-    padding: 11.23px;
-    justify-content: center;
-    align-items: center;
-    gap: 11.23px;
-    flex-shrink: 0;
-    border-radius: 8px;
-    border: 1.123px solid #fff;
-    background: #804bf2;
-    color: #fff;
-    font-family: Montserrat;
-    font-size: 15.722px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 130%; /* 20.438px */
-    letter-spacing: -0.299px;
-    cursor: pointer;
-  }
-}
-.korapayment:hover {
-  background: #b796ff;
-  color: #fff;
-}
-.makerightdiv {
-  width: 50%;
-  min-height: 20vh;
+  padding: 18px;
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand, #ffffff);
+  border: none;
+  border-radius: 16px;
+  font-family: "Sora", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--ex-shadow-sm);
+}
 
-  & img {
-    width: 100%;
-    height: 100%;
+.checkout-pay-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: var(--ex-shadow-glow);
+}
+
+.checkout-pay-btn:disabled {
+  background: var(--ex-surface-3);
+  color: var(--ex-text-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.checkout-guarantee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  color: var(--ex-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .checkout-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 1024px) {
-  .makepaymentmain {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
+@media (max-width: 600px) {
+  .checkout-premium-main {
+    padding: 16px 12px;
+    overflow-x: hidden;
+  }
+  .checkout-summary-card,
+  .checkout-payment-card {
+    padding: 24px 16px;
+  }
+  .checkout-user-details {
+    padding: 16px;
+  }
+  .checkout-price strong {
+    font-size: 32px;
+  }
+  .checkout-total-row strong {
+    font-size: 24px;
+  }
+  .checkout-payment-header {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
-    background-color: #fff;
+    align-items: flex-start;
+    gap: 16px;
   }
-
-  backtosubscription {
-    width: 100%;
-    height: 10vh;
-  }
-  .makepaymenttop {
-    display: flex;
-    width: 100%;
-    min-height: auto;
+  .checkout-header {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
-
-  .makeleftdiv {
-    width: 100%;
-    min-height: 30vh;
-    display: flex;
+  .detail-row {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .backtosubscription {
-      width: 100%;
-      height: 8vh;
-    }
-
-    .makepamenttext {
-      width: 100%;
-      height: 8vh;
-      padding-inline: 20px;
-    }
-    .makepaymentheader {
-      height: 10vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #1e1e1e;
-      text-align: center;
-      font-family: Montserrat;
-      font-size: 36px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 103%;
-      letter-spacing: -0.684px;
-    }
-    .odername {
-      width: 100%;
-      height: 8vh;
-      padding-inline: 20px;
-      background: rgba(128, 75, 242, 0.4);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .odername1 {
-        color: #1e1e1e;
-        font-family: Montserrat;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 130%;
-        letter-spacing: -0.266px;
-      }
-    }
-
-    .odercode {
-      width: 100%;
-      height: 8vh;
-      padding-inline: 20px;
-      background: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .code {
-        color: #1e1e1e;
-        font-family: Montserrat;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 130%;
-        letter-spacing: -0.266px;
-      }
-    }
-
-    .oderemail {
-      width: 100%;
-      height: 8vh;
-      padding-inline: 20px;
-      background: rgba(128, 75, 242, 0.4);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .oderemail1 {
-        color: #1e1e1e;
-        font-family: Montserrat;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 130%;
-        letter-spacing: -0.266px;
-      }
-    }
-
-    .oderamout {
-      width: 100%;
-      height: 8vh;
-      padding-inline: 20px;
-      background: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .oderamout1 {
-        color: #1e1e1e;
-        font-family: Montserrat;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 130%;
-        letter-spacing: -0.266px;
-      }
-    }
-  }
-
-  .instantactivation {
-    width: 100;
-    height: 10vh;
-    padding-inline: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .instanttext {
-      color: #1e1e1e;
-      font-family: Sora;
-      font-size: 26.951px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 130%; /* 35.037px */
-      letter-spacing: -0.512px;
-    }
-  }
-
-  .onlinepaymentdiv {
-    width: 100;
-    height: 8vh;
-    padding-left: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .onlinepayment {
-    text-align: center;
-    color: #1e1e1e;
-    font-family: Montserrat;
-    font-size: 15.722px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%; /* 20.438px */
-    letter-spacing: -0.299px;
-  }
-
-  .makepaymentbtn {
+    align-items: flex-start;
+    gap: 4px;
     width: 100%;
-    height: 15vh;
-    padding-left: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
-
-  .korapayment {
-    display: flex;
-    width: 224.595px;
-    height: 50.534px;
-    padding: 11.23px;
-    justify-content: center;
-    align-items: center;
-    gap: 11.23px;
-    border-radius: 8px;
-    border: 1.123px solid #fff;
-    background: #804bf2;
-    color: #fff;
-    font-family: Montserrat;
-    font-size: 15.722px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 130%;
-    letter-spacing: -0.299px;
-  }
-
-  .makerightdiv {
-    display: none;
+  .checkout-total-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
   }
 }

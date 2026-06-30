@@ -1,99 +1,135 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/dashboardCss/logout.css";
-import img1 from "../../assets/public/Log out.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutTheUser } from "../../global/slice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { studentApi } from "../../config/studentApi";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import { motion } from "framer-motion";
+import { FiLogOut } from "react-icons/fi";
+import { LuUserRound } from "react-icons/lu";
 
 const Logout = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const userToken = useSelector((state) => state.userToken);
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const { setIsLogout } = useExamibleContext();
+
+  // Accessibility: Close modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsLogout(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [setIsLogout]);
+
   const logoutUser = async () => {
-    const id = toast.loading("logging out ...");
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}api/v1/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        },
-      );
-      toast.dismiss(id);
-      if (res?.status === 200) {
+      const res = await studentApi.logout();
+      if (res?.data?.success) {
         setTimeout(() => {
           nav("/");
           setIsLogout(false);
         }, 500);
         setLoading(false);
         setTimeout(() => {
+          localStorage.removeItem("userToken");
           dispatch(logoutTheUser());
           setIsLogout(false);
         }, 550);
       }
       return;
-    } catch (error) {
-      toast.dismiss(id);
+    } catch {
       setLoading(false);
-      if (
-        error?.response?.data?.message ===
-          "Session timed-out: Please login to continue" ||
-        error?.response?.data?.message ===
-          "Authentication Failed: User is not logged in"
-      ) {
-        setTimeout(() => {
-          nav("/");
-        }, 500);
-        setTimeout(() => {
-          dispatch(logoutTheUser());
-          setIsLogout(false);
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          toast.error(error?.response?.data?.message);
-        }, 500);
-      }
+
+      setTimeout(() => {
+        nav("/");
+      }, 500);
+      setTimeout(() => {
+        dispatch(logoutTheUser());
+        setIsLogout(false);
+      }, 1000);
     }
   };
+
   return (
-    <div className="logout" onClick={() => setIsLogout(false)}>
-      <div className="logoutHolder" onClick={(e) => e.stopPropagation()}>
-        <img src={img1} alt="" loading="eager" />
-        <main>
-          <h3>Ready to log out? </h3>
-          <p>Keep the momentum going — we’ll be here when you’re back!</p>
-          <nav>
-            <button
-              className="logout-btn"
-              onClick={logoutUser}
-              disabled={loading}
-              style={{
-                backgroundColor: loading ? "#804bf233" : "#804BF2",
-                cursor: loading ? "not-allowed" : "pointer",
-              }}
-            >
-              Log out
-            </button>
-            <button
-              className="continue-btn"
-              style={{ cursor: loading ? "not-allowed" : "pointer" }}
-              disabled={loading}
-              onClick={() => setIsLogout(false)}
-            >
-              Continuing learning{" "}
-            </button>
-          </nav>
-        </main>
-      </div>
-    </div>
+    <motion.div
+      className="logout-overlay-premium"
+      onClick={() => setIsLogout(false)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="logout-modal-premium"
+        onClick={(e) => e.stopPropagation()}
+        initial={{ scale: 0.95, opacity: 0, y: 15 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 15 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        {/* Header Section */}
+        <div className="logout-header">
+          <div className="logout-icon-wrapper">
+            <FiLogOut size={24} />
+          </div>
+          <h3 className="logout-title">Sign Out of Examible?</h3>
+        </div>
+
+        {/* User Context Card */}
+        <div className="logout-user-card">
+          {user?.image?.imageUrl ? (
+            <img
+              src={user.image.imageUrl}
+              alt="Profile"
+              className="logout-avatar"
+            />
+          ) : (
+            <div className="logout-avatar-fallback">
+              <LuUserRound size={24} />
+            </div>
+          )}
+          <div className="logout-user-details">
+            <span className="logout-user-name">
+              {user?.fullName || "Student"}
+            </span>
+            <span className="logout-user-plan">
+              {user?.plan || "Freemium"} Plan
+            </span>
+          </div>
+        </div>
+
+        {/* Confirmation Message */}
+        <p className="logout-message">
+          Are you sure you want to sign out of your account? You can always sign
+          back in to continue your learning journey.
+        </p>
+
+        {/* Action Buttons */}
+        <div className="logout-actions">
+          <button
+            className="logout-btn-primary"
+            onClick={() => setIsLogout(false)}
+            disabled={loading}
+          >
+            Stay Logged In
+          </button>
+
+          <button
+            className="logout-btn-danger"
+            onClick={logoutUser}
+            disabled={loading}
+          >
+            {loading ? "Signing out..." : "Sign Out"}
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

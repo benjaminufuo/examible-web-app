@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
-import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../global/slice";
 import PaymentSuccessfull from "../../components/PaymentSuccessfull";
+import { paymentApi } from "../../config/paymentApi";
+import { toast } from "react-toastify";
 
 const VerifyPayment = () => {
   const [isVerifying, setIsVerifying] = useState(true);
@@ -17,21 +17,20 @@ const VerifyPayment = () => {
 
   const verifyPayment = async () => {
     try {
-      const res = await axios.get(
-        `${
-          import.meta.env.VITE_BASE_URL
-        }api/v1/verifyKoraPay?reference=${reference}`,
-      );
-      if (res?.status === 200) {
+      const res = await paymentApi.verifyPayment(reference);
+      if (res?.data?.success) {
         dispatch(setUser(res?.data?.data?.student));
-        setPlan(res?.data?.data?.student?.plan);
+        const userPlan = res?.data?.data?.student?.plan || "Premium";
+        setPlan(userPlan);
         setIsVerifying(false);
+      } else {
+        setIsVerifying(false);
+        nav("/subscription"); // Redirect to a relevant page
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
+    } catch {
       setTimeout(() => {
         nav("/overview");
-      }, 3000);
+      }, 2000);
     }
   };
 

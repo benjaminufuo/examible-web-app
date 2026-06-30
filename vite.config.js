@@ -22,12 +22,8 @@ export default defineConfig({
           // Separate vendor libraries into their own chunks
           "react-vendor": ["react", "react-dom", "react-router-dom"],
           "redux-vendor": ["@reduxjs/toolkit", "react-redux", "redux-persist"],
-          "ui-vendor": [
-            "antd",
-            "@chatscope/chat-ui-kit-react",
-            "swiper",
-            "react-multi-carousel",
-          ],
+          "ui-vendor": ["@chatscope/chat-ui-kit-react"],
+          "motion-vendor": ["framer-motion"],
           "markdown-vendor": [
             "react-markdown",
             "rehype-katex",

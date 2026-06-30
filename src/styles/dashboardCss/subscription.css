@@ -266,6 +266,35 @@
   opacity: 0.9;
 }
 
+.sub-transaction-history-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  margin-top: 22px;
+  padding: 0 18px;
+  border: 1px solid rgba(128, 75, 242, 0.28);
+  border-radius: 12px;
+  background: var(--ex-surface);
+  color: var(--ex-brand);
+  box-shadow: 0 12px 28px rgba(128, 75, 242, 0.12);
+  font-family: "Sora", sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sub-transaction-history-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(128, 75, 242, 0.5);
+  box-shadow: 0 16px 34px rgba(128, 75, 242, 0.18);
+}
+
 /* Responsive */
 @media screen and (min-width: 320px) and (max-width: 480px) {
   .sub-plans-header-content {

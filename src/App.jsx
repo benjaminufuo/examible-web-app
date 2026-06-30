@@ -7,38 +7,44 @@ const Home = safeLazy(() => import("./pages/kenz/Home"));
 const Login = safeLazy(() => import("./auth/Login"));
 const SignUp = safeLazy(() => import("./auth/SignUp"));
 const ForgetPassword = safeLazy(() => import("./auth/ForgetPassword"));
-const ResetLink = safeLazy(() => import("./auth/ResetLink"));
 const ResetPassword = safeLazy(
   () => import("./auth/welcomeback/ResetPassword"),
 );
+const CbtMode = safeLazy(() => import("./pages/kenz/CbtMode"));
 const Mockexam = safeLazy(() => import("./pages/kenz/Mockexam"));
 const PastQuestion = safeLazy(() => import("./pages/jacob/PastQuestion"));
 const Profile = safeLazy(() => import("./pages/kenz/Profile"));
 const Subscription = safeLazy(() => import("./pages/jacob/Subscription"));
-const AboutUs = safeLazy(() => import("./pages/jacob/AboutUs"));
+const TransactionHistory = safeLazy(
+  () => import("./pages/jacob/TransactionHistory"),
+);
 const Verify = safeLazy(() => import("./auth/Verify"));
 const ExamBody = safeLazy(() => import("./pages/kenz/ExamBody"));
 const MakePayment = safeLazy(() => import("./pages/jacob/MakePayment"));
 const ViewPastQuestion = safeLazy(
   () => import("./pages/jacob/ViewPastQuestion"),
 );
+const PerformanceSummary = safeLazy(
+  () => import("./pages/kenz/PerformanceSummary"),
+);
+// const CbtReport = safeLazy(() => import("./pages/kenz/CbtReport"));
 const Callback = safeLazy(() => import("./components/Callback"));
 const VerifyPayment = safeLazy(() => import("./pages/kenz/VerifyPayment"));
 const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
-const ResultPage = safeLazy(() => import("./pages/jacob/ResultPage"));
-const Plans = safeLazy(() => import("./pages/jacob/Plans"));
+const MainHolder = safeLazy(() => import("./routes/MainHolder"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
-import MainHolder from "./routes/MainHolder";
 import PrivateRoute from "./routes/PrivateRoute";
+import NavOnlyRoute from "./routes/NavOnlyRoute";
 import AppWrapper from "./components/AppWrapper";
 import InvisibleFallback from "./components/InvisibleFallback";
 import { prefetchCommonRoutes, safeLazy } from "./utils/routePrefetch";
 import Loading from "./components/Loading";
 import GenericError from "./components/GenericError";
 import { GlobalErrorBoundary } from "./utils";
+import ThemeToggle from "./components/ThemeToggle";
 
 // Prefetch common routes on app load
 prefetchCommonRoutes();
@@ -50,7 +56,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <MainHolder />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MainHolder />
+          </Suspense>
+        ),
         children: [
           {
             path: "",
@@ -59,14 +69,6 @@ const routes = createBrowserRouter([
                 <Home />
               </Suspense>
             ),
-          },
-          {
-            path: "about-us",
-            element: <AboutUs />,
-          },
-          {
-            path: "plans",
-            element: <Plans />,
           },
         ],
       },
@@ -83,20 +85,28 @@ const routes = createBrowserRouter([
         element: <ForgetPassword />,
       },
       {
-        path: "/resetlink",
-        element: <ResetLink />,
-      },
-      {
         path: "/reset-password/:token",
-        element: <ResetPassword />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ResetPassword />
+          </Suspense>
+        ),
       },
       {
         path: "/verify/:token",
-        element: <Verify />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Verify />
+          </Suspense>
+        ),
       },
       {
         path: "/callback/:token/:userId",
-        element: <Callback />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Callback />
+          </Suspense>
+        ),
       },
       {
         element: <PrivateRoute />,
@@ -116,9 +126,22 @@ const routes = createBrowserRouter([
                   </Suspense>
                 ),
               },
+              // {
+              //   path: "/cbt-mode/report",
+              //   element: <CbtReport />,
+              // },
               {
                 path: "/mock-exam",
                 element: <Mockexam />,
+              },
+              {
+                path: "/mock-exam/performance-summary",
+                element: <PerformanceSummary />,
+              },
+              // JAMB CBT Simulator Route
+              {
+                path: "/cbt-mode",
+                element: <CbtMode />,
               },
               {
                 path: "/past-questions",
@@ -133,26 +156,58 @@ const routes = createBrowserRouter([
                 element: <Subscription />,
               },
               {
+                path: "/subscription/transactions",
+                element: <TransactionHistory />,
+              },
+              {
                 path: "/subscription/make-payment",
-                element: <MakePayment />,
+                element: (
+                  <NavOnlyRoute fallback="/subscription">
+                    <MakePayment />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/mock-exam/result",
-                element: <MockResult />,
+                element: (
+                  <NavOnlyRoute fallback="/mock-exam">
+                    <MockResult />
+                  </NavOnlyRoute>
+                ),
+              },
+              {
+                path: "/cbt-mode/result",
+                element: (
+                  <NavOnlyRoute fallback="/cbt-mode">
+                    <MockResult />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/past-questions/view",
-                element: <ViewPastQuestion />,
+                element: (
+                  <NavOnlyRoute fallback="/past-questions">
+                    <ViewPastQuestion />
+                  </NavOnlyRoute>
+                ),
               },
               {
                 path: "/past-questions/result",
-                element: <ResultPage />,
+                element: (
+                  <NavOnlyRoute fallback="/past-questions">
+                    <MockResult />
+                  </NavOnlyRoute>
+                ),
               },
             ],
           },
           {
-            path: "mock-exam/:subjectId",
-            element: <ExamBody />,
+            path: "mock-exam/questions",
+            element: (
+              <NavOnlyRoute fallback="/mock-exam">
+                <ExamBody />
+              </NavOnlyRoute>
+            ),
           },
         ],
       },

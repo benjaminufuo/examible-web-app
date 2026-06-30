@@ -1,7 +1,6 @@
 import styles from "./pagination.module.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
-import ErrorPgae from "../../pages/jacob/ErrorPgae";
+import { useEffect, useRef } from "react";
 
 const getPagination = (currentPage, totalPages) => {
   const pages = [];
@@ -43,33 +42,23 @@ const getPagination = (currentPage, totalPages) => {
 };
 
 const Pagination = ({ page, setPage, totalPages }) => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const currentPage = Number(searchParams.get("page")) || page || 1;
+  const currentPage = page || 1;
   const pages = getPagination(currentPage, totalPages);
-  const navigate = useNavigate();
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current);
+  }, []);
 
   const handlePageChange = (newPage) => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set("page", newPage.toString());
-
-    navigate({
-      pathname: location.pathname,
-      search: `?${searchParams.toString()}`,
-    });
-
-    setPage(newPage);
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Deferred to a macrotask so the DOM change happens after iOS
+    // fully releases the touch event, preventing touch-freeze on Safari.
+    // Clearing any pending timeout also prevents double-tap races.
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setPage(newPage);
+    }, 0);
   };
-
-  if (currentPage > totalPages) {
-    return (
-      <div className={styles.pageNotFound}>
-        <ErrorPgae />
-      </div>
-    );
-  }
 
   return (
     <div className={styles.paginationContainer}>

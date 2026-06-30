@@ -1,24 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
+@import "./styles/theme.css";
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
+
+html,
+body {
+  background-color: var(--ex-bg);
+}
+
+body {
+  color: var(--ex-text);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+/* Force content wrapper and bubble to fill message bounds */
+.cs-message .cs-message__content-wrapper {
+  min-width: 0 !important;
+}
+
+.cs-message .cs-message__content {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+}
+
 .katex-display,
 .katex-display > .katex,
 .katex-display > .katex > .katex-html {
   display: inline !important;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* KaTeX display math scrollable container */
+.chat-markdown .katex-display,
+.chat-markdown .math.math-display {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  box-sizing: border-box !important;
+  padding-bottom: 2px;
 }
 
 .chat-markdown {
   padding: 4px 8px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .chat-markdown table {
   border-collapse: collapse;
   width: 100%;
+  max-width: 100%;
   margin: 8px 0;
+  display: block;
+  overflow-x: auto;
 }
 .chat-markdown th,
 .chat-markdown td {
@@ -36,19 +86,30 @@
   background: rgba(0, 0, 0, 0.02);
 }
 
-
 .chat-markdown pre,
 .chat-markdown code {
   background: rgba(0, 0, 0, 0.04);
   padding: 4px 6px;
   border-radius: 4px;
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-width: 100%;
 }
 .chat-markdown img {
   max-width: 100%;
   height: auto;
+}
+
+.cs-message-list .cs-typing-indicator {
+  background-color: var(--ex-surface) !important;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: var(--ex-surface-3) !important;
 }

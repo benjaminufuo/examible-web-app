@@ -7,11 +7,11 @@ import { useExamibleContext } from "../../context/ExamibleContext";
 
 const ExamBody = () => {
   const { showLeavingNow } = useExamibleContext();
-  const finish = useSelector((state) => state.FinishedExam);
-  const timeOut = useSelector((state) => state.timeOut);
+  const finish = useSelector((state) => state.finishedExam);
+  const timeOut = useSelector((state) => state.timedOut);
   return (
     <>
-      {showLeavingNow && <LeavingNow />}
+      {showLeavingNow && !timeOut && <LeavingNow />}
 
       <TheExam />
 
