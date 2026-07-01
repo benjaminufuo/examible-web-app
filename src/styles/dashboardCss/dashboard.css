@@ -101,11 +101,18 @@
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.04);
 
   .dashboard-leftNavbarHolder {
-    height: fit-content;
+    flex: 1;
+    min-height: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .dashboard-leftImg {
@@ -265,6 +272,15 @@
         transform: translateY(0);
       }
     }
+  }
+
+  /* Logout button — pinned at the bottom, visually anchored */
+  & > .dashboard-navBar {
+    flex-shrink: 0;
+    width: 100%;
+    border-top: 1px solid var(--ex-border);
+    padding-top: 8px;
+    margin-top: 0;
   }
 
   @media screen and (max-width: 1024px) {
@@ -438,14 +454,30 @@
     animation-name: slideInLeft;
     animation-duration: 0.35s;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Logout button — pinned at the bottom, visually anchored */
+    & > .dashboard-leftDropdown-navBar:last-child {
+      flex-shrink: 0;
+      width: 100%;
+      border-top: 1px solid var(--ex-border);
+      padding-top: 8px;
+      margin-top: 0;
+    }
   }
 
   .dashboard-leftDropdown-navbarHolder {
-    height: fit-content;
+    flex: 1;
+    min-height: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .dashboard-leftDropdown-leftImg {

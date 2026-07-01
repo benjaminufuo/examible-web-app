@@ -360,6 +360,72 @@
   color: var(--ex-text);
 }
 
+/* Stat icon colour variants */
+.perf-stat-icon--green {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+.perf-stat-icon--amber {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+.perf-stat-icon--blue {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* Insight icon colour variants */
+.perf-insight-icon--green {
+  color: #10b981;
+}
+.perf-insight-icon--red {
+  color: #ef4444;
+}
+.perf-insight-icon--purple {
+  color: #804bf2;
+}
+
+/* Flipped icon (Needs Improvement arrow) */
+.perf-icon-flip {
+  transform: rotate(180deg);
+}
+
+/* Empty state text */
+.perf-empty-text {
+  color: var(--ex-text-muted);
+  font-size: 14px;
+}
+.perf-empty-text--centered {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Recent sessions list */
+.perf-sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.perf-session-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--ex-border);
+  padding-bottom: 12px;
+}
+.perf-session-subject {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.perf-session-date {
+  color: var(--ex-text-muted);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .perf-grid-2 {
@@ -370,7 +436,6 @@
     align-items: flex-start;
   }
   .perf-filters {
-    width: 100%;
     overflow-x: auto;
   }
   .perf-filter-btn {

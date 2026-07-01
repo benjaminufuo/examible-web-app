@@ -33,10 +33,10 @@ export const ALLOWED_SUBJECTS = [
   "Chemistry",
   "Economics",
   "Accounting (Principles of Accounts)",
+  "Literature in English",
+  "Government",
   // "Biology",
-  // "Literature in English",
   // "Geography",
-  // "Government",
   // "History",
 ];
 
