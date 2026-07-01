@@ -407,6 +407,14 @@ const TransactionHistory = () => {
             place.
           </p>
         </div>
+        <button
+          className="txn-cta-btn"
+          style={{ alignSelf: "flex-start" }}
+          onClick={() => navigate("/subscription")}
+        >
+          <FiArrowLeft />
+          <span>Back to Subscription</span>
+        </button>
       </motion.div>
 
       <section className="txn-stats-grid">
