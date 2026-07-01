@@ -77,7 +77,9 @@ const MockResult = () => {
 
   const savedPage = useSelector((state) => state.mockResultPage);
   const [currentPage, setCurrentPage] = useState(savedPage || 1);
-  const [reviewSubject, setReviewSubject] = useState("");
+  const [reviewSubject, setReviewSubject] = useState(() =>
+    isCbtMode ? (mockExamQuestionsFromRedux[0]?.subject || "") : "",
+  );
 
   const page = currentPage;
   const questionsPerPage = 5;
@@ -86,8 +88,12 @@ const MockResult = () => {
   const intialCount = indexOfFirstQuestion;
   const finalCount = indexOfLastQuestion;
 
+  const activeYear = isCbtMode
+    ? (mockExamQuestionsFromRedux.find((b) => b.subject === reviewSubject)?.year ?? mockYear)
+    : mockYear;
+
   const { loading, handleViewExplanation } = useAiExplanation(
-    mockYear,
+    activeYear,
     location.state?.subject ?? reviewSubject,
     userToken,
   );
