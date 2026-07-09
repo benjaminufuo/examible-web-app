@@ -24,7 +24,6 @@ const VerifyPayment = () => {
         setPlan(userPlan);
         setIsVerifying(false);
       } else {
-        setIsVerifying(false);
         nav("/subscription"); // Redirect to a relevant page
       }
     } catch {

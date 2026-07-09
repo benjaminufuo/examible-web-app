@@ -28,6 +28,7 @@ import "../../styles/dashboardCss/transaction-history.css";
 import CustomSelect from "../../shared/Select/CustomSelect";
 import Pagination from "../../shared/Pagination";
 import { paymentApi } from "../../config/paymentApi";
+import { normalizeMethod } from "../../constants/common";
 
 const statusOptions = ["All", "Success", "Pending", "Failed"];
 const dateRangeOptions = [
@@ -44,16 +45,6 @@ const normalizeStatus = (status = "") => {
   if (["success", "successful", "paid"].includes(s)) return "success";
   if (["pending", "processing"].includes(s)) return "pending";
   if (["failed", "error"].includes(s)) return "failed";
-  return null; // Return null for any unhandled status
-};
-
-const normalizeMethod = (method = "Card") => {
-  const m = method.toLowerCase();
-  console.log(m, "method");
-  if (m === "bank_tranfer") return "Bank Transfer";
-  if (m === "card") return "Card";
-  if (m === "mobile_money") return "Mobile Money";
-  if (m === "pay_with_bank") return "Pay with Bank";
   return null; // Return null for any unhandled status
 };
 
@@ -118,6 +109,12 @@ const TransactionHistory = () => {
         toast.info(res.data?.message || "Payment is still being processed.");
       }
     } catch (error) {
+      if (error?.response?.data?.message === "Payment was declined") {
+        const freshData = await paymentApi.getTransactionHistory();
+        if (freshData.data?.data) {
+          setTransactions(freshData.data.data.map(normalizeTransaction));
+        }
+      }
       console.error("Verification error:", error);
     } finally {
       setVerifying((prev) => {
