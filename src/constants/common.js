@@ -44,3 +44,28 @@ export const ALLOWED_YEARS = Array.from(
   { length: 11 },
   (_, index) => 2025 - index,
 );
+
+export const normalizeMethod = (method = "") => {
+  const m = method?.toLowerCase();
+  if (m === "card" || m === "bankcard") return "Card";
+  if (
+    m === "bank" ||
+    m === "bankaccount" ||
+    m === "bank_transfer" ||
+    m === "banktransfer" ||
+    m === "bank_tranfer" ||
+    m === "pay_with_bank"
+  )
+    return "Bank Transfer";
+  if (m === "ussd" || m === "bankussd") return "USSD";
+  if (m === "qr" || m === "opaywalletnpqr" || m === "opaywalletngqr")
+    return "QR";
+  if (m === "apple_pay") return "Apple Pay";
+  if (m === "mobile_money") return "Mobile Money";
+  if (m === "eft") return "EFT";
+  if (m === "capitec_pay") return "Capitec Pay";
+  if (m === "payattitude") return "PayAttitude";
+  if (m === "opaywalletng") return "Opay Wallet";
+  if (m === "referencecode") return "Reference Code";
+  return "-";
+};
