@@ -10,6 +10,9 @@ import persistStore from "redux-persist/es/persistStore";
 import ExamibleContext from "./context/ExamibleContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Loading from "./components/Loading.jsx";
+import TagManager from "react-gtm-module";
+
+TagManager.initialize({ gtmId: import.meta.env.VITE_GTM_ID });
 
 let persistor = persistStore(store);
 
