@@ -84,7 +84,6 @@ html[data-theme="dark"] .auth-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 
   img {
     height: 70%;
@@ -225,7 +224,6 @@ html[data-theme="dark"] .auth-form-group input:-webkit-autofill:active {
   color: white;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-top: 12px;
   letter-spacing: 0.3px;
   box-shadow: 0 8px 20px rgba(128, 75, 242, 0.25);
 }
@@ -281,6 +279,26 @@ html[data-theme="dark"] .auth-form-group input:-webkit-autofill:active {
 }
 
 .auth-footer a:hover {
+  opacity: 0.8;
+}
+
+.auth-terms {
+  font-size: 13px;
+  color: var(--ex-text-muted);
+  text-align: center;
+  line-height: 1.6;
+  margin: -12px 0 0;
+}
+
+.auth-terms a {
+  color: var(--ex-brand);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.auth-terms a:hover {
   opacity: 0.8;
 }
 
@@ -522,12 +540,6 @@ html[data-theme="dark"] .auth-social-btn:hover {
   .auth-form {
     gap: 16px;
   }
-
-  .auth-back-btn {
-    top: 16px;
-    left: 16px;
-    font-size: 20px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -538,13 +550,6 @@ html[data-theme="dark"] .auth-social-btn:hover {
 
   .auth-title {
     font-size: 20px;
-  }
-
-  .auth-back-btn {
-    top: 12px;
-    left: 12px;
-    font-size: 18px;
-    padding: 6px;
   }
 
   .auth-header {

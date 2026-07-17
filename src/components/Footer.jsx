@@ -12,9 +12,10 @@ const productLinks = [
 ];
 
 const companyLinks = [
-  { label: "About Us", to: "/about-us" },
-  { label: "Get Started", to: "/signup" },
   { label: "Login", to: "/login" },
+  { label: "Privacy policy", to: "/privacy-policy" },
+  { label: "Terms of service", to: "/terms-of-service" },
+  { label: "Get Started", to: "/signup" },
 ];
 
 const socials = [

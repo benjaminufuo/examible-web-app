@@ -34,6 +34,8 @@ const MockResult = safeLazy(() => import("./pages/kenz/MockResult"));
 const Facebookredirect = safeLazy(() => import("./auth/Facebookredirect"));
 const ErrorPgae = safeLazy(() => import("./pages/jacob/ErrorPgae"));
 const MainHolder = safeLazy(() => import("./routes/MainHolder"));
+const PrivacyPolicy = safeLazy(() => import("./auth/PrivacyPolicy"));
+const TermsOfService = safeLazy(() => import("./auth/TermsOfService"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
 import PrivateRoute from "./routes/PrivateRoute";
@@ -57,7 +59,7 @@ const routes = createBrowserRouter([
       {
         path: "",
         element: (
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading text="Loading Examible..." />}>
             <MainHolder />
           </Suspense>
         ),
@@ -65,7 +67,7 @@ const routes = createBrowserRouter([
           {
             path: "",
             element: (
-              <Suspense fallback={<Loading />}>
+              <Suspense fallback={<Loading text="Loading Examible..." />}>
                 <Home />
               </Suspense>
             ),
@@ -105,6 +107,22 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Callback />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/privacy-policy",
+        element: (
+          <Suspense fallback={<Loading text="Loading Privacy Policy..." />}>
+            <PrivacyPolicy />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/terms-of-service",
+        element: (
+          <Suspense fallback={<Loading text="Loading Terms of Service..." />}>
+            <TermsOfService />
           </Suspense>
         ),
       },
