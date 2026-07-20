@@ -265,7 +265,7 @@ const SignUp = () => {
                 name="password"
                 onChange={handleChange}
                 required
-                placeholder="Min 8 chars with upper, lower, number, special"
+                placeholder="Enter passwprd"
                 value={inputValue.password}
                 error={errorMessage.password}
                 isPassword
@@ -286,6 +286,25 @@ const SignUp = () => {
                 onBlur={(e) => validateField(e.target.name, e.target.value)}
               />
             </div>
+
+            <p className="auth-terms">
+              By creating an account, you agree to our{" "}
+              <a
+                href="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policies
+              </a>{" "}
+              and{" "}
+              <a
+                href="/terms-of-service"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms of Service
+              </a>
+            </p>
 
             <Button
               loading={loading}
