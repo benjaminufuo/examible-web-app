@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
 import { FiArrowLeft } from "react-icons/fi";
+import { getGAClientId } from "../utils/analytics";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -130,7 +131,7 @@ const SignUp = () => {
     if (!disabled && !googleLoading) {
       setLoading(true);
       try {
-        const res = await studentApi.register(data);
+        const res = await studentApi.register({ ...data, clientId: getGAClientId() });
         if (res?.status === 201) {
           toast.success("Signup Successful, Please check your email to verify");
           setLoading(false);
@@ -153,7 +154,8 @@ const SignUp = () => {
   const googleIcon = async () => {
     setGoogleLoading(true);
     setTimeout(() => {
-      window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
+      const params = new URLSearchParams({ clientId: getGAClientId() });
+      window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate?${params.toString()}`;
       setGoogleLoading(false);
     }, 1000);
   };

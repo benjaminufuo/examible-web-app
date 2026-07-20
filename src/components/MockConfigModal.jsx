@@ -35,7 +35,6 @@ const MockConfigModal = ({ subject, onClose }) => {
       );
 
       if (res?.data?.success) {
-        // Enforce the exact number of questions selected in the modal
         dispatch(
           setMockExamQuestion(
             res?.data?.data
@@ -49,6 +48,8 @@ const MockConfigModal = ({ subject, onClose }) => {
         setTimeout(() => {
           nav(`/mock-exam/questions`);
         }, 500);
+      } else {
+        setLoading(false);
       }
     } catch {
       setLoading(false);
