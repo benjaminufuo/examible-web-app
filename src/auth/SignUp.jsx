@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
 import { FiArrowLeft } from "react-icons/fi";
+import { getGAClientId } from "../utils/analytics";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -130,7 +131,7 @@ const SignUp = () => {
     if (!disabled && !googleLoading) {
       setLoading(true);
       try {
-        const res = await studentApi.register(data);
+        const res = await studentApi.register({ ...data, clientId: getGAClientId() });
         if (res?.status === 201) {
           toast.success("Signup Successful, Please check your email to verify");
           setLoading(false);
@@ -153,7 +154,8 @@ const SignUp = () => {
   const googleIcon = async () => {
     setGoogleLoading(true);
     setTimeout(() => {
-      window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
+      const params = new URLSearchParams({ clientId: getGAClientId() });
+      window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate?${params.toString()}`;
       setGoogleLoading(false);
     }, 1000);
   };
@@ -263,7 +265,7 @@ const SignUp = () => {
                 name="password"
                 onChange={handleChange}
                 required
-                placeholder="Min 8 chars with upper, lower, number, special"
+                placeholder="Enter passwprd"
                 value={inputValue.password}
                 error={errorMessage.password}
                 isPassword
@@ -284,6 +286,25 @@ const SignUp = () => {
                 onBlur={(e) => validateField(e.target.name, e.target.value)}
               />
             </div>
+
+            <p className="auth-terms">
+              By creating an account, you agree to our{" "}
+              <a
+                href="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policies
+              </a>{" "}
+              and{" "}
+              <a
+                href="/terms-of-service"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms of Service
+              </a>
+            </p>
 
             <Button
               loading={loading}

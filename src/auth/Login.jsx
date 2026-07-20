@@ -9,6 +9,7 @@ import { setUser, setUserToken } from "../global/slice";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
 import { FiArrowLeft } from "react-icons/fi";
+import { getGAClientId } from "../utils/analytics";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,7 +45,6 @@ const Login = () => {
         localStorage.setItem("userToken", res?.data?.token);
         dispatch(setUserToken(res?.data?.token));
         dispatch(setUser(res?.data?.data));
-        setLoading(false);
         if (location.state?.selectedPlan) {
           navigate("/subscription/make-payment", {
             state: {
@@ -57,7 +57,7 @@ const Login = () => {
           navigate("/overview", { replace: true });
         }
       }
-    } catch {
+    } finally {
       setLoading(false);
     }
   };
@@ -65,7 +65,8 @@ const Login = () => {
   const loginGoogleIcon = async () => {
     setGoogleLoading(true);
     setTimeout(() => {
-      window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate`;
+      const params = new URLSearchParams({ clientId: getGAClientId() });
+      window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate?${params.toString()}`;
       setGoogleLoading(false);
     }, 1000);
   };
