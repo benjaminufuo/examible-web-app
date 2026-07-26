@@ -56,7 +56,7 @@ const ForgetPassword = () => {
   };
   useEffect(() => {
     const { email } = inputValue;
-    if (email.trim() === "" && validateEmail(email)) {
+    if (email.trim() === "" || !validateEmail(email)) {
       setDisabled(true);
     } else {
       setDisabled(false);

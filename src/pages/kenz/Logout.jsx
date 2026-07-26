@@ -36,13 +36,13 @@ const Logout = () => {
           nav("/");
           setIsLogout(false);
         }, 500);
-        setLoading(false);
         setTimeout(() => {
           localStorage.removeItem("userToken");
           dispatch(logoutTheUser());
           setIsLogout(false);
         }, 550);
       }
+      setLoading(false);
       return;
     } catch {
       setLoading(false);
