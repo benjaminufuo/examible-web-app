@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import "../../styles/auth.css";
 import logo from "../../assets/public/logo.png";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { studentApi } from "../../config/studentApi";
 import Input from "../../shared/Input";
 import Button from "../../shared/Button";
 import { FiArrowLeft } from "react-icons/fi";
 
 const PasswordResetPage = () => {
-  const { token } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,10 @@ const PasswordResetPage = () => {
     e.preventDefault();
     setLoading(true);
     if (!disabled) {
+      if (!token) {
+        nav("/login");
+        return;
+      }
       try {
         const res = await studentApi.resetPassword(token, data);
         setLoading(false);

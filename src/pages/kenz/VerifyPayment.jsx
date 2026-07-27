@@ -16,6 +16,10 @@ const VerifyPayment = () => {
   const nav = useNavigate();
 
   const verifyPayment = async () => {
+    if (!reference) {
+      nav("/overview");
+      return;
+    }
     try {
       const res = await paymentApi.verifyPayment(reference);
       if (res?.data?.success) {

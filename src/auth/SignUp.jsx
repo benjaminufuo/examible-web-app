@@ -131,7 +131,10 @@ const SignUp = () => {
     if (!disabled && !googleLoading) {
       setLoading(true);
       try {
-        const res = await studentApi.register({ ...data, clientId: getGAClientId() });
+        const res = await studentApi.register({
+          ...data,
+          clientId: getGAClientId(),
+        });
         if (res?.status === 201) {
           toast.success("Signup Successful, Please check your email to verify");
           setLoading(false);
@@ -265,7 +268,7 @@ const SignUp = () => {
                 name="password"
                 onChange={handleChange}
                 required
-                placeholder="Enter passwprd"
+                placeholder="Enter password"
                 value={inputValue.password}
                 error={errorMessage.password}
                 isPassword

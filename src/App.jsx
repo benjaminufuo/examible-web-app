@@ -87,7 +87,7 @@ const routes = createBrowserRouter([
         element: <ForgetPassword />,
       },
       {
-        path: "/reset-password/:token",
+        path: "/reset-password",
         element: (
           <Suspense fallback={<Loading />}>
             <ResetPassword />
@@ -95,7 +95,7 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/verify/:token",
+        path: "/verify",
         element: (
           <Suspense fallback={<Loading />}>
             <Verify />
@@ -103,7 +103,7 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/callback/:token/:userId",
+        path: "/callback",
         element: (
           <Suspense fallback={<Loading />}>
             <Callback />

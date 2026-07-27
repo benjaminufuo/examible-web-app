@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import EmailVerify from "../components/EmailVerify";
 import { studentApi } from "../config/studentApi";
 
 const Verify = () => {
   const [isVerify, setIsVerify] = useState(false);
-  const { token } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
   const nav = useNavigate();
 
   const handleVerify = async () => {
+    if (!token) {
+      nav("/login");
+      return;
+    }
     try {
       const res = await studentApi.verifyAccount(token);
       if (res?.data?.success) {
