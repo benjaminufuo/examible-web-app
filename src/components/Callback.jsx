@@ -1,16 +1,22 @@
 import { useEffect } from "react";
 import Loading from "./Loading";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
 
 const Callback = () => {
-  const { token, userId } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const userId = searchParams.get("user_id");
   const dispatch = useDispatch();
   const nav = useNavigate();
 
   const createUser = async () => {
+    if (!token || !userId) {
+      nav("/login");
+      return;
+    }
     try {
       const res = await studentApi.getStudentById(userId);
       if (res?.data?.success) {
