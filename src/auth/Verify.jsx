@@ -11,6 +11,10 @@ const Verify = () => {
   const nav = useNavigate();
 
   const handleVerify = async () => {
+    if (!token) {
+      nav("/login");
+      return;
+    }
     try {
       const res = await studentApi.verifyAccount(token);
       if (res?.data?.success) {

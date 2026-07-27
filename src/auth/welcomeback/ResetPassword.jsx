@@ -11,6 +11,10 @@ const ResetPassword = () => {
   const nav = useNavigate();
 
   const handleVerify = async () => {
+    if (!token) {
+      nav("/login");
+      return;
+    }
     try {
       const res = await studentApi.verifyResetToken(token);
       if (res?.data?.success) {

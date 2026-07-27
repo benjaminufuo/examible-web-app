@@ -61,6 +61,10 @@ const PasswordResetPage = () => {
     e.preventDefault();
     setLoading(true);
     if (!disabled) {
+      if (!token) {
+        nav("/login");
+        return;
+      }
       try {
         const res = await studentApi.resetPassword(token, data);
         setLoading(false);
