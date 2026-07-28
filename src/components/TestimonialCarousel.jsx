@@ -104,7 +104,7 @@ const TestimonialCarousel = ({ testimonials = [] }) => {
             <span className="tc-deco-quote" aria-hidden="true">&ldquo;</span>
 
             {/* Stars */}
-            <div className="tc-stars" aria-label="5 out of 5 stars">
+            <div className="tc-stars" role="img" aria-label="5 out of 5 stars">
               {Array.from({ length: 5 }).map((_, s) => (
                 <FiStar
                   key={s}

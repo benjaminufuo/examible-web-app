@@ -19,6 +19,10 @@ const Verify = () => {
       const res = await studentApi.verifyAccount(token);
       if (res?.data?.success) {
         setIsVerify(true);
+      } else {
+        setTimeout(() => {
+          nav("/login");
+        }, 3000);
       }
     } catch {
       setTimeout(() => {

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import "../styles/legal.css";
@@ -15,6 +16,12 @@ const PrivacyPolicy = () => {
   }, []);
 
   return (
+    <>
+      <Helmet>
+        <title>Privacy Policy — Examible</title>
+        <meta name="description" content="Read Examible's privacy policy to understand how we collect, use, and protect your personal data." />
+        <link rel="canonical" href="https://examible.com/privacy-policy" />
+      </Helmet>
     <div className="legal-page-wrapper">
       <div className="legal-page-container">
         <div className="legal-page-header">
@@ -240,6 +247,7 @@ const PrivacyPolicy = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import "../styles/auth.css";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
@@ -164,6 +165,12 @@ const SignUp = () => {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Create Account — Examible</title>
+        <meta name="description" content="Join Examible and start preparing for JAMB, WAEC, and NECO with AI-powered CBT simulations, past questions, and personalised analytics." />
+        <link rel="canonical" href="https://examible.com/signup" />
+      </Helmet>
     <div className="ex-scope auth-wrapper">
       <div className="auth-side">
         <div className="auth-side-content">
@@ -329,6 +336,7 @@ const SignUp = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

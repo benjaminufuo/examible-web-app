@@ -79,7 +79,7 @@
 }
 
 .ex-header__nav li.active a {
-  color: var(--ex-brand);
+  color: var(--ex-brand-strong);
   background: var(--ex-brand-soft);
 }
 
@@ -179,7 +179,7 @@
 .ex-header__drawerNav li a:hover,
 .ex-header__drawerNav li.active a {
   background: var(--ex-brand-soft);
-  color: var(--ex-brand);
+  color: var(--ex-brand-strong);
 }
 
 .ex-header__drawerActions {

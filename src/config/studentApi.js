@@ -32,7 +32,7 @@ class StudentApi {
   // ─── Auth (Authenticated) ───────────────────────────────────────────────────
 
   logout() {
-    return this.#http.post("/logout", null, { silent: true });
+    return this.#http.post("/logout", {}, { silent: true });
   }
 
   changePassword(data) {

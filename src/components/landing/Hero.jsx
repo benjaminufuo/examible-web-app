@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FiTrendingUp, FiZap, FiPlay, FiArrowRight } from "react-icons/fi";
 import { FaBrain, FaTrophy, FaChartLine } from "react-icons/fa";
-import avatarOne from "../../assets/public/avatars/avatar1.png";
-import avatarTwo from "../../assets/public/avatars/avatar2.png";
-import avatarThree from "../../assets/public/avatars/avatar3.png";
-import avatarFour from "../../assets/public/avatars/avatar4.png";
+import avatarOne from "../../assets/public/avatars/avatar1.webp";
+import avatarTwo from "../../assets/public/avatars/avatar2.webp";
+import avatarThree from "../../assets/public/avatars/avatar3.webp";
+import avatarFour from "../../assets/public/avatars/avatar4.webp";
 
 const float = (delay) => ({
   animate: { y: [0, -12, 0] },
@@ -43,8 +43,8 @@ const Hero = () => {
       <div className="ex-container ex-hero__inner">
         <motion.div
           className="ex-hero__copy"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 24 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <span className="ex-eyebrow">
@@ -91,6 +91,7 @@ const Hero = () => {
 
         <motion.div
           className="ex-hero__visual"
+          aria-hidden="true"
           initial={{ opacity: 0, scale: 0.94, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}

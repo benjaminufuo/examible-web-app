@@ -99,7 +99,7 @@
   transform: translateY(-2px);
 }
 
-.ex-footer__col h4 {
+.ex-footer__col h3 {
   font-family: var(--ex-font-display);
   font-size: 15px;
   font-weight: 600;
