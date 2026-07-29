@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Public pages
+Allow: /signup
+Allow: /login
+Allow: /privacy-policy
+Allow: /terms-of-service
+
+# Block authenticated/private routes from indexing
+Disallow: /overview
+Disallow: /mock-exam
+Disallow: /cbt-mode
+Disallow: /past-questions
+Disallow: /profile
+Disallow: /subscription
+Disallow: /verifying-payment
+Disallow: /verify
+Disallow: /callback
+Disallow: /data-deletion
+Disallow: /forgetpassword
+Disallow: /reset-password
+
+Sitemap: https://examible.com/sitemap.xml

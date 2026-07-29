@@ -66,7 +66,7 @@ const Header = () => {
             onClick={() => nav("/")}
             aria-label="Examible home"
           >
-            <img src={HeaderLogo} alt="Examible" />
+            <img src={HeaderLogo} alt="" width="197" height="197" />
           </button>
 
           <nav className="ex-header__nav" aria-label="Primary">
@@ -121,8 +121,8 @@ const Header = () => {
           </div>
         </div>
       </header>
-      {showDropdown && (
-        <AnimatePresence>
+      <AnimatePresence>
+        {showDropdown && (
           <motion.div
             className="ex-header__overlay"
             initial={{ opacity: 0 }}
@@ -199,8 +199,8 @@ const Header = () => {
               </div>
             </motion.div>
           </motion.div>
-        </AnimatePresence>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 };

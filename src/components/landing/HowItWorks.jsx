@@ -22,7 +22,7 @@ const HowItWorks = () => {
         <div className="ex-how__grid">
           {steps.map((s, i) => (
             <Reveal key={s.title} className="ex-how__step" delay={i * 0.1}>
-              <span className="ex-how__num">{`0${i + 1}`}</span>
+              <span className="ex-how__num" aria-hidden="true">{`0${i + 1}`}</span>
               <span className="ex-how__icon">
                 <s.Icon size={22} />
               </span>

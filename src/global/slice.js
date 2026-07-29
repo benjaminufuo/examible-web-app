@@ -81,6 +81,7 @@ const slice = createSlice({
       state.finishedExam = false;
       state.timedOut = false;
       state.mockResultPage = 1;
+      state.mockSelectedSubject = "";
     },
     setMockResultPage: (state, { payload }) => {
       state.mockResultPage = payload;

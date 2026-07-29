@@ -32,7 +32,7 @@
 }
 .ex-eyebrow--light {
   color: #fff;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.30);
   border-color: rgba(255, 255, 255, 0.25);
 }
 
@@ -640,7 +640,7 @@
 .ex-preview__timer {
   font-family: var(--ex-font-display);
   font-weight: 600;
-  color: var(--ex-brand);
+  color: var(--ex-brand-strong);
   background: var(--ex-brand-soft);
   padding: 5px 12px;
   border-radius: 8px;

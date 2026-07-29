@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import "../styles/legal.css";
@@ -14,6 +15,12 @@ const TermsOfService = () => {
   }, []);
 
   return (
+    <>
+      <Helmet>
+        <title>Terms of Service — Examible</title>
+        <meta name="description" content="Review the terms and conditions governing your use of Examible's exam preparation platform." />
+        <link rel="canonical" href="https://examible.com/terms-of-service" />
+      </Helmet>
     <div className="legal-page-wrapper">
       <div className="legal-page-container">
         <div className="legal-page-header">
@@ -167,6 +174,7 @@ const TermsOfService = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
