@@ -73,7 +73,7 @@ const Footer = () => {
 
       <div className="ex-container ex-footer__grid">
         <div className="ex-footer__brand">
-          <img src={FooterLogo} alt="Examible" />
+          <img src={FooterLogo} alt="Examible" width="92" height="92" />
           <p>
             The future of exam preparation for African students, powered by AI.
           </p>
@@ -84,7 +84,7 @@ const Footer = () => {
                 href={href}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={label}
+                aria-label={`${label} (opens in new tab)`}
               >
                 <Icon size={18} />
               </a>
@@ -93,7 +93,7 @@ const Footer = () => {
         </div>
 
         <div className="ex-footer__col">
-          <h4>Product</h4>
+          <h3>Product</h3>
           <ul>
             {productLinks.map((l) => (
               <li key={l.label}>
@@ -104,7 +104,7 @@ const Footer = () => {
         </div>
 
         <div className="ex-footer__col">
-          <h4>Company</h4>
+          <h3>Company</h3>
           <ul>
             {companyLinks.map((l) => (
               <li key={l.label}>
@@ -115,7 +115,7 @@ const Footer = () => {
         </div>
 
         <div className="ex-footer__col ex-footer__contact">
-          <h4>Get in touch</h4>
+          <h3>Get in touch</h3>
           <a className="ex-footer__email" href="mailto:info@examible.com">
             <MdEmail size={18} />
             info@examible.com

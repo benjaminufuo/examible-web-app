@@ -43,21 +43,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Preload main CSS as non-blocking resource (reduces render-blocking delay by ~100ms) -->
+    <!-- Non-blocking Google Fonts — all families in one request to avoid render-blocking -->
     <link
       rel="preload"
-      href="/assets/index.css"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;700&display=swap"
       as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      "
+      onload="this.onload=null;this.rel='stylesheet'"
     />
-    <noscript><link rel="stylesheet" href="/assets/index.css" /></noscript>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;700&display=swap"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

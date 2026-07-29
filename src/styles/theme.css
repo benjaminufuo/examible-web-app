@@ -163,7 +163,7 @@ html.ex-theme-ready body {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ex-brand);
+  color: var(--ex-brand-strong);
   background: var(--ex-brand-soft);
   border: 1px solid var(--ex-border);
   padding: 6px 14px;

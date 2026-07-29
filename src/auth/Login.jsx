@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import "../styles/auth.css";
+import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/public/logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -56,6 +58,8 @@ const Login = () => {
         } else {
           navigate("/overview", { replace: true });
         }
+      } else {
+        toast.error(res?.data?.message || "Login failed. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -72,6 +76,12 @@ const Login = () => {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Log In — Examible</title>
+        <meta name="description" content="Sign in to your Examible account to continue preparing for JAMB, WAEC, and NECO." />
+        <link rel="canonical" href="https://examible.com/login" />
+      </Helmet>
     <div className="ex-scope auth-wrapper">
       <div className="auth-side">
         <div className="auth-side-content">
@@ -202,6 +212,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 export default Login;

@@ -30,30 +30,17 @@ const Logout = () => {
   const logoutUser = async () => {
     setLoading(true);
     try {
-      const res = await studentApi.logout();
-      if (res?.data?.success) {
-        setTimeout(() => {
-          nav("/");
-          setIsLogout(false);
-        }, 500);
-        setTimeout(() => {
-          localStorage.removeItem("userToken");
-          dispatch(logoutTheUser());
-          setIsLogout(false);
-        }, 550);
-      }
-      setLoading(false);
-      return;
+      await studentApi.logout();
     } catch {
+      // intentionally empty — clear local state regardless of server response
+    } finally {
+      localStorage.removeItem("userToken");
+      dispatch(logoutTheUser());
       setLoading(false);
-
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         nav("/");
-      }, 500);
-      setTimeout(() => {
-        dispatch(logoutTheUser());
         setIsLogout(false);
-      }, 1000);
+      });
     }
   };
 

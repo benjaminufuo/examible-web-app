@@ -10,23 +10,23 @@ import persistStore from "redux-persist/es/persistStore";
 import ExamibleContext from "./context/ExamibleContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Loading from "./components/Loading.jsx";
-import TagManager from "react-gtm-module";
-
-TagManager.initialize({ gtmId: import.meta.env.VITE_GTM_ID });
+import { HelmetProvider } from "react-helmet-async";
 
 let persistor = persistStore(store);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <PersistGate loading={<Loading />} persistor={persistor}>
-      <Provider store={store}>
-        <ThemeProvider>
-          <ExamibleContext>
-            <ToastContainer />
-            <App />
-          </ExamibleContext>
-        </ThemeProvider>
-      </Provider>
-    </PersistGate>
+    <HelmetProvider>
+      <PersistGate loading={<Loading />} persistor={persistor}>
+        <Provider store={store}>
+          <ThemeProvider>
+            <ExamibleContext>
+              <ToastContainer />
+              <App />
+            </ExamibleContext>
+          </ThemeProvider>
+        </Provider>
+      </PersistGate>
+    </HelmetProvider>
   </StrictMode>,
 );

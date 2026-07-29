@@ -59,24 +59,22 @@ const PasswordResetPage = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
+    if (disabled) return;
+    if (!token) {
+      navigate("/login");
+      return;
+    }
     setLoading(true);
-    if (!disabled) {
-      if (!token) {
-        nav("/login");
-        return;
+    try {
+      const res = await studentApi.resetPassword(token, data);
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
       }
-      try {
-        const res = await studentApi.resetPassword(token, data);
-        setLoading(false);
-        if (res?.data?.success) {
-          toast.success(res?.data?.message);
-          setTimeout(() => {
-            navigate("/login");
-          }, 3000);
-        }
-      } catch {
-        setLoading(false);
-      }
+    } finally {
+      setLoading(false);
     }
   };
 
