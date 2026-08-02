@@ -29,7 +29,7 @@ const Profile = () => {
   const [notPassword, setNotPassword] = useState(true);
   const [fullName, setFullname] = useState(user?.fullName);
   const [image, setImage] = useState("");
-  const [imageUrl, setImageUrl] = useState(user?.image?.imageUrl);
+  const [imageUrl, setImageUrl] = useState(user?.image?.imageUrl || "");
   const dispatch = useDispatch();
   const [edittedPassword, setEdittedPassword] = useState({
     currentPassword: "",
