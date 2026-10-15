@@ -818,6 +818,17 @@
   font-size: 13px;
 }
 
+/* Higher specificity than ".dashboard-right .dashboard-header h3" (dashboard.css:330),
+   which paints the text via a gradient background-clip — color alone can't override
+   that, so the fill/gradient itself has to be reset here. */
+[data-theme="dark"] .dashboard-header .dashboard-welcome-text {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 600px) {
   .header-actions-container {
