@@ -13,10 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { questionApi } from "../../config/questionApi";
 import { motion, AnimatePresence } from "framer-motion";
-import { ALLOWED_YEARS } from "../../constants/common";
+import { getAllowedYearsForSubject } from "../../constants/common";
 
 const PastQuestion = () => {
-  const years = ALLOWED_YEARS;
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
@@ -26,6 +25,7 @@ const PastQuestion = () => {
 
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("Year");
+  const years = getAllowedYearsForSubject(selectedSubject);
 
   const isFreemium = !user?.plan || user?.plan === "Freemium";
   const FREE_YEARS_LIMIT = 3; // Allow free users to access the 4 oldest years
