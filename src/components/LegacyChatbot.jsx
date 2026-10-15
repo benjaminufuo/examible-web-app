@@ -9,6 +9,10 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import { useState, useMemo, useRef } from "react";
 import { setChatbotMessages } from "../global/slice";
+import {
+  streamChatWithFallback,
+  fetchFollowUpSuggestions,
+} from "../utils/streamChatWithFallback";
 import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -78,11 +82,44 @@ const mdComponents = {
   },
 };
 
+// Falls back to generic prompts when the student has no enrolled subjects / CBT history yet
+const FALLBACK_SUGGESTIONS = [
+  "Explain a tricky concept simply",
+  "Quiz me on a topic I'm learning",
+  "Help me prepare for an exam",
+];
+
+function buildSuggestions(user) {
+  const enrolled = Array.isArray(user?.enrolledSubjects)
+    ? user.enrolledSubjects
+    : [];
+  const weakest = user?.lastCbtDetails?.weakestSubject;
+  const strongest = user?.lastCbtDetails?.strongestSubject;
+
+  const picks = [];
+  if (weakest && weakest !== "N/A") {
+    picks.push(`Help me understand ${weakest} better`);
+  }
+  if (strongest && strongest !== "N/A" && strongest !== weakest) {
+    picks.push(`Give me a challenging ${strongest} question`);
+  }
+  enrolled
+    .filter((subject) => subject !== weakest && subject !== strongest)
+    .slice(0, 2)
+    .forEach((subject) => picks.push(`Quiz me on ${subject}`));
+
+  const uniquePicks = [...new Set(picks)];
+  return uniquePicks.length ? uniquePicks : FALLBACK_SUGGESTIONS;
+}
+
 const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
   const messages = useSelector((state) => state.chatbotMessages);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const rafRef = useRef(null);
+  const suggestions = useMemo(() => buildSuggestions(user), [user]);
+  const [followUps, setFollowUps] = useState([]);
 
   const processMessage = async (chatMessages) => {
     const systemMessage = {
@@ -100,86 +137,23 @@ const LegacyChatbot = () => {
       role: message.sender === "bot" ? "assistant" : "user",
       content: message.message,
     }));
+    const payloadMessages = [systemMessage, ...apiMessages];
 
     try {
-      const response = await fetch(
-        "https://openrouter.ai/api/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-            messages: [systemMessage, ...apiMessages],
-            stream: true,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulated = "";
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop();
-
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const data = line.slice(6).trim();
-          if (data === "[DONE]") continue;
-
-          try {
-            const parsed = JSON.parse(data);
-            const delta = parsed.choices?.[0]?.delta?.content;
-            if (delta) {
-              if (!accumulated) setTyping(false);
-              accumulated += delta;
-              // Batch UI updates to one dispatch per animation frame
-              if (rafRef.current) cancelAnimationFrame(rafRef.current);
-              rafRef.current = requestAnimationFrame(() => {
-                dispatch(
-                  setChatbotMessages([
-                    ...chatMessages,
-                    {
-                      message: accumulated,
-                      sender: "bot",
-                      direction: "incoming",
-                    },
-                  ]),
-                );
-                rafRef.current = null;
-              });
-            }
-          } catch (_e) {
-            // ignore
-          }
-        }
-      }
-
-      // Flush any pending RAF and do the final dispatch
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
-      if (!accumulated) throw new Error("No content received");
-      dispatch(
-        setChatbotMessages([
-          ...chatMessages,
-          { message: accumulated, sender: "bot", direction: "incoming" },
-        ]),
-      );
+      const botReply = await streamChatWithFallback(payloadMessages, {
+        chatMessages,
+        dispatch,
+        rafRef,
+        setTyping,
+      });
+      // Non-blocking: don't delay the visible reply on this, and just leave the row
+      // empty (via the catch below) if it fails — it's a nicety, not a core feature.
+      fetchFollowUpSuggestions([
+        ...payloadMessages,
+        { role: "assistant", content: botReply },
+      ])
+        .then(setFollowUps)
+        .catch(() => setFollowUps([]));
     } catch {
       dispatch(
         setChatbotMessages([
@@ -204,67 +178,119 @@ const LegacyChatbot = () => {
     };
     const newMessages = [...messages, newMessage];
     dispatch(setChatbotMessages(newMessages));
+    setFollowUps([]);
     setTyping(true);
     processMessage(newMessages);
   };
 
-  // Pre-process bot messages once per messages-array change, not on every render
+  // Cache processed text per message object so a streaming reply's per-frame array
+  // replacement doesn't re-run the regex-heavy cleanup over the entire history —
+  // only the message object that actually changed gets reprocessed.
+  const processedCacheRef = useRef(new WeakMap());
   const processedMessages = useMemo(
     () =>
-      messages.map((msg) =>
-        msg.sender === "bot"
-          ? {
-              ...msg,
-              _processed: normalizeLatexDelimiters(
-                cleanBotMessage(msg.message),
-              ),
-            }
-          : msg,
-      ),
+      messages.map((msg) => {
+        if (msg.sender !== "bot") return msg;
+        const cache = processedCacheRef.current;
+        let processed = cache.get(msg);
+        if (processed === undefined) {
+          processed = normalizeLatexDelimiters(cleanBotMessage(msg.message));
+          cache.set(msg, processed);
+        }
+        return { ...msg, _processed: processed };
+      }),
     [messages],
   );
 
   return (
-    <MainContainer>
-      <ChatContainer>
-        <MessageList
-          style={{ paddingBlockStart: "10px" }}
-          scrollBehavior="smooth"
-          typingIndicator={
-            typing ? <TypingIndicator content="Examible bot is typing" /> : null
-          }
-        >
-          {processedMessages.map((message, index) => {
-            return (
-              <Message key={index} model={message}>
-                <Message.CustomContent>
-                  <div className="chat-markdown">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[
-                        [
-                          rehypeKatex,
-                          { throwOnError: false, errorColor: "#cc0000" },
-                        ],
-                      ]}
-                      components={mdComponents}
+    <>
+      <MainContainer>
+        <ChatContainer>
+          <MessageList
+            style={{ paddingBlockStart: "10px" }}
+            scrollBehavior="smooth"
+            typingIndicator={
+              typing ? (
+                <TypingIndicator content="Examible bot is typing" />
+              ) : null
+            }
+          >
+            {processedMessages.length <= 1 ? (
+              <div className="legacybot-empty-state">
+                <div className="legacybot-empty-state-icon">👋</div>
+                <p className="legacybot-empty-state-title">
+                  Hey, I&apos;m Examible bot
+                </p>
+                <p className="legacybot-empty-state-subtitle">
+                  Ask me anything, or try one of these:
+                </p>
+                <div className="legacybot-suggestions">
+                  {suggestions.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      className="legacybot-suggestion-chip"
+                      onClick={() => handleSend(suggestion)}
                     >
-                      {message._processed ?? message.message}
-                    </ReactMarkdown>
-                  </div>
-                </Message.CustomContent>
-              </Message>
-            );
-          })}
-        </MessageList>
-        <MessageInput
-          attachButton={false}
-          placeholder="Type message here"
-          onSend={handleSend}
-          disabled={typing}
-        />
-      </ChatContainer>
-    </MainContainer>
+                      <span
+                        className="legacybot-suggestion-chip-icon"
+                        aria-hidden="true"
+                      >
+                        ✦
+                      </span>
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              processedMessages.map((message, index) => {
+                return (
+                  <Message key={index} model={message}>
+                    <Message.CustomContent>
+                      <div className="chat-markdown">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm, remarkMath]}
+                          rehypePlugins={[
+                            [
+                              rehypeKatex,
+                              { throwOnError: false, errorColor: "#cc0000" },
+                            ],
+                          ]}
+                          components={mdComponents}
+                        >
+                          {message._processed ?? message.message}
+                        </ReactMarkdown>
+                      </div>
+                    </Message.CustomContent>
+                  </Message>
+                );
+              })
+            )}
+          </MessageList>
+          <MessageInput
+            attachButton={false}
+            placeholder="Type message here"
+            onSend={handleSend}
+            disabled={typing}
+          />
+        </ChatContainer>
+      </MainContainer>
+      {!typing && followUps.length > 0 && (
+        <div className="legacybot-followups">
+          {followUps.map((suggestion) => (
+            <button
+              key={suggestion}
+              type="button"
+              className="legacybot-followup-chip"
+              onClick={() => handleSend(suggestion)}
+            >
+              {suggestion}
+            </button>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

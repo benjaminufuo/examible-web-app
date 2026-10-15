@@ -31,6 +31,16 @@
   height: 70vh;
   font-family: "Montserrat", sans-serif;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* MainContainer defaults to height:100%, which would claim the whole 70vh box on its
+   own — flex:1 + min-height:0 lets it shrink to make room for the follow-up row below it,
+   so the row is visible without scrolling the whole widget. */
+.chatbot-body > .cs-main-container {
+  flex: 1;
+  min-height: 0;
 }
 
 .messagecontainer {
@@ -97,6 +107,201 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.legacybot-empty-state {
+  height: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 20px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.legacybot-empty-state-icon {
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.legacybot-empty-state-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ex-text);
+  margin: 0;
+}
+
+.legacybot-empty-state-subtitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  color: var(--ex-text);
+  opacity: 0.65;
+  margin: 4px 0 18px;
+}
+
+.legacybot-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.legacybot-suggestion-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ex-text);
+  background-color: var(--ex-surface-2);
+  border: 1px solid var(--ex-border);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+  animation: legacybot-chip-in 0.35s ease backwards;
+}
+
+.legacybot-suggestion-chip:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.legacybot-suggestion-chip:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.legacybot-suggestion-chip:nth-child(3) {
+  animation-delay: 0.19s;
+}
+.legacybot-suggestion-chip:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+.legacybot-suggestion-chip:hover,
+.legacybot-suggestion-chip:focus-visible {
+  background-color: var(--ex-brand-soft, rgba(128, 75, 242, 0.1));
+  border-color: var(--ex-brand, #804bf2);
+  color: var(--ex-brand-strong, #6a32e8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(128, 75, 242, 0.15);
+  outline: none;
+}
+
+.legacybot-suggestion-chip:active {
+  transform: translateY(0);
+}
+
+.legacybot-suggestion-chip-icon {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--ex-brand, #804bf2);
+}
+
+@keyframes legacybot-chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legacybot-empty-state,
+  .legacybot-suggestion-chip {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.legacybot-followups {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  padding: 8px 16px 12px;
+  animation: legacybot-followups-in 0.3s ease;
+}
+
+.legacybot-followups::-webkit-scrollbar {
+  height: 5px;
+}
+.legacybot-followups::-webkit-scrollbar-thumb {
+  background-color: var(--ex-brand, #804bf2);
+  border-radius: 10px;
+}
+
+.legacybot-followup-chip {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ex-brand-strong, var(--ex-brand, #804bf2));
+  background-color: var(--ex-brand-soft, rgba(128, 75, 242, 0.1));
+  border: 1px solid var(--ex-brand-soft, rgba(128, 75, 242, 0.1));
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    color 0.16s ease;
+  animation: legacybot-chip-in 0.3s ease backwards;
+}
+
+.legacybot-followup-chip:nth-child(1) {
+  animation-delay: 0.03s;
+}
+.legacybot-followup-chip:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.legacybot-followup-chip:nth-child(3) {
+  animation-delay: 0.13s;
+}
+
+.legacybot-followup-chip:hover,
+.legacybot-followup-chip:focus-visible {
+  background-color: var(--ex-brand, #804bf2);
+  color: var(--ex-text-onbrand, #ffffff);
+  border-color: var(--ex-brand, #804bf2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(128, 75, 242, 0.25);
+  outline: none;
+}
+
+.legacybot-followup-chip:active {
+  transform: translateY(0);
+}
+
+@keyframes legacybot-followups-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legacybot-followups,
+  .legacybot-followup-chip {
+    animation: none !important;
+    transition: none !important;
   }
 }
 

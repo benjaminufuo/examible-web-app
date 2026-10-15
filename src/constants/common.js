@@ -10,6 +10,7 @@ import commerceImg from "../assets/public/subjects/commerce.png";
 import historyImg from "../assets/public/subjects/history.png";
 import geographyImg from "../assets/public/subjects/geography.png";
 import accountingImg from "../assets/public/subjects/accounting.png";
+import agricultureImg from "../assets/public/subjects/agriculture.png";
 
 export const allSubjectsData = [
   { subject: "Mathematics", img: mathImg },
@@ -24,6 +25,7 @@ export const allSubjectsData = [
   { subject: "History", img: historyImg },
   { subject: "Geography", img: geographyImg },
   { subject: "Accounting (Principles of Accounts)", img: accountingImg },
+  { subject: "Agricultural Science", img: agricultureImg },
 ];
 
 export const ALLOWED_SUBJECTS = [
@@ -35,7 +37,8 @@ export const ALLOWED_SUBJECTS = [
   "Accounting (Principles of Accounts)",
   "Literature in English",
   "Government",
-  // "Biology",
+  "Agricultural Science",
+  "Biology",
   // "Geography",
   // "History",
 ];
@@ -44,6 +47,16 @@ export const ALLOWED_YEARS = Array.from(
   { length: 11 },
   (_, index) => 2025 - index,
 );
+
+// Years with no questions on the backend for a given subject
+const MISSING_YEARS_BY_SUBJECT = {
+  "Agricultural Science": [2016, 2017, 2018],
+};
+
+export const getAllowedYearsForSubject = (subject) => {
+  const missing = MISSING_YEARS_BY_SUBJECT[subject] || [];
+  return ALLOWED_YEARS.filter((year) => !missing.includes(year));
+};
 
 export const normalizeMethod = (method = "") => {
   const m = method?.toLowerCase();
