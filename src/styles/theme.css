@@ -303,3 +303,39 @@ html.ex-theme-ready body {
     transition: none !important;
   }
 }
+
+/* ── Toasts (react-toastify) follow the theme ─────────────────────────────────
+   react-toastify's variables are mapped to our tokens, so every toast switches
+   with light and dark mode. html[data-theme] outranks the library's own :root
+   defaults, which it injects at runtime (possibly after this file). */
+html[data-theme] {
+  --toastify-color-light: var(--ex-surface);
+  --toastify-text-color-light: var(--ex-text);
+  --toastify-color-progress-light: var(--ex-gradient-brand);
+  --toastify-color-info: var(--ex-brand);
+  --toastify-color-success: var(--ex-success);
+  --toastify-color-error: var(--ex-danger);
+  --toastify-icon-color-info: var(--ex-brand);
+  --toastify-icon-color-success: var(--ex-success);
+  --toastify-icon-color-error: var(--ex-danger);
+  --toastify-color-progress-info: var(--ex-brand);
+  --toastify-color-progress-success: var(--ex-success);
+  --toastify-color-progress-error: var(--ex-danger);
+  --toastify-font-family: var(--ex-font-body);
+  --toastify-toast-bd-radius: var(--ex-radius);
+  --toastify-toast-shadow: var(--ex-shadow-md);
+}
+
+html[data-theme] .Toastify__toast {
+  border: 1px solid var(--ex-border);
+}
+
+/* The library hard-codes a black close button on its light theme */
+html[data-theme] .Toastify__close-button {
+  color: var(--ex-text-muted);
+  opacity: 1;
+}
+
+html[data-theme] .Toastify__close-button:hover {
+  color: var(--ex-text);
+}
