@@ -1,0 +1,178 @@
+/* Plan ended pop-up, matching the exam timeout modal (theme tokens only) */
+
+.planEnded-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(var(--ex-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ex-glass-blur));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* above the header (1100), floating toggle and other modals (9999) */
+  padding: 20px;
+}
+
+.planEnded-modal {
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius-lg);
+  box-shadow: var(--ex-shadow-lg);
+  padding: 36px 32px 28px;
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  font-family: var(--ex-font-body);
+}
+
+.planEnded-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+  border: 4px solid var(--ex-surface);
+  box-shadow: 0 0 0 4px var(--ex-brand-soft);
+}
+
+.planEnded-title {
+  margin: 4px 0 0;
+  font-family: var(--ex-font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ex-text);
+}
+
+.planEnded-message {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ex-text-soft);
+}
+
+.planEnded-limits {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  background: var(--ex-bg-subtle);
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius);
+}
+
+.planEnded-limits li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ex-text);
+}
+
+.planEnded-limit-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--ex-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+}
+
+.planEnded-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.planEnded-primary,
+.planEnded-secondary {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--ex-radius-sm);
+  font-family: var(--ex-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.planEnded-primary {
+  border: none;
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand);
+  box-shadow: var(--ex-shadow-glow);
+}
+
+.planEnded-primary:hover {
+  transform: translateY(-2px);
+}
+
+.planEnded-secondary {
+  background: transparent;
+  color: var(--ex-text-soft);
+  border: 1px solid var(--ex-border);
+}
+
+.planEnded-secondary:hover {
+  background: var(--ex-bg-subtle);
+  color: var(--ex-text);
+}
+
+.planEnded-primary:focus-visible,
+.planEnded-secondary:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+/* Grab handle: only on the phone sheet, which can be dragged down */
+.planEnded-handle {
+  display: none;
+}
+
+/* Phones: a bottom sheet, easy to reach with a thumb */
+@media (max-width: 600px) {
+  .planEnded-handle {
+    display: block;
+    width: 40px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--ex-border-strong);
+    margin: -12px auto 4px;
+    flex-shrink: 0;
+  }
+  .planEnded-modal {
+    touch-action: none; /* the drag gesture owns vertical swipes */
+    cursor: grab;
+  }
+  .planEnded-modal:active {
+    cursor: grabbing;
+  }
+  .planEnded-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .planEnded-modal {
+    max-width: none;
+    border-radius: var(--ex-radius-lg) var(--ex-radius-lg) 0 0;
+    border-bottom: none;
+    padding: 28px 20px calc(20px + env(safe-area-inset-bottom));
+  }
+  .planEnded-title {
+    font-size: 21px;
+  }
+}

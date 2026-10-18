@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import ScrollToTop from "./ScrollToTop";
+import PlanEndedModal from "./PlanEndedModal";
 import { Outlet } from "react-router-dom";
 import { usePageTracking } from "../utils/analytics";
 import TagManager from "react-gtm-module";
@@ -15,6 +16,7 @@ const AppWrapper = () => {
     <>
       <ScrollToTop />
       <Outlet />
+      <PlanEndedModal />
     </>
   );
 };
