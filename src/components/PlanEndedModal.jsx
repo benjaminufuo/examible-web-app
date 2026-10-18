@@ -57,6 +57,8 @@ const PlanEndedModal = () => {
   const notice = useSelector((state) => state.planEndedNotice);
   const user = useSelector((state) => state.user);
   const isPhone = useIsPhone();
+  // Phones get a shorter sheet: the "what changes" box shows on larger screens only
+  const showLimits = !isPhone;
 
   const open = Boolean(notice && user?.id && !EXAM_PATHS.includes(pathname));
 
@@ -121,19 +123,21 @@ const PlanEndedModal = () => {
               Your Premium plan has ended
             </h2>
             <p className="planEnded-message">
-              You're on the free plan now. Your progress is saved. Here's what
-              changes:
+              You're on the free plan now. Your progress is saved.
+              {showLimits && " Here's what changes:"}
             </p>
-            <ul className="planEnded-limits">
-              {FREE_LIMITS.map(({ icon: Icon, text }) => (
-                <li key={text}>
-                  <span className="planEnded-limit-icon">
-                    <Icon size={18} />
-                  </span>
-                  {text}
-                </li>
-              ))}
-            </ul>
+            {showLimits && (
+              <ul className="planEnded-limits">
+                {FREE_LIMITS.map(({ icon: Icon, text }) => (
+                  <li key={text}>
+                    <span className="planEnded-limit-icon">
+                      <Icon size={18} />
+                    </span>
+                    {text}
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="planEnded-actions">
               <button
                 type="button"
