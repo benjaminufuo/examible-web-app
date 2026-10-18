@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -79,7 +80,9 @@ const PlanEndedModal = () => {
     };
   }, [open, dispatch]);
 
-  return (
+  // Rendered on <body> so no parent stacking context can put it under the
+  // header, hamburger menu or floating theme toggle
+  return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
@@ -151,7 +154,8 @@ const PlanEndedModal = () => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 

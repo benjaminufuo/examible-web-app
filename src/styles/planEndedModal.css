@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 102;
+  z-index: 10000; /* above the header (1100), floating toggle and other modals (9999) */
   padding: 20px;
 }
 
