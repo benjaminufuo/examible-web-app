@@ -22,6 +22,7 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import { ALLOWED_SUBJECTS } from "../../constants/common";
+import { useRequireOnline } from "../../hooks/useRequireOnline";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -31,6 +32,7 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState(user?.image?.imageUrl || "");
   const dispatch = useDispatch();
+  const requireOnline = useRequireOnline();
   const [edittedPassword, setEdittedPassword] = useState({
     currentPassword: "",
     newPassword: "",
@@ -247,7 +249,7 @@ const Profile = () => {
               {image ? (
                 <button
                   className="prof-avatar-save"
-                  onClick={setProfilePic}
+                  onClick={requireOnline(setProfilePic)}
                   disabled={loading}
                 >
                   <LiaSave size={20} />
@@ -285,7 +287,7 @@ const Profile = () => {
                 ) : (
                   <button
                     className="prof-save-btn"
-                    onClick={() => changeFullname(fullName)}
+                    onClick={requireOnline(() => changeFullname(fullName))}
                     disabled={!fullName || loading}
                   >
                     Update
@@ -319,7 +321,10 @@ const Profile = () => {
                 <h3>Security & Password</h3>
               </div>
               <form
-                onSubmit={changePassword}
+                onSubmit={(e) => {
+                  e.preventDefault(); // offline: no page reload either
+                  requireOnline(changePassword)(e);
+                }}
                 style={{
                   display: "flex",
                   flexDirection: "column",

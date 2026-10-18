@@ -38,7 +38,8 @@ class StudentApi {
   // ─── Auth (Authenticated) ───────────────────────────────────────────────────
 
   logout() {
-    return this.#http.post("/logout", {}, { silent: true });
+    // Fails fast offline, so Logout's cleanup (in finally) runs straight away
+    return this.#http.post("/logout", {}, { silent: true, timeout: 5000 });
   }
 
   changePassword(data) {

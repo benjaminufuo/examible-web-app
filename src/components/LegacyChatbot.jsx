@@ -20,6 +20,7 @@ import Latex from "react-latex-next";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
 import rehypeKatex from "rehype-katex";
+import { useRequireOnline } from "../hooks/useRequireOnline";
 
 const normalizeLatexDelimiters = (text) =>
   text
@@ -117,6 +118,7 @@ const LegacyChatbot = () => {
   const messages = useSelector((state) => state.chatbotMessages);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const requireOnline = useRequireOnline();
   const rafRef = useRef(null);
   const suggestions = useMemo(() => buildSuggestions(user), [user]);
   const [followUps, setFollowUps] = useState([]);
@@ -183,6 +185,9 @@ const LegacyChatbot = () => {
     processMessage(newMessages);
   };
 
+  // Installed app offline: explain instead of failing
+  const sendIfOnline = requireOnline(handleSend, "The AI tutor needs internet.");
+
   // Cache processed text per message object so a streaming reply's per-frame array
   // replacement doesn't re-run the regex-heavy cleanup over the entire history —
   // only the message object that actually changed gets reprocessed.
@@ -230,7 +235,7 @@ const LegacyChatbot = () => {
                       key={suggestion}
                       type="button"
                       className="legacybot-suggestion-chip"
-                      onClick={() => handleSend(suggestion)}
+                      onClick={() => sendIfOnline(suggestion)}
                     >
                       <span
                         className="legacybot-suggestion-chip-icon"
@@ -271,7 +276,7 @@ const LegacyChatbot = () => {
           <MessageInput
             attachButton={false}
             placeholder="Type message here"
-            onSend={handleSend}
+            onSend={sendIfOnline}
             disabled={typing}
           />
         </ChatContainer>
@@ -283,7 +288,7 @@ const LegacyChatbot = () => {
               key={suggestion}
               type="button"
               className="legacybot-followup-chip"
-              onClick={() => handleSend(suggestion)}
+              onClick={() => sendIfOnline(suggestion)}
             >
               {suggestion}
             </button>

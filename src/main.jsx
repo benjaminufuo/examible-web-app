@@ -11,6 +11,14 @@ import ExamibleContext from "./context/ExamibleContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Loading from "./components/Loading.jsx";
 import { HelmetProvider } from "react-helmet-async";
+import { INSTALLED_AT_BOOT } from "./utils/installMode";
+
+// Lets CSS target the installed app only:
+// html[data-display-mode="standalone"] .something { ... }
+// The website never matches, so it stays unchanged.
+document.documentElement.dataset.displayMode = INSTALLED_AT_BOOT
+  ? "standalone"
+  : "browser";
 
 let persistor = persistStore(store);
 

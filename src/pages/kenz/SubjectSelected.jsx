@@ -11,6 +11,7 @@ import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClipLoader } from "react-spinners";
+import { useRequireOnline } from "../../hooks/useRequireOnline";
 
 const getSubjectDescription = (subject) => {
   const lower = subject?.toLowerCase() || "";
@@ -45,6 +46,7 @@ const SubjectSelected = () => {
   const [notEnrolledSubjects, setNotEnrolledSubjects] = useState(notEnrolledFromStore);
 
   const { setShowSubjectSelected } = useExamibleContext();
+  const requireOnline = useRequireOnline();
 
   const addSubject = async (subject) => {
     setLoading(subject);
@@ -203,7 +205,7 @@ const SubjectSelected = () => {
                   <div className="ss-card-footer">
                     <button
                       className="ss-add-btn"
-                      onClick={() => addSubject(item)}
+                      onClick={requireOnline(() => addSubject(item))}
                       disabled={loading === item}
                     >
                       {loading === item ? (

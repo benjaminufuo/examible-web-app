@@ -9,6 +9,7 @@ import { useExamibleContext } from "../context/ExamibleContext";
 import { studentApi } from "../config/studentApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiMessageSquare, FiStar } from "react-icons/fi";
+import { useRequireOnline } from "../hooks/useRequireOnline";
 
 const StarIcon = ({ fill }) => (
   <svg
@@ -85,6 +86,7 @@ const FeedbackForm = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { setShowFeedbackModal } = useExamibleContext();
+  const requireOnline = useRequireOnline();
 
   const handleRateUs = () => {
     setRatings(`${(starRatings / 5) * 100}%`);
@@ -211,7 +213,7 @@ const FeedbackForm = () => {
                 <button
                   className="feedback-btn-primary"
                   disabled={!message.trim() || loading}
-                  onClick={handleSend}
+                  onClick={requireOnline(handleSend)}
                 >
                   {loading ? (
                     <ClipLoader color="#ffffff" size={20} />

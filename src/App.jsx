@@ -39,6 +39,7 @@ const TermsOfService = safeLazy(() => import("./auth/TermsOfService"));
 
 // These MUST be eager imports (needed for the layout/routing to work)
 import PrivateRoute from "./routes/PrivateRoute";
+import OnlineOnlyRoute from "./routes/OnlineOnlyRoute";
 import NavOnlyRoute from "./routes/NavOnlyRoute";
 import AppWrapper from "./components/AppWrapper";
 import InvisibleFallback from "./components/InvisibleFallback";
@@ -131,7 +132,11 @@ const routes = createBrowserRouter([
         children: [
           {
             path: "/verifying-payment",
-            element: <VerifyPayment />,
+            element: (
+              <OnlineOnlyRoute feature="Payment verification">
+                <VerifyPayment />
+              </OnlineOnlyRoute>
+            ),
           },
           {
             element: <Dashboard />,
@@ -150,7 +155,11 @@ const routes = createBrowserRouter([
               // },
               {
                 path: "/mock-exam",
-                element: <Mockexam />,
+                element: (
+                  <OnlineOnlyRoute feature="Mock exams">
+                    <Mockexam />
+                  </OnlineOnlyRoute>
+                ),
               },
               {
                 path: "/mock-exam/performance-summary",
@@ -159,7 +168,11 @@ const routes = createBrowserRouter([
               // JAMB CBT Simulator Route
               {
                 path: "/cbt-mode",
-                element: <CbtMode />,
+                element: (
+                  <OnlineOnlyRoute feature="CBT">
+                    <CbtMode />
+                  </OnlineOnlyRoute>
+                ),
               },
               {
                 path: "/past-questions",
@@ -171,17 +184,27 @@ const routes = createBrowserRouter([
               },
               {
                 path: "/subscription",
-                element: <Subscription />,
+                element: (
+                  <OnlineOnlyRoute feature="Subscription">
+                    <Subscription />
+                  </OnlineOnlyRoute>
+                ),
               },
               {
                 path: "/subscription/transactions",
-                element: <TransactionHistory />,
+                element: (
+                  <OnlineOnlyRoute feature="Transaction history">
+                    <TransactionHistory />
+                  </OnlineOnlyRoute>
+                ),
               },
               {
                 path: "/subscription/make-payment",
                 element: (
                   <NavOnlyRoute fallback="/subscription">
-                    <MakePayment />
+                    <OnlineOnlyRoute feature="Payment">
+                      <MakePayment />
+                    </OnlineOnlyRoute>
                   </NavOnlyRoute>
                 ),
               },
