@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,12 +15,47 @@ const FREE_LIMITS = [
   { icon: LuBookOpen, text: "Subjects reset to Mathematics and English" },
 ];
 
+const PHONE_QUERY = "(max-width: 600px)";
+
+// True on phone-width screens, kept in sync when the window is resized
+const useIsPhone = () => {
+  const [isPhone, setIsPhone] = useState(
+    () => window.matchMedia(PHONE_QUERY).matches,
+  );
+  useEffect(() => {
+    const media = window.matchMedia(PHONE_QUERY);
+    const onChange = (e) => setIsPhone(e.matches);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+  return isPhone;
+};
+
+// Phones: a sheet that slides up from the bottom, slides back down when closed,
+// and can be dragged down to dismiss. Desktop: the centered card.
+const SHEET_MOTION = {
+  initial: { y: "100%" },
+  animate: { y: 0 },
+  exit: { y: "100%" },
+  transition: { type: "spring", stiffness: 420, damping: 40 },
+};
+const CARD_MOTION = {
+  initial: { scale: 0.95, opacity: 0, y: 15 },
+  animate: { scale: 1, opacity: 1, y: 0 },
+  exit: { scale: 0.95, opacity: 0, y: 15 },
+  transition: { type: "spring", stiffness: 300, damping: 30 },
+};
+// A drag this far (px) or this fast (px/s) dismisses the sheet; less springs back
+const DISMISS_DISTANCE = 100;
+const DISMISS_VELOCITY = 500;
+
 const PlanEndedModal = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { pathname } = useLocation();
   const notice = useSelector((state) => state.planEndedNotice);
   const user = useSelector((state) => state.user);
+  const isPhone = useIsPhone();
 
   const open = Boolean(notice && user?.id && !EXAM_PATHS.includes(pathname));
 
@@ -59,12 +94,23 @@ const PlanEndedModal = () => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="planEnded-title"
-            initial={{ scale: 0.95, opacity: 0, y: 15 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 15 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            {...(isPhone ? SHEET_MOTION : CARD_MOTION)}
+            {...(isPhone && {
+              drag: "y",
+              dragConstraints: { top: 0, bottom: 0 },
+              dragElastic: { top: 0, bottom: 0.7 },
+              onDragEnd: (_, { offset, velocity }) => {
+                if (
+                  offset.y > DISMISS_DISTANCE ||
+                  velocity.y > DISMISS_VELOCITY
+                ) {
+                  close();
+                }
+              },
+            })}
             onClick={(e) => e.stopPropagation()}
           >
+            <div className="planEnded-handle" aria-hidden="true" />
             <div className="planEnded-icon">
               <LuCrown size={36} />
             </div>

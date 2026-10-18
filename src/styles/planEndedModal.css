@@ -139,8 +139,29 @@
   outline-offset: 2px;
 }
 
+/* Grab handle: only on the phone sheet, which can be dragged down */
+.planEnded-handle {
+  display: none;
+}
+
 /* Phones: a bottom sheet, easy to reach with a thumb */
 @media (max-width: 600px) {
+  .planEnded-handle {
+    display: block;
+    width: 40px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--ex-border-strong);
+    margin: -12px auto 4px;
+    flex-shrink: 0;
+  }
+  .planEnded-modal {
+    touch-action: none; /* the drag gesture owns vertical swipes */
+    cursor: grab;
+  }
+  .planEnded-modal:active {
+    cursor: grabbing;
+  }
   .planEnded-overlay {
     align-items: flex-end;
     padding: 0;
