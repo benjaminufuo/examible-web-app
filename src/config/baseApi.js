@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { store } from "../global/store";
 import { setUser } from "../global/slice";
-import { showPlanEndedToast } from "../components/PlanChangedToast";
+import { showPlanEndedNotice } from "../utils/planNotice";
 
 const baseURL = `${import.meta.env.VITE_BASE_URL}api/v1`;
 
@@ -88,7 +88,8 @@ export function notePlanHeader(plan, http = baseApi.instance) {
       const fresh = res?.data?.data;
       if (!fresh) return;
       store.dispatch(setUser(fresh));
-      if (wasPaid && fresh.plan === "Freemium") showPlanEndedToast();
+      // PlanEndedModal picks this up (and waits if an exam is in progress)
+      if (wasPaid && fresh.plan === "Freemium") showPlanEndedNotice();
     })
     .catch(() => {}) // best effort: the next response will try again
     .finally(() => {

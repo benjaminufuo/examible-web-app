@@ -4,6 +4,8 @@ import { OPTION_KEYS } from "../utils/questionUtils";
 const initialState = {
   userToken: "",
   user: {},
+  // Set when a paid plan has ended; PlanEndedModal shows once and clears it
+  planEndedNotice: false,
   pastQuestions: [],
   pastQuestionsOption: {},
   mockExamQuestions: [],
@@ -134,6 +136,9 @@ const slice = createSlice({
       }
     },
     logoutTheUser: () => initialState,
+    setPlanEndedNotice: (state, { payload }) => {
+      state.planEndedNotice = payload;
+    },
     setNotEnrolledSubjects: (state, { payload }) => {
       state.notEnrolledSubjects = payload;
     },
@@ -160,6 +165,7 @@ export const {
   setPastQuestionsOption,
   clearPastQuestionsOption,
   logoutTheUser,
+  setPlanEndedNotice,
   theExamTimer,
   setUser,
   setMockExamQuestion,
