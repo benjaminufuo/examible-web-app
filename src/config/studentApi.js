@@ -29,6 +29,12 @@ class StudentApi {
     return this.#http.post(`/reset_password/student/${token}`, data);
   }
 
+  // Google sign-in: trades the one-time code from /callback for the login
+  // token and profile, so the token never appears in a URL
+  exchangeGoogleCode(code) {
+    return this.#http.post("/auth/google/exchange", { code });
+  }
+
   // ─── Auth (Authenticated) ───────────────────────────────────────────────────
 
   logout() {
@@ -39,13 +45,12 @@ class StudentApi {
     return this.#http.post("/change/password/student", data);
   }
 
-  // ─── Profile (Public) ───────────────────────────────────────────────────────
-
-  getStudentById(studentId) {
-    return this.#http.get(`/studentInfo/${studentId}`);
-  }
-
   // ─── Profile (Authenticated) ────────────────────────────────────────────────
+
+  // The signed-in student's own profile, read from the token
+  getMyProfile() {
+    return this.#http.get("/studentInfo");
+  }
 
   updateProfile(data) {
     return this.#http.post("/studentUpdate", data);

@@ -87,7 +87,7 @@ export function notePlanHeader(plan, http = baseApi.instance) {
   const wasPaid = user.plan && user.plan !== "Freemium";
   // studentApi isn't imported here: it imports baseApi, so that would be circular
   http
-    .get(`/studentInfo/${user.id}`, { skipPlanCheck: true, silent: true })
+    .get("/studentInfo", { skipPlanCheck: true, silent: true })
     .then((res) => {
       const fresh = res?.data?.data;
       if (!fresh) return;
