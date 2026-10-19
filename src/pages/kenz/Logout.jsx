@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "../../styles/dashboardCss/logout.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutTheUser } from "../../global/slice";
+import { persistor } from "../../global/store";
 import { useNavigate } from "react-router-dom";
 import { studentApi } from "../../config/studentApi";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -36,6 +37,9 @@ const Logout = () => {
     } finally {
       localStorage.removeItem("userToken");
       dispatch(logoutTheUser());
+      // Save the signed-out state now; otherwise a refresh in the next few
+      // seconds reloads the old, signed-in state from storage
+      await persistor.flush();
       setLoading(false);
       requestAnimationFrame(() => {
         nav("/");
