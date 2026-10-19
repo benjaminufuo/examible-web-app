@@ -5,10 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { LuCrown, LuSparkles, LuBookOpen, LuTimer } from "react-icons/lu";
 import { setPlanEndedNotice } from "../global/slice";
+import { isExamRoute } from "../utils/examRoutes";
 import "../styles/planEndedModal.css";
-
-// Never interrupt a running exam: the notice waits until the student leaves it
-const EXAM_PATHS = ["/mock-exam/questions"];
 
 const FREE_LIMITS = [
   { icon: LuSparkles, text: "10 AI explanations a day" },
@@ -60,7 +58,8 @@ const PlanEndedModal = () => {
   // Phones get a shorter sheet: the "what changes" box shows on larger screens only
   const showLimits = !isPhone;
 
-  const open = Boolean(notice && user?.id && !EXAM_PATHS.includes(pathname));
+  // Never interrupt a running exam: the notice waits until the student leaves it
+  const open = Boolean(notice && user?.id && !isExamRoute(pathname));
 
   const close = () => dispatch(setPlanEndedNotice(false));
   const renew = () => {
