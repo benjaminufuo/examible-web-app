@@ -3,10 +3,9 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
-import { store } from "./global/store.js";
+import { store, persistor } from "./global/store.js";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
-import persistStore from "redux-persist/es/persistStore";
 import ExamibleContext from "./context/ExamibleContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Loading from "./components/Loading.jsx";
@@ -19,8 +18,6 @@ import { INSTALLED_AT_BOOT } from "./utils/installMode";
 document.documentElement.dataset.displayMode = INSTALLED_AT_BOOT
   ? "standalone"
   : "browser";
-
-let persistor = persistStore(store);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

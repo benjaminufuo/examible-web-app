@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { store } from "../global/store";
-import { setUser } from "../global/slice";
+import { store, persistor } from "../global/store";
+import { setUser, logoutTheUser } from "../global/slice";
 import { showPlanEndedNotice } from "../utils/planNotice";
 
 const baseURL = `${import.meta.env.VITE_BASE_URL}api/v1`;
@@ -69,13 +69,16 @@ export class BaseApi {
     const status = error?.response?.status;
 
     if (status === 401) {
-      toast.error(message);
+      // One toast even when several requests fail together
+      toast.error(message, { toastId: "session-ended" });
       localStorage.removeItem("userToken");
-      localStorage.removeItem("persist:root");
-
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 3000);
+      // Reset and save the signed-out state at once. Removing persist:root
+      // alone isn't enough: redux-persist's throttled write puts the old,
+      // signed-in state back a few seconds later. PrivateRoute then sends the
+      // student to /login straight away, so no page reload is needed (a delayed
+      // reload would wipe a login they've already started).
+      store.dispatch(logoutTheUser());
+      persistor.flush();
     } else if (!error?.config?.silent) {
       toast.error(message);
     }
@@ -93,6 +96,7 @@ export function notePlanHeader(plan, http = baseApi.instance) {
   const { user } = store.getState();
   if (!user?.id || plan === user.plan || refreshingPlan) return;
 
+  const studentId = user.id;
   refreshingPlan = true;
   const wasPaid = user.plan && user.plan !== "Freemium";
   // studentApi isn't imported here: it imports baseApi, so that would be circular
@@ -101,6 +105,10 @@ export function notePlanHeader(plan, http = baseApi.instance) {
     .then((res) => {
       const fresh = res?.data?.data;
       if (!fresh) return;
+      // The student may have signed out (or signed in as someone else) while
+      // this was in flight: never write a profile into another session
+      const { userToken, user: current } = store.getState();
+      if (!userToken || current?.id !== studentId) return;
       store.dispatch(setUser(fresh));
       // PlanEndedModal picks this up (and waits if an exam is in progress)
       if (wasPaid && fresh.plan === "Freemium") showPlanEndedNotice();
