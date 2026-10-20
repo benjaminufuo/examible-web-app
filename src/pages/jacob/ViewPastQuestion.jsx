@@ -11,6 +11,7 @@ import { setPastQuestionsOption, setPastQuestionsPage } from "../../global/slice
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import { markEngaged } from "../../utils/installNudge";
 import Latex from "react-latex-next";
 import "katex/dist/katex.min.css";
 import Calculator from "../../components/Calculator";
@@ -232,6 +233,7 @@ const ViewPastQuestion = () => {
 
   useEffect(() => {
     if (count === 1) {
+      markEngaged(); // the Overview install card may show from now on
       setTimeout(() => {
         handleShowUserFeedback();
       }, 20000);

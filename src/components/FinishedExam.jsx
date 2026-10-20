@@ -6,6 +6,7 @@ import { setFinishedExam, setUser } from "../global/slice";
 import { studentApi } from "../config/studentApi";
 import { questionApi } from "../config/questionApi";
 import { useExamibleContext } from "../context/ExamibleContext";
+import { markEngaged } from "../utils/installNudge";
 import { getTotalNumbersOfQuestion } from "../utils/questionUtils";
 
 const FinishedExam = () => {
@@ -53,6 +54,7 @@ const FinishedExam = () => {
             nav("/cbt-mode/result", {
               state: { details: res?.data?.data?.lastCbtDetails },
             });
+            markEngaged(); // the Overview install card may show from now on
             setTimeout(() => {
               handleShowUserFeedback();
             }, 20000);
@@ -104,6 +106,7 @@ const FinishedExam = () => {
           nav("/mock-exam/result", {
             state: { subject: mockSelectedSubject },
           });
+          markEngaged();
           setTimeout(() => {
             handleShowUserFeedback();
           }, 20000);

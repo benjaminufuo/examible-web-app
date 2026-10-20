@@ -17,6 +17,7 @@ import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useRequireOnline } from "../../hooks/useRequireOnline";
+import InstallCard from "../../components/InstallCard";
 import {
   FaPlayCircle,
   FaBookOpen,
@@ -144,6 +145,9 @@ const Overview = () => {
               />
             </div>
           </motion.div>
+
+          {/* Phones and tablets, after the first finished exam or past question */}
+          <InstallCard />
 
           {/* 2. Quick Actions */}
           <motion.div className="ov-section" variants={itemVariants}>

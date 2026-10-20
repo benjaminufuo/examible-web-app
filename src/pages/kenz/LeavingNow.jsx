@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { studentApi } from "../../config/studentApi";
 import { useExamibleContext } from "../../context/ExamibleContext";
+import { markEngaged } from "../../utils/installNudge";
 import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -100,6 +101,7 @@ const LeavingNow = () => {
         nav("/mock-exam/result", { state: { subject: mockSelectedSubject } });
       }
 
+      markEngaged(); // the Overview install card may show from now on
       setTimeout(handleShowUserFeedback, 20000);
     } catch {
       setQuitError("Network error. Please check your connection.");

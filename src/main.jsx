@@ -11,6 +11,8 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Loading from "./components/Loading.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { INSTALLED_AT_BOOT } from "./utils/installMode";
+// Listens for the browser's install offer before anything renders
+import "./utils/installPrompt";
 
 // Lets CSS target the installed app only:
 // html[data-display-mode="standalone"] .something { ... }
