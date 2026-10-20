@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LuWifi, LuWifiOff } from "react-icons/lu";
 import { useOnline } from "../hooks/useOnline";
 import { useIsInstalledApp } from "../hooks/useIsInstalledApp";
+import { isOnline } from "../utils/connectivity";
 import "../styles/offline.css";
 
 const BACK_ONLINE_MS = 2000; // "You're back online" stays this long
@@ -16,7 +17,7 @@ const OfflineBanner = () => {
   const installed = useIsInstalledApp();
   // hidden → offline → back (2s) → leaving (collapse) → hidden
   const [status, setStatus] = useState(() =>
-    installed && !navigator.onLine ? "offline" : "hidden",
+    installed && !isOnline() ? "offline" : "hidden",
   );
   const statusRef = useRef(status);
   statusRef.current = status;

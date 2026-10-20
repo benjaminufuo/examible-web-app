@@ -1,18 +1,7 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+import { isOnline, subscribeConnectivity } from "../utils/connectivity";
 
-// The browser's online status. It can say "online" on Wi-Fi with no internet;
-// failed requests are handled by BaseApi's network error message.
-export const useOnline = () => {
-  const [online, setOnline] = useState(() => navigator.onLine);
-  useEffect(() => {
-    const goOnline = () => setOnline(true);
-    const goOffline = () => setOnline(false);
-    window.addEventListener("online", goOnline);
-    window.addEventListener("offline", goOffline);
-    return () => {
-      window.removeEventListener("online", goOnline);
-      window.removeEventListener("offline", goOffline);
-    };
-  }, []);
-  return online;
-};
+// Whether the app can reach Examible (see utils/connectivity.js: this is more
+// than navigator.onLine, which Safari keeps at true with Wi-Fi off)
+export const useOnline = () =>
+  useSyncExternalStore(subscribeConnectivity, isOnline);

@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { LuWifiOff } from "react-icons/lu";
+import { checkConnection } from "../utils/connectivity";
 import "../styles/offline.css";
 
 // Shown by OnlineOnlyRoute when the installed app opens a page that needs internet
@@ -7,13 +8,15 @@ const OfflineScreen = ({ feature = "This page" }) => {
   const nav = useNavigate();
   const location = useLocation();
 
-  // Re-enter the same route to re-check the connection, keeping its query
+  // Check the connection, then re-enter the same route, keeping its query
   // string and state (e.g. /verifying-payment?reference=... and MakePayment's state)
-  const tryAgain = () =>
+  const tryAgain = async () => {
+    await checkConnection();
     nav(
       { pathname: location.pathname, search: location.search },
       { replace: true, state: location.state },
     );
+  };
 
   return (
     <div className="offline-screen" role="status">

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { useIsInstalledApp } from "../hooks/useIsInstalledApp";
 import { isSafeToReload } from "../utils/examRoutes";
+import { isOnline } from "../utils/connectivity";
 import "../styles/appUpdater.css";
 
 const UPDATE_CHECK_MS = 60 * 60 * 1000; // look for a new version hourly
@@ -35,7 +36,7 @@ const AppUpdater = () => {
       if (!registration) return;
       clearInterval(updateTimer.current);
       updateTimer.current = setInterval(() => {
-        if (!navigator.onLine) return;
+        if (!isOnline()) return;
         // A failed check (connection dropped) just waits for the next one
         registration.update().catch(() => {});
       }, UPDATE_CHECK_MS);
