@@ -1,0 +1,187 @@
+/* Offline screen and banner (installed app), theme tokens only */
+
+.offline-screen {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding: 40px 20px;
+  font-family: var(--ex-font-body);
+}
+
+.offline-screen__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+  border: 4px solid var(--ex-surface);
+  box-shadow: 0 0 0 4px var(--ex-brand-soft);
+}
+
+.offline-screen__title {
+  margin: 6px 0 0;
+  font-family: var(--ex-font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ex-text);
+}
+
+.offline-screen__text {
+  margin: 0;
+  max-width: 340px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ex-text-soft);
+}
+
+.offline-screen__actions {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.offline-screen__primary,
+.offline-screen__secondary {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--ex-radius-sm);
+  font-family: var(--ex-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.offline-screen__primary {
+  border: none;
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand);
+  box-shadow: var(--ex-shadow-glow);
+}
+
+.offline-screen__secondary {
+  background: transparent;
+  color: var(--ex-text-soft);
+  border: 1px solid var(--ex-border);
+}
+
+.offline-screen__primary:focus-visible,
+.offline-screen__secondary:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+/* While offline (installed app), OfflineBanner adds html.ex-offline: the page
+   moves down by the banner's height instead of the banner covering it, and
+   every bar pinned to the top moves down with it. */
+/* Registered so it can be animated: the banner, the page padding and every
+   pinned top bar read it, so they all move together, frame by frame */
+@property --ex-offline-bar {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+:root {
+  --ex-offline-bar: 0px;
+  transition: --ex-offline-bar 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* theme.css sets `transition` on html.ex-theme-ready (for the theme switch),
+   which would replace the line above and make the bar snap in and out. Keep
+   the theme's transitions and add ours; :root.ex-theme-ready outranks it. */
+:root.ex-theme-ready {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    --ex-offline-bar 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root.ex-theme-ready {
+    transition: none !important;
+  }
+}
+
+html.ex-offline {
+  --ex-offline-bar: calc(28px + env(safe-area-inset-top));
+}
+
+html.ex-offline body {
+  padding-top: var(--ex-offline-bar);
+}
+
+/* Only bars pinned to the screen need the offset. Bars pinned inside a
+   clipping container (the dashboard header on desktop, the past-question
+   header) already move down with the page. */
+html.ex-offline .ex-header,
+html.ex-offline .exam-header {
+  top: var(--ex-offline-bar);
+}
+
+/* Phones: the dashboard header becomes position: fixed */
+@media screen and (max-width: 850px) {
+  html.ex-offline .dashboard-header {
+    top: var(--ex-offline-bar);
+  }
+}
+
+/* Above 1024px the sidebar is fixed to the screen; below, it's sticky inside a
+   container that already moves down */
+@media screen and (min-width: 1025px) {
+  html.ex-offline .dashboard-left {
+    top: var(--ex-offline-bar);
+    height: calc(100vh - var(--ex-offline-bar));
+  }
+}
+
+html.ex-offline .dashboard-leftDropdown {
+  top: var(--ex-offline-bar);
+  height: calc(100dvh - var(--ex-offline-bar));
+}
+
+.offline-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--ex-offline-bar); /* grows and collapses with the page */
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 1200; /* above the header (1100), below modals */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 16px;
+  background: var(--ex-text);
+  color: var(--ex-bg);
+  font-family: var(--ex-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Back online: brand colour for two seconds, then it collapses */
+.offline-banner--back {
+  background: var(--ex-brand);
+  color: var(--ex-text-onbrand);
+}
+
+.offline-banner__content {
+  height: 28px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}

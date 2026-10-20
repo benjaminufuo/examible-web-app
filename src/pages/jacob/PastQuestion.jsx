@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { questionApi } from "../../config/questionApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAllowedYearsForSubject } from "../../constants/common";
+import { useRequireOnline } from "../../hooks/useRequireOnline";
 
 const PastQuestion = () => {
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ const PastQuestion = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const requireOnline = useRequireOnline();
 
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedYear, setSelectedYear] = useState("Year");
@@ -191,9 +193,10 @@ const PastQuestion = () => {
           <div className="pq-action-container">
             <button
               className={`pq-action-btn ${disabled || loading ? "disabled" : ""}`}
-              onClick={() =>
-                getPastQuestionForYearSubject(selectedYear, selectedSubject)
-              }
+              onClick={requireOnline(
+                () => getPastQuestionForYearSubject(selectedYear, selectedSubject),
+                "Connect to the internet to start a practice session.",
+              )}
               disabled={disabled || loading}
             >
               {loading ? "Preparing Questions..." : "Start Practice Session"}

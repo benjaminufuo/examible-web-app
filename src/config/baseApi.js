@@ -51,6 +51,20 @@ export class BaseApi {
   }
 
   #handleError(error) {
+    // No response (offline, connection dropped, cancelled), or the device says
+    // it's offline: whatever came back (e.g. a 500 from a local backend that has
+    // lost its database), the student needs the offline message
+    if (!error?.response || !navigator.onLine) {
+      // Respect silent requests (e.g. logout) and cancelled ones
+      if (!error?.config?.silent && !axios.isCancel(error)) {
+        toast.error(
+          "You're offline or the connection dropped. Check your internet and try again.",
+          { toastId: "network" }, // one toast when several requests fail together
+        );
+      }
+      return Promise.reject(error);
+    }
+
     const message = error?.response?.data?.message ?? "Something went wrong";
     const status = error?.response?.status;
 

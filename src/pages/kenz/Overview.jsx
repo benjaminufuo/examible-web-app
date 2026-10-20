@@ -16,6 +16,7 @@ import { useExamibleContext } from "../../context/ExamibleContext";
 import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useRequireOnline } from "../../hooks/useRequireOnline";
 import {
   FaPlayCircle,
   FaBookOpen,
@@ -40,6 +41,7 @@ const Overview = () => {
 
   const { setShowSubjectSelected, showSubjectSelected } = useExamibleContext();
   const nav = useNavigate();
+  const requireOnline = useRequireOnline();
 
   const removeSubject = async (subject) => {
     const id = toast.loading("Removing Subject ...");
@@ -285,7 +287,7 @@ const Overview = () => {
                         className="ov-delete-btn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          removeSubject(item);
+                          requireOnline(removeSubject)(item);
                         }}
                         disabled={loading}
                       >
@@ -296,7 +298,7 @@ const Overview = () => {
                 ))}
                 <div
                   className="ov-add-subject"
-                  onClick={addMoreSubject}
+                  onClick={requireOnline(addMoreSubject)}
                   style={{ pointerEvents: loading ? "none" : "auto" }}
                 >
                   <FaPlus className="ov-add-icon" />

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import ScrollToTop from "./ScrollToTop";
 import PlanEndedModal from "./PlanEndedModal";
+import OfflineBanner from "./OfflineBanner";
 import { Outlet } from "react-router-dom";
 import { usePageTracking } from "../utils/analytics";
 import TagManager from "react-gtm-module";
@@ -15,6 +16,7 @@ const AppWrapper = () => {
   return (
     <>
       <ScrollToTop />
+      <OfflineBanner />
       <Outlet />
       <PlanEndedModal />
     </>
