@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+// Copying rendered maths gives its LaTeX ($x^2$) instead of jumbled symbols
+import "katex/contrib/copy-tex";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store, persistor } from "./global/store.js";
