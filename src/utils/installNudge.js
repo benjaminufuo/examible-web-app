@@ -1,12 +1,19 @@
 // When the Overview install card may show. Stored on this device only.
-// - It waits until the student has done something useful: finished a CBT or
-//   mock exam, or answered a past question (markEngaged)
-// - "Not now" or ✕ hides it for 14 days; after 3 dismissals it stops for good
+//
+//   Showing 1: the first visit to Overview after logging in
+//   Showing 2: after "no" #1, once the student uses a major feature (finishes
+//              a CBT or mock exam, or answers a past question: markEngaged).
+//              Only use after that "no" counts.
+//   Showing 3: 14 days after "no" #2
+//   Showing 4: 14 days after "no" #3
+//   After "no" #4 it stops for good (the Profile row stays available)
+//
+// A "no" is "Not now", ✕, or cancelling the browser's install dialog.
 
-const ENGAGED_KEY = "ex-install-engaged";
-const DISMISS_KEY = "ex-install-dismissed";
+const ENGAGED_KEY = "ex-install-engaged-at";
+const DISMISS_KEY = "ex-install-card";
 const SNOOZE_MS = 14 * 24 * 60 * 60 * 1000;
-const MAX_DISMISSALS = 3;
+const MAX_DISMISSALS = 4;
 
 const read = (key) => {
   try {
@@ -29,25 +36,25 @@ const readDismissals = () => {
     const value = JSON.parse(read(DISMISS_KEY));
     return {
       count: Number(value?.count) || 0,
-      until: Number(value?.until) || 0,
+      at: Number(value?.at) || 0,
     };
   } catch {
-    return { count: 0, until: 0 };
+    return { count: 0, at: 0 };
   }
 };
 
-export const markEngaged = () => write(ENGAGED_KEY, "1");
+/** The student used a major feature (any time; compared with the last "no") */
+export const markEngaged = () => write(ENGAGED_KEY, String(Date.now()));
 
 export const isInstallCardDue = () => {
-  if (read(ENGAGED_KEY) !== "1") return false;
-  const { count, until } = readDismissals();
-  return count < MAX_DISMISSALS && Date.now() >= until;
+  const { count, at } = readDismissals();
+  if (count === 0) return true;
+  if (count === 1) return Number(read(ENGAGED_KEY)) > at;
+  if (count < MAX_DISMISSALS) return Date.now() >= at + SNOOZE_MS;
+  return false;
 };
 
 export const dismissInstallCard = () => {
   const { count } = readDismissals();
-  write(
-    DISMISS_KEY,
-    JSON.stringify({ count: count + 1, until: Date.now() + SNOOZE_MS }),
-  );
+  write(DISMISS_KEY, JSON.stringify({ count: count + 1, at: Date.now() }));
 };

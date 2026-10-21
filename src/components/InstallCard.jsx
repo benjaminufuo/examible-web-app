@@ -7,7 +7,7 @@ import InstallSheet from "./InstallSheet";
 import "../styles/installPrompt.css";
 
 // Overview card inviting the student to install the app. Phones and tablets
-// only, after their first finished exam or past question (utils/installNudge)
+// only; when it shows is decided in utils/installNudge
 const InstallCard = () => {
   const { mode, canInstall, install, sheetOpen, closeSheet } =
     useInstallPrompt();

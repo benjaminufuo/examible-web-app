@@ -146,7 +146,7 @@ const Overview = () => {
             </div>
           </motion.div>
 
-          {/* Phones and tablets, after the first finished exam or past question */}
+          {/* Phones and tablets: first visit, then after real use (installNudge) */}
           <InstallCard />
 
           {/* 2. Quick Actions */}
