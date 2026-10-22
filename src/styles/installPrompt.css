@@ -1,0 +1,200 @@
+/* Install prompt: Overview card, Profile row and the steps sheet (theme tokens only) */
+
+/* Overview card */
+.installCard {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 44px 18px 18px;
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius-lg);
+  box-shadow: var(--ex-shadow-sm);
+  font-family: var(--ex-font-body);
+}
+
+.installCard-icon,
+.installRow-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--ex-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+}
+
+.installCard-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.installCard-body h3 {
+  margin: 0;
+  font-family: var(--ex-font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ex-text);
+}
+
+.installCard-body p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ex-text-soft);
+}
+
+.installCard-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.installCard-primary,
+.installCard-secondary {
+  padding: 10px 18px;
+  border-radius: var(--ex-radius-sm);
+  font-family: var(--ex-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.installCard-primary {
+  border: none;
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand);
+}
+
+.installCard-secondary {
+  background: transparent;
+  color: var(--ex-text-soft);
+  border: 1px solid var(--ex-border);
+}
+
+.installCard-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ex-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.installCard-close:hover,
+.installCard-secondary:hover {
+  background: var(--ex-bg-subtle);
+  color: var(--ex-text);
+}
+
+/* Profile row */
+.installRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  font-family: var(--ex-font-body);
+  text-align: left;
+  color: var(--ex-text);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.installRow:hover {
+  background: var(--ex-bg-subtle);
+  border-color: var(--ex-border-strong);
+}
+
+.installRow-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.installRow-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.installRow-subtitle {
+  font-size: 13px;
+  color: var(--ex-text-soft);
+}
+
+.installRow-chevron {
+  flex-shrink: 0;
+  color: var(--ex-text-muted);
+}
+
+.installCard-primary:focus-visible,
+.installCard-secondary:focus-visible,
+.installCard-close:focus-visible,
+.installRow:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+/* Steps sheet (inside the plan pop-up's shell) */
+.installSheet-steps {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  background: var(--ex-bg-subtle);
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius);
+}
+
+.installSheet-steps li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ex-text);
+}
+
+.installSheet-number {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ex-brand-soft);
+  color: var(--ex-brand);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.installSheet-text {
+  flex: 1;
+}
+
+.installSheet-icon {
+  flex-shrink: 0;
+  color: var(--ex-brand);
+  display: flex;
+}

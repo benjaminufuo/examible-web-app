@@ -11,6 +11,9 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Loading from "./components/Loading.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { INSTALLED_AT_BOOT } from "./utils/installMode";
+// Listens for the browser's install offer before anything renders
+import "./utils/installPrompt";
+import { checkConnection } from "./utils/connectivity";
 
 // Lets CSS target the installed app only:
 // html[data-display-mode="standalone"] .something { ... }
@@ -18,6 +21,10 @@ import { INSTALLED_AT_BOOT } from "./utils/installMode";
 document.documentElement.dataset.displayMode = INSTALLED_AT_BOOT
   ? "standalone"
   : "browser";
+
+// The installed app may be opened with no connection, and Safari would still
+// say it's online: check for real
+if (INSTALLED_AT_BOOT) checkConnection();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
