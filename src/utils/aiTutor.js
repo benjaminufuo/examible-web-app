@@ -1,5 +1,9 @@
 import { setChatbotMessages } from "../global/slice";
 import { baseApi, endSession, notePlanHeader } from "../config/baseApi";
+import {
+  reportNetworkError,
+  reportServerResponse,
+} from "./connectivity";
 
 // The AI tutor goes through our backend (/api/v1/ai/chat), which holds the
 // OpenRouter key, checks the plan and limits, and picks the model (falling back
@@ -96,9 +100,12 @@ export async function streamChat(
         signal: controller.signal,
       });
     } catch {
+      // No answer at all: let the installed app check whether it's offline
+      if (!timedOut) reportNetworkError();
       throw tutorError(timedOut ? "timeout" : "network");
     }
 
+    reportServerResponse(); // the server answered: we're online
     // Plan expired or upgraded: same check as every other API response
     notePlanHeader(response.headers.get("X-Plan"));
 
