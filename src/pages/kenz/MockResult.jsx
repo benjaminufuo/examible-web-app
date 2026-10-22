@@ -538,7 +538,9 @@ const MockResult = () => {
                 >
                   {isCorrect
                     ? "You got the answer right!"
-                    : `The correct answer is ${correctOptionLetter}`}
+                    : correctOptionLetter
+                      ? `The correct answer is ${correctOptionLetter}`
+                      : "Answer not available"}
                 </div>
                 <button
                   className="mr-ai-btn"

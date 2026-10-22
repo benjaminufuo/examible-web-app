@@ -31,6 +31,8 @@ const initialState = {
     },
   ],
   mockSelectedSubject: "",
+  // The running CBT's server session (v2): submitted with the answers
+  cbtSessionId: null,
   pastQuestionsPage: 1,
   mockResultPage: 1,
 };
@@ -84,6 +86,30 @@ const slice = createSlice({
       state.timedOut = false;
       state.mockResultPage = 1;
       state.mockSelectedSubject = "";
+      state.cbtSessionId = null;
+    },
+    setCbtSessionId: (state, { payload }) => {
+      state.cbtSessionId = payload;
+    },
+    // CBT v2 questions come without answers: after submitting, put the correct
+    // letters back for the result page and score each recorded answer.
+    // Review rows for unanswered questions have no exam entry and are skipped.
+    applyCbtReview: (state, { payload: review }) => {
+      if (!Array.isArray(review)) return;
+      // Look-ups built once, so a full CBT (180 questions) stays linear
+      const blocks = new Map(
+        state.mockExamQuestions.map((b) => [b.subject, b]),
+      );
+      const entries = new Map(
+        state.exam.map((e) => [`${e.subject}:${e.number}`, e]),
+      );
+      for (const row of review) {
+        const question = blocks.get(row.subject)?.questions?.[row.index - 1];
+        if (question) question.answer = row.answer ?? null;
+
+        const entry = entries.get(`${row.subject}:${row.index}`);
+        if (entry) entry.score = row.isCorrect ? 2 : 0;
+      }
     },
     setMockResultPage: (state, { payload }) => {
       state.mockResultPage = payload;
@@ -113,9 +139,16 @@ const slice = createSlice({
         state.exam.push(obj);
       }
     },
+    // payload.seconds (a CBT: the length the server sets) or payload.duration
+    // in minutes (mock exams). Stored as whole minutes and seconds, starting
+    // one second in, as before (120 min → 119:59)
     setExamTimer: (state, { payload }) => {
-      state.examTimerMins = payload.duration - 1;
-      state.examTimerSecs = 59;
+      const total = Math.max(
+        1,
+        Math.round(payload.seconds ?? payload.duration * 60),
+      );
+      state.examTimerMins = Math.floor((total - 1) / 60);
+      state.examTimerSecs = (total - 1) % 60;
       state.exam = [];
       state.mockExamOptions = { ...initialState.mockExamOptions };
       state.finishedExam = false;
@@ -178,6 +211,8 @@ export const {
   setTimedOut,
   setChatbotMessages,
   setMockSelectedSubject,
+  setCbtSessionId,
+  applyCbtReview,
 } = slice.actions;
 
 export default slice.reducer;
