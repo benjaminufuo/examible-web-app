@@ -1,36 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { LuCrown, LuSparkles, LuBookOpen, LuTimer } from "react-icons/lu";
 import { setPlanEndedNotice } from "../global/slice";
+import { isExamRoute } from "../utils/examRoutes";
+import { useIsPhone } from "../hooks/useIsPhone";
 import "../styles/planEndedModal.css";
-
-// Never interrupt a running exam: the notice waits until the student leaves it
-const EXAM_PATHS = ["/mock-exam/questions"];
 
 const FREE_LIMITS = [
   { icon: LuSparkles, text: "10 AI explanations a day" },
   { icon: LuTimer, text: "1 shorter CBT a day (30 minutes)" },
   { icon: LuBookOpen, text: "Subjects reset to Mathematics and English" },
 ];
-
-const PHONE_QUERY = "(max-width: 600px)";
-
-// True on phone-width screens, kept in sync when the window is resized
-const useIsPhone = () => {
-  const [isPhone, setIsPhone] = useState(
-    () => window.matchMedia(PHONE_QUERY).matches,
-  );
-  useEffect(() => {
-    const media = window.matchMedia(PHONE_QUERY);
-    const onChange = (e) => setIsPhone(e.matches);
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
-  return isPhone;
-};
 
 // Phones: a sheet that slides up from the bottom, slides back down when closed,
 // and can be dragged down to dismiss. Desktop: the centered card.
@@ -60,7 +43,8 @@ const PlanEndedModal = () => {
   // Phones get a shorter sheet: the "what changes" box shows on larger screens only
   const showLimits = !isPhone;
 
-  const open = Boolean(notice && user?.id && !EXAM_PATHS.includes(pathname));
+  // Never interrupt a running exam: the notice waits until the student leaves it
+  const open = Boolean(notice && user?.id && !isExamRoute(pathname));
 
   const close = () => dispatch(setPlanEndedNotice(false));
   const renew = () => {
@@ -74,10 +58,12 @@ const PlanEndedModal = () => {
     const onKey = (e) => {
       if (e.key === "Escape") dispatch(setPlanEndedNotice(false));
     };
+    // Restore what was there: another modal may also have locked scrolling
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKey);
     };
   }, [open, dispatch]);

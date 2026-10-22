@@ -3,6 +3,10 @@ import { toast } from "react-toastify";
 import { store, persistor } from "../global/store";
 import { setUser, logoutTheUser } from "../global/slice";
 import { showPlanEndedNotice } from "../utils/planNotice";
+import {
+  reportNetworkError,
+  reportServerResponse,
+} from "../utils/connectivity";
 
 const baseURL = `${import.meta.env.VITE_BASE_URL}api/v1`;
 
@@ -22,11 +26,15 @@ export class BaseApi {
 
     instance.interceptors.response.use(
       (response) => {
+        reportServerResponse();
         this.#checkPlan(response);
         return response;
       },
       (error) => {
-        if (error?.response) this.#checkPlan(error.response);
+        if (error?.response) {
+          reportServerResponse();
+          this.#checkPlan(error.response);
+        }
         return this.#handleError(error);
       },
     );
@@ -51,10 +59,14 @@ export class BaseApi {
   }
 
   #handleError(error) {
-    // No response (offline, connection dropped, cancelled), or the device says
-    // it's offline: whatever came back (e.g. a 500 from a local backend that has
-    // lost its database), the student needs the offline message
-    if (!error?.response || !navigator.onLine) {
+    const status = error?.response?.status;
+
+    // No response (offline, connection dropped, cancelled): the offline
+    // message. Also when the browser itself says offline and a server error
+    // came back anyway (a local backend that has lost its database). Any other
+    // response is the server's answer, so a 401 always signs the student out.
+    if (!error?.response && !axios.isCancel(error)) reportNetworkError();
+    if (!error?.response || (!navigator.onLine && status >= 500)) {
       // Respect silent requests (e.g. logout) and cancelled ones
       if (!error?.config?.silent && !axios.isCancel(error)) {
         toast.error(
@@ -66,7 +78,6 @@ export class BaseApi {
     }
 
     const message = error?.response?.data?.message ?? "Something went wrong";
-    const status = error?.response?.status;
 
     if (status === 401) {
       endSession(message);

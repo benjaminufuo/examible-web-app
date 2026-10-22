@@ -23,6 +23,7 @@ import {
 } from "react-icons/fa";
 import { ALLOWED_SUBJECTS } from "../../constants/common";
 import { useRequireOnline } from "../../hooks/useRequireOnline";
+import InstallAppRow from "../../components/InstallAppRow";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -498,6 +499,8 @@ const Profile = () => {
                 </div>
               </form>
             </motion.div>
+
+            <InstallAppRow />
           </div>
 
           <div className="prof-right-column">

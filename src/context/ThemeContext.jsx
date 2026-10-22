@@ -32,6 +32,14 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-theme", theme);
+    // Browser bar / installed app title bar: match the app's theme, not the
+    // device's (index.html's media-based tags only cover the first paint)
+    const bg = getComputedStyle(root).getPropertyValue("--ex-bg").trim();
+    if (bg) {
+      document
+        .querySelectorAll('meta[name="theme-color"]')
+        .forEach((meta) => meta.setAttribute("content", bg));
+    }
     // enable smooth transitions only after first paint
     requestAnimationFrame(() => root.classList.add("ex-theme-ready"));
   }, [theme]);
