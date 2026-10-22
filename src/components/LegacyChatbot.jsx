@@ -7,12 +7,13 @@ import {
   MessageInput,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { setChatbotMessages } from "../global/slice";
 import {
-  streamChatWithFallback,
+  streamChat,
   fetchFollowUpSuggestions,
-} from "../utils/streamChatWithFallback";
+  aiTutorErrorMessage,
+} from "../utils/aiTutor";
 import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -21,6 +22,8 @@ import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
 import rehypeKatex from "rehype-katex";
 import { useRequireOnline } from "../hooks/useRequireOnline";
+import ChatJumpButton from "./ChatJumpButton";
+import { useAiReplyInProgress } from "../hooks/useAiReplyInProgress";
 
 const normalizeLatexDelimiters = (text) =>
   text
@@ -113,17 +116,45 @@ function buildSuggestions(user) {
   return uniquePicks.length ? uniquePicks : FALLBACK_SUGGESTIONS;
 }
 
+// Copied chat text carries its formatting (background, fonts, HTML), and the
+// rich-text input would keep it: paste the plain text only
+const pastePlainText = (e) => {
+  const text = e.clipboardData?.getData("text/plain");
+  if (text == null) return;
+  e.preventDefault();
+  // Inserts at the caret like typing (and keeps undo working)
+  document.execCommand("insertText", false, text);
+};
+
 const LegacyChatbot = () => {
   const [typing, setTyping] = useState(false);
   const messages = useSelector((state) => state.chatbotMessages);
+  // A reply keeps streaming if the chat is closed; reopened meanwhile, the
+  // chat waits for it (typing indicator, input disabled) like it never closed
+  const replying = useAiReplyInProgress();
+  const busy = typing || replying;
+  const showTyping =
+    typing || (replying && messages[messages.length - 1]?.sender !== "bot");
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const requireOnline = useRequireOnline();
   const rafRef = useRef(null);
   const suggestions = useMemo(() => buildSuggestions(user), [user]);
   const [followUps, setFollowUps] = useState([]);
+  // Each send is a new turn; follow-ups from an older turn (or after the chat
+  // is closed) are ignored
+  const turnRef = useRef(0);
+  useEffect(
+    () => () => {
+      turnRef.current += 1;
+    },
+    [],
+  );
 
   const processMessage = async (chatMessages) => {
+    const turn = turnRef.current;
+    // Sent as "assistant", not "system", on purpose: that's what the provider
+    // accepts for these instructions
     const systemMessage = {
       role: "assistant",
       content:
@@ -135,35 +166,44 @@ const LegacyChatbot = () => {
         "4. For multi-line equations use $$\\begin{aligned}...\\end{aligned}$$.",
     };
 
-    const apiMessages = chatMessages.map((message) => ({
-      role: message.sender === "bot" ? "assistant" : "user",
-      content: message.message,
-    }));
+    // Error lines shown in the chat are for the student, never the model
+    const apiMessages = chatMessages
+      .filter((message) => !message.error)
+      .map((message) => ({
+        role: message.sender === "bot" ? "assistant" : "user",
+        content: message.message,
+      }));
     const payloadMessages = [systemMessage, ...apiMessages];
 
     try {
-      const botReply = await streamChatWithFallback(payloadMessages, {
-        chatMessages,
-        dispatch,
-        rafRef,
-        setTyping,
-      });
-      // Non-blocking: don't delay the visible reply on this, and just leave the row
-      // empty (via the catch below) if it fails — it's a nicety, not a core feature.
-      fetchFollowUpSuggestions([
-        ...payloadMessages,
-        { role: "assistant", content: botReply },
-      ])
-        .then(setFollowUps)
-        .catch(() => setFollowUps([]));
-    } catch {
+      const { text, suggestions, incomplete } = await streamChat(
+        payloadMessages,
+        { chatMessages, dispatch, rafRef, setTyping },
+      );
+      // Only when the server has follow-up suggestions switched on, and not
+      // for a reply that was cut off.
+      // Non-blocking: don't delay the visible reply on this, and just leave the
+      // row empty if it fails: it's a nicety, not a core feature.
+      if (suggestions === "on" && !incomplete) {
+        fetchFollowUpSuggestions([
+          ...payloadMessages,
+          { role: "assistant", content: text },
+        ]).then((list) => {
+          if (turnRef.current === turn) setFollowUps(list);
+        });
+      }
+    } catch (error) {
+      // Signed out (token expired): the chat has been reset with everything
+      // else, so don't write this student's messages back into it
+      if (error?.status === 401) return;
       dispatch(
         setChatbotMessages([
           ...chatMessages,
           {
-            message: "Sorry, something went wrong. Please try again.",
+            message: aiTutorErrorMessage(error),
             sender: "bot",
             direction: "incoming",
+            error: true,
           },
         ]),
       );
@@ -172,21 +212,26 @@ const LegacyChatbot = () => {
     }
   };
 
-  const handleSend = async (message) => {
-    if (!message || typing) return;
+  const handleSend = async (text) => {
+    const message = text?.trim();
+    if (!message || busy) return;
     const newMessage = {
       message: message,
       sender: "user",
     };
     const newMessages = [...messages, newMessage];
     dispatch(setChatbotMessages(newMessages));
+    turnRef.current += 1;
     setFollowUps([]);
     setTyping(true);
     processMessage(newMessages);
   };
 
   // Installed app offline: explain instead of failing
-  const sendIfOnline = requireOnline(handleSend, "The AI tutor needs internet.");
+  const sendIfOnline = requireOnline(
+    handleSend,
+    "The AI tutor needs internet.",
+  );
 
   // Cache processed text per message object so a streaming reply's per-frame array
   // replacement doesn't re-run the regex-heavy cleanup over the entire history —
@@ -212,10 +257,11 @@ const LegacyChatbot = () => {
       <MainContainer>
         <ChatContainer>
           <MessageList
+            className="legacybot-list"
             style={{ paddingBlockStart: "10px" }}
             scrollBehavior="smooth"
             typingIndicator={
-              typing ? (
+              showTyping ? (
                 <TypingIndicator content="Examible bot is typing" />
               ) : null
             }
@@ -266,6 +312,11 @@ const LegacyChatbot = () => {
                         >
                           {message._processed ?? message.message}
                         </ReactMarkdown>
+                        {message.incomplete && (
+                          <p className="legacybot-incomplete">
+                            This answer was cut off. Ask me to continue.
+                          </p>
+                        )}
                       </div>
                     </Message.CustomContent>
                   </Message>
@@ -276,12 +327,24 @@ const LegacyChatbot = () => {
           <MessageInput
             attachButton={false}
             placeholder="Type message here"
-            onSend={sendIfOnline}
-            disabled={typing}
+            // The input is a rich-text box: send its plain text (innerText
+            // keeps line breaks), never its HTML
+            onSend={(_html, textContent, innerText) =>
+              sendIfOnline(innerText ?? textContent)
+            }
+            onPaste={pastePlainText}
+            disabled={busy}
           />
         </ChatContainer>
       </MainContainer>
-      {!typing && followUps.length > 0 && (
+      {/* Its own component: scroll updates never re-render the message list */}
+      <ChatJumpButton
+        listClass="legacybot-list"
+        hidden={showTyping}
+        contentKey={`${messages.length}-${followUps.length}`}
+        lastMessage={messages[messages.length - 1]}
+      />
+      {!busy && followUps.length > 0 && (
         <div className="legacybot-followups">
           {followUps.map((suggestion) => (
             <button
