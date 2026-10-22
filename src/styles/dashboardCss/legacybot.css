@@ -310,3 +310,94 @@
     width: 90%;
   }
 }
+
+/* Under a reply that was cut off (the stream broke or went silent) */
+.legacybot-incomplete {
+  margin: 8px 0 0;
+  padding-top: 6px;
+  border-top: 1px dashed var(--ex-border);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ex-text-muted);
+}
+
+/* Scroll to bottom / scroll to top, just above the input (top set from the
+   list). Solid brand fill so it stands out over messages in both themes. */
+.legacybot-jump {
+  position: absolute;
+  right: 18px;
+  z-index: 5;
+  animation: legacybot-jump-in 0.2s ease;
+}
+
+.legacybot-jump__button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--ex-brand);
+  color: var(--ex-text-onbrand);
+  box-shadow: var(--ex-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.legacybot-jump__button:hover {
+  background: var(--ex-brand-strong);
+  transform: translateY(-1px);
+}
+
+.legacybot-jump__button:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+/* Small label above the button: on hover/focus, or briefly on touch screens */
+.legacybot-jump__label {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--ex-text);
+  color: var(--ex-bg);
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--ex-shadow-md);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.legacybot-jump:hover .legacybot-jump__label,
+.legacybot-jump:focus-within .legacybot-jump__label,
+.legacybot-jump--labelled .legacybot-jump__label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes legacybot-jump-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legacybot-jump,
+  .legacybot-jump__button,
+  .legacybot-jump__label {
+    animation: none;
+    transition: none;
+  }
+}

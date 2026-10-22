@@ -80,22 +80,28 @@ export class BaseApi {
     const message = error?.response?.data?.message ?? "Something went wrong";
 
     if (status === 401) {
-      // One toast even when several requests fail together
-      toast.error(message, { toastId: "session-ended" });
-      localStorage.removeItem("userToken");
-      // Reset and save the signed-out state at once. Removing persist:root
-      // alone isn't enough: redux-persist's throttled write puts the old,
-      // signed-in state back a few seconds later. PrivateRoute then sends the
-      // student to /login straight away, so no page reload is needed (a delayed
-      // reload would wipe a login they've already started).
-      store.dispatch(logoutTheUser());
-      persistor.flush();
+      endSession(message);
     } else if (!error?.config?.silent) {
       toast.error(message);
     }
 
     return Promise.reject(error);
   }
+}
+
+// The login token was rejected (expired, or signed in elsewhere): sign out.
+// Also used by requests made outside axios (the AI tutor fetch, F3).
+export function endSession(message) {
+  // One toast even when several requests fail together
+  toast.error(message, { toastId: "session-ended" });
+  localStorage.removeItem("userToken");
+  // Reset and save the signed-out state at once. Removing persist:root
+  // alone isn't enough: redux-persist's throttled write puts the old,
+  // signed-in state back a few seconds later. PrivateRoute then sends the
+  // student to /login straight away, so no page reload is needed (a delayed
+  // reload would wipe a login they've already started).
+  store.dispatch(logoutTheUser());
+  persistor.flush();
 }
 
 let refreshingPlan = false;
