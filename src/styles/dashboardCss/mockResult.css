@@ -790,3 +790,76 @@ button.mr-time-header:focus-visible {
     animation: none;
   }
 }
+
+/* Free plan CBT: what the full JAMB CBT has, and the way to unlock it */
+.mr-stat-note {
+  display: block;
+  margin-top: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ex-text-muted);
+}
+
+.mr-table-note {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ex-text-muted);
+  white-space: nowrap;
+}
+
+.mr-upgrade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  background: var(--ex-brand-soft);
+}
+
+.mr-upgrade p {
+  flex: 1 1 260px;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ex-text);
+}
+
+.mr-upgrade button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--ex-radius-sm);
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand);
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mr-upgrade button:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .mr-upgrade {
+    padding: 18px 20px;
+  }
+  .mr-upgrade button {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -30,9 +30,7 @@ import "katex/dist/katex.min.css";
 import QuestionMeta from "../../components/QuestionMeta";
 import { LETTERS, deduplicateQuestionMeta } from "../../utils/questionUtils";
 import useAiExplanation from "../../utils/useAiExplanation";
-
-const getFreeLimit = (subj) =>
-  subj?.toLowerCase().includes("english") ? 20 : 10;
+import { cbtFullCount } from "../../utils/cbtLayout";
 
 const MockResult = () => {
   const location = useLocation();
@@ -207,9 +205,7 @@ const MockResult = () => {
     [isCbtMode, activeReviewSubject, mockExamQuestions],
   );
   const reviewSubjectTotal = isCbtMode
-    ? activeReviewSubject?.toLowerCase().includes("english")
-      ? 60
-      : 40
+    ? cbtFullCount(activeReviewSubject)
     : reviewQuestions.length;
 
   const processedQuestions = useMemo(
@@ -217,6 +213,22 @@ const MockResult = () => {
       deduplicateQuestionMeta(reviewQuestions?.slice(intialCount, finalCount)),
     [reviewQuestions, intialCount, finalCount],
   );
+
+  // Free plan CBT: the exam shows the full JAMB layout (180 questions) with
+  // only some unlocked. The summary keeps that picture: totals are the full
+  // layout, while correct, incorrect and the score count the unlocked
+  // questions (locked ones aren't "missed").
+  const cbtBreakdown = isCbtMode
+    ? (lastCbt?.subjectBreakdown ?? subjectBreakdown)
+    : [];
+  const cbtUnlocked = isCbtMode
+    ? (lastCbt?.totalQuestions ?? validQuestionsLength)
+    : 0;
+  const cbtFullTotal = cbtBreakdown.reduce(
+    (sum, item) => sum + cbtFullCount(item.subject ?? item.name),
+    0,
+  );
+  const lockedQuestions = Math.max(0, cbtFullTotal - cbtUnlocked);
 
   if (viewStep === "loading") {
     return (
@@ -280,9 +292,16 @@ const MockResult = () => {
               <h4>Total Questions</h4>
               <p>
                 {isCbtMode
-                  ? (lastCbt?.totalQuestions ?? validQuestionsLength)
+                  ? lockedQuestions
+                    ? cbtFullTotal
+                    : cbtUnlocked
                   : validQuestionsLength}
               </p>
+              {lockedQuestions > 0 && (
+                <span className="mr-stat-note">
+                  {cbtUnlocked} unlocked on the Free plan
+                </span>
+              )}
             </div>
           </div>
           <div className="mr-stat-card">
@@ -322,6 +341,11 @@ const MockResult = () => {
                   ? `${(lastCbt?.average ?? performance).toFixed(1)}%`
                   : `${performance.toFixed(1)}%`}
               </p>
+              {lockedQuestions > 0 && (
+                <span className="mr-stat-note">
+                  on your {cbtUnlocked} questions
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -357,37 +381,56 @@ const MockResult = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(lastCbt?.subjectBreakdown ?? subjectBreakdown).map(
-                    (item, idx) => {
-                      const name = item.subject ?? item.name;
-                      const total = item.totalQuestions ?? item.total;
-                      const correct = item.correctAnswers ?? item.correct;
-                      const incorrect = item.wrongAnswers ?? item.incorrect;
-                      const accuracy =
-                        item.average ??
-                        (total > 0 ? (correct / total) * 100 : 0);
-                      return (
-                        <tr key={item._id ?? idx}>
-                          <td>
-                            <strong>{name}</strong>
-                          </td>
-                          <td>{total}</td>
-                          <td className="text-success">{correct}</td>
-                          <td className="text-danger">{incorrect}</td>
-                          <td>
-                            <span
-                              className={`mr-accuracy-badge ${accuracy >= 50 ? "pass" : "fail"}`}
-                            >
-                              {accuracy.toFixed(0)}%
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    },
-                  )}
+                  {cbtBreakdown.map((item, idx) => {
+                    const name = item.subject ?? item.name;
+                    const total = item.totalQuestions ?? item.total;
+                    const correct = item.correctAnswers ?? item.correct;
+                    const incorrect = item.wrongAnswers ?? item.incorrect;
+                    const accuracy =
+                      item.average ?? (total > 0 ? (correct / total) * 100 : 0);
+                    return (
+                      <tr key={item._id ?? idx}>
+                        <td>
+                          <strong>{name}</strong>
+                        </td>
+                        <td>
+                          {lockedQuestions > 0 ? (
+                            <>
+                              {cbtFullCount(name)}
+                              <span className="mr-table-note">
+                                <FaLock aria-hidden="true" /> {total} unlocked
+                              </span>
+                            </>
+                          ) : (
+                            total
+                          )}
+                        </td>
+                        <td className="text-success">{correct}</td>
+                        <td className="text-danger">{incorrect}</td>
+                        <td>
+                          <span
+                            className={`mr-accuracy-badge ${accuracy >= 50 ? "pass" : "fail"}`}
+                          >
+                            {accuracy.toFixed(0)}%
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+        {lockedQuestions > 0 && (
+          <div className="mr-upgrade">
+            <p>
+              You took {cbtUnlocked} of the {cbtFullTotal} JAMB questions.
+              Upgrade to Premium to unlock the full CBT.
+            </p>
+            <button type="button" onClick={() => nav("/subscription")}>
+              Upgrade <FaArrowRight />
+            </button>
           </div>
         )}
       </motion.div>

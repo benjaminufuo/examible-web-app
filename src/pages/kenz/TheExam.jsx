@@ -27,11 +27,11 @@ import {
   getTotalNumbersOfQuestion,
   normalizeQuestion,
 } from "../../utils/questionUtils";
-
-const getFreeLimit = (subj) =>
-  subj?.toLowerCase().includes("english") ? 20 : 10;
-
-const TOTAL_CBT_QUESTIONS = 180;
+import {
+  CBT_TOTAL_QUESTIONS,
+  cbtFreeCount,
+  cbtFullCount,
+} from "../../utils/cbtLayout";
 
 const TheExam = () => {
   const dispatch = useDispatch();
@@ -57,12 +57,12 @@ const TheExam = () => {
   const examMeter = totalQuestions
     ? Math.round(
         (answeredQuestions /
-          (isCbtMode ? TOTAL_CBT_QUESTIONS : totalQuestions)) *
+          (isCbtMode ? CBT_TOTAL_QUESTIONS : totalQuestions)) *
           100,
       )
     : 0;
 
-const examSubjects = useMemo(() => {
+  const examSubjects = useMemo(() => {
     if (!isCbtMode || !subjectBlocks || subjectBlocks.length <= 1) {
       return [];
     }
@@ -106,13 +106,9 @@ const examSubjects = useMemo(() => {
   );
 
   const isFreemium = !user?.plan || user?.plan === "Freemium";
-  const currentFreeLimit = getFreeLimit(currentSubject);
+  const currentFreeLimit = cbtFreeCount(currentSubject);
 
-  let navLength = !isCbtMode
-    ? totalQuestions
-    : currentSubject === "English"
-      ? 60
-      : 40;
+  let navLength = !isCbtMode ? totalQuestions : cbtFullCount(currentSubject);
 
   const navArray = Array.from({ length: navLength }, (_, i) => i);
 
@@ -504,7 +500,7 @@ const examSubjects = useMemo(() => {
             <div className="exam-progress-stats">
               <span>{answeredQuestions} Answered</span>
               <span>
-                {(isCbtMode ? TOTAL_CBT_QUESTIONS : totalQuestions) -
+                {(isCbtMode ? CBT_TOTAL_QUESTIONS : totalQuestions) -
                   answeredQuestions}{" "}
                 Remaining
               </span>
