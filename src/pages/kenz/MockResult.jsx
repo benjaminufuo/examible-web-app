@@ -78,7 +78,7 @@ const MockResult = () => {
   const savedPage = useSelector((state) => state.mockResultPage);
   const [currentPage, setCurrentPage] = useState(savedPage || 1);
   const [reviewSubject, setReviewSubject] = useState(() =>
-    isCbtMode ? (mockExamQuestionsFromRedux[0]?.subject || "") : "",
+    isCbtMode ? mockExamQuestionsFromRedux[0]?.subject || "" : "",
   );
 
   const page = currentPage;
@@ -89,7 +89,8 @@ const MockResult = () => {
   const finalCount = indexOfLastQuestion;
 
   const activeYear = isCbtMode
-    ? (mockExamQuestionsFromRedux.find((b) => b.subject === reviewSubject)?.year ?? mockYear)
+    ? (mockExamQuestionsFromRedux.find((b) => b.subject === reviewSubject)
+        ?.year ?? mockYear)
     : mockYear;
 
   const { loading, handleViewExplanation } = useAiExplanation(
@@ -434,6 +435,11 @@ const MockResult = () => {
           const isCorrect = currentExamItem?.score > 0;
           const selectedOptionLetter = currentExamItem?.option;
           const correctOptionLetter = item?.answer;
+          // A CBT has a Question 4 in every subject: tell them apart, so only
+          // the one being explained shows the spinner
+          const explanationId = isCbtMode
+            ? `${item?.subject}:${item?._position}`
+            : item?.number;
 
           if (isLocked) {
             return (
@@ -554,12 +560,17 @@ const MockResult = () => {
                       item.subheadingB,
                       item.diagramUrlA,
                       item.diagramUrlB,
-                      item.number,
+                      explanationId,
+                      isCbtMode
+                        ? `${item.subject} · Question ${slotIndex + 1}`
+                        : `Question ${slotIndex + 1}`,
                     );
                   }}
-                  disabled={typeof loading === "number"}
+                  // One explanation at a time: every button waits, but only
+                  // the question being explained shows the spinner
+                  disabled={loading != null}
                 >
-                  {loading === item.number ? (
+                  {loading === explanationId ? (
                     <ClipLoader color="white" size={16} />
                   ) : (
                     <>

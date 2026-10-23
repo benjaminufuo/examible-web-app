@@ -8,8 +8,12 @@ import { motion } from "framer-motion";
 import { FaBrain } from "react-icons/fa";
 
 const AiResponse = () => {
-  const { showAiResponseModal, setShowAiResponseModal, AIresponse } =
-    useExamibleContext();
+  const {
+    showAiResponseModal,
+    setShowAiResponseModal,
+    AIresponse,
+    aiResponseTitle,
+  } = useExamibleContext();
 
   useEffect(() => {
     document.body.style.overflow = showAiResponseModal ? "hidden" : "";
@@ -52,14 +56,19 @@ const AiResponse = () => {
             </div>
             <div>
               <h3 className="ai-title">AI Explanation</h3>
-              <p className="ai-subtitle">
-                Understand This Question Better{" "}
-                <img
-                  src={handwave}
-                  alt="Wave"
-                  style={{ width: 16, height: 16, marginLeft: 4 }}
-                />
-              </p>
+              {aiResponseTitle ? (
+                // Which question this is for (e.g. "Mathematics · Question 4")
+                <p className="ai-subtitle">{aiResponseTitle}</p>
+              ) : (
+                <p className="ai-subtitle">
+                  Understand This Question Better{" "}
+                  <img
+                    src={handwave}
+                    alt="Wave"
+                    style={{ width: 16, height: 16, marginLeft: 4 }}
+                  />
+                </p>
+              )}
             </div>
           </div>
           <button

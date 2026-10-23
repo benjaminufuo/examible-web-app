@@ -7,7 +7,10 @@ import {
   IoCloseCircle,
   IoSparklesOutline,
 } from "react-icons/io5";
-import { setPastQuestionsOption, setPastQuestionsPage } from "../../global/slice";
+import {
+  setPastQuestionsOption,
+  setPastQuestionsPage,
+} from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -138,6 +141,7 @@ const QuestionCard = ({
                   item.diagramUrlA,
                   item.diagramUrlB,
                   item.number,
+                  `Question ${item.number}`,
                 )
               }
             >
