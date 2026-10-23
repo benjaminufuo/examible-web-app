@@ -3,6 +3,11 @@ import { toast } from "react-toastify";
 import { store, persistor } from "../global/store";
 import { setUser, logoutTheUser } from "../global/slice";
 import { showPlanEndedNotice } from "../utils/planNotice";
+import { appHeaders } from "../utils/appVersion";
+import {
+  isUpdateRequiredResponse,
+  markUpdateRequired,
+} from "../utils/updateRequired";
 import {
   reportNetworkError,
   reportServerResponse,
@@ -47,6 +52,8 @@ export class BaseApi {
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    // Which build this is (version tracking and forced updates)
+    Object.assign(config.headers, appHeaders());
     return config;
   }
 
@@ -78,6 +85,12 @@ export class BaseApi {
     }
 
     const message = error?.response?.data?.message ?? "Something went wrong";
+
+    // This build is too old: the "Update required" screen takes over
+    if (isUpdateRequiredResponse(status, error?.response?.data)) {
+      markUpdateRequired();
+      return Promise.reject(error);
+    }
 
     if (status === 401) {
       endSession(message);
