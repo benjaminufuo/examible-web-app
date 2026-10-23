@@ -14,6 +14,7 @@ import {
   submitCbtV2,
 } from "../../utils/cbtSubmit";
 import { useRetryOnReconnect } from "../../hooks/useRetryOnReconnect";
+import { getMockTiming } from "../../utils/examTiming";
 
 const LeavingNow = () => {
   const nav = useNavigate();
@@ -40,15 +41,8 @@ const LeavingNow = () => {
 
   // Mock exams send their own result (duration, performance); a CBT is timed
   // and scored on the server, so it only sends the session and answers
-  const submitMock = () => {
-    const timeLeft = examTimerMins * 60 + examTimerSecs;
-    const initialDuration =
-      parseInt(sessionStorage.getItem("mockExamDuration")) ||
-      (user?.plan === "Freemium" ? 10 : 30);
-    const duration = Math.min(
-      7200,
-      Math.max(1, initialDuration * 60 - timeLeft),
-    );
+  const submitMock = (timing) => {
+    const duration = timing.secondsUsed;
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
     const rawPerformance =
       (exam.reduce((acc, item) => acc + (item?.score || 0), 0) /
@@ -100,13 +94,20 @@ const LeavingNow = () => {
         setShowLeavingNow(false);
         nav("/cbt-mode/result", { state: { details: result.details } });
       } else {
-        const res = await submitMock();
+        const timing = getMockTiming({
+          examTimerMins,
+          examTimerSecs,
+          plan: user?.plan,
+        });
+        const res = await submitMock(timing);
         if (!res?.data?.success) {
           fail("error");
           return;
         }
         setShowLeavingNow(false);
-        nav("/mock-exam/result", { state: { subject: mockSelectedSubject } });
+        nav("/mock-exam/result", {
+          state: { subject: mockSelectedSubject, timing },
+        });
       }
 
       markEngaged(); // the Overview install card may show from now on

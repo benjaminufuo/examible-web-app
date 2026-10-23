@@ -6,6 +6,7 @@ import {
   useCallback,
 } from "react";
 import "../../styles/dashboardCss/mockResult.css";
+import ResultTime from "../../components/ResultTime";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelExam, setMockResultPage } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -324,6 +325,23 @@ const MockResult = () => {
             </div>
           </div>
         </div>
+        {/* CBT: timed by the server. Mock tests: passed from submitting.
+            Past questions have no timer. */}
+        {!isPastQuestionResult && (
+          <ResultTime
+            totalSeconds={
+              isCbtMode
+                ? lastCbt?.totalDuration
+                : location.state?.timing?.totalSeconds
+            }
+            secondsUsed={
+              isCbtMode
+                ? lastCbt?.secondsUsed
+                : location.state?.timing?.secondsUsed
+            }
+            answered={exam?.length ?? 0}
+          />
+        )}
         {isCbtMode && (
           <div className="mr-breakdown-section">
             <h3>Subject Breakdown</h3>
