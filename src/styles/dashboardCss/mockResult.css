@@ -660,3 +660,206 @@
     font-size: 13px;
   }
 }
+
+/* Exam time (ResultTime): one line that opens on phones, always open above */
+.mr-time {
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  box-shadow: var(--ex-shadow-sm);
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+/* Sits closer to the score cards it belongs with */
+.mr-stats-grid + .mr-time {
+  margin-top: -16px;
+}
+
+.mr-time-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  color: var(--ex-text);
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  text-align: left;
+}
+
+button.mr-time-header {
+  cursor: pointer;
+}
+
+button.mr-time-header:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: -2px;
+  border-radius: 20px;
+}
+
+.mr-time-icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: var(--ex-brand);
+}
+
+.mr-time-summary {
+  flex: 1;
+  color: var(--ex-text-soft);
+}
+
+.mr-time-summary strong {
+  color: var(--ex-text);
+  font-weight: 700;
+}
+
+.mr-time-chevron {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: var(--ex-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.mr-time-chevron.open {
+  transform: rotate(180deg);
+}
+
+.mr-time-details {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0 24px 20px;
+}
+
+.mr-time-details div {
+  border-top: 1px solid var(--ex-border);
+  padding-top: 14px;
+}
+
+.mr-time-details dt {
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ex-text-muted);
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
+.mr-time-details dd {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ex-text);
+}
+
+@media (max-width: 600px) {
+  .mr-time-header {
+    padding: 16px 20px;
+    font-size: 14px;
+  }
+  .mr-time-details {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 20px 18px;
+    animation: mr-time-open 0.2s ease;
+  }
+  .mr-time-details dd {
+    font-size: 17px;
+  }
+}
+
+@keyframes mr-time-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mr-time-chevron,
+  .mr-time-details {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Free plan CBT: what the full JAMB CBT has, and the way to unlock it */
+.mr-stat-note {
+  display: block;
+  margin-top: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ex-text-muted);
+}
+
+.mr-table-note {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ex-text-muted);
+  white-space: nowrap;
+}
+
+.mr-upgrade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+  border: 1px solid var(--ex-border);
+  border-radius: 20px;
+  background: var(--ex-brand-soft);
+}
+
+.mr-upgrade p {
+  flex: 1 1 260px;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ex-text);
+}
+
+.mr-upgrade button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--ex-radius-sm);
+  background: var(--ex-gradient-brand);
+  color: var(--ex-text-onbrand);
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mr-upgrade button:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .mr-upgrade {
+    padding: 18px 20px;
+  }
+  .mr-upgrade button {
+    width: 100%;
+    justify-content: center;
+  }
+}

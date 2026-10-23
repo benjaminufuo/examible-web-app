@@ -1,9 +1,8 @@
 import { setChatbotMessages } from "../global/slice";
 import { baseApi, endSession, notePlanHeader } from "../config/baseApi";
-import {
-  reportNetworkError,
-  reportServerResponse,
-} from "./connectivity";
+import { appHeaders } from "./appVersion";
+import { isUpdateRequiredResponse, markUpdateRequired } from "./updateRequired";
+import { reportNetworkError, reportServerResponse } from "./connectivity";
 
 // The AI tutor goes through our backend (/api/v1/ai/chat), which holds the
 // OpenRouter key, checks the plan and limits, and picks the model (falling back
@@ -23,6 +22,7 @@ const SUGGESTIONS_TIMEOUT_MS = 20000;
 
 const ERROR_MESSAGES = {
   403: "The AI tutor is a Premium feature.",
+  426: "A new version of Examible is needed. Update to keep using the AI tutor.",
   429: "You're sending messages too fast. Wait a moment.",
   network: "Couldn't reach the AI tutor. Check your internet and try again.",
   timeout: "The AI tutor took too long to answer. Try again.",
@@ -95,6 +95,7 @@ export async function streamChat(
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          ...appHeaders(),
         },
         body: JSON.stringify({ messages: trimHistory(payloadMessages) }),
         signal: controller.signal,
@@ -111,9 +112,13 @@ export async function streamChat(
 
     if (!response.ok) {
       const { status } = response;
-      if (status === 401) {
+      if (status === 401 || status === 426) {
         const body = await response.json().catch(() => ({}));
-        endSession(body?.message ?? "Your session has ended. Log in again.");
+        if (status === 401) {
+          endSession(body?.message ?? "Your session has ended. Log in again.");
+        } else if (isUpdateRequiredResponse(status, body)) {
+          markUpdateRequired();
+        }
       }
       throw tutorError(status, status);
     }

@@ -95,11 +95,22 @@ const Overview = () => {
 
   const lastCbt = user?.lastCbtDetails ?? null;
   const subjectBreakdown = lastCbt?.subjectBreakdown ?? [];
-  const strongest = lastCbt?.strongestSubject ?? null;
-  const weakest = lastCbt?.weakestSubject ?? null;
-  const recommendedAction =
-    lastCbt?.recommedation ??
-    "Complete a CBT Mock Exam today to establish your baseline.";
+  // No clear strongest/weakest: "N/A" from the backend, or (results saved
+  // before that fix) the same subject named as both when every score tied
+  const tied =
+    !!lastCbt?.strongestSubject &&
+    lastCbt.strongestSubject !== "N/A" &&
+    lastCbt.strongestSubject === lastCbt.weakestSubject;
+  const clearSubject = (subject) =>
+    subject && subject !== "N/A" && !tied ? subject : null;
+  const strongest = clearSubject(lastCbt?.strongestSubject);
+  const weakest = clearSubject(lastCbt?.weakestSubject);
+  const recommendedAction = !lastCbt
+    ? "Complete a CBT Mock Exam today to establish your baseline."
+    : tied
+      ? "Answer more questions in your next CBT so we can find your strongest and weakest subjects."
+      : (lastCbt.recommedation ??
+        "Complete a CBT Mock Exam today to establish your baseline.");
 
   // Framer motion variants
   const containerVariants = {
@@ -249,14 +260,18 @@ const Overview = () => {
                   <FaTrophy className="metric-icon" />
                   <div className="metric-text">
                     <span className="metric-title">Strongest Subject</span>
-                    <span className="metric-value">{strongest ?? "N/A"}</span>
+                    <span className="metric-value">
+                      {strongest ?? "Not enough data yet"}
+                    </span>
                   </div>
                 </div>
                 <div className="ov-metric-box negative">
                   <FaChartLine className="metric-icon" />
                   <div className="metric-text">
                     <span className="metric-title">Needs Attention</span>
-                    <span className="metric-value">{weakest ?? "N/A"}</span>
+                    <span className="metric-value">
+                      {weakest ?? "Not enough data yet"}
+                    </span>
                   </div>
                 </div>
               </div>

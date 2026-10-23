@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { execSync } from "node:child_process";
 
 // PWA: the installable app shell. Service worker rules:
 // - precache only the app itself (code, styles, fonts, icons), never images:
@@ -69,7 +70,8 @@ const pwa = (killSwitch) =>
           sizes: "485x953",
           type: "image/png",
           form_factor: "narrow",
-          label: "Action Center: CBT simulator, past questions and quick practice",
+          label:
+            "Action Center: CBT simulator, past questions and quick practice",
         },
         {
           src: "/screenshots/cbt-question.png",
@@ -123,10 +125,34 @@ const pwa = (killSwitch) =>
   });
 
 // https://vite.dev/config/
+// Which build this is, sent to the API as X-App-Version: the commit's time
+// (UTC, to the minute) and the commit Vercel deploys, e.g.
+// 2026-10-22T1430.8c6e63e; "dev" for local builds. The commit's time, not the
+// build's, so rebuilding old code keeps its old version. The backend's
+// MIN_APP_VERSION compares the time part.
+const commitTime = () => {
+  try {
+    const seconds = execSync("git log -1 --format=%ct").toString().trim();
+    return seconds ? new Date(Number(seconds) * 1000) : null;
+  } catch {
+    return null; // no git: fall back to the build time
+  }
+};
+
+const appVersion = (env) => {
+  const commit = (env.VERCEL_GIT_COMMIT_SHA || "").slice(0, 7);
+  if (!commit) return "dev";
+  const iso = (commitTime() ?? new Date()).toISOString(); // 2026-10-22T14:30:…
+  return `${iso.slice(0, 10)}T${iso.slice(11, 13)}${iso.slice(14, 16)}.${commit}`;
+};
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
     plugins: [react(), pwa(env.VITE_PWA_KILL_SWITCH === "true")],
+    define: {
+      "import.meta.env.VITE_APP_VERSION": JSON.stringify(appVersion(env)),
+    },
     build: {
       // Enable minification for smaller bundle sizes
       minify: "terser",

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { useIsInstalledApp } from "../hooks/useIsInstalledApp";
 import { isSafeToReload } from "../utils/examRoutes";
+import { setSwUpdate } from "../utils/swUpdate";
 import { isOnline } from "../utils/connectivity";
 import "../styles/appUpdater.css";
 
@@ -34,6 +35,7 @@ const AppUpdater = () => {
   } = useRegisterSW({
     onRegisteredSW(_, registration) {
       if (!registration) return;
+      setSwUpdate({ registration });
       clearInterval(updateTimer.current);
       updateTimer.current = setInterval(() => {
         if (!isOnline()) return;
@@ -43,6 +45,11 @@ const AppUpdater = () => {
     },
   });
   useEffect(() => () => clearInterval(updateTimer.current), []);
+
+  // Shared with the forced update ("Update now"), so it uses this same path
+  useEffect(() => {
+    setSwUpdate({ ready: needRefresh, update: updateServiceWorker });
+  }, [needRefresh, updateServiceWorker]);
   const safe = isSafeToReload(pathname);
 
   // Installed app: offer the update, only on safe pages

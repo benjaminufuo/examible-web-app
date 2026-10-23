@@ -14,6 +14,7 @@ import {
   submitCbtV2,
 } from "../utils/cbtSubmit";
 import { useRetryOnReconnect } from "../hooks/useRetryOnReconnect";
+import { getMockTiming } from "../utils/examTiming";
 import "../styles/offline.css";
 
 // Submits the exam when it ends (time up or "Submit").
@@ -78,15 +79,13 @@ const FinishedExam = () => {
   };
 
   const submitMock = async () => {
-    const timeLeft = examTimerMins * 60 + examTimerSecs;
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
-    const initialDuration =
-      parseInt(sessionStorage.getItem("mockExamDuration")) ||
-      (user?.plan === "Freemium" ? 10 : 30);
-    const duration = Math.min(
-      7200,
-      Math.max(1, initialDuration * 60 - timeLeft),
-    );
+    const timing = getMockTiming({
+      examTimerMins,
+      examTimerSecs,
+      plan: user?.plan,
+    });
+    const duration = timing.secondsUsed;
 
     let completed = "no";
     if (
@@ -118,7 +117,10 @@ const FinishedExam = () => {
         { silent: true }, // this screen shows the message
       );
       if (res?.data?.success) {
-        onSubmitted("/mock-exam/result", { subject: mockSelectedSubject });
+        onSubmitted("/mock-exam/result", {
+          subject: mockSelectedSubject,
+          timing,
+        });
       } else {
         onFailed("error");
       }

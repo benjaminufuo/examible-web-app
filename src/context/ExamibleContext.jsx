@@ -11,6 +11,8 @@ const examibleContext = createContext({
   setShowAiResponseModal: () => {},
   AIresponse: "",
   setAIResponse: () => {},
+  aiResponseTitle: null,
+  setAiResponseTitle: () => {},
   showSubjectSelected: false,
   setShowSubjectSelected: () => {},
   showLeavingNow: false,
@@ -27,6 +29,8 @@ const ExamibleContext = ({ children }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showAiResponseModal, setShowAiResponseModal] = useState(false);
   const [AIresponse, setAIResponse] = useState("");
+  // Which question the explanation is for, e.g. "Mathematics · Question 4"
+  const [aiResponseTitle, setAiResponseTitle] = useState(null);
   const [showSubjectSelected, setShowSubjectSelected] = useState(false);
   const [showLeavingNow, setShowLeavingNow] = useState(false);
 
@@ -46,6 +50,8 @@ const ExamibleContext = ({ children }) => {
     setShowAiResponseModal,
     AIresponse,
     setAIResponse,
+    aiResponseTitle,
+    setAiResponseTitle,
     showSubjectSelected,
     setShowSubjectSelected,
     showLeavingNow,

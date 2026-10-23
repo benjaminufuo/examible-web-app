@@ -6,6 +6,7 @@ import {
   useCallback,
 } from "react";
 import "../../styles/dashboardCss/mockResult.css";
+import ResultTime from "../../components/ResultTime";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelExam, setMockResultPage } from "../../global/slice";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -29,9 +30,7 @@ import "katex/dist/katex.min.css";
 import QuestionMeta from "../../components/QuestionMeta";
 import { LETTERS, deduplicateQuestionMeta } from "../../utils/questionUtils";
 import useAiExplanation from "../../utils/useAiExplanation";
-
-const getFreeLimit = (subj) =>
-  subj?.toLowerCase().includes("english") ? 20 : 10;
+import { cbtFullCount } from "../../utils/cbtLayout";
 
 const MockResult = () => {
   const location = useLocation();
@@ -78,7 +77,7 @@ const MockResult = () => {
   const savedPage = useSelector((state) => state.mockResultPage);
   const [currentPage, setCurrentPage] = useState(savedPage || 1);
   const [reviewSubject, setReviewSubject] = useState(() =>
-    isCbtMode ? (mockExamQuestionsFromRedux[0]?.subject || "") : "",
+    isCbtMode ? mockExamQuestionsFromRedux[0]?.subject || "" : "",
   );
 
   const page = currentPage;
@@ -89,7 +88,8 @@ const MockResult = () => {
   const finalCount = indexOfLastQuestion;
 
   const activeYear = isCbtMode
-    ? (mockExamQuestionsFromRedux.find((b) => b.subject === reviewSubject)?.year ?? mockYear)
+    ? (mockExamQuestionsFromRedux.find((b) => b.subject === reviewSubject)
+        ?.year ?? mockYear)
     : mockYear;
 
   const { loading, handleViewExplanation } = useAiExplanation(
@@ -205,9 +205,7 @@ const MockResult = () => {
     [isCbtMode, activeReviewSubject, mockExamQuestions],
   );
   const reviewSubjectTotal = isCbtMode
-    ? activeReviewSubject?.toLowerCase().includes("english")
-      ? 60
-      : 40
+    ? cbtFullCount(activeReviewSubject)
     : reviewQuestions.length;
 
   const processedQuestions = useMemo(
@@ -215,6 +213,22 @@ const MockResult = () => {
       deduplicateQuestionMeta(reviewQuestions?.slice(intialCount, finalCount)),
     [reviewQuestions, intialCount, finalCount],
   );
+
+  // Free plan CBT: the exam shows the full JAMB layout (180 questions) with
+  // only some unlocked. The summary keeps that picture: totals are the full
+  // layout, while correct, incorrect and the score count the unlocked
+  // questions (locked ones aren't "missed").
+  const cbtBreakdown = isCbtMode
+    ? (lastCbt?.subjectBreakdown ?? subjectBreakdown)
+    : [];
+  const cbtUnlocked = isCbtMode
+    ? (lastCbt?.totalQuestions ?? validQuestionsLength)
+    : 0;
+  const cbtFullTotal = cbtBreakdown.reduce(
+    (sum, item) => sum + cbtFullCount(item.subject ?? item.name),
+    0,
+  );
+  const lockedQuestions = Math.max(0, cbtFullTotal - cbtUnlocked);
 
   if (viewStep === "loading") {
     return (
@@ -278,9 +292,16 @@ const MockResult = () => {
               <h4>Total Questions</h4>
               <p>
                 {isCbtMode
-                  ? (lastCbt?.totalQuestions ?? validQuestionsLength)
+                  ? lockedQuestions
+                    ? cbtFullTotal
+                    : cbtUnlocked
                   : validQuestionsLength}
               </p>
+              {lockedQuestions > 0 && (
+                <span className="mr-stat-note">
+                  {cbtUnlocked} unlocked on the Free plan
+                </span>
+              )}
             </div>
           </div>
           <div className="mr-stat-card">
@@ -320,9 +341,31 @@ const MockResult = () => {
                   ? `${(lastCbt?.average ?? performance).toFixed(1)}%`
                   : `${performance.toFixed(1)}%`}
               </p>
+              {lockedQuestions > 0 && (
+                <span className="mr-stat-note">
+                  on your {cbtUnlocked} questions
+                </span>
+              )}
             </div>
           </div>
         </div>
+        {/* CBT: timed by the server. Mock tests: passed from submitting.
+            Past questions have no timer. */}
+        {!isPastQuestionResult && (
+          <ResultTime
+            totalSeconds={
+              isCbtMode
+                ? lastCbt?.totalDuration
+                : location.state?.timing?.totalSeconds
+            }
+            secondsUsed={
+              isCbtMode
+                ? lastCbt?.secondsUsed
+                : location.state?.timing?.secondsUsed
+            }
+            answered={exam?.length ?? 0}
+          />
+        )}
         {isCbtMode && (
           <div className="mr-breakdown-section">
             <h3>Subject Breakdown</h3>
@@ -338,37 +381,56 @@ const MockResult = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(lastCbt?.subjectBreakdown ?? subjectBreakdown).map(
-                    (item, idx) => {
-                      const name = item.subject ?? item.name;
-                      const total = item.totalQuestions ?? item.total;
-                      const correct = item.correctAnswers ?? item.correct;
-                      const incorrect = item.wrongAnswers ?? item.incorrect;
-                      const accuracy =
-                        item.average ??
-                        (total > 0 ? (correct / total) * 100 : 0);
-                      return (
-                        <tr key={item._id ?? idx}>
-                          <td>
-                            <strong>{name}</strong>
-                          </td>
-                          <td>{total}</td>
-                          <td className="text-success">{correct}</td>
-                          <td className="text-danger">{incorrect}</td>
-                          <td>
-                            <span
-                              className={`mr-accuracy-badge ${accuracy >= 50 ? "pass" : "fail"}`}
-                            >
-                              {accuracy.toFixed(0)}%
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    },
-                  )}
+                  {cbtBreakdown.map((item, idx) => {
+                    const name = item.subject ?? item.name;
+                    const total = item.totalQuestions ?? item.total;
+                    const correct = item.correctAnswers ?? item.correct;
+                    const incorrect = item.wrongAnswers ?? item.incorrect;
+                    const accuracy =
+                      item.average ?? (total > 0 ? (correct / total) * 100 : 0);
+                    return (
+                      <tr key={item._id ?? idx}>
+                        <td>
+                          <strong>{name}</strong>
+                        </td>
+                        <td>
+                          {lockedQuestions > 0 ? (
+                            <>
+                              {cbtFullCount(name)}
+                              <span className="mr-table-note">
+                                <FaLock aria-hidden="true" /> {total} unlocked
+                              </span>
+                            </>
+                          ) : (
+                            total
+                          )}
+                        </td>
+                        <td className="text-success">{correct}</td>
+                        <td className="text-danger">{incorrect}</td>
+                        <td>
+                          <span
+                            className={`mr-accuracy-badge ${accuracy >= 50 ? "pass" : "fail"}`}
+                          >
+                            {accuracy.toFixed(0)}%
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+        {lockedQuestions > 0 && (
+          <div className="mr-upgrade">
+            <p>
+              You took {cbtUnlocked} of the {cbtFullTotal} JAMB questions.
+              Upgrade to Premium to unlock the full CBT.
+            </p>
+            <button type="button" onClick={() => nav("/subscription")}>
+              Upgrade <FaArrowRight />
+            </button>
           </div>
         )}
       </motion.div>
@@ -434,6 +496,11 @@ const MockResult = () => {
           const isCorrect = currentExamItem?.score > 0;
           const selectedOptionLetter = currentExamItem?.option;
           const correctOptionLetter = item?.answer;
+          // A CBT has a Question 4 in every subject: tell them apart, so only
+          // the one being explained shows the spinner
+          const explanationId = isCbtMode
+            ? `${item?.subject}:${item?._position}`
+            : item?.number;
 
           if (isLocked) {
             return (
@@ -554,12 +621,17 @@ const MockResult = () => {
                       item.subheadingB,
                       item.diagramUrlA,
                       item.diagramUrlB,
-                      item.number,
+                      explanationId,
+                      isCbtMode
+                        ? `${item.subject} · Question ${slotIndex + 1}`
+                        : `Question ${slotIndex + 1}`,
                     );
                   }}
-                  disabled={typeof loading === "number"}
+                  // One explanation at a time: every button waits, but only
+                  // the question being explained shows the spinner
+                  disabled={loading != null}
                 >
-                  {loading === item.number ? (
+                  {loading === explanationId ? (
                     <ClipLoader color="white" size={16} />
                   ) : (
                     <>
