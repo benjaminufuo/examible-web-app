@@ -83,8 +83,9 @@ class StudentApi {
 
   // ─── Rating & Feedback (Authenticated) ─────────────────────────────────────
 
-  updateRating(data) {
-    return this.#http.put("/myRating", data);
+  // silent: the exam submit screens show their own messages
+  updateRating(data, { silent = false } = {}) {
+    return this.#http.put("/myRating", data, { silent });
   }
 
   submitFeedback() {

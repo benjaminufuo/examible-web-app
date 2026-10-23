@@ -5,6 +5,7 @@ import { questionApi } from "../../config/questionApi";
 import { toast } from "react-toastify";
 import { allSubjectsData } from "../../constants/common";
 import {
+  setCbtSessionId,
   setExamTimer,
   setMockExamQuestion,
   setMockSelectedSubject,
@@ -68,12 +69,25 @@ const CbtMode = () => {
     try {
       const response = await questionApi.getCbtQuestions(selected.join(","));
 
-      dispatch(setMockExamQuestion(response?.data?.data ?? []));
+      const { data = [], sessionId, totalDuration } = response?.data ?? {};
+      // Without a session the answers could never be submitted: don't start
+      if (!sessionId) {
+        toast.error("Couldn't start the CBT. Please try again.");
+        setLoading(false);
+        return;
+      }
+      dispatch(setMockExamQuestion(data));
 
-      // Configure the global Exam Engine settings
-      const examDuration = user?.plan === "Freemium" ? 30 : 120;
-      dispatch(setExamTimer({ plan: user?.plan, duration: examDuration }));
-      sessionStorage.setItem("mockExamDuration", examDuration);
+      // The server sets the exam length (totalDuration, in seconds).
+      // setExamTimer also resets the exam state, so the session id is stored
+      // after it.
+      const seconds =
+        totalDuration > 0
+          ? totalDuration
+          : (user?.plan === "Freemium" ? 30 : 120) * 60;
+      dispatch(setExamTimer({ plan: user?.plan, seconds }));
+      dispatch(setCbtSessionId(sessionId));
+      sessionStorage.setItem("mockExamDuration", Math.round(seconds / 60));
       dispatch(setMockSelectedSubject("CBT Examination"));
 
       setTimeout(() => {

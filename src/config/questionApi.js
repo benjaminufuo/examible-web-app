@@ -15,12 +15,22 @@ class QuestionApi {
     );
   }
 
+  // CBT v2: the server keeps the answer key. Starting returns
+  // { sessionId, totalDuration (seconds), data }, with no answers in the
+  // questions; submitting scores the chosen letters and returns the review.
   getCbtQuestions(subjects) {
-    return this.#http.get(`/cbt-mode/questions?subjects=${subjects}`);
+    return this.#http.get(
+      `/cbt-mode/v2/questions?subjects=${encodeURIComponent(subjects)}`,
+    );
   }
 
-  submitCbt(data) {
-    return this.#http.post(`/cbt-mode/submit`, data);
+  // silent: the submit screens show their own messages (offline, ended)
+  submitCbt({ sessionId, answers }) {
+    return this.#http.post(
+      `/cbt-mode/v2/submit`,
+      { sessionId, answers },
+      { silent: true },
+    );
   }
 }
 

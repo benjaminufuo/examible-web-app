@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import "../../styles/dashboardCss/leavingNow.css";
-import { setUser } from "../../global/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { studentApi } from "../../config/studentApi";
 import { useExamibleContext } from "../../context/ExamibleContext";
 import { markEngaged } from "../../utils/installNudge";
-import { allSubjectsData } from "../../constants/common";
 import { motion } from "framer-motion";
 import { FiAlertTriangle } from "react-icons/fi";
 import { getTotalNumbersOfQuestion } from "../../utils/questionUtils";
-import { questionApi } from "../../config/questionApi";
+import {
+  EXAM_SUBMIT_MESSAGES,
+  startNewCbt,
+  submitCbtV2,
+} from "../../utils/cbtSubmit";
+import { useRetryOnReconnect } from "../../hooks/useRetryOnReconnect";
 
 const LeavingNow = () => {
   const nav = useNavigate();
@@ -21,90 +24,95 @@ const LeavingNow = () => {
   const mockSelectedSubject = useSelector((state) => state.mockSelectedSubject);
   const exam = useSelector((state) => state.exam);
   const user = useSelector((state) => state.user);
+  const cbtSessionId = useSelector((state) => state.cbtSessionId);
   const [loading, setLoading] = useState(false);
   const [quitError, setQuitError] = useState(null);
+  // "offline" | "ended" | null: why the last quit didn't go through
+  const [failure, setFailure] = useState(null);
   const isSubmittingRef = useRef(false);
+  // Offline when quitting: try again by itself once the connection is back
+  const { attemptStarted, attemptFailedOffline } = useRetryOnReconnect(() =>
+    quitExam(),
+  );
 
   const { handleShowUserFeedback, showLeavingNow, setShowLeavingNow } =
     useExamibleContext();
 
-  const quitExam = async () => {
-    if (isSubmittingRef.current) return;
-    isSubmittingRef.current = true;
-    setQuitError(null);
+  // Mock exams send their own result (duration, performance); a CBT is timed
+  // and scored on the server, so it only sends the session and answers
+  const submitMock = () => {
     const timeLeft = examTimerMins * 60 + examTimerSecs;
-    const isCbt = mockSelectedSubject === "CBT Examination";
     const initialDuration =
       parseInt(sessionStorage.getItem("mockExamDuration")) ||
-      (isCbt
-        ? user?.plan === "Freemium"
-          ? 30
-          : 120
-        : user?.plan === "Freemium"
-          ? 10
-          : 30);
-
+      (user?.plan === "Freemium" ? 10 : 30);
     const duration = Math.min(
       7200,
       Math.max(1, initialDuration * 60 - timeLeft),
     );
     const validQuestionsLength = getTotalNumbersOfQuestion(mockExamQuestions);
-
     const rawPerformance =
       (exam.reduce((acc, item) => acc + (item?.score || 0), 0) /
         2 /
         (validQuestionsLength || 1)) *
       100;
-
     const performance = Math.min(
       100,
       Math.max(0, Math.round(rawPerformance) || 0),
     );
+    return studentApi.updateRating(
+      {
+        duration,
+        completed: "no",
+        subject: mockSelectedSubject || "Mock Exam",
+        performance,
+      },
+      { silent: true }, // the modal shows the message
+    );
+  };
 
-    const englishSubj =
-      allSubjectsData.find((s) => s.subject.toLowerCase().includes("english"))
-        ?.subject || "English Language";
-    const apiSubject = isCbt ? englishSubj : mockSelectedSubject || "Mock Exam";
+  const fail = (reason) => {
+    if (reason === "offline") attemptFailedOffline();
+    setFailure(reason === "error" ? null : reason);
+    setQuitError(EXAM_SUBMIT_MESSAGES[reason]);
+  };
+
+  const quitExam = async () => {
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
+    attemptStarted();
+    setQuitError(null);
+    setFailure(null);
+    const isCbt = mockSelectedSubject === "CBT Examination";
 
     setLoading(true);
     try {
-      let res;
       if (isCbt) {
-        const subjects = mockExamQuestions.map((q) => q.subject);
-        const data = exam.map((q) => ({
-          subject: q?.subject || "N/A",
-          isCorrect: q?.score === 2,
-        }));
-        res = await questionApi.submitCbt({ duration, subjects, data });
-      } else {
-        res = await studentApi.updateRating({
-          duration,
-          completed: "no",
-          subject: apiSubject,
-          performance,
+        // The answers stay in the store if it fails
+        const result = await submitCbtV2({
+          dispatch,
+          sessionId: cbtSessionId,
+          exam,
         });
-      }
-
-      if (!res?.data?.success) {
-        setQuitError("Something went wrong. Please try again.");
-        return;
-      }
-
-      setShowLeavingNow(false);
-
-      if (isCbt) {
-        dispatch(setUser(res.data.data));
-        nav("/cbt-mode/result", {
-          state: { details: res.data.data?.lastCbtDetails },
-        });
+        if (!result.ok) {
+          fail(result.reason);
+          return;
+        }
+        setShowLeavingNow(false);
+        nav("/cbt-mode/result", { state: { details: result.details } });
       } else {
+        const res = await submitMock();
+        if (!res?.data?.success) {
+          fail("error");
+          return;
+        }
+        setShowLeavingNow(false);
         nav("/mock-exam/result", { state: { subject: mockSelectedSubject } });
       }
 
       markEngaged(); // the Overview install card may show from now on
       setTimeout(handleShowUserFeedback, 20000);
-    } catch {
-      setQuitError("Network error. Please check your connection.");
+    } catch (error) {
+      fail(error?.response ? "error" : "offline");
     } finally {
       isSubmittingRef.current = false;
       setLoading(false);
@@ -192,6 +200,19 @@ const LeavingNow = () => {
           >
             {quitError}
           </p>
+        )}
+
+        {failure === "ended" && (
+          <button
+            className="leaving-btn-primary"
+            style={{ width: "100%", marginTop: "0.75rem" }}
+            onClick={() => {
+              setShowLeavingNow(false);
+              startNewCbt(dispatch, nav);
+            }}
+          >
+            Start a new CBT
+          </button>
         )}
       </motion.div>
     </motion.div>
