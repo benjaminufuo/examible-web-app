@@ -2,6 +2,7 @@ import { LuChevronRight, LuMonitorDown, LuSmartphone } from "react-icons/lu";
 import { useInstallPrompt } from "../hooks/useInstallPrompt";
 import { IS_MOBILE_DEVICE } from "../utils/installPrompt";
 import InstallSheet from "./InstallSheet";
+import { track } from "../utils/analytics";
 import "../styles/installPrompt.css";
 
 // Profile: an always-available way to install, on every device that can
@@ -15,7 +16,18 @@ const InstallAppRow = () => {
 
   return (
     <>
-      <button type="button" className="installRow" onClick={install}>
+      <button
+        type="button"
+        className="installRow"
+        onClick={async () => {
+          const outcome = await install();
+          track("install_prompt", {
+            action: outcome,
+            source: "profile_row",
+            install_mode: mode,
+          });
+        }}
+      >
         <span className="installRow-icon" aria-hidden="true">
           <Icon size={20} />
         </span>

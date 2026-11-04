@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
 import { FiArrowLeft } from "react-icons/fi";
-import { getGAClientId } from "../utils/analytics";
+import { getGAClientId, getGASessionId } from "../utils/analytics";
+import { consentValue } from "../utils/consent";
 import { useTheme } from "../context/ThemeContext";
 
 const SignUp = () => {
@@ -139,6 +140,7 @@ const SignUp = () => {
         const res = await studentApi.register({
           ...data,
           clientId: getGAClientId(),
+          gaSessionId: getGASessionId(),
         });
         if (res?.status === 201) {
           toast.success("Signup Successful, Please check your email to verify");
@@ -162,7 +164,13 @@ const SignUp = () => {
   const googleIcon = async () => {
     setGoogleLoading(true);
     setTimeout(() => {
-      const params = new URLSearchParams({ clientId: getGAClientId() });
+      // A full-page navigation: the analytics consent header isn't sent, so
+      // the backend reads these from the URL (B4)
+      const params = new URLSearchParams({
+        clientId: getGAClientId(),
+        gaSessionId: getGASessionId(),
+        consent: consentValue(),
+      });
       window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate?${params.toString()}`;
       setGoogleLoading(false);
     }, 1000);
@@ -172,174 +180,180 @@ const SignUp = () => {
     <>
       <Helmet>
         <title>Create Account — Examible</title>
-        <meta name="description" content="Join Examible and start preparing for JAMB, WAEC, and NECO with AI-powered CBT simulations, past questions, and personalised analytics." />
+        <meta
+          name="description"
+          content="Join Examible and start preparing for JAMB, WAEC, and NECO with AI-powered CBT simulations, past questions, and personalised analytics."
+        />
         <link rel="canonical" href="https://examible.com/signup" />
       </Helmet>
-    <div className="ex-scope auth-wrapper">
-      <div className="auth-side">
-        <div className="auth-side-content">
-          <div className="auth-side-title">
-            Prepare Smarter. Perform Better.
-          </div>
-          <p className="auth-side-text">
-            Join 2,600+ students who are acing their exams with AI-powered
-            learning and real CBT simulations.
-          </p>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>Personalized AI tutor that understands you</div>
-          </div>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>Real exam simulation with timed practice</div>
-          </div>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>No credit card required. Free forever plan</div>
-          </div>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>30% avg. score improvement in 4 weeks</div>
+      <div className="ex-scope auth-wrapper">
+        <div className="auth-side">
+          <div className="auth-side-content">
+            <div className="auth-side-title">
+              Prepare Smarter. Perform Better.
+            </div>
+            <p className="auth-side-text">
+              Join 2,600+ students who are acing their exams with AI-powered
+              learning and real CBT simulations.
+            </p>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>Personalized AI tutor that understands you</div>
+            </div>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>Real exam simulation with timed practice</div>
+            </div>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>No credit card required. Free forever plan</div>
+            </div>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>30% avg. score improvement in 4 weeks</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="auth-container">
-        <div className="auth-card">
-          <button
-            className="auth-back-btn"
-            onClick={() => navigate(-1)}
-            aria-label="Go back"
-          >
-            <FiArrowLeft />
-          </button>
-          <div className="auth-header">
-            <div
-              className="auth-logo"
-              aria-label="Examible logo"
-              onClick={() => navigate("/")}
+        <div className="auth-container">
+          <div className="auth-card">
+            <button
+              className="auth-back-btn"
+              onClick={() => navigate(-1)}
+              aria-label="Go back"
             >
-              <img src={logo} alt="Examible" />
-            </div>
-            <h1 className="auth-title">Create Account</h1>
-            <p className="auth-subtitle">
-              Get started with your exam prep today
-            </p>
-          </div>
-
-          <Button
-            IconComponent={FcGoogle}
-            iconProps={{ className: "googleIcon" }}
-            variant="secondary"
-            fullWidth
-            onClick={googleIcon}
-            disabled={loading || googleLoading}
-            loading={googleLoading}
-          >
-            {googleLoading ? "Connecting..." : "Sign up with Google"}
-          </Button>
-
-          <div className="auth-divider">Or sign up with email</div>
-
-          <form
-            className="auth-form"
-            onSubmit={(e) => handleSubmit(e, inputValue)}
-          >
-            <div className="auth-form-group">
-              <Input
-                label="Full Name"
-                name="fullName"
-                onChange={handleChange}
-                required
-                placeholder="John Doe"
-                value={inputValue.fullName}
-                error={errorMessage.fullName}
-                type="text"
-                onBlur={(e) => validateField(e.target.name, e.target.value)}
-              />
-            </div>
-
-            <div className="auth-form-group">
-              <Input
-                label="Email"
-                name="email"
-                onChange={handleChange}
-                required
-                placeholder="your@email.com"
-                value={inputValue.email}
-                error={errorMessage.email}
-                type="email"
-                onBlur={(e) => validateField(e.target.name, e.target.value)}
-              />
-            </div>
-
-            <div className="auth-form-group">
-              <Input
-                label="Password"
-                name="password"
-                onChange={handleChange}
-                required
-                placeholder="Enter password"
-                value={inputValue.password}
-                error={errorMessage.password}
-                isPassword
-                onBlur={(e) => validateField(e.target.name, e.target.value)}
-              />
-            </div>
-
-            <div className="auth-form-group">
-              <Input
-                label="Confirm Password"
-                name="confirmPassword"
-                onChange={handleChange}
-                required
-                placeholder="Confirm your password"
-                value={inputValue.confirmPassword}
-                error={errorMessage.confirmPassword}
-                isPassword
-                onBlur={(e) => validateField(e.target.name, e.target.value)}
-              />
-            </div>
-
-            <p className="auth-terms">
-              By creating an account, you agree to our{" "}
-              <a
-                href="/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
+              <FiArrowLeft />
+            </button>
+            <div className="auth-header">
+              <div
+                className="auth-logo"
+                aria-label="Examible logo"
+                onClick={() => navigate("/")}
               >
-                Privacy Policies
-              </a>{" "}
-              and{" "}
-              <a
-                href="/terms-of-service"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Terms of Service
-              </a>
-            </p>
+                <img src={logo} alt="Examible" />
+              </div>
+              <h1 className="auth-title">Create Account</h1>
+              <p className="auth-subtitle">
+                Get started with your exam prep today
+              </p>
+            </div>
 
             <Button
-              loading={loading}
-              type="submit"
-              disabled={disabled || googleLoading}
+              IconComponent={FcGoogle}
+              iconProps={{ className: "googleIcon" }}
+              variant="secondary"
               fullWidth
-              className="auth-submit"
+              onClick={googleIcon}
+              disabled={loading || googleLoading}
+              loading={googleLoading}
             >
-              {loading ? "Creating account..." : "Create Account"}
+              {googleLoading ? "Connecting..." : "Sign up with Google"}
             </Button>
-          </form>
 
-          <p className="auth-footer">
-            Already have an account?{" "}
-            <a onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
-              Log in here
-            </a>
-          </p>
+            <div className="auth-divider">Or sign up with email</div>
+
+            <form
+              className="auth-form"
+              onSubmit={(e) => handleSubmit(e, inputValue)}
+            >
+              <div className="auth-form-group">
+                <Input
+                  label="Full Name"
+                  name="fullName"
+                  onChange={handleChange}
+                  required
+                  placeholder="John Doe"
+                  value={inputValue.fullName}
+                  error={errorMessage.fullName}
+                  type="text"
+                  onBlur={(e) => validateField(e.target.name, e.target.value)}
+                />
+              </div>
+
+              <div className="auth-form-group">
+                <Input
+                  label="Email"
+                  name="email"
+                  onChange={handleChange}
+                  required
+                  placeholder="your@email.com"
+                  value={inputValue.email}
+                  error={errorMessage.email}
+                  type="email"
+                  onBlur={(e) => validateField(e.target.name, e.target.value)}
+                />
+              </div>
+
+              <div className="auth-form-group">
+                <Input
+                  label="Password"
+                  name="password"
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter password"
+                  value={inputValue.password}
+                  error={errorMessage.password}
+                  isPassword
+                  onBlur={(e) => validateField(e.target.name, e.target.value)}
+                />
+              </div>
+
+              <div className="auth-form-group">
+                <Input
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  onChange={handleChange}
+                  required
+                  placeholder="Confirm your password"
+                  value={inputValue.confirmPassword}
+                  error={errorMessage.confirmPassword}
+                  isPassword
+                  onBlur={(e) => validateField(e.target.name, e.target.value)}
+                />
+              </div>
+
+              <p className="auth-terms">
+                By creating an account, you agree to our{" "}
+                <a
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Privacy Policies
+                </a>{" "}
+                and{" "}
+                <a
+                  href="/terms-of-service"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Terms of Service
+                </a>
+              </p>
+
+              <Button
+                loading={loading}
+                type="submit"
+                disabled={disabled || googleLoading}
+                fullWidth
+                className="auth-submit"
+              >
+                {loading ? "Creating account..." : "Create Account"}
+              </Button>
+            </form>
+
+            <p className="auth-footer">
+              Already have an account?{" "}
+              <a
+                onClick={() => navigate("/login")}
+                style={{ cursor: "pointer" }}
+              >
+                Log in here
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

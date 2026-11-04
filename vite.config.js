@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { execSync } from "node:child_process";
 
 // PWA: the installable app shell. Service worker rules:
@@ -99,6 +100,8 @@ const pwa = (killSwitch) =>
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,woff2,ico}"],
+      // Sentry's code is fetched only when it's switched on
+      globIgnores: ["**/sentry-*.js"],
       maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       navigateFallback: "/index.html",
       navigateFallbackDenylist: [
@@ -148,12 +151,37 @@ const appVersion = (env) => {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const version = appVersion(env);
+  // Readable Sentry stack traces need source maps, uploaded with these
+  // build-only settings (never VITE_, so they never reach the browser)
+  const uploadSourceMaps = Boolean(
+    env.SENTRY_AUTH_TOKEN && env.SENTRY_ORG && env.SENTRY_PROJECT,
+  );
   return {
-    plugins: [react(), pwa(env.VITE_PWA_KILL_SWITCH === "true")],
+    plugins: [
+      react(),
+      pwa(env.VITE_PWA_KILL_SWITCH === "true"),
+      // Last: uploads source maps to Sentry, then deletes them so they're never
+      // served. Only when Vercel has the Sentry build settings.
+      ...(uploadSourceMaps
+        ? [
+            sentryVitePlugin({
+              org: env.SENTRY_ORG,
+              project: env.SENTRY_PROJECT,
+              authToken: env.SENTRY_AUTH_TOKEN,
+              release: { name: version },
+              sourcemaps: { filesToDeleteAfterUpload: ["dist/**/*.map"] },
+              telemetry: false,
+            }),
+          ]
+        : []),
+    ],
     define: {
-      "import.meta.env.VITE_APP_VERSION": JSON.stringify(appVersion(env)),
+      "import.meta.env.VITE_APP_VERSION": JSON.stringify(version),
     },
     build: {
+      // "hidden": maps are made only to upload to Sentry, and never linked
+      sourcemap: uploadSourceMaps ? "hidden" : false,
       // Enable minification for smaller bundle sizes
       minify: "terser",
       terserOptions: {
@@ -168,6 +196,9 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: {
+            // Loaded only when Sentry is switched on (utils/sentry.js), and
+            // kept out of the app download (globIgnores below)
+            sentry: ["@sentry/react"],
             // Separate vendor libraries into their own chunks
             "react-vendor": ["react", "react-dom", "react-router-dom"],
             "redux-vendor": [

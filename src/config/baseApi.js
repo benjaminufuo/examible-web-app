@@ -4,6 +4,7 @@ import { store, persistor } from "../global/store";
 import { setUser, logoutTheUser } from "../global/slice";
 import { showPlanEndedNotice } from "../utils/planNotice";
 import { appHeaders } from "../utils/appVersion";
+import { consentValue } from "../utils/consent";
 import {
   isUpdateRequiredResponse,
   markUpdateRequired,
@@ -54,6 +55,8 @@ export class BaseApi {
     }
     // Which build this is (version tracking and forced updates)
     Object.assign(config.headers, appHeaders());
+    // Whether the backend may link its analytics events to this student (B4)
+    config.headers["X-Analytics-Consent"] = consentValue();
     return config;
   }
 

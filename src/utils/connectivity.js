@@ -29,11 +29,18 @@ const PROBE_TIMEOUT_MS = 8000;
 const RETRY_MS = 10000;
 
 let online = navigator.onLine;
+// Installed app: true once the server has actually answered (since the last
+// time it went offline). At start-up `online` is only navigator.onLine, which
+// Safari keeps at true with no connection. The website trusts the browser.
+let confirmed = !INSTALLED_AT_BOOT;
 let probing = null;
 let retryTimer = null;
 const listeners = new Set();
 
-const setOnline = (value) => {
+const setOnline = (value, reachedServer = false) => {
+  const wasConfirmed = confirmed;
+  if (!value) confirmed = false;
+  else if (reachedServer || !INSTALLED_AT_BOOT) confirmed = true;
   if (value) {
     clearInterval(retryTimer);
     retryTimer = null;
@@ -42,7 +49,9 @@ const setOnline = (value) => {
       if (!document.hidden) checkConnection();
     }, RETRY_MS);
   }
-  if (value === online) return;
+  // Also tell listeners when the connection becomes confirmed (the analytics
+  // queue waits for that)
+  if (value === online && confirmed === wasConfirmed) return;
   online = value;
   listeners.forEach((fn) => fn());
 };
@@ -66,6 +75,21 @@ const reachServer = async () => {
   }
 };
 
+// One check at a time; resolves to reachServer's own answer
+const probe = () => {
+  if (!probing) {
+    probing = reachServer()
+      .then((reachable) => {
+        if (reachable !== null) setOnline(reachable, reachable);
+        return reachable;
+      })
+      .finally(() => {
+        probing = null;
+      });
+  }
+  return probing;
+};
+
 /** Checks now (one check at a time). Resolves to the current status. */
 export const checkConnection = () => {
   if (!navigator.onLine) {
@@ -77,18 +101,24 @@ export const checkConnection = () => {
     setOnline(true);
     return Promise.resolve(true);
   }
-  if (!probing) {
-    probing = reachServer()
-      .then((reachable) => {
-        if (reachable !== null) setOnline(reachable);
-        return online;
-      })
-      .finally(() => {
-        probing = null;
-      });
-  }
-  return probing;
+  return probe().then(() => online);
 };
+
+/**
+ * Resolves true only once the connection is confirmed: in the installed app,
+ * the server actually answered (a failed or timed-out check isn't enough);
+ * on the website, the browser says online. Used before sending anything that
+ * would be lost if sent offline (the analytics queue).
+ */
+export const confirmOnline = () => {
+  if (!navigator.onLine) return Promise.resolve(false);
+  if (!INSTALLED_AT_BOOT) return Promise.resolve(true);
+  if (confirmed && online) return Promise.resolve(true);
+  return probe().then((reachable) => reachable === true);
+};
+
+/** Online and, in the installed app, confirmed by the server answering */
+export const isConfirmedOnline = () => online && confirmed;
 
 /** An API request failed with no response: find out whether we're offline */
 export const reportNetworkError = () => {
@@ -98,7 +128,7 @@ export const reportNetworkError = () => {
 /** The API answered (any status, even an error): we're online, unless the
  *  browser itself says offline (only possible with a local backend) */
 export const reportServerResponse = () => {
-  if (!online && navigator.onLine) setOnline(true);
+  if (navigator.onLine && (!online || !confirmed)) setOnline(true, true);
 };
 
 export const isOnline = () => online;

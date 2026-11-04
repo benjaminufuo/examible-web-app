@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiLock, FiCheckCircle, FiShield, FiCreditCard } from "react-icons/fi";
 import { paymentApi } from "../../config/paymentApi";
+import { getGAClientId, getGASessionId } from "../../utils/analytics";
 
 const MakePayment = () => {
   const [loading, setLoading] = useState(false);
@@ -20,9 +21,13 @@ const MakePayment = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // With consent, the purchase keeps the student's GA visit and traffic
+      // source (empty otherwise)
       const response = await paymentApi.initializePayment({
         amount: amount,
         plan,
+        gaClientId: getGAClientId(),
+        gaSessionId: getGASessionId(),
       });
       if (response?.data?.success) {
         setTimeout(() => {

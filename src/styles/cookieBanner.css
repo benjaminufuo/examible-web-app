@@ -1,0 +1,171 @@
+/* Cookie banner: a slim bar at the bottom of every page (theme tokens only) */
+.cookie-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 1300; /* above the header (1100) and offline banner (1200), below modals */
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* the buttons sit under the text */
+  gap: 14px;
+  padding: 18px 48px 16px 20px;
+  background: var(--ex-surface);
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius);
+  box-shadow: var(--ex-shadow-lg);
+  font-family: var(--ex-font-body);
+  animation: cookie-banner-in 0.3s ease;
+}
+
+/* Above the bottom tab bar on pages that have one (F7 adds the class) */
+html.has-tabbar .cookie-banner {
+  bottom: calc(64px + 16px + env(safe-area-inset-bottom));
+}
+
+.cookie-banner__body {
+  flex: 1;
+  min-width: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.cookie-banner__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ex-text);
+}
+
+.cookie-banner__links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--ex-text-muted);
+}
+
+.cookie-banner__link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ex-brand);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.cookie-banner__details {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: var(--ex-radius-sm);
+  background: var(--ex-bg-subtle);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ex-text-soft);
+}
+
+.cookie-banner__details p {
+  margin: 0;
+}
+
+.cookie-banner__details ul {
+  margin: 6px 0 8px;
+  padding-left: 18px;
+}
+
+.cookie-banner__details li + li {
+  margin-top: 2px;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Accept and Decline: the same style and size, so neither is pushed */
+.cookie-banner__button {
+  min-width: 96px;
+  padding: 10px 16px;
+  border-radius: var(--ex-radius-sm);
+  border: 1px solid var(--ex-border-strong);
+  background: var(--ex-bg-subtle);
+  color: var(--ex-text);
+  font-family: var(--ex-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.cookie-banner__button:hover {
+  background: var(--ex-brand-soft);
+  border-color: var(--ex-brand);
+}
+
+.cookie-banner__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ex-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cookie-banner__close:hover {
+  background: var(--ex-bg-subtle);
+  color: var(--ex-text);
+}
+
+.cookie-banner__button:focus-visible,
+.cookie-banner__close:focus-visible,
+.cookie-banner__link:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .cookie-banner {
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    gap: 12px;
+    padding: 16px 44px 16px 16px;
+  }
+  .cookie-banner__actions {
+    gap: 10px;
+  }
+  .cookie-banner__button {
+    flex: 1;
+  }
+}
+
+@keyframes cookie-banner-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner {
+    animation: none;
+  }
+}

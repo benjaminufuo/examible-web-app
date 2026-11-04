@@ -12,7 +12,8 @@ import { setUser, setUserToken } from "../global/slice";
 import Input from "../shared/Input";
 import Button from "../shared/Button";
 import { FiArrowLeft } from "react-icons/fi";
-import { getGAClientId } from "../utils/analytics";
+import { getGAClientId, getGASessionId } from "../utils/analytics";
+import { consentValue } from "../utils/consent";
 import { useTheme } from "../context/ThemeContext";
 
 const Login = () => {
@@ -73,7 +74,13 @@ const Login = () => {
   const loginGoogleIcon = async () => {
     setGoogleLoading(true);
     setTimeout(() => {
-      const params = new URLSearchParams({ clientId: getGAClientId() });
+      // A full-page navigation: the analytics consent header isn't sent, so
+      // the backend reads these from the URL (B4)
+      const params = new URLSearchParams({
+        clientId: getGAClientId(),
+        gaSessionId: getGASessionId(),
+        consent: consentValue(),
+      });
       window.location.href = `${import.meta.env.VITE_BASE_URL}googleAuthenticate?${params.toString()}`;
       setGoogleLoading(false);
     }, 1000);
@@ -83,139 +90,142 @@ const Login = () => {
     <>
       <Helmet>
         <title>Log In — Examible</title>
-        <meta name="description" content="Sign in to your Examible account to continue preparing for JAMB, WAEC, and NECO." />
+        <meta
+          name="description"
+          content="Sign in to your Examible account to continue preparing for JAMB, WAEC, and NECO."
+        />
         <link rel="canonical" href="https://examible.com/login" />
       </Helmet>
-    <div className="ex-scope auth-wrapper">
-      <div className="auth-side">
-        <div className="auth-side-content">
-          <div className="auth-side-title">Welcome Back</div>
-          <p className="auth-side-text">
-            Ace your JAMB, WAEC, and NECO exams with AI-powered learning and
-            real CBT practice.
-          </p>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>AI Tutor that adapts to your learning style</div>
-          </div>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>Real CBT Mock Exams with live proctoring</div>
-          </div>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>Gamified learning with leaderboards & rewards</div>
-          </div>
-          <div className="auth-side-feature">
-            <div className="auth-side-feature-icon">✓</div>
-            <div>Detailed performance analytics & insights</div>
+      <div className="ex-scope auth-wrapper">
+        <div className="auth-side">
+          <div className="auth-side-content">
+            <div className="auth-side-title">Welcome Back</div>
+            <p className="auth-side-text">
+              Ace your JAMB, WAEC, and NECO exams with AI-powered learning and
+              real CBT practice.
+            </p>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>AI Tutor that adapts to your learning style</div>
+            </div>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>Real CBT Mock Exams with live proctoring</div>
+            </div>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>Gamified learning with leaderboards & rewards</div>
+            </div>
+            <div className="auth-side-feature">
+              <div className="auth-side-feature-icon">✓</div>
+              <div>Detailed performance analytics & insights</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="auth-container">
-        <div className="auth-card">
-          <button
-            className="auth-back-btn"
-            onClick={() => navigate("/")}
-            aria-label="Go back"
-          >
-            <FiArrowLeft />
-          </button>
-          <div className="auth-header">
-            <div
-              className="auth-logo"
-              aria-label="Examible logo"
+        <div className="auth-container">
+          <div className="auth-card">
+            <button
+              className="auth-back-btn"
               onClick={() => navigate("/")}
+              aria-label="Go back"
             >
-              <img src={logo} alt="Examible" />
-            </div>
-            <h1 className="auth-title">Log in</h1>
-            <p className="auth-subtitle">
-              Continue your exam preparation journey
-            </p>
-          </div>
-
-          <form
-            className="auth-form"
-            onSubmit={(e) => handleSubmit(e, inputValue)}
-          >
-            <div className="auth-form-group">
-              <Input
-                label="Email"
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={inputValue.email}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-
-            <div className="auth-form-group">
-              <Input
-                label="Password"
-                name="password"
-                onChange={handleChange}
-                value={inputValue.password}
-                placeholder="Enter your password"
-                required
-                isPassword
-              />
-            </div>
-
-            <div className="auth-checkbox-group">
-              <div className="auth-checkbox">
-                <input type="checkbox" id="remember" />
-                <label htmlFor="remember">Remember me</label>
+              <FiArrowLeft />
+            </button>
+            <div className="auth-header">
+              <div
+                className="auth-logo"
+                aria-label="Examible logo"
+                onClick={() => navigate("/")}
+              >
+                <img src={logo} alt="Examible" />
               </div>
-              <div className="auth-forgot-link">
-                <a
-                  onClick={() => navigate("/forgetpassword")}
-                  style={{ cursor: "pointer" }}
-                >
-                  Forgot password?
-                </a>
-              </div>
+              <h1 className="auth-title">Log in</h1>
+              <p className="auth-subtitle">
+                Continue your exam preparation journey
+              </p>
             </div>
+
+            <form
+              className="auth-form"
+              onSubmit={(e) => handleSubmit(e, inputValue)}
+            >
+              <div className="auth-form-group">
+                <Input
+                  label="Email"
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  value={inputValue.email}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div className="auth-form-group">
+                <Input
+                  label="Password"
+                  name="password"
+                  onChange={handleChange}
+                  value={inputValue.password}
+                  placeholder="Enter your password"
+                  required
+                  isPassword
+                />
+              </div>
+
+              <div className="auth-checkbox-group">
+                <div className="auth-checkbox">
+                  <input type="checkbox" id="remember" />
+                  <label htmlFor="remember">Remember me</label>
+                </div>
+                <div className="auth-forgot-link">
+                  <a
+                    onClick={() => navigate("/forgetpassword")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                loading={loading}
+                disabled={isButtonDisabled}
+                fullWidth
+                className="auth-submit"
+              >
+                {loading ? "Logging in..." : "Log in"}
+              </Button>
+            </form>
+
+            <div className="auth-divider">Or continue with</div>
 
             <Button
-              type="submit"
-              loading={loading}
-              disabled={isButtonDisabled}
+              IconComponent={FcGoogle}
+              iconProps={{ className: "googleIcon" }}
+              variant="secondary"
               fullWidth
-              className="auth-submit"
+              onClick={() => loginGoogleIcon()}
+              disabled={loading || googleLoading}
+              loading={googleLoading}
             >
-              {loading ? "Logging in..." : "Log in"}
+              {googleLoading ? "Connecting..." : "Google"}
             </Button>
-          </form>
 
-          <div className="auth-divider">Or continue with</div>
-
-          <Button
-            IconComponent={FcGoogle}
-            iconProps={{ className: "googleIcon" }}
-            variant="secondary"
-            fullWidth
-            onClick={() => loginGoogleIcon()}
-            disabled={loading || googleLoading}
-            loading={googleLoading}
-          >
-            {googleLoading ? "Connecting..." : "Google"}
-          </Button>
-
-          <p className="auth-footer">
-            Don&apos;t have an account?{" "}
-            <a
-              onClick={() => navigate("/signup")}
-              style={{ cursor: "pointer" }}
-            >
-              Create one now
-            </a>
-          </p>
+            <p className="auth-footer">
+              Don&apos;t have an account?{" "}
+              <a
+                onClick={() => navigate("/signup")}
+                style={{ cursor: "pointer" }}
+              >
+                Create one now
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

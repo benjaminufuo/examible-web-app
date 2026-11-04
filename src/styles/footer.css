@@ -203,3 +203,25 @@
     align-items: flex-start;
   }
 }
+
+/* "Cookie settings" opens the cookie banner: a button that looks like the links */
+.ex-footer__linkButton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ex-text-muted);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.ex-footer__linkButton:hover {
+  color: var(--ex-brand);
+}
+
+.ex-footer__linkButton:focus-visible {
+  outline: 2px solid var(--ex-brand);
+  outline-offset: 2px;
+}

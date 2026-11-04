@@ -1,3 +1,5 @@
+// First: analytics consent defaults must be set before Tag Manager loads
+import "./utils/consent";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -16,6 +18,9 @@ import { INSTALLED_AT_BOOT } from "./utils/installMode";
 // Listens for the browser's install offer before anything renders
 import "./utils/installPrompt";
 import { checkConnection } from "./utils/connectivity";
+import { initOfflineTracking } from "./utils/analytics";
+import { initInstallEvents } from "./utils/installEvents";
+import { initSentry, reportError } from "./utils/sentry";
 
 // Lets CSS target the installed app only:
 // html[data-display-mode="standalone"] .something { ... }
@@ -28,7 +33,22 @@ document.documentElement.dataset.displayMode = INSTALLED_AT_BOOT
 // say it's online: check for real
 if (INSTALLED_AT_BOOT) checkConnection();
 
-createRoot(document.getElementById("root")).render(
+initOfflineTracking();
+initInstallEvents();
+initSentry();
+
+// Errors React catches (error boundaries, including GlobalErrorBoundary and the
+// router's) and those it doesn't: report both, and still log them like React
+// does by default
+const onReactError = (error, errorInfo) => {
+  console.error(error);
+  reportError(error, errorInfo?.componentStack);
+};
+
+createRoot(document.getElementById("root"), {
+  onUncaughtError: onReactError,
+  onCaughtError: onReactError,
+}).render(
   <StrictMode>
     <HelmetProvider>
       <PersistGate loading={<Loading />} persistor={persistor}>
