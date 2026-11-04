@@ -1,14 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
+import { useSelector } from "react-redux";
 import ScrollToTop from "./ScrollToTop";
 import PlanEndedModal from "./PlanEndedModal";
 import OfflineBanner from "./OfflineBanner";
 import AppUpdater from "./AppUpdater";
 import UpdateRequired from "./UpdateRequired";
 import { Outlet } from "react-router-dom";
-import { usePageTracking } from "../utils/analytics";
+import { setAnalyticsUser, usePageTracking } from "../utils/analytics";
+import CookieBanner from "./CookieBanner";
 import TagManager from "react-gtm-module";
 
 const AppWrapper = () => {
+  const user = useSelector((state) => state.user);
+
+  // The one place that keeps the analytics user in sync (login, logout, plan
+  // changes). A layout effect: React runs the pages' own effects before this
+  // component's, but every layout effect before any normal one, so the
+  // student is identified before the first event (page views, and the
+  // pages' events such as offline_page_blocked or the install card).
+  useLayoutEffect(() => {
+    setAnalyticsUser(user?.id ? user : null); // logout resets user to {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, user?.plan]);
+
   usePageTracking();
 
   useEffect(() => {
@@ -23,6 +37,7 @@ const AppWrapper = () => {
       <Outlet />
       <PlanEndedModal />
       <UpdateRequired />
+      <CookieBanner />
     </>
   );
 };

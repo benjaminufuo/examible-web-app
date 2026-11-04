@@ -5,6 +5,7 @@ import FooterLogoLight from "../assets/public/logo.png";
 import FooterLogoDark from "../assets/public/logo-dark.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { openCookieSettings } from "../utils/consent";
 
 const productLinks = [
   { label: "Mock Exam", to: "/mock-exam" },
@@ -18,6 +19,7 @@ const companyLinks = [
   { label: "Privacy policy", to: "/privacy-policy" },
   { label: "Terms of service", to: "/terms-of-service" },
   { label: "Get Started", to: "/signup" },
+  { label: "Cookie settings", onClick: openCookieSettings },
 ];
 
 const socials = [
@@ -112,7 +114,17 @@ const Footer = () => {
           <ul>
             {companyLinks.map((l) => (
               <li key={l.label}>
-                <Link to={l.to}>{l.label}</Link>
+                {l.onClick ? (
+                  <button
+                    type="button"
+                    className="ex-footer__linkButton"
+                    onClick={l.onClick}
+                  >
+                    {l.label}
+                  </button>
+                ) : (
+                  <Link to={l.to}>{l.label}</Link>
+                )}
               </li>
             ))}
           </ul>

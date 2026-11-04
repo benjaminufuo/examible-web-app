@@ -19,7 +19,6 @@ export const useInstallPrompt = () => {
 
   const install = useCallback(async () => {
     if (mode === "prompt") {
-      // F5: track the outcome
       return promptInstall();
     }
     if (STEPS_MODES.includes(mode)) {

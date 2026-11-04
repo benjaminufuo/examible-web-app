@@ -1,6 +1,7 @@
 import { setChatbotMessages } from "../global/slice";
 import { baseApi, endSession, notePlanHeader } from "../config/baseApi";
 import { appHeaders } from "./appVersion";
+import { consentValue } from "./consent";
 import { isUpdateRequiredResponse, markUpdateRequired } from "./updateRequired";
 import { reportNetworkError, reportServerResponse } from "./connectivity";
 
@@ -96,6 +97,7 @@ export async function streamChat(
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
           ...appHeaders(),
+          "X-Analytics-Consent": consentValue(),
         },
         body: JSON.stringify({ messages: trimHistory(payloadMessages) }),
         signal: controller.signal,
