@@ -54,13 +54,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Non-blocking Google Fonts — all families in one request to avoid render-blocking -->
+    <!-- Non-blocking Google Fonts — all families in one request to avoid render-blocking.
+         Downloaded early here and applied by /load-fonts.js as soon as that
+         arrives (an inline onload handler would be blocked by the Content
+         Security Policy). Until the fonts are self-hosted (F8). -->
     <link
+      id="google-fonts"
       rel="preload"
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;700&display=swap"
       as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <script src="/load-fonts.js" async></script>
     <noscript>
       <link
         rel="stylesheet"
