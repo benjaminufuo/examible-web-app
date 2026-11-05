@@ -8,7 +8,7 @@ import UpdateRequired from "./UpdateRequired";
 import { Outlet } from "react-router-dom";
 import { setAnalyticsUser, usePageTracking } from "../utils/analytics";
 import CookieBanner from "./CookieBanner";
-import TagManager from "react-gtm-module";
+import { loadTagManager } from "../utils/tagManager";
 
 const AppWrapper = () => {
   const user = useSelector((state) => state.user);
@@ -26,7 +26,7 @@ const AppWrapper = () => {
   usePageTracking();
 
   useEffect(() => {
-    TagManager.initialize({ gtmId: import.meta.env.VITE_GTM_ID });
+    loadTagManager(import.meta.env.VITE_GTM_ID);
   }, []);
 
   return (
