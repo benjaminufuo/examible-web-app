@@ -1,6 +1,7 @@
 // First: analytics consent defaults must be set before Tag Manager loads
 import "./utils/consent";
 import { StrictMode } from "react";
+import { MotionConfig } from "framer-motion";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 // Copying rendered maths gives its LaTeX ($x^2$) instead of jumbled symbols
@@ -16,7 +17,7 @@ import Loading from "./components/Loading.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { INSTALLED_AT_BOOT } from "./utils/installMode";
 // Listens for the browser's install offer before anything renders
-import "./utils/installPrompt";
+import { IS_IOS } from "./utils/installPrompt";
 import { checkConnection } from "./utils/connectivity";
 import { initOfflineTracking } from "./utils/analytics";
 import { initInstallEvents } from "./utils/installEvents";
@@ -28,6 +29,15 @@ import { initSentry, reportError } from "./utils/sentry";
 document.documentElement.dataset.displayMode = INSTALLED_AT_BOOT
   ? "standalone"
   : "browser";
+
+// iPhone and iPad app: no zooming in when a text field is tapped (iOS zooms
+// into fields under 16px). iOS still allows pinch-to-zoom with this, so it
+// isn't an accessibility loss there; elsewhere it would block pinch-to-zoom,
+// and Android doesn't zoom into fields anyway, so it's iOS only.
+if (INSTALLED_AT_BOOT && IS_IOS) {
+  const viewport = document.querySelector('meta[name="viewport"]');
+  viewport?.setAttribute("content", `${viewport.content}, maximum-scale=1`);
+}
 
 // The installed app may be opened with no connection, and Safari would still
 // say it's online: check for real
@@ -56,7 +66,10 @@ createRoot(document.getElementById("root"), {
           <ThemeProvider>
             <ExamibleContext>
               <ToastContainer />
-              <App />
+              {/* Follows the device's "reduce motion" setting */}
+              <MotionConfig reducedMotion="user">
+                <App />
+              </MotionConfig>
             </ExamibleContext>
           </ThemeProvider>
         </Provider>

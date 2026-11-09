@@ -92,7 +92,10 @@ const LeavingNow = () => {
           return;
         }
         setShowLeavingNow(false);
-        nav("/cbt-mode/result", { state: { details: result.details } });
+        nav("/cbt-mode/result", {
+          state: { details: result.details },
+          replace: true,
+        });
       } else {
         const timing = getMockTiming({
           examTimerMins,
@@ -107,6 +110,7 @@ const LeavingNow = () => {
         setShowLeavingNow(false);
         nav("/mock-exam/result", {
           state: { subject: mockSelectedSubject, timing },
+          replace: true,
         });
       }
 

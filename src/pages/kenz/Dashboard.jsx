@@ -14,6 +14,9 @@ import { toast } from "react-toastify";
 import ThemeToggle from "../../components/ThemeToggle";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
+import BottomTabBar from "../../components/BottomTabBar";
+import { BackButton, RefreshButton } from "../../components/AppHeaderActions";
+import { useIsInstalledApp } from "../../hooks/useIsInstalledApp";
 
 const motivationalMessages = [
   "Every practice session brings you closer to success.",
@@ -32,6 +35,7 @@ const sliderVariants = {
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
+  const installed = useIsInstalledApp();
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBot, setShowBot] = useState(false);
@@ -77,6 +81,7 @@ const Dashboard = () => {
       />
       <div className="dashboard-right">
         <div className="dashboard-header">
+          <BackButton />
           {showDropdown ? (
             ""
           ) : (
@@ -101,6 +106,7 @@ const Dashboard = () => {
             </div>
           )}
           <div className="header-actions-container">
+            <RefreshButton />
             <ThemeToggle />
             <nav
               style={{
@@ -137,6 +143,7 @@ const Dashboard = () => {
           {showAiResponseModal && <AiResponse />}
         </div>
       </div>
+      {installed && <BottomTabBar />}
     </div>
   );
 };

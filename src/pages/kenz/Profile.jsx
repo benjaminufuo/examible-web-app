@@ -24,6 +24,7 @@ import {
 import { ALLOWED_SUBJECTS } from "../../constants/common";
 import { useRequireOnline } from "../../hooks/useRequireOnline";
 import InstallAppRow from "../../components/InstallAppRow";
+import AppAccountRows from "../../components/AppAccountRows";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -501,6 +502,7 @@ const Profile = () => {
             </motion.div>
 
             <InstallAppRow />
+            <AppAccountRows />
           </div>
 
           <div className="prof-right-column">

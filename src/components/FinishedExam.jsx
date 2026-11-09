@@ -54,7 +54,7 @@ const FinishedExam = () => {
   const onSubmitted = (path, state) => {
     setTimeout(() => {
       submitting = false;
-      nav(path, { state });
+      nav(path, { state, replace: true });
       markEngaged(); // the Overview install card may show from now on
       setTimeout(() => {
         handleShowUserFeedback();

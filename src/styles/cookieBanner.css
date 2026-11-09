@@ -19,9 +19,14 @@
   animation: cookie-banner-in 0.3s ease;
 }
 
-/* Above the bottom tab bar on pages that have one (F7 adds the class) */
-html.has-tabbar .cookie-banner {
-  bottom: calc(64px + 16px + env(safe-area-inset-bottom));
+/* Above the bottom tab bar on pages that have one (BottomTabBar adds the
+   class; the bar only shows up to 850px) */
+@media screen and (max-width: 850px) {
+  html.has-tabbar .cookie-banner {
+    bottom: calc(
+      92px + env(safe-area-inset-bottom)
+    ); /* above the floating bar */
+  }
 }
 
 .cookie-banner__body {
@@ -101,7 +106,9 @@ html.has-tabbar .cookie-banner {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .cookie-banner__button:hover {

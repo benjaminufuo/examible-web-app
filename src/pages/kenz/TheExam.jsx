@@ -170,6 +170,7 @@ const TheExam = () => {
     );
     nav(location.pathname, {
       state: { ...location.state, subjectId: prevIndex },
+      replace: true, // Prevents back button from going to the next question again
     });
   };
 
@@ -215,6 +216,7 @@ const TheExam = () => {
             [currentSubject]: nextIndex,
           },
         },
+        replace: true, // Prevents back button from going to the next question again
       });
       // Pass nextSubj.subject explicitly — the closure still holds the old currentSubject
       dispatch(
@@ -228,6 +230,7 @@ const TheExam = () => {
 
     nav(location.pathname, {
       state: { ...location.state, subjectId: nextIndex + 1 },
+      replace: true, // Prevents back button from going to the next question again
     });
     dispatch(
       setMockExamOption({
@@ -275,6 +278,7 @@ const TheExam = () => {
             [currentSubject]: num,
           },
         },
+        replace: true, // Prevents back button from going to the next question again
       });
       return;
     }
@@ -286,6 +290,7 @@ const TheExam = () => {
         currentSubject: targetSubject,
         lastSubjectChaged: { ...lastSubjectChaged, [currentSubject]: num },
       },
+      replace: true, // Prevents back button from going to the next question again
     });
 
     dispatch(
@@ -307,6 +312,7 @@ const TheExam = () => {
     );
     nav(location.pathname, {
       state: { ...location.state, subjectId: relativeIndex + 1 },
+      replace: true, // Prevents back button from going to the next question again
     });
     dispatch(
       setMockExamOption({

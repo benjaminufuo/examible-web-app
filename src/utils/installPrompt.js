@@ -18,7 +18,7 @@ import { INSTALLED_AT_BOOT } from "./installMode";
 const ua = navigator.userAgent;
 
 // iPadOS 13+ reports itself as a Mac; the touch screen gives it away
-const IS_IOS =
+export const IS_IOS =
   /iphone|ipad|ipod/i.test(ua) ||
   (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
 const IS_ANDROID = /android/i.test(ua);
