@@ -1,7 +1,7 @@
-// One list of exam routes for every check (app updates, the plan pop-up, and
-// later the tab bar). Both mock exams and CBT run on /mock-exam/questions today
-// (CbtMode.jsx and MockConfigModal.jsx navigate there). Add any future exam
-// route (e.g. /cbt-mode/questions) here.
+// One list of exam routes for every check (app updates and the plan pop-up).
+// Both mock exams and CBT run on /mock-exam/questions today (CbtMode.jsx and
+// MockConfigModal.jsx navigate there). Add any future exam route (e.g.
+// /cbt-mode/questions) here.
 export const EXAM_ROUTES = ["/mock-exam/questions"];
 
 export const isExamRoute = (pathname) =>

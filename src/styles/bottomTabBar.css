@@ -1,0 +1,88 @@
+/* Installed app on phones and tablets only (BottomTabBar.jsx). Everything
+   here is scoped to the installed app, so the website never changes.
+   The bar floats 12px above the bottom (and above the home indicator); pages
+   keep room for it: 64px bar + 12px gap + 16px breathing space. */
+
+.tabBar {
+  display: none;
+}
+
+@media screen and (max-width: 850px) {
+  html[data-display-mode="standalone"] .tabBar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 20; /* above the dashboard header (10) and the drawer (15) */
+    max-width: 480px; /* tablets: a compact bar, centred */
+    margin-inline: auto;
+    display: flex;
+    height: 64px;
+    padding: 6px;
+    box-sizing: border-box;
+    background: var(--ex-surface);
+    border: 1px solid var(--ex-border);
+    border-radius: 999px;
+    box-shadow: var(--ex-shadow-md);
+  }
+
+  .tabBar-tab {
+    position: relative;
+    flex: 1;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 999px;
+    color: var(--ex-text-muted);
+    font-family: var(--ex-font-body);
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s ease;
+  }
+
+  /* Icon and label above the sliding highlight */
+  .tabBar-tab > svg,
+  .tabBar-tab > span:not(.tabBar-highlight) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .tabBar-tab.active {
+    color: var(--ex-brand);
+  }
+
+  .tabBar-highlight {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--ex-brand-soft);
+  }
+
+  .tabBar-tab:focus-visible {
+    outline: 2px solid var(--ex-brand);
+    outline-offset: -2px;
+  }
+
+  /* The tab bar replaces the sidebar's menu: no hamburger, no drawer */
+  html[data-display-mode="standalone"] .dashboard-header .menu-button,
+  html[data-display-mode="standalone"] .dashboard-leftDropdown {
+    display: none;
+  }
+
+  /* Room for the bar at the end of every page */
+  html[data-display-mode="standalone"] .dashboard-right .dashboard-rightHolder {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  /* The AI tutor button sits above the bar */
+  html[data-display-mode="standalone"] .ExamibleBot {
+    bottom: calc(92px + env(safe-area-inset-bottom));
+    z-index: 21;
+  }
+}

@@ -198,3 +198,27 @@
   color: var(--ex-brand);
   display: flex;
 }
+
+/* Profile's Subscription and Log out rows (AppAccountRows.jsx): installed app
+   with the tab bar only */
+.appAccountRows {
+  display: none;
+}
+
+@media screen and (max-width: 850px) {
+  html[data-display-mode="standalone"] .appAccountRows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.installRow--danger .installRow-icon {
+  background: var(--ex-bg-subtle);
+  background: color-mix(in srgb, var(--ex-danger) 12%, transparent);
+  color: var(--ex-danger);
+}
+
+.installRow--danger .installRow-title {
+  color: var(--ex-danger);
+}

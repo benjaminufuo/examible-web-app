@@ -339,3 +339,45 @@ html[data-theme] .Toastify__close-button {
 html[data-theme] .Toastify__close-button:hover {
   color: var(--ex-text);
 }
+
+/* ---- Installed app (F7) ---------------------------------------------------
+   Only html[data-display-mode="standalone"]: the website never changes. */
+
+html[data-display-mode="standalone"] body {
+  overscroll-behavior-y: none; /* no rubber-band bounce around the app */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keep content clear of the notch / status bar when the system draws the
+   app under it (env() is 0 everywhere else) */
+html[data-display-mode="standalone"] .dashboard-right .dashboard-header {
+  padding-top: env(safe-area-inset-top);
+}
+
+@media screen and (max-width: 850px) {
+  /* The phone header is fixed at 100px, with the page pushed down 105px */
+  html[data-display-mode="standalone"] .dashboard-right .dashboard-header {
+    height: calc(100px + env(safe-area-inset-top));
+  }
+
+  html[data-display-mode="standalone"] .dashboard .dashboard-right {
+    padding-top: calc(105px + env(safe-area-inset-top));
+  }
+}
+
+/* Pages outside the dashboard: the exam, auth pages and the offline screen */
+html[data-display-mode="standalone"] .exam-header {
+  padding-top: calc(16px + env(safe-area-inset-top));
+}
+
+html[data-display-mode="standalone"] .exam-main-content {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+html[data-display-mode="standalone"] .auth-wrapper {
+  padding-top: env(safe-area-inset-top);
+}
+
+html[data-display-mode="standalone"] .offline-screen {
+  padding-top: calc(40px + env(safe-area-inset-top)); /* keeps its 40px */
+}

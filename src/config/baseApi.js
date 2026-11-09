@@ -120,36 +120,55 @@ export function endSession(message) {
   persistor.flush();
 }
 
-let refreshingPlan = false;
+// One profile request at a time: a second caller gets the same request
+let profileRequest = null;
+
+/**
+ * Reloads the signed-in student's profile (plan, subjects, latest results).
+ * Used when X-Plan shows the plan changed, and by the installed app's Refresh
+ * button. Resolves true once the fresh profile is saved. silent: no error
+ * toast (the plan check is a background refresh).
+ */
+export function refreshProfile({
+  silent = false,
+  http = baseApi.instance,
+} = {}) {
+  if (profileRequest) return profileRequest;
+  const { user } = store.getState();
+  if (!user?.id) return Promise.resolve(false); // signed out
+
+  const studentId = user.id;
+  const wasPaid = user.plan && user.plan !== "Freemium";
+  // studentApi isn't imported here: it imports baseApi, so that would be
+  // circular. skipPlanCheck: this response mustn't start another refresh.
+  profileRequest = http
+    .get("/studentInfo", { skipPlanCheck: true, silent })
+    .then((res) => {
+      const fresh = res?.data?.data;
+      if (!fresh) return false;
+      // The student may have signed out (or signed in as someone else) while
+      // this was in flight: never write a profile into another session
+      const { userToken, user: current } = store.getState();
+      if (!userToken || current?.id !== studentId) return false;
+      store.dispatch(setUser(fresh));
+      // PlanEndedModal picks this up (and waits if an exam is in progress)
+      if (wasPaid && fresh.plan === "Freemium") showPlanEndedNotice();
+      return true;
+    })
+    .finally(() => {
+      profileRequest = null;
+    });
+  return profileRequest;
+}
 
 // Also used by requests made outside axios (the AI tutor fetch, F3): pass the
 // response's X-Plan header value
 export function notePlanHeader(plan, http = baseApi.instance) {
   if (!plan) return; // logged-out request
   const { user } = store.getState();
-  if (!user?.id || plan === user.plan || refreshingPlan) return;
-
-  const studentId = user.id;
-  refreshingPlan = true;
-  const wasPaid = user.plan && user.plan !== "Freemium";
-  // studentApi isn't imported here: it imports baseApi, so that would be circular
-  http
-    .get("/studentInfo", { skipPlanCheck: true, silent: true })
-    .then((res) => {
-      const fresh = res?.data?.data;
-      if (!fresh) return;
-      // The student may have signed out (or signed in as someone else) while
-      // this was in flight: never write a profile into another session
-      const { userToken, user: current } = store.getState();
-      if (!userToken || current?.id !== studentId) return;
-      store.dispatch(setUser(fresh));
-      // PlanEndedModal picks this up (and waits if an exam is in progress)
-      if (wasPaid && fresh.plan === "Freemium") showPlanEndedNotice();
-    })
-    .catch(() => {}) // best effort: the next response will try again
-    .finally(() => {
-      refreshingPlan = false;
-    });
+  if (!user?.id || plan === user.plan) return;
+  // Best effort: the next response will try again
+  refreshProfile({ silent: true, http }).catch(() => {});
 }
 
 export const baseApi = new BaseApi();
