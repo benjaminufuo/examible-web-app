@@ -6,7 +6,7 @@ import { execSync } from "node:child_process";
 
 // PWA: the installable app shell. Service worker rules:
 // - precache only the app itself (code, styles, fonts, icons), never images:
-//   the worker installs for every website visitor, so precaching ~6 MB of PNGs
+//   the worker installs for every website visitor, so precaching every image
 //   would silently spend students' mobile data
 // - never cache API responses: the worker can't tell students apart
 // Kill switch: set VITE_PWA_KILL_SWITCH=true on Vercel and redeploy. Every
@@ -99,9 +99,30 @@ const pwa = (killSwitch) =>
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,html,woff2,ico}"],
-      // Sentry's code is fetched only when it's switched on
-      globIgnores: ["**/sentry-*.js"],
+      // Fonts: only the basic Latin files (and KaTeX's, for maths offline).
+      // The extra character sets are cached when first used (below), so
+      // nobody downloads them up front.
+      globPatterns: [
+        "**/*.{js,css,html,ico}",
+        "**/*-latin-[0-9]*.woff2",
+        "**/KaTeX_*.woff2",
+      ],
+      globIgnores: [
+        // Sentry's code is fetched only when it's switched on
+        "**/sentry-*.js",
+        // Parts that need the internet anyway (the chatbot, AI explanations,
+        // the feedback form, and the chat UI, markdown and KaTeX code only
+        // they use):
+        // downloaded when used, not by every visitor up front. Exams and past
+        // questions render maths with react-latex-next's own KaTeX copy
+        // (katex.min-*.js), which stays precached for offline use.
+        "**/LegacyBot-*",
+        "**/AiResponse-*",
+        "**/FeedbackForm-*",
+        "**/ui-vendor-*",
+        "**/markdown-vendor-*",
+        "**/katex-*.js",
+      ],
       maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       navigateFallback: "/index.html",
       navigateFallbackDenylist: [
@@ -119,6 +140,16 @@ const pwa = (killSwitch) =>
           options: {
             cacheName: "images",
             expiration: { maxEntries: 80, maxAgeSeconds: 30 * 24 * 60 * 60 },
+          },
+        },
+        {
+          // Font character sets beyond basic Latin (src/fonts.js), once used
+          urlPattern: ({ request, sameOrigin }) =>
+            sameOrigin && request.destination === "font",
+          handler: "CacheFirst",
+          options: {
+            cacheName: "fonts",
+            expiration: { maxEntries: 60, maxAgeSeconds: 365 * 24 * 60 * 60 },
           },
         },
         // No API caching, ever. Question images (Cloudinary) are cached in Phase 2.
@@ -215,13 +246,13 @@ export default defineConfig(({ mode }) => {
               "remark-gfm",
               "remark-math",
             ],
-            "utils-vendor": [
-              "axios",
-              "react-toastify",
-              "react-icons",
-              "@emailjs/browser",
-              "katex",
-            ],
+            // Needed at start-up. KaTeX and EmailJS stay out of it: they're
+            // only downloaded with the parts that use them (the chatbot, AI
+            // explanations, the feedback form).
+            "utils-vendor": ["axios", "react-toastify", "react-icons"],
+            // Maths rendering, shared by the exam, results, past questions and
+            // the chatbot: one file, cached once for all of them
+            katex: ["katex"],
           },
         },
       },

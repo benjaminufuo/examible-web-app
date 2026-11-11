@@ -3,6 +3,7 @@ import "./utils/consent";
 import { StrictMode } from "react";
 import { MotionConfig } from "framer-motion";
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "./index.css";
 // Copying rendered maths gives its LaTeX ($x^2$) instead of jumbled symbols
 import "katex/contrib/copy-tex";
