@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../../styles/dashboardCss/dashboard.css";
 import { RiRobot2Line } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Logout from "./Logout";
-import LegacyBot from "../../components/LegacyBot";
-import FeedbackForm from "../../components/FeedbackForm";
-import AiResponse from "../../components/AiResponse";
 import Sidebar from "../../components/Sidebar";
 import ResponsiveSidebar from "../../components/ResponsiveSidebar";
 import { useExamibleContext } from "../../context/ExamibleContext";
@@ -17,6 +14,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import BottomTabBar from "../../components/BottomTabBar";
 import { BackButton, RefreshButton } from "../../components/AppHeaderActions";
 import { useIsInstalledApp } from "../../hooks/useIsInstalledApp";
+import { lazyPart } from "../../utils/lazyPart";
+
+import Loading from "../../components/Loading";
+
+// Not part of the dashboard's first download, and not precached by the service
+// worker (vite.config.js): they need the internet anyway. The bot and the AI
+// response pull in markdown and KaTeX, so they're fetched in the background
+// once the page is idle; the feedback form (EmailJS) only when opened.
+const LegacyBot = lazyPart(() => import("../../components/LegacyBot"));
+const AiResponse = lazyPart(() => import("../../components/AiResponse"));
+const FeedbackForm = lazyPart(() => import("../../components/FeedbackForm"));
 
 const motivationalMessages = [
   "Every practice session brings you closer to success.",
@@ -55,8 +63,40 @@ const Dashboard = () => {
     return () => clearInterval(intervalId);
   }, [isHovered]);
 
-  const { isLogout, showFeedbackModal, showAiResponseModal } =
-    useExamibleContext();
+  const {
+    isLogout,
+    showFeedbackModal,
+    setShowFeedbackModal,
+    showAiResponseModal,
+    setShowAiResponseModal,
+  } = useExamibleContext();
+
+  const closeBot = useCallback(() => setShowBot(false), []);
+  const closeAiResponse = useCallback(
+    () => setShowAiResponseModal(false),
+    [setShowAiResponseModal],
+  );
+  const closeFeedback = useCallback(
+    () => setShowFeedbackModal(false),
+    [setShowFeedbackModal],
+  );
+
+  // Download the bot and AI response once the page is idle, unless the student
+  // has asked to save data. The bot only for plans that can open it.
+  const canUseBot = user?.plan && user.plan !== "Freemium";
+  useEffect(() => {
+    if (navigator.connection?.saveData) return;
+    const preload = () => {
+      AiResponse.preload();
+      if (canUseBot) LegacyBot.preload();
+    };
+    if ("requestIdleCallback" in window) {
+      const id = requestIdleCallback(preload, { timeout: 5000 });
+      return () => cancelIdleCallback(id);
+    }
+    const id = setTimeout(preload, 3000);
+    return () => clearTimeout(id);
+  }, [canUseBot]);
 
   const showMyBot = () => {
     if (user?.plan === "Freemium") {
@@ -69,7 +109,19 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       {showBot ? (
-        <LegacyBot closeBot={() => setShowBot(false)} />
+        <LegacyBot
+          closeBot={closeBot}
+          onLoadError={closeBot}
+          fallback={
+            // While it downloads: the icon stays, dimmed; tapping cancels
+            // (the download carries on, so the next tap is instant)
+            <RiRobot2Line
+              className="ExamibleBot ExamibleBot--loading"
+              onClick={closeBot}
+              aria-label="Opening the chatbot. Tap to cancel."
+            />
+          }
+        />
       ) : (
         <RiRobot2Line onClick={() => showMyBot()} className="ExamibleBot" />
       )}
@@ -139,8 +191,18 @@ const Dashboard = () => {
         <div className="dashboard-rightHolder">
           <Outlet />
           {isLogout && <Logout />}
-          {showFeedbackModal && <FeedbackForm />}
-          {showAiResponseModal && <AiResponse />}
+          {showFeedbackModal && (
+            <FeedbackForm
+              onLoadError={closeFeedback}
+              fallback={<Loading text="Opening the feedback form..." />}
+            />
+          )}
+          {showAiResponseModal && (
+            <AiResponse
+              onLoadError={closeAiResponse}
+              fallback={<Loading text="Opening explanation..." />}
+            />
+          )}
         </div>
       </div>
       {installed && <BottomTabBar />}

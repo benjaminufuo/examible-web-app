@@ -20,6 +20,12 @@
   }
 }
 
+/* While the chatbot downloads: the icon stays, dimmed and still (tap cancels) */
+.ExamibleBot.ExamibleBot--loading {
+  opacity: 0.6;
+  animation: none;
+}
+
 .ExamibleBot {
   position: fixed;
   bottom: 15px;

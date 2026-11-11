@@ -4,6 +4,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { studentApi } from "../config/studentApi";
 import { useDispatch } from "react-redux";
 import { setUser, setUserToken } from "../global/slice";
+import useAfterMinimum from "../hooks/useAfterMinimum";
+import { toast } from "react-toastify";
 
 const Callback = () => {
   const [searchParams] = useSearchParams();
@@ -13,10 +15,16 @@ const Callback = () => {
   const exchanged = useRef(false);
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const afterMinimum = useAfterMinimum();
+
+  // Replace, not push: Back mustn't return to /callback, which would only
+  // send the student to /login again
+  const backToLogin = () =>
+    afterMinimum(() => nav("/login", { replace: true }));
 
   const signIn = async () => {
     if (!code) {
-      nav("/login");
+      nav("/login", { replace: true });
       return;
     }
     // Keep the code out of the browser history
@@ -28,14 +36,16 @@ const Callback = () => {
         localStorage.setItem("userToken", token);
         dispatch(setUser(res?.data?.data));
         dispatch(setUserToken(token));
-        setTimeout(() => {
-          nav("/overview", { replace: true });
-        }, 3000);
+        afterMinimum(() => nav("/overview", { replace: true }));
+      } else {
+        toast.error("Google sign-in failed. Please try again.", {
+          toastId: "google-sign-in",
+        });
+        backToLogin();
       }
     } catch {
-      setTimeout(() => {
-        nav("/login");
-      }, 3000);
+      // The request's own error message has been shown (baseApi)
+      backToLogin();
     }
   };
 

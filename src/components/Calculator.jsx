@@ -1,6 +1,7 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import { FaCalculator, FaTimes } from "react-icons/fa";
 import "../styles/calculator.css";
+import { calculate } from "../utils/calculate";
 
 const isOp = (char) => ["+", "-", "*", "/"].includes(char);
 
@@ -230,23 +231,7 @@ const Calculator = () => {
       const closes = (expr.match(/\)/g) || []).length;
       expr += ")".repeat(Math.max(0, opens - closes));
 
-      // Convert display symbols to valid JS
-      expr = expr
-        .replace(/√\(/g, "Math.sqrt(")
-        .replace(/\^/g, "**")
-        .replace(/(\d+(?:\.\d+)?)%/g, "($1/100)");
-
-      // Safety: after removing known safe identifiers, nothing unexpected should remain
-      const check = expr
-        .replace(/Math\.sqrt/g, "")
-        .replace(/[\d+\-*/.() ]/g, "");
-      if (check.length > 0) {
-        setInput("Error");
-        return;
-      }
-
-      // eslint-disable-next-line no-new-func
-      const result = new Function("return " + expr)();
+      const result = calculate(expr);
 
       if (result === Infinity || result === -Infinity) {
         setInput("Overflow");

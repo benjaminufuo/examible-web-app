@@ -3,16 +3,18 @@ import Loading from "../components/Loading";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import EmailVerify from "../components/EmailVerify";
 import { studentApi } from "../config/studentApi";
+import useAfterMinimum from "../hooks/useAfterMinimum";
 
 const Verify = () => {
   const [isVerify, setIsVerify] = useState(false);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const nav = useNavigate();
+  const afterMinimum = useAfterMinimum();
 
   const handleVerify = async () => {
     if (!token) {
-      nav("/login");
+      nav("/login", { replace: true });
       return;
     }
     try {
@@ -20,14 +22,10 @@ const Verify = () => {
       if (res?.data?.success) {
         setIsVerify(true);
       } else {
-        setTimeout(() => {
-          nav("/login");
-        }, 3000);
+        afterMinimum(() => nav("/login", { replace: true }));
       }
     } catch {
-      setTimeout(() => {
-        nav("/login");
-      }, 3000);
+      afterMinimum(() => nav("/login", { replace: true }));
     }
   };
 

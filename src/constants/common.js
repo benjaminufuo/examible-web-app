@@ -1,16 +1,16 @@
-import mathImg from "../assets/public/subjects/maths.png";
-import englishImg from "../assets/public/subjects/english.png";
-import physicsImg from "../assets/public/subjects/physics.png";
-import chemistryImg from "../assets/public/subjects/chemistry.png";
-import biologyImg from "../assets/public/subjects/biology.png";
-import literatureImg from "../assets/public/subjects/literature.png";
-import economicsImg from "../assets/public/subjects/economics.png";
-import governmentImg from "../assets/public/subjects/government.png";
-import commerceImg from "../assets/public/subjects/commerce.png";
-import historyImg from "../assets/public/subjects/history.png";
-import geographyImg from "../assets/public/subjects/geography.png";
-import accountingImg from "../assets/public/subjects/accounting.png";
-import agricultureImg from "../assets/public/subjects/agriculture.png";
+import mathImg from "../assets/public/subjects/maths.webp";
+import englishImg from "../assets/public/subjects/english.webp";
+import physicsImg from "../assets/public/subjects/physics.webp";
+import chemistryImg from "../assets/public/subjects/chemistry.webp";
+import biologyImg from "../assets/public/subjects/biology.webp";
+import literatureImg from "../assets/public/subjects/literature.webp";
+import economicsImg from "../assets/public/subjects/economics.webp";
+import governmentImg from "../assets/public/subjects/government.webp";
+import commerceImg from "../assets/public/subjects/commerce.webp";
+import historyImg from "../assets/public/subjects/history.webp";
+import geographyImg from "../assets/public/subjects/geography.webp";
+import accountingImg from "../assets/public/subjects/accounting.webp";
+import agricultureImg from "../assets/public/subjects/agriculture.webp";
 
 export const allSubjectsData = [
   { subject: "Mathematics", img: mathImg },
